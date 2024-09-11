@@ -17,6 +17,10 @@ h4 {
     text-align: center;
 }
 
+button{
+    color: black;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -66,6 +70,7 @@ header {
     text-align: right; /* Align the content to the right within the container */
     white-space: nowrap; /* Prevent the content from wrapping to the next line */
     align-items: baseline;
+    z-index: 0;
   }
 
 /* Spacing navigation links */
