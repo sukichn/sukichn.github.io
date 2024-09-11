@@ -1,0 +1,302 @@
+
+html{
+    font-size: 18px;
+}
+
+
+h1, h3 {
+    font-family: "Work Sans", sans-serif;
+    text-align: center;
+    font-weight: normal;
+}
+
+h4 {
+    font-family: "Merriweather";
+    font-size: 1.15rem;
+    font-style: italic;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+header {
+    background-color:  white;
+    margin-top: 3px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    position: sticky;
+    top: 0; /* Initially at the top of the page */
+    z-index: 1;
+    font-family: "Work Sans";
+   
+    
+}
+
+.nav-links{
+    border: 7px solid white;
+    width: 450px;
+    display: flex;
+    align-items: baseline;
+}
+
+.nav-shopcart {
+    position: relative; /* Required for absolute positioning */
+   /*border: 2px solid red;*/
+    width: 450px;
+    display: flex; /* Enable flexbox for centering */
+    justify-content: right;
+    padding-right: 1rem;
+  }
+
+.nav-logo {
+    position: relative; /* Required for absolute positioning */
+   /* border: 2px solid red;*/
+    width: 450px;
+    display: flex; /* Enable flexbox for centering */
+    justify-content: center;
+  }
+
+/* Spacing navigation links */
+.nav-links a{
+    text-align: left;
+    /*border: 2px solid red; */
+    margin-right: 2rem;
+    margin-left: 4px;
+}
+
+.nav-links .home:hover, .contact:hover, .dropbtn:hover{
+    color:  rgba(54, 84, 63, 0.8);
+}
+
+.dropdown-content{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    line-height: 2rem;
+    font-size: 0.8rem;
+    top:-150px;
+    position: absolute;
+    opacity: 0.9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropbtn{
+    border:none;
+    font-family: "Work Sans";
+    background-color: white;
+    font-size: 1rem;
+}
+
+.products:hover .dropdown-content{
+    display: flex;
+    top: 1.7rem;
+    transition-duration: 200ms;
+}
+
+
+
+  .products{
+    /*border: 2px solid red;*/
+    margin-right: 2rem;
+
+  }
+
+
+
+/* Corrected the selector for the logo and cart-icon */
+ 
+
+#banner {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/024/387/936/large_2x/fantasy-magical-enchanted-fairy-tale-landscape-fabulous-fairytale-garden-mysterious-background-and-glowing-in-night-magical-fantasy-fairy-tale-scenery-night-in-a-forest-generate-ai-free-photo.jpg");
+    background-size: cover;
+    background-position: middle center;
+    height: 495px;
+    width: 100%;
+    opacity: 1;
+}
+
+#banner.content h1 {
+    position: relative;
+    top: 50px;
+    width: 50%;
+    margin: 0 auto;
+    border: 5px solid white;
+    color: white;
+    font-size: 2rem;
+    padding: 1.1rem;
+    border-radius: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#banner.content h5 {
+    position: relative;
+    top: 80px;
+    width: 72%;
+    margin: auto;
+    color: white;
+    font-family: "Merriweather";
+    font-style: italic;
+    font-weight: normal;
+    font-size: 1.1rem;
+    text-align: center;
+    line-height: 1.5;
+}
+
+#magic-items-header, #potions-header {
+    font-size: 1.2rem;
+    color: white;
+    margin-top: 30px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#potions-header {
+    background-color: rgba(54, 84, 63, 0.8);
+}
+
+#magic-items-header {
+    background-color: hsla(240, 91%, 23%, 0.4);
+}
+
+#potions-text {
+    color: rgb(22, 52, 16);
+}
+
+#magic-items-text {
+    color: hsla(240, 64%, 14%, 0.749);
+}
+
+    .container {
+        display: flex;
+        align-items: center;
+        min-height: 125px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .box {
+        position: relative; /* Required for absolute positioning */
+        border: 2px solid transparent;
+        width: 300px;
+        height: 300px;
+        text-align: center;
+        display: flex; /* Enable flexbox for centering */
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+          
+      .box img{
+        width: 11.11rem;
+        height: auto;
+        padding-top: 1rem;
+      }
+      
+      .box p{
+        font-size: 1em;
+        font-family: "Work Sans";
+        margin-top: 0;
+        margin-bottom: 0.3rem;
+      }
+
+      .box .text-overlay{
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        font-size: 0.7rem;
+        font-style: italic;
+        bottom: 2%;
+        margin: 0 1rem;
+        
+    }
+
+    .box.potions:hover{
+        background-color: rgba(54, 84, 63, 0.443);
+        border: 2px solid #f1dd9d;
+    }
+
+    .box.magic:hover{
+        background-color: hsla(240, 91%, 23%, 0.244);
+        border: 2px solid #f1dd9d;
+    }
+
+    .box:hover .text-overlay{
+        opacity: 1;
+    }
+
+#social{
+    display: flex;
+    justify-content: center;
+}   
+
+#social .fa{
+    padding: 1rem;
+}
+
+footer {
+    width: 100%;
+    background-color:rgba(54, 84, 63, 0.8);
+    color: white;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Merriweather";
+    font-weight: lighter;
+    font-size: small;
+}
+
+/* Adjust font size for narrower screens */
+@media (max-width: 768px) {
+    nav li {
+        font-size: 0.775rem;
+        line-height: 70%; 
+    }
+}
+
+@media (max-width: 768px) {
+    #banner.content h5 {
+        font-size: 0.775rem; 
+    }
+}
+@media (max-width: 768px) {
+    #banner.content h1 {
+        font-size: 1.7rem; 
+    }
+}
+
+@media (max-width: 768px) {
+    h3 {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 768px) {
+    h4 {
+        font-size: 0.825rem; 
+    }
+}
+
+@media (max-width: 768px) {
+    #magic-items-header, #potions-header {
+        height: 80%; 
+    }
+}
+
+/* Common design pattern to scale images and videos proportionally:
+.container {
+  width: 50%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}*/
