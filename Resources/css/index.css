@@ -26,6 +26,7 @@ a {
     color: black;
 }
 
+/* NAVIGATION BAR */
 header {
     background-color:  white;
     margin-top: 3px;
@@ -49,7 +50,6 @@ header {
 }
 
 .nav-shopcart {
-    
     /*border: 2px solid red;*/
     max-width: 33%; /* Restrict the maximum width to 33% of the header */
     text-align: right;
@@ -58,13 +58,11 @@ header {
   }
 
 .nav-logo {
-    
    /*border: 2px solid red;*/
     width: 33%;
     display: flex; /* Enable flexbox for centering */
     justify-content: center;
   }
-
   
   .nav-shopcart {
     text-align: right; /* Align the content to the right within the container */
@@ -81,10 +79,17 @@ header {
     margin-left: 4px;
 }
 
+.products{
+    /*border: 2px solid red;*/
+    margin-right: 2rem;
+
+  }
+
 .nav-links .home:hover, .contact:hover, .dropbtn:hover{
     color:  rgba(54, 84, 63, 0.8);
 }
 
+/* DROPDOWN FOR PRODUCTS */
 .dropdown-content{
     background-color: white;
     display: flex;
@@ -111,15 +116,7 @@ header {
     transition-duration: 200ms;
 }
 
-
-
-  .products{
-    /*border: 2px solid red;*/
-    margin-right: 2rem;
-
-  }
-
-
+/* HERO SECTION */
 #banner {
     background-image: url("https://static.vecteezy.com/system/resources/previews/024/387/936/large_2x/fantasy-magical-enchanted-fairy-tale-landscape-fabulous-fairytale-garden-mysterious-background-and-glowing-in-night-magical-fantasy-fairy-tale-scenery-night-in-a-forest-generate-ai-free-photo.jpg");
     background-size: cover;
@@ -129,6 +126,7 @@ header {
     opacity: 1;
 }
 
+/* TITLE */
 #banner.content h1 {
     position: relative;
     top: 50px;
@@ -142,6 +140,7 @@ header {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* SUBTITLE TEXT*/
 #banner.content h5 {
     position: relative;
     top: 80px;
@@ -156,6 +155,7 @@ header {
     line-height: 1.5;
 }
 
+/* SHOP SECTION HEADERS */
 #magic-items-header, #potions-header {
     font-size: 1.2rem;
     color: white;
@@ -181,6 +181,8 @@ header {
 #magic-items-text {
     color: hsla(240, 64%, 14%, 0.749);
 }
+
+/* SHOP ITEMS */
 
     .container {
         display: flex;
@@ -215,6 +217,7 @@ header {
         margin-bottom: 0.3rem;
       }
 
+      /* SHOP ITEM DESCRIPTION */
       .box .text-overlay{
         opacity: 0;
         transition: opacity 0.3s ease;
@@ -239,6 +242,7 @@ header {
         opacity: 1;
     }
 
+/* SOCIAL MEDIA ICONS */
 #social{
     display: flex;
     justify-content: center;
@@ -248,6 +252,7 @@ header {
     padding: 1rem;
 }
 
+/*PAGE FOOTER*/
 footer {
     width: 100%;
     background-color:rgba(54, 84, 63, 0.8);
@@ -261,14 +266,7 @@ footer {
     font-size: small;
 }
 
-/* Adjust font size for narrower screens */
-@media (max-width: 768px) {
-    nav li {
-        font-size: 0.775rem;
-        line-height: 70%; 
-    }
-}
-
+/* MEDIA QUERY CONDITIONS */
 @media (max-width: 768px) {
     #banner.content h5 {
         font-size: 0.775rem; 
@@ -296,17 +294,3 @@ footer {
         height: 80%; 
     }
 }
-
-
-/* Common design pattern to scale images and videos proportionally:
-.container {
-  width: 50%;
-  height: 200px;
-  overflow: hidden;
-}
-
-.container img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}*/
