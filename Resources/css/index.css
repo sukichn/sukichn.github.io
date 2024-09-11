@@ -32,32 +32,39 @@ header {
     top: 0; /* Initially at the top of the page */
     z-index: 1;
     font-family: "Work Sans";
-   
-    
+    /*border: 5px solid red;*/
+      
 }
 
 .nav-links{
     border: 7px solid white;
-    width: 450px;
+    width: 33%;
     display: flex;
     align-items: baseline;
 }
 
 .nav-shopcart {
-    position: relative; /* Required for absolute positioning */
-   /*border: 2px solid red;*/
-    width: 450px;
-    display: flex; /* Enable flexbox for centering */
-    justify-content: right;
-    padding-right: 1rem;
+    
+    /*border: 2px solid red;*/
+    max-width: 33%; /* Restrict the maximum width to 33% of the header */
+    text-align: right;
+    flex: 1; /* Allow the element to grow within the flex container */
+    box-sizing: border-box; /* Include border and padding in the element's total width */
   }
 
 .nav-logo {
-    position: relative; /* Required for absolute positioning */
-   /* border: 2px solid red;*/
-    width: 450px;
+    
+   /*border: 2px solid red;*/
+    width: 33%;
     display: flex; /* Enable flexbox for centering */
     justify-content: center;
+  }
+
+  
+  .nav-shopcart {
+    text-align: right; /* Align the content to the right within the container */
+    white-space: nowrap; /* Prevent the content from wrapping to the next line */
+    align-items: baseline;
   }
 
 /* Spacing navigation links */
@@ -106,10 +113,6 @@ header {
 
   }
 
-
-
-/* Corrected the selector for the logo and cart-icon */
- 
 
 #banner {
     background-image: url("https://static.vecteezy.com/system/resources/previews/024/387/936/large_2x/fantasy-magical-enchanted-fairy-tale-landscape-fabulous-fairytale-garden-mysterious-background-and-glowing-in-night-magical-fantasy-fairy-tale-scenery-night-in-a-forest-generate-ai-free-photo.jpg");
@@ -287,6 +290,7 @@ footer {
         height: 80%; 
     }
 }
+
 
 /* Common design pattern to scale images and videos proportionally:
 .container {
