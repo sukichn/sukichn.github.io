@@ -38,6 +38,7 @@ header {
     z-index: 1;
     font-family: "Work Sans";
     /*border: 5px solid red;*/
+    box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
       
 }
 
@@ -127,25 +128,27 @@ header {
 }
 
 /* TITLE */
+
+#banner.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
 #banner.content h1 {
-    position: relative;
-    top: 50px;
     width: 50%;
-    margin: 0 auto;
+    margin: 2rem 0 0 0;
     border: 5px solid white;
     color: white;
     font-size: 2rem;
-    padding: 1.1rem;
+    padding: 0.7rem;
     border-radius: 0.9rem;
     background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* SUBTITLE TEXT*/
 #banner.content h5 {
-    position: relative;
-    top: 80px;
-    width: 72%;
-    margin: auto;
+    margin: 0 15rem;
     color: white;
     font-family: "Merriweather";
     font-style: italic;
@@ -154,6 +157,18 @@ header {
     text-align: center;
     line-height: 1.5;
 }
+
+/* RANDOM FORTUNE */
+#fortune{
+    font-family: "Merriweather";
+    color: white;
+    font-size: 1.1rem;
+    text-align: center;
+    font-style: italic;
+    margin: 0 1rem 1rem 1rem;
+}
+
+
 
 /* SHOP SECTION HEADERS */
 #magic-items-header, #potions-header {
@@ -242,6 +257,31 @@ header {
         opacity: 1;
     }
 
+/*WIN A POTION*/
+#potion-generator{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: "Work Sans";
+}
+#potion-img{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#potion1, #potion2, #potion3{
+    width: 200px;
+    height: 200px;
+}
+#potion-generator button{
+    margin-top: 1rem;
+    width: 200px;
+    height: 2rem;
+    font-family: "Work Sans";
+
+}
 /* SOCIAL MEDIA ICONS */
 #social{
     display: flex;
@@ -268,13 +308,20 @@ footer {
 
 /* MEDIA QUERY CONDITIONS */
 @media (max-width: 768px) {
+    #banner.content h1 {
+        font-size: 1.2rem; 
+    }
     #banner.content h5 {
         font-size: 0.775rem; 
     }
+    #fortune {
+        font-size: 0.775rem; 
+    };
 }
-@media (max-width: 768px) {
-    #banner.content h1 {
-        font-size: 1.7rem; 
+
+@media (max-width: 1279px) {
+    #banner.content h5 {
+        margin: 0 1.5rem; 
     }
 }
 

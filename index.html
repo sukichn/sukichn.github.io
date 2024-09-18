@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
-  <link rel="icon" href="Resources\css\Images\favicon.ico" type="image/x-icon">
+  <link rel="icon" href="Resources\css\Images\cdfavicon.ico" type="image/x-icon">
 </head>
 <body>
   
@@ -38,7 +38,6 @@
     </div>
 </header>
 
-
   <div id="banner" class="content">
     <h1>The Veridian Emporium</h1>
     <div class="caption">
@@ -46,18 +45,20 @@
         Step into our mystical realm and discover an enchanting array of spellbinding artifacts, bewitching potions, and captivating curiosities. From arcane talismans to elixirs of mystical prowess, our online emporium is your gateway to a world of wonder and magic. Unearth ancient knowledge, embrace the arcane, and embark on a journey filled with marvels and enchantment at every turn. Welcome to a realm where every purchase is a step into the extraordinary.
       </h5>
     </div>
+    <p id="fortune"></p>
   </div>
+
   <div id="potions-header">
     <h3>Potions & Tinctures</h3>
   </div>
   <div id="potions-text">
     <h4>Explore the world of Herbal Alchemy and Healing Elixirs</h4>
   </div>
-  
+
   <div class='container'>
     <div class='box potions'>
       <a href="https://oldschool.runescape.wiki/w/Magic_potion#4_dose" target="_blank">
-       <img src="https://th.bing.com/th/id/R.2f6507ca5ef26f3b3f006c6e51659101?rik=M9U%2b6OrW02YSMQ&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fpotion-transparent%2fpotion-transparent-7.png&ehk=wPaYcDNBht4Y9c1TSB1MJAqfcla10pQuVoh6na6eCUo%3d&risl=&pid=ImgRaw" alt="Potion I">
+       <img src="Resources\css\Images\Potion_I.png" alt="Potion I">
        </a>
        <p>Potion I</p>
        <div class="text-overlay">
@@ -125,6 +126,20 @@
       </div>
     </div>
   </div>
+
+<!-- Random potion generator -->
+  <div id="potions-header">
+    <h3>Win a potion!</h3>
+  </div>
+<section id="potion-generator">
+<p id="fortuneMessage">Win a potion with three matching potions</p>
+<div id = "potion-img">
+  <img id = "potion1" src="https://content.codecademy.com/projects/chore-door/images/closed_door.svg" alt="">
+  <img id = "potion2" src="https://content.codecademy.com/projects/chore-door/images/closed_door.svg" alt="">
+  <img id = "potion3" src="https://content.codecademy.com/projects/chore-door/images/closed_door.svg" alt="">
+</div>
+<button id="fortuneButton">Try your luck!</button>
+</section>
 
   <!-- Social Media Icons -->
   <div id="social">
