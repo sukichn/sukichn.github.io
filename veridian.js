@@ -9,11 +9,11 @@ document.addEventListener('click', function(event) {
 });
 
 //Random fortunes generated in Hero Section when page is loaded
-let fortunes = ['"An unexpected potion will bring excitement into your life."',
-    '"Brewing success is in your future. Keep stirring!"',
-    '"A magical elixir will unlock new opportunities for you."',
-    '"A dash of courage and a sprinkle of creativity will lead to enchanting discoveries."',
-    '"Your potion-making skills will charm everyone around you."'
+let fortunes = ['"An unexpected potion will bring excitement into your life." - Seraphina Nightingale',
+    '"Brewing success is in your future. Keep stirring!" - Percy Blackthorn',
+    '"A magical elixir will unlock new opportunities for you." - Esme Silverthorne',
+    '"A dash of courage and a sprinkle of creativity will lead to enchanting discoveries." - Thaddeus Evergreen',
+    '"Your potion-making skills will charm everyone around you." - Morgana Starling'
 ];
 
 let fortune = document.getElementById('fortune');
