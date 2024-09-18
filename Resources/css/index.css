@@ -257,14 +257,17 @@ header {
         opacity: 1;
     }
 
-/*WIN A POTION*/
+/*RANDOM POTION GENERATOR*/
 #potion-generator{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: "Work Sans";
+}
+#fortuneMessage{
+    font-family: "Merriweather";
+    font-style: italic;
 }
 #potion-img{
     display: flex;
@@ -274,6 +277,11 @@ header {
 #potion1, #potion2, #potion3{
     width: 200px;
     height: 200px;
+    transition: opacity 400ms ease-in-out;
+    
+}
+#tryCountDisplay {
+    font-family: "Work Sans";
 }
 #potion-generator button{
     margin-top: 1rem;
@@ -282,7 +290,8 @@ header {
     font-family: "Work Sans";
     background-color: rgba(99, 185, 125, 0.443);
     border-radius: 5px;
-    border: none;
+    border: none; 
+    font-family: "Work Sans";
 }
 #potion-generator button:hover{
     background-color: rgba(99, 185, 125, 0.313);
@@ -349,6 +358,9 @@ footer {
 }
 @media (max-width: 768px) {
     h4 {
+        font-size: 0.825rem; 
+    }
+    #fortuneMessage {
         font-size: 0.825rem; 
     }
 }
