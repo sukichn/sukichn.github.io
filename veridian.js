@@ -1,3 +1,13 @@
+//Close navigation dropdown when clicking anywhere on document
+document.addEventListener('click', function(event) {
+    const dropdown = document.querySelector('.dropdown-content');
+    const dropbtn = document.querySelector('.dropbtn');
+    
+    if (dropdown.style.display === 'block' && !dropbtn.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
 //Random fortunes generated in Hero Section when page is loaded
 let fortunes = ['"An unexpected potion will bring excitement into your life."',
     '"Brewing success is in your future. Keep stirring!"',
