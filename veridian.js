@@ -42,7 +42,7 @@ let tryCount = 0;
  if (tryCount < 10 && !fortuneButton.disabled) {
     // Increment the try count
     tryCount++;
-    document.getElementById("tryCountDisplay").textContent = "Number of tries: " + tryCount;
+    document.getElementById("tryCountDisplay").textContent = "Number of tries: " + tryCount + "/10";
     // Generate random potion indices
     const randomIndex1 = Math.floor(Math.random() * potionImages.length);
     const randomIndex2 = Math.floor(Math.random() * potionImages.length);
@@ -66,11 +66,14 @@ let tryCount = 0;
           }
     // Disable the button after winning
     fortuneButton.disabled = true;
+    fortuneButton.style.backgroundColor = "lightgrey";
 } else {
   fortuneMessage.innerHTML = "Better luck next time! No matching potions this time.";
 }
 } else {
 fortuneMessage.innerHTML = "You've reached the maximum number of tries.";
+fortuneButton.disabled = true;
+fortuneButton.style.backgroundColor = "lightgrey";
 }
 }
 

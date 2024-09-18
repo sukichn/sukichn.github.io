@@ -280,8 +280,18 @@ header {
     width: 200px;
     height: 2rem;
     font-family: "Work Sans";
+    background-color: rgba(99, 185, 125, 0.443);
+    border-radius: 5px;
+    border: none;
 }
-/* Win a potion image size*/
+#potion-generator button:hover{
+    background-color: rgba(99, 185, 125, 0.313);
+}
+#potion-generator button:active{
+    background-color: rgba(99, 185, 125, 0.443);
+}
+
+/* Potion image size for smaller screens*/
 @media (max-width: 768px) {
     #potion1, #potion2, #potion3 {
         width: 130px; 
