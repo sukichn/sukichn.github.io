@@ -269,16 +269,31 @@ header {
     font-family: "Merriweather";
     font-style: italic;
 }
-#potion-img{
+#potion-img {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    overflow: hidden;
+    height: 200px; /* Adjust the height as needed */
 }
-#potion1, #potion2, #potion3{
-    width: 200px;
-    height: 200px;
-    transition: opacity 400ms ease-in-out;
-    
+
+.potion-image {
+    width: 200px; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    margin: 10px;
+}
+
+#fortuneButton {
+    display: block;
+    margin: 20px auto;
+}
+
+@keyframes scroll {
+    0% { transform: translateY(-100px); }
+    100% { transform: translateY(100px); }
+}
+
+.scrolling {
+    animation: scroll 0.1s cubic-bezier(0.1, 0.05, 0.1, 1) infinite;
 }
 #tryCountDisplay {
     font-family: "Work Sans";

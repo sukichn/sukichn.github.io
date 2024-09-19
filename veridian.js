@@ -1,4 +1,4 @@
-//Close navigation dropdown when clicking anywhere on document
+//Close navigation dropdown when clicking anywhere on document except for on dropbtn and dropdown
 document.addEventListener('click', function(event) {
     const dropdown = document.querySelector('.dropdown-content');
     const dropbtn = document.querySelector('.dropbtn');
@@ -55,32 +55,47 @@ function generateRandomPotion() {
         tryCount++;
         document.getElementById("tryCountDisplay").textContent = "Number of tries: " + tryCount + "/10";
 
-        // Generate random potion indices
-        const randomIndex1 = Math.floor(Math.random() * potionImages.length);
-        const randomIndex2 = Math.floor(Math.random() * potionImages.length);
-        const randomIndex3 = Math.floor(Math.random() * potionImages.length);
+        // Disable the button at the start of the animation
+        fortuneButton.disabled = true;
+        fortuneButton.style.backgroundColor = "lightgrey";
 
-        // Fade out the images
-        potionImage1.style.opacity = 0;
-        potionImage2.style.opacity = 0;
-        potionImage3.style.opacity = 0;
+        // Start the slot machine effect
+        const duration = 500; // Duration of the animation in milliseconds
+        const interval = 100; // Interval between image changes in milliseconds
 
-        // Update the images and fade them in one after another
-        setTimeout(() => {
-            potionImage1.src = potionImages[randomIndex1];
-            potionImage1.style.opacity = 1;
+        let startTime = Date.now();
 
+        // Function to start the scrolling animation for an image
+        function startScrolling(imageElement) {
+            imageElement.classList.add('scrolling');
+        }
+
+        // Function to stop the scrolling animation and set the final image
+        function stopScrolling(imageElement, index) {
+            imageElement.classList.remove('scrolling');
+            const randomIndex = Math.floor(Math.random() * potionImages.length);
+            imageElement.src = potionImages[randomIndex];
+            return randomIndex;
+        }
+
+        // Function to update images sequentially
+        function updateImagesSequentially() {
+            // Scroll and stop the first image
+            startScrolling(potionImage1);
             setTimeout(() => {
-                potionImage2.src = potionImages[randomIndex2];
-                potionImage2.style.opacity = 1;
+                const randomIndex1 = stopScrolling(potionImage1);
 
+                // Scroll and stop the second image
+                startScrolling(potionImage2);
                 setTimeout(() => {
-                    potionImage3.src = potionImages[randomIndex3];
-                    potionImage3.style.opacity = 1;
+                    const randomIndex2 = stopScrolling(potionImage2);
 
-                    // Delay before updating the fortune message
+                    // Scroll and stop the third image
+                    startScrolling(potionImage3);
                     setTimeout(() => {
-                        // Check if all potion images match
+                        const randomIndex3 = stopScrolling(potionImage3);
+
+                        // Display the fortune message
                         if (randomIndex1 === randomIndex2 && randomIndex2 === randomIndex3) {
                             if (randomIndex1 === 0) {
                                 fortuneMessage.innerHTML = "Congratulations! You've won Potion I!";
@@ -91,18 +106,21 @@ function generateRandomPotion() {
                             } else {
                                 fortuneMessage.innerHTML = "Congratulations! You've won Potion IV!";
                             }
-                            // Disable the button after winning
+                            // Keep the button disabled after winning
                             fortuneButton.disabled = true;
                             fortuneButton.style.backgroundColor = "lightgrey";
                         } else {
                             fortuneMessage.innerHTML = "Better luck next time! No matching potions this time.";
+                            // Re-enable the button after the animation
+                            fortuneButton.disabled = false;
+                            fortuneButton.style.backgroundColor = "";
                         }
-                    }, 400); // Delay before updating the fortune message (adjust as needed)
+                    }, duration);
+                }, duration);
+            }, duration);
+        }
 
-                }, 400); // Delay for the third image (adjust as needed)
-            }, 400); // Delay for the second image (adjust as needed)
-        }, 400); // Delay for the first image (adjust as needed)
-
+        updateImagesSequentially();
     } else {
         fortuneMessage.innerHTML = "You've reached the maximum number of tries.";
         fortuneButton.disabled = true;
