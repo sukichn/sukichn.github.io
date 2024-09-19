@@ -29,20 +29,26 @@ function showFortune(){
 
 document.addEventListener('DOMContentLoaded', showFortune);
 
-/*
-let itemOne = document.getElementById('box-potions');
+// Function to add touch support for scaling effect
+function addTouchSupport(element) {
+    element.addEventListener('touchstart', function() {
+        element.style.transform = 'scale(1.02)'; // Apply scale effect
+    });
 
-function increaseSize() {
-    itemOne.style.width = '250px';
-    itemOne.style.height = '250px';
-}
-function decreaseSize() {
-    itemOne.style.width = '200px';
-    itemOne.style.height = '200px';
+    element.addEventListener('touchend', function() {
+        element.style.transform = ''; // Reset scale effect
+    });
+
+    element.addEventListener('touchcancel', function() {
+        element.style.transform = ''; // Reset scale effect
+    });
 }
 
-itemOne.addEventListener ('mouseover',increaseSize);
-itemOne.addEventListener ('mouseout',decreaseSize);*/
+// Apply the touch support to all elements with the class 'box potions'
+document.querySelectorAll('.box.potions').forEach(addTouchSupport);
+
+// Apply the touch support to all elements with the class 'box potions'
+document.querySelectorAll('.box.potions').forEach(addTouchSupport);
 
 // RANDOM POTION GENERATOR
 let potionImage1 = document.getElementById("potion1");
