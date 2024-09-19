@@ -266,6 +266,7 @@ header {
     justify-content: center;
     align-items: center;
     text-align: center;
+
 }
 
 #fortuneMessage {
@@ -275,26 +276,30 @@ header {
 
 #potion-img {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    overflow: hidden;
-    height: 220px; /* Adjusted height to ensure borders are visible */
+    flex-wrap: wrap;
 }
 
 .potion-container {
-    position: relative;
+    position: relative; /* Establish a containing block for absolutely positioned elements */
     width: 200px; /* Set the width to 200px */
     height: 200px; /* Set the height to 200px */
     margin: 10px;
-    border: 2px solid rgba(54, 84, 63, 0.8); /* Add border around the container */
-    background-color: rgba(67, 144, 81, 0.2);
+    border: 2px solid #f1dd9d;
+    background-color: rgba(236, 227, 103, 0.315);
     border-radius: 5px;
-    overflow: hidden;
+    overflow: hidden; /* Ensure overflow is hidden */
     box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
 }
 
 .potion-image {
+    position: absolute; /* Position the image absolutely within the container */
     width: 100%; /* Ensure the image covers the container */
     height: 100%; /* Ensure the image covers the container */
+    top: 0; /* Start position for scrolling */
+    left: 0; /* Ensure the image is aligned within the container */
+    
 }
 
 #fortuneButton {
@@ -312,6 +317,7 @@ header {
 }
 #tryCountDisplay {
     font-family: "Work Sans";
+    align-self: center;
 }
 #potion-generator button{
     margin-top: 1rem;
@@ -332,7 +338,7 @@ header {
 
 /* Potion image size for smaller screens*/
 @media (max-width: 768px) {
-    #potion1, #potion2, #potion3 {
+    .potion-container, .potion-image {
         width: 130px; 
         height: 130px; 
     }
