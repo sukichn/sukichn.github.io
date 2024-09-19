@@ -128,18 +128,24 @@
   </div>
 
 <!-- Random potion generator -->
-  <div id="lottery-header">
-    <h3>Win a potion!</h3>
-  </div>
-<section id="potion-generator">
-<p id="fortuneMessage">Win a potion with three matching potions.</p>
-<div id = "potion-img">
-  <img id = "potion1" src="Resources/css/Images/PotionX.png" alt="Potion X">
-  <img id = "potion2" src="Resources/css/Images/PotionX.png" alt="Potion X">
-  <img id = "potion3" src="Resources/css/Images/PotionX.png" alt="Potion X">
+<div id="lottery-header">
+  <h3>Win a potion!</h3>
 </div>
-<p id="tryCountDisplay">Number of tries: 0/10</p>
-<button id="fortuneButton">Try your luck!</button>
+<section id="potion-generator">
+  <p id="fortuneMessage">Win a potion with three matching potions.</p>
+  <div id="potion-img">
+      <div class="potion-container">
+          <img id="potion1" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
+      </div>
+      <div class="potion-container">
+          <img id="potion2" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
+      </div>
+      <div class="potion-container">
+          <img id="potion3" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
+      </div>
+  </div>
+  <p id="tryCountDisplay">Number of tries: 0/10</p>
+  <button id="fortuneButton">Try your luck!</button>
 </section>
 
   <!-- Social Media Icons -->

@@ -246,40 +246,55 @@ header {
     .box.potions:hover{
         background-color: rgba(54, 84, 63, 0.443);
         border: 2px solid #f1dd9d;
+        border-radius: 5px;
     }
 
     .box.magic:hover{
         background-color: hsla(240, 91%, 23%, 0.244);
         border: 2px solid #f1dd9d;
+        border-radius: 5px;
     }
 
     .box:hover .text-overlay{
         opacity: 1;
     }
 
-/*RANDOM POTION GENERATOR*/
-#potion-generator{
+/* RANDOM POTION GENERATOR */
+#potion-generator {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
-#fortuneMessage{
+
+#fortuneMessage {
     font-family: "Merriweather";
     font-style: italic;
 }
+
 #potion-img {
     display: flex;
     justify-content: center;
     overflow: hidden;
-    height: 200px; /* Adjust the height as needed */
+    height: 220px; /* Adjusted height to ensure borders are visible */
+}
+
+.potion-container {
+    position: relative;
+    width: 200px; /* Set the width to 200px */
+    height: 200px; /* Set the height to 200px */
+    margin: 10px;
+    border: 2px solid rgba(54, 84, 63, 0.8); /* Add border around the container */
+    background-color: rgba(67, 144, 81, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
 }
 
 .potion-image {
-    width: 200px; /* Adjust the width as needed */
-    height: 200px; /* Adjust the height as needed */
-    margin: 10px;
+    width: 100%; /* Ensure the image covers the container */
+    height: 100%; /* Ensure the image covers the container */
 }
 
 #fortuneButton {
@@ -288,12 +303,12 @@ header {
 }
 
 @keyframes scroll {
-    0% { transform: translateY(-100px); }
-    100% { transform: translateY(100px); }
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
 }
 
 .scrolling {
-    animation: scroll 0.1s cubic-bezier(0.1, 0.05, 0.1, 1) infinite;
+    animation: scroll 0.2s cubic-bezier(0.25, 0.1, 0.25, 1) infinite;
 }
 #tryCountDisplay {
     font-family: "Work Sans";
