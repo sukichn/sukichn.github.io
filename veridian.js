@@ -29,6 +29,21 @@ function showFortune(){
 
 document.addEventListener('DOMContentLoaded', showFortune);
 
+/*
+let itemOne = document.getElementById('box-potions');
+
+function increaseSize() {
+    itemOne.style.width = '250px';
+    itemOne.style.height = '250px';
+}
+function decreaseSize() {
+    itemOne.style.width = '200px';
+    itemOne.style.height = '200px';
+}
+
+itemOne.addEventListener ('mouseover',increaseSize);
+itemOne.addEventListener ('mouseout',decreaseSize);*/
+
 // RANDOM POTION GENERATOR
 let potionImage1 = document.getElementById("potion1");
 let potionImage2 = document.getElementById("potion2");
@@ -60,8 +75,8 @@ function generateRandomPotion() {
         fortuneButton.style.backgroundColor = "lightgrey";
 
         // Start the slot machine effect
-        const duration = 500; // Duration of the animation in milliseconds
-        const interval = 100; // Interval between image changes in milliseconds
+        const duration = 700; // Duration of the animation in milliseconds for each image
+        const pause = 400; // Pause duration between each image start
 
         let startTime = Date.now();
 
@@ -71,52 +86,58 @@ function generateRandomPotion() {
         }
 
         // Function to stop the scrolling animation and set the final image
-        function stopScrolling(imageElement, index) {
+        function stopScrolling(imageElement) {
             imageElement.classList.remove('scrolling');
             const randomIndex = Math.floor(Math.random() * potionImages.length);
             imageElement.src = potionImages[randomIndex];
             return randomIndex;
         }
 
-        // Function to update images sequentially
+        // Function to update images sequentially with a pause
         function updateImagesSequentially() {
             // Scroll and stop the first image
             startScrolling(potionImage1);
             setTimeout(() => {
                 const randomIndex1 = stopScrolling(potionImage1);
 
-                // Scroll and stop the second image
-                startScrolling(potionImage2);
+                // Pause before starting the second image
                 setTimeout(() => {
-                    const randomIndex2 = stopScrolling(potionImage2);
-
-                    // Scroll and stop the third image
-                    startScrolling(potionImage3);
+                    // Scroll and stop the second image
+                    startScrolling(potionImage2);
                     setTimeout(() => {
-                        const randomIndex3 = stopScrolling(potionImage3);
+                        const randomIndex2 = stopScrolling(potionImage2);
 
-                        // Display the fortune message
-                        if (randomIndex1 === randomIndex2 && randomIndex2 === randomIndex3) {
-                            if (randomIndex1 === 0) {
-                                fortuneMessage.innerHTML = "Congratulations! You've won Potion I!";
-                            } else if (randomIndex1 === 1) {
-                                fortuneMessage.innerHTML = "Congratulations! You've won Potion II!";
-                            } else if (randomIndex1 === 2) {
-                                fortuneMessage.innerHTML = "Congratulations! You've won Potion III!";
-                            } else {
-                                fortuneMessage.innerHTML = "Congratulations! You've won Potion IV!";
-                            }
-                            // Keep the button disabled after winning
-                            fortuneButton.disabled = true;
-                            fortuneButton.style.backgroundColor = "lightgrey";
-                        } else {
-                            fortuneMessage.innerHTML = "Better luck next time! No matching potions this time.";
-                            // Re-enable the button after the animation
-                            fortuneButton.disabled = false;
-                            fortuneButton.style.backgroundColor = "";
-                        }
+                        // Pause before starting the third image
+                        setTimeout(() => {
+                            // Scroll and stop the third image
+                            startScrolling(potionImage3);
+                            setTimeout(() => {
+                                const randomIndex3 = stopScrolling(potionImage3);
+
+                                // Display the fortune message
+                                if (randomIndex1 === randomIndex2 && randomIndex2 === randomIndex3) {
+                                    if (randomIndex1 === 0) {
+                                        fortuneMessage.innerHTML = "Congratulations! You've won Potion I!";
+                                    } else if (randomIndex1 === 1) {
+                                        fortuneMessage.innerHTML = "Congratulations! You've won Potion II!";
+                                    } else if (randomIndex1 === 2) {
+                                        fortuneMessage.innerHTML = "Congratulations! You've won Potion III!";
+                                    } else {
+                                        fortuneMessage.innerHTML = "Congratulations! You've won Potion IV!";
+                                    }
+                                    // Keep the button disabled after winning
+                                    fortuneButton.disabled = true;
+                                    fortuneButton.style.backgroundColor = "lightgrey";
+                                } else {
+                                    fortuneMessage.innerHTML = "Better luck next time! No matching potions this time.";
+                                    // Re-enable the button after the animation
+                                    fortuneButton.disabled = false;
+                                    fortuneButton.style.backgroundColor = "";
+                                }
+                            }, duration);
+                        }, pause);
                     }, duration);
-                }, duration);
+                }, pause);
             }, duration);
         }
 
