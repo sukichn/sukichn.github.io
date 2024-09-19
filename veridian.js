@@ -31,24 +31,26 @@ document.addEventListener('DOMContentLoaded', showFortune);
 
 // Function to add touch support for scaling effect
 function addTouchSupport(element) {
+    const image = element.querySelector('.potion-image');
+
     element.addEventListener('touchstart', function() {
-        element.style.transform = 'scale(1.02)'; // Apply scale effect
+        element.style.transform = 'scale(1.01)'; // Apply scale effect to the container
+        image.style.transform = 'scale(1.03)'; // Apply scale effect to the image
     });
 
     element.addEventListener('touchend', function() {
-        element.style.transform = ''; // Reset scale effect
+        element.style.transform = ''; // Reset scale effect on the container
+        image.style.transform = ''; // Reset scale effect on the image
     });
 
     element.addEventListener('touchcancel', function() {
-        element.style.transform = ''; // Reset scale effect
+        element.style.transform = ''; // Reset scale effect on the container
+        image.style.transform = ''; // Reset scale effect on the image
     });
 }
 
-// Apply the touch support to all elements with the class 'box potions'
-document.querySelectorAll('.box.potions').forEach(addTouchSupport);
-
-// Apply the touch support to all elements with the class 'box potions'
-document.querySelectorAll('.box.potions').forEach(addTouchSupport);
+// Apply the touch support to all elements with the class 'box'
+document.querySelectorAll('.box').forEach(addTouchSupport);
 
 // RANDOM POTION GENERATOR
 let potionImage1 = document.getElementById("potion1");
