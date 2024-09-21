@@ -159,3 +159,75 @@ function generateRandomPotion() {
 
 // Event listener for the "Try your luck" button
 fortuneButton.addEventListener("click", generateRandomPotion);
+
+//*Shop item Handlebars
+const templateElement = document.getElementById("templateHB");
+const templateSource = templateElement.innerHTML;
+const template = Handlebars.compile(templateSource);
+
+const context = {
+    categories: [
+        {
+            class: "potions",
+            title: "Potion & Tinctures",
+            subtitle: "Explore the world of Herbal Alchemy and Healing Elixirs",
+            items: [
+                {
+                    image: "Resources/css/Images/Potion_I.png",
+                    name: 'Potion I',
+                    description: 'Mix of lantadyme and potato cactus in a vial of water',
+                },
+                {
+                    image: "Resources/css/Images/Potion_II.png",
+                    name: 'Potion II',
+                    description: 'Essence of Celestial Lotus infused with Ethereal Saffron',
+                },
+                {
+                    image: "Resources/css/Images/Potion_III.png",
+                    name: 'Potion III',
+                    description: 'Imbued with the essence of Whispering Fern and Glowpetal',
+                },
+                {
+                    image: "Resources/css/Images/Potion_IV.png",
+                    name: 'Potion IV',
+                    description: 'Mix of Moonlight Blossom and Rejuvenating Moss in a vial of oil',
+                },
+                {
+                    image: "Resources/css/Images/Potion_IV.png",
+                    name: 'Potion V',
+                    description: 'Mix of Moonlight Blossom and Rejuvenating Moss in a vial of oil',
+                }
+            ]
+        },
+        {
+            class: "magic-items",
+            title: "Magical Objects",
+            subtitle: "Discover our Collection of Mystical Artifacts and Arcane Relics",
+            items: [
+                {
+                    image: "Resources/css/Images/Enchanted_hat_I.png",
+                    name: 'Enchanted Hat I',
+                    description: 'Magical headpiece from the Enchanted Robes set, offering mystical protection',
+                },
+                {
+                    image: "Resources/css/Images/Enchanted_hat_II.png",
+                    name: 'Enchanted Hat II',
+                    description: 'A headpiece with the protective charm of Luminescent Moonweave',
+                },
+                {
+                    image: "Resources/css/Images/Enchanted_robes_I.png",
+                    name: 'Enchanted Robes I',
+                    description: 'Embrace mystical elegance and arcane protection with this bewitched attire',
+                },
+                {
+                    image: "Resources/css/Images/Enchanted_robes_II.png",
+                    name: 'Enchanted Robes II',
+                    description: 'Unparalleled mystic defense with this iteration of our magical robes',
+                },
+            ]
+        }
+    ]
+};
+
+const compiledHtml = template(context);
+document.getElementById("information").innerHTML = compiledHtml;

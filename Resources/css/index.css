@@ -171,7 +171,7 @@ header {
 
 
 /* SHOP SECTION HEADERS */
-#magic-items-header, #potions-header, #lottery-header {
+.magic-items-header, .potions-header, #lottery-header {
     font-size: 1.2rem;
     color: white;
     margin-top: 30px;
@@ -181,19 +181,19 @@ header {
     justify-content: center;
 }
 
-#potions-header, #lottery-header {
+.potions-header, #lottery-header {
     background-color: rgba(54, 84, 63, 0.8);
 }
 
-#magic-items-header {
+.magic-items-header {
     background-color: hsla(240, 91%, 23%, 0.4);
 }
 
-#potions-text {
+.potions-text {
     color: rgb(22, 52, 16);
 }
 
-#magic-items-text {
+.magic-items-text {
     color: hsla(240, 64%, 14%, 0.749);
 }
 
@@ -252,7 +252,7 @@ header {
         transform: scale(1.02);
     }
 
-    .box.magic:hover{
+    .box.magic-items:hover{
         background-color: hsla(240, 91%, 23%, 0.244);
         border: 2px solid #f1dd9d;
         border-radius: 5px;

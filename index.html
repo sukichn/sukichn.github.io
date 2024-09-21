@@ -10,6 +10,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
   <link rel="icon" href="Resources\css\Images\magic-hat.ico" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+    
+  <script id="templateHB" type="text/x-handlebars-template">
+    {{#each categories}}
+    <div class="{{class}}-header">
+        <h3>{{title}}</h3>
+    </div>
+    <div class="{{class}}-text">
+        <h4>{{subtitle}}</h4>
+    </div>
+    <div class='container'>
+        {{#each items}}
+        <div class='box {{../class}}'>
+            <img src="{{image}}" alt="{{name}}">
+            <p>{{name}}</p>
+            <div class="text-overlay">
+                <p>{{description}}</p>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</script>
+
 </head>
 <body>
   
@@ -48,6 +72,8 @@
     <p id="fortune"></p>
   </div>
 
+  <section id='information'>
+    <!--Shop items replaced by template Handlebars.js
   <div id="potions-header">
     <h3>Potions & Tinctures</h3>
   </div>
@@ -56,10 +82,9 @@
   </div>
 
   <div class='container'>
+  
     <div class='box potions'>
-      <a href="https://oldschool.runescape.wiki/w/Magic_potion#4_dose" target="_blank">
        <img src="Resources\css\Images\Potion_I.png" alt="Potion I">
-       </a>
        <p>Potion I</p>
        <div class="text-overlay">
         <p>Mix of lantadyme and potato cactus in a vial of water</p>
@@ -87,6 +112,7 @@
       </div>
     </div>
   </div>
+</section>
 
   <div id="magic-items-header">
     <h3>Magical Objects</h3>
@@ -94,7 +120,8 @@
   <div id="magic-items-text">
     <h4>Discover our Collection of Mystical Artifacts and Arcane Relics</h4>
   </div>
-  <div class='container'>
+
+  <div id='information' class='container'>
     <div class='box magic'>
       <a href="https://oldschool.runescape.wiki/w/Enchanted_hat" target="_blank">
       <img src="https://png.pngtree.com/png-vector/20240202/ourmid/pngtree-magic-hat-and-wand-png-illustration-png-image_11587790.png" alt="Enchanted Hat I">
@@ -126,7 +153,8 @@
       </div>
     </div>
   </div>
-
+ -->
+  </section>
 <!-- Random potion generator -->
 <div id="lottery-header">
   <h3>Win a potion!</h3>
