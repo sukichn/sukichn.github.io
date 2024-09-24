@@ -72,6 +72,38 @@ let timerInterval;
         }
     }
 
+    function handleTouchEnd(event) {
+        if (gameStarted) {
+            event.preventDefault();
+            const ingredient = event.target;
+
+            // Check if the ingredient was dropped on a valid target
+            const cauldron = document.getElementById('cauldron');
+            const choppingBoard = document.getElementById('chopping-board');
+            const ingredientRect = ingredient.getBoundingClientRect();
+            const cauldronRect = cauldron.getBoundingClientRect();
+            const choppingBoardRect = choppingBoard.getBoundingClientRect();
+
+            if (ingredientRect.left >= cauldronRect.left && ingredientRect.right <= cauldronRect.right &&
+                ingredientRect.top >= cauldronRect.top && ingredientRect.bottom <= cauldronRect.bottom) {
+                cauldron.appendChild(ingredient);
+            } else if (ingredientRect.left >= choppingBoardRect.left && ingredientRect.right <= choppingBoardRect.right &&
+                       ingredientRect.top >= choppingBoardRect.top && ingredientRect.bottom <= choppingBoardRect.bottom) {
+                choppingBoard.appendChild(ingredient);
+            } else {
+                // If not dropped on valid target, reset position
+                ingredient.style.left = '';
+                ingredient.style.top = '';
+            }
+
+            updateCauldronIngredients(); // Update the count of ingredients in the cauldron
+
+            ingredient.ontouchmove = null;
+            ingredient.ontouchend = null;
+        }
+    }
+
+
     function startGame() {
         gameStarted = true;
         timeRemaining = 30;
