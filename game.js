@@ -57,40 +57,58 @@ let timerInterval;
         }
     }
 
-    // Function for touch drag and drop
     function touchStart(event) {
-        if (gameStarted && event.touches.length === 1) { // Only deal with one finger
-            const touch = event.touches[0]; // Get the information for finger #1
+        if (gameStarted && event.touches.length === 1) {
+            event.preventDefault(); // Prevent default behavior like trying to open the image or link
+            const touch = event.touches[0];
             const target = touch.target;
     
-            // Set the element's data to be the ID just like dragstart
-            event.dataTransfer = { data: {} }; // Creating a mock dataTransfer object
+            // Mock dataTransfer object
+            event.dataTransfer = { data: {} };
             event.dataTransfer.setData("text", target.id);
     
-            // Optionally, you can set some visual cues or effects
-            target.style.opacity = '0.5';
+            target.style.opacity = '0.5'; // Visual cue
+            target.style.transform = 'scale(1.1)'; // Optionally scale the element a bit
+    
+            // Store initial position to help calculate movement in touchMove
+            target.setAttribute('data-start-x', touch.clientX);
+            target.setAttribute('data-start-y', touch.clientY);
         }
     }
     
     function touchMove(event) {
-        event.preventDefault(); // Prevent scrolling when touch is moved
+        if (gameStarted && event.touches.length === 1) {
+            event.preventDefault(); // Prevent scrolling and other default actions
+            const touch = event.touches[0];
+            const target = touch.target;
+    
+            // Calculate movement based on initial touch
+            const startX = parseFloat(target.getAttribute('data-start-x'));
+            const startY = parseFloat(target.getAttribute('data-start-y'));
+    
+            const deltaX = touch.clientX - startX;
+            const deltaY = touch.clientY - startY;
+    
+            // Apply the movement as a CSS transform
+            target.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.1)`;
+        }
     }
     
     function touchEnd(event) {
-        if (gameStarted) {
-            const touch = event.changedTouches[0]; // Get the information for finger #1
+        if (gameStarted && event.changedTouches.length === 1) {
+            event.preventDefault();
+            const touch = event.changedTouches[0];
             const target = document.elementFromPoint(touch.clientX, touch.clientY);
     
             // Mimic the drop
-            if (target && target.classList.contains('dropzone')) { // Assuming 'dropzone' class for droppable areas
-                event.preventDefault();
+            if (target && target.classList.contains('dropzone')) {
                 const data = event.dataTransfer.getData("text");
                 const ingredient = document.getElementById(data);
                 target.appendChild(ingredient);
                 updateCauldronIngredients(); // Update the count of ingredients in the cauldron
     
-                // Reset the visual cues or effects
                 ingredient.style.opacity = '1';
+                ingredient.style.transform = 'none'; // Reset any transformations
             }
         }
     }
