@@ -52,6 +52,7 @@
     <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
     <div id="timer">Time: 30</div>
     <div id="coins">Coins: 0</div>
+    <span id='cauldron-text'></span>
   </div>
   <div id="chopping-board">
     <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-0" class="ingredient" draggable="true">
@@ -65,17 +66,16 @@
     <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-2" class="ingredient" draggable="true">
     </div>
   <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <span id='cauldron-text'>Add your ingredients</span>
+    <div id="cauldron-ingredients"><span>Your cauldron is empty. Add your ingredients!</span></div>
+    <div id="controls">
+      <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Start brewing</button>
+    </div>  
   </div>
-  <div id="controls">
-    <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Start brewing</button>
-  </div>
+  
   <div id="message">
     <span>Start brewing to see a recipe!</span>
   </div>
-  <div id="cauldron-ingredients"></div>
-    <span></span>
-  </div>
+  
 
   
 </div>
