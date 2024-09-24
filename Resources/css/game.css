@@ -91,7 +91,16 @@
     padding: 10px;
     display: inline-block;
     vertical-align: top;
-}
+  }
+
+  @media (max-width: 768px) {
+    #frame {
+      background-size: 70%; /* Adjust background size for small screens */
+    }
+    #cauldron{
+        margin-top: 65px;
+    }
+  }
 
 #cauldron-ingredients{
     opacity: 1;
