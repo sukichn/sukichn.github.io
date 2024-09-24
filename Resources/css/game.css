@@ -54,22 +54,35 @@
     background-color: rgba(99, 185, 125, 0.443);
 }
 
-#message, #cauldron-text{
-    margin: 0.5rem;
+#message{
+    margin-bottom: 0.5rem;
+    margin-top: 0;
 }
 
-#chopping-board {
-    width: 350px;
-    height: 150px;
-    margin: 10px;
-    padding: 10px;
-    display: inline-block;
-    vertical-align: top;
+#cauldron-text{
+    margin-top  : 1rem;
+}
+
+#chopping-frame {
+    background-image: url("https://th.bing.com/th/id/R.1016f0a653f82a2a5ebca0b2fb5dcc2a?rik=7gt7Y7Pk5LOLOQ&riu=http%3a%2f%2fst.depositphotos.com%2f1548395%2f4251%2fi%2f450%2fdepositphotos_42511977-stock-photo-cartoon-image-of-fruit-basket.jpg&ehk=1SYrhyyjQviCW%2b4RjcxDAQTPkMnKEPD%2fqs4MPmzcZxo%3d&risl=&pid=ImgRaw&r=0");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100%;
+    width: 330px;
+    height: 330px;
+    opacity: 0.9;
+   
   }
 
 #chopping-board {
-    border: 2px dashed #aaa;
+    width: 200px;
+    height: 200px;
+    margin-top: 3.5rem;
+    display: inline-block;
+    vertical-align: center;
+   
   }
+
 
 #cauldron {
     width: 400px;
@@ -87,7 +100,7 @@
     background-position: center;
     width: 500px;
     height: 500px;
-    margin: 10px;
+    margin: 0;
     padding: 10px;
     display: inline-block;
     vertical-align: top;
@@ -108,7 +121,7 @@
   .ingredient {
     width: 50px;
     height: 50px;
-    margin: 5px;
+    margin: 0;
     cursor: move;
   }
 

@@ -1,4 +1,7 @@
 /*test change*/
+body{
+    margin: 0;
+}
 html{
     font-size: 18px;
 }
@@ -62,6 +65,7 @@ header {
     text-align: right;
     flex: 1; /* Allow the element to grow within the flex container */
     box-sizing: border-box; /* Include border and padding in the element's total width */
+    margin-right: 0.5rem;
   }
 
 .nav-logo {
@@ -128,7 +132,7 @@ button.dropbtn{
 @media(max-width: 768px){
     button.dropbtn{
         font-size: 0.8rem;
-        width: 2.5rem;
+        width: 2.7rem;
     }
 }
 
