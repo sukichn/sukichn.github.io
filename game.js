@@ -57,59 +57,18 @@ let timerInterval;
         }
     }
 
-    function touchStart(event) {
-        if (gameStarted && event.touches.length === 1) {
-            event.preventDefault(); // Prevent default behavior like trying to open the image or link
-            const touch = event.touches[0];
-            const target = touch.target;
-    
-            // Mock dataTransfer object
-            event.dataTransfer = { data: {} };
-            event.dataTransfer.setData("text", target.id);
-    
-            target.style.opacity = '0.5'; // Visual cue
-            target.style.transform = 'scale(1.1)'; // Optionally scale the element a bit
-    
-            // Store initial position to help calculate movement in touchMove
-            target.setAttribute('data-start-x', touch.clientX);
-            target.setAttribute('data-start-y', touch.clientY);
-        }
-    }
-    
-    function touchMove(event) {
-        if (gameStarted && event.touches.length === 1) {
-            event.preventDefault(); // Prevent scrolling and other default actions
-            const touch = event.touches[0];
-            const target = touch.target;
-    
-            // Calculate movement based on initial touch
-            const startX = parseFloat(target.getAttribute('data-start-x'));
-            const startY = parseFloat(target.getAttribute('data-start-y'));
-    
-            const deltaX = touch.clientX - startX;
-            const deltaY = touch.clientY - startY;
-    
-            // Apply the movement as a CSS transform
-            target.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.1)`;
-        }
-    }
-    
-    function touchEnd(event) {
-        if (gameStarted && event.changedTouches.length === 1) {
+    // Function for touch drag and drop
+    function handleTouchStart(event) {
+        if (gameStarted) {
             event.preventDefault();
-            const touch = event.changedTouches[0];
-            const target = document.elementFromPoint(touch.clientX, touch.clientY);
-    
-            // Mimic the drop
-            if (target && target.classList.contains('dropzone')) {
-                const data = event.dataTransfer.getData("text");
-                const ingredient = document.getElementById(data);
-                target.appendChild(ingredient);
-                updateCauldronIngredients(); // Update the count of ingredients in the cauldron
-    
-                ingredient.style.opacity = '1';
-                ingredient.style.transform = 'none'; // Reset any transformations
-            }
+            const touch = event.targetTouches[0];
+            const ingredient = event.target;
+            ingredient.style.position = 'absolute';
+            ingredient.style.left = `${touch.pageX - ingredient.offsetWidth / 2}px`;
+            ingredient.style.top = `${touch.pageY - ingredient.offsetHeight / 2}px`;
+            document.body.appendChild(ingredient); // Temporarily attach to body to allow free movement
+            ingredient.ontouchmove = handleTouchMove;
+            ingredient.ontouchend = handleTouchEnd;
         }
     }
 
@@ -242,16 +201,10 @@ let timerInterval;
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.ingredient').forEach(ingredient => {
             ingredient.addEventListener('dragstart', drag);
-            ingredient.addEventListener('touchstart', touchStart);
-            ingredient.addEventListener('touchmove', touchMove);
-            ingredient.addEventListener('touchend', touchEnd);
+            ingredient.addEventListener('touchstart', handleTouchStart);
         });
-    
-        const dropZones = [document.getElementById('chopping-board'), document.getElementById('cauldron')];
-        dropZones.forEach(dropZone => {
-            dropZone.addEventListener('drop', drop);
-            dropZone.addEventListener('dragover', allowDrop);
-            dropZone.addEventListener('touchend', touchEnd);
-            dropZone.addEventListener('touchmove', touchMove);
-        });
+        document.getElementById('chopping-board').addEventListener('drop', drop);
+        document.getElementById('chopping-board').addEventListener('dragover', allowDrop);
+        document.getElementById('cauldron').addEventListener('drop', drop);
+        document.getElementById('cauldron').addEventListener('dragover', allowDrop);
     });
