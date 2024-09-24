@@ -1,6 +1,8 @@
+
+
 /* SUBTITLE TEXT*/
 #game-instruction.content h5 {
-    margin: 0 15rem;
+   
     color: black;
     font-family: "Merriweather";
     font-style: italic;
@@ -10,16 +12,90 @@
     line-height: 1.5;
 }
 
-#chopping-board, #cauldron {
-    width: 300px;
-    height: 200px;
-    margin: 20px;
+@media (max-width: 768px) {
+    #game-instruction.content h5 {
+    font-size: 0.8rem; 
+    }
+    #game-instruction.content h1 {
+    font-size: 1.5rem;
+    }
+}
+
+/* GAME AREA */
+
+#game-container {
+    font-family: 'Work Sans';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    #game-container{
+        font-size: 0.8rem;
+    }
+}
+
+#controls button{
+    margin: 0.5rem;
+    width: 200px;
+    height: 2rem;
+    font-family: "Work Sans";
+    background-color: rgba(176, 229, 192, 0.89);
+    border-radius: 20px;
+    border: none; 
+}
+
+#controls button:hover{
+    background-color: rgba(99, 185, 125, 0.313);
+}
+#controls button:active{
+    background-color: rgba(99, 185, 125, 0.443);
+}
+
+#message, #cauldron-text{
+    margin: 0.5rem;
+}
+
+#chopping-board {
+    width: 350px;
+    height: 150px;
+    margin: 10px;
     padding: 10px;
-    border: 2px dashed #aaa;
     display: inline-block;
     vertical-align: top;
   }
 
+#chopping-board {
+    border: 2px dashed #aaa;
+  }
+
+#cauldron {
+    width: 400px;
+    height: 100px;
+    margin-top: 35px;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
+#frame {
+    background-image: url("https://tse2.mm.bing.net/th/id/OIP.z2Kfox8zS1s7FO_NYJ1tuwHaIT?rs=1&pid=ImgDetMain");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 500px;
+    height: 500px;
+    margin: 10px;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#cauldron-ingredients{
+    opacity: 1;
+}
   .ingredient {
     width: 50px;
     height: 50px;

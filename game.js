@@ -230,10 +230,13 @@ let timerInterval;
         document.getElementById('cauldron-ingredients').innerText = 'Your cauldron is empty.  Add your ingredients!';
     }
 
+   
+
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.ingredient').forEach(ingredient => {
             ingredient.addEventListener('dragstart', drag);
             ingredient.addEventListener('touchstart', handleTouchStart);
+            ingredient.addEventListener('touchstart', handleTouchEnd);
         });
         document.getElementById('chopping-board').addEventListener('drop', drop);
         document.getElementById('chopping-board').addEventListener('dragover', allowDrop);
