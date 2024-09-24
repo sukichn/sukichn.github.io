@@ -1,8 +1,7 @@
 let timerInterval;
     let timeRemaining = 30;
     let coins = 0;
-    let gameStarted = false;    
-    let currentRecipe = null;
+    let gameStarted = false;
 
     // Recipes
     const recipes = [
@@ -37,6 +36,7 @@ let timerInterval;
         return recipes[randomRecipe];
     }
 
+    // Function for mouse drag and drop
     function allowDrop(event) {
         event.preventDefault();
     }
@@ -54,6 +54,44 @@ let timerInterval;
             const ingredient = document.getElementById(data);
             event.target.appendChild(ingredient);
             updateCauldronIngredients(); // Update the count of ingredients in the cauldron
+        }
+    }
+
+    // Function for touch drag and drop
+    function touchStart(event) {
+        if (gameStarted && event.touches.length === 1) { // Only deal with one finger
+            const touch = event.touches[0]; // Get the information for finger #1
+            const target = touch.target;
+    
+            // Set the element's data to be the ID just like dragstart
+            event.dataTransfer = { data: {} }; // Creating a mock dataTransfer object
+            event.dataTransfer.setData("text", target.id);
+    
+            // Optionally, you can set some visual cues or effects
+            target.style.opacity = '0.5';
+        }
+    }
+    
+    function touchMove(event) {
+        event.preventDefault(); // Prevent scrolling when touch is moved
+    }
+    
+    function touchEnd(event) {
+        if (gameStarted) {
+            const touch = event.changedTouches[0]; // Get the information for finger #1
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    
+            // Mimic the drop
+            if (target && target.classList.contains('dropzone')) { // Assuming 'dropzone' class for droppable areas
+                event.preventDefault();
+                const data = event.dataTransfer.getData("text");
+                const ingredient = document.getElementById(data);
+                target.appendChild(ingredient);
+                updateCauldronIngredients(); // Update the count of ingredients in the cauldron
+    
+                // Reset the visual cues or effects
+                ingredient.style.opacity = '1';
+            }
         }
     }
 
@@ -183,64 +221,19 @@ let timerInterval;
         document.getElementById('cauldron-ingredients').innerText = 'Your cauldron is empty.  Add your ingredients!';
     }
 
-    // Handle touch events for mobile support
-    function handleTouchStart(event) {
-        if (gameStarted) {
-            event.preventDefault();
-            const touch = event.targetTouches[0];
-            const ingredient = event.target;
-            ingredient.style.position = 'absolute';
-            ingredient.style.left = `${touch.pageX - ingredient.offsetWidth / 2}px`;
-            ingredient.style.top = `${touch.pageY - ingredient.offsetHeight / 2}px`;
-            ingredient.ontouchmove = handleTouchMove;
-            ingredient.ontouchend = handleTouchEnd;
-        }
-    }
-
-    function handleTouchMove(event) {
-        if (gameStarted) {
-            event.preventDefault();
-            const touch = event.targetTouches[0];
-            const ingredient = event.target;
-            ingredient.style.left = `${touch.pageX - ingredient.offsetWidth / 2}px`;
-            ingredient.style.top = `${touch.pageY - ingredient.offsetHeight / 2}px`;
-        }
-    }
-
-    function handleTouchEnd(event) {
-        if (gameStarted) {
-            event.preventDefault();
-            const ingredient = event.target;
-            ingredient.style.position = 'initial';
-            ingredient.ontouchmove = null;
-            ingredient.ontouchend = null;
-
-            // Check if the ingredient was dropped on a valid target
-            const cauldron = document.getElementById('cauldron');
-            const choppingBoard = document.getElementById('chopping-board');
-            const ingredientRect = ingredient.getBoundingClientRect();
-            const cauldronRect = cauldron.getBoundingClientRect();
-            const choppingBoardRect = choppingBoard.getBoundingClientRect();
-
-            if (ingredientRect.left >= cauldronRect.left && ingredientRect.right <= cauldronRect.right &&
-                ingredientRect.top >= cauldronRect.top && ingredientRect.bottom <= cauldronRect.bottom) {
-                cauldron.appendChild(ingredient);
-            } else if (ingredientRect.left >= choppingBoardRect.left && ingredientRect.right <= choppingBoardRect.right &&
-                       ingredientRect.top >= choppingBoardRect.top && ingredientRect.bottom <= choppingBoardRect.bottom) {
-                choppingBoard.appendChild(ingredient);
-            }
-
-            updateCauldronIngredients(); // Update the count of ingredients in the cauldron
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.ingredient').forEach(ingredient => {
             ingredient.addEventListener('dragstart', drag);
-            ingredient.addEventListener('touchstart', handleTouchStart);
+            ingredient.addEventListener('touchstart', touchStart);
+            ingredient.addEventListener('touchmove', touchMove);
+            ingredient.addEventListener('touchend', touchEnd);
         });
-        document.getElementById('chopping-board').addEventListener('drop', drop);
-        document.getElementById('chopping-board').addEventListener('dragover', allowDrop);
-        document.getElementById('cauldron').addEventListener('drop', drop);
-        document.getElementById('cauldron').addEventListener('dragover', allowDrop);
+    
+        const dropZones = [document.getElementById('chopping-board'), document.getElementById('cauldron')];
+        dropZones.forEach(dropZone => {
+            dropZone.addEventListener('drop', drop);
+            dropZone.addEventListener('dragover', allowDrop);
+            dropZone.addEventListener('touchend', touchEnd);
+            dropZone.addEventListener('touchmove', touchMove);
+        });
     });
