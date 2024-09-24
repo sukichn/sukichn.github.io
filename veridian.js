@@ -161,6 +161,7 @@ function generateRandomPotion() {
 fortuneButton.addEventListener("click", generateRandomPotion);
 
 //*Shop item Handlebars
+
 const templateElement = document.getElementById("templateHB");
 const templateSource = templateElement.innerHTML;
 const template = Handlebars.compile(templateSource);
@@ -229,5 +230,9 @@ const context = {
     ]
 };
 
+
 const compiledHtml = template(context);
 document.getElementById("information").innerHTML = compiledHtml;
+
+
+

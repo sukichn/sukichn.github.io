@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Veridian Emporium</title>
+  <link rel="stylesheet" type="text/css" href="Resources/css/index.css">
+  <link rel="stylesheet" type="text/css" href="Resources/css/game.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="icon" href="Resources/css/Images/magic-hat.ico" type="image/x-icon">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+</head>
+<body>
+  <header>
+    <div class="nav-links">
+      <div class="home"><a href="index.html">Home</a></div>
+      <div class="products">
+        <button class="dropbtn">Products</button>
+        <div class="dropdown-content">
+            <a href="index.html#potions-header">Potions & Tinctures</a>
+            <a href="index.html#magic-items-header">Magical Objects</a>
+            <a href="index.html#lottery-header">Win a potion!</a>
+        </div>
+      </div>
+      <div class="game"><a href="game.html">Alchemy</a></div>
+      <div class="contact"><a href="#social">Contact</a></div>
+    </div>   
+    <div class="nav-logo"></div>
+    <div class="nav-shopcart">
+        <i class="fa fa-shopping-cart fa-lg"></i>
+    </div>
+</header>
+
+  <div id="game-instruction" class="content">
+    <h1>The Art of Alchemy</h1>
+    <div class="caption">
+      <h5>
+        Become a master alchemist by creating powerful potions through a series of carefully crafted steps.
+      </h5>
+    </div>
+  </div>
+
+<div id="game-container">
+
+  <div id="controls">
+    <button id="start-button" onclick="startGame()">Start Brewing</button>
+    <button id="play-button" class="hidden" onclick="playGame()">Play Again!</button>
+    <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
+    <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
+    <div id="timer">Time: 30</div>
+    <div id="coins">Coins: 0</div>
+  </div>
+  <div id="chopping-board">
+    <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-0" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-1" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-2" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/Mushroom.png" alt="Mushroom" id="ingredient2-0" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/Mushroom.png" alt="Mushroom" id="ingredient2-1" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/Mushroom.png" alt="Mushroom" id="ingredient2-2" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-0" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-1" class="ingredient" draggable="true">
+    <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-2" class="ingredient" draggable="true">
+    </div>
+  <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <span id='cauldron-text'>Add your ingredients</span>
+  </div>
+  <div id="controls">
+    <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Start brewing</button>
+  </div>
+  <div id="message">
+    <span>Start brewing to see a recipe!</span>
+  </div>
+  <div id="cauldron-ingredients"></div>
+    <span></span>
+  </div>
+
+  
+</div>
+  <div id="social">
+    <span></span>
+    <i class="fa fa-facebook"></i>
+    <i class="fa fa-twitter"></i>
+    <i class="fa fa-pinterest"></i>
+  </div>
+  <footer><p>© 2024 The Veridian Emporium. All rights reserved.</p></footer>
+
+  <script src="./game.js"></script>
+</body>
+</html>
