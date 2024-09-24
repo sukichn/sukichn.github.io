@@ -218,11 +218,18 @@ let timerInterval;
             // Check if the ingredient was dropped on a valid target
             const cauldron = document.getElementById('cauldron');
             const choppingBoard = document.getElementById('chopping-board');
-            if (ingredient.getBoundingClientRect().intersects(cauldron.getBoundingClientRect())) {
+            const ingredientRect = ingredient.getBoundingClientRect();
+            const cauldronRect = cauldron.getBoundingClientRect();
+            const choppingBoardRect = choppingBoard.getBoundingClientRect();
+
+            if (ingredientRect.left >= cauldronRect.left && ingredientRect.right <= cauldronRect.right &&
+                ingredientRect.top >= cauldronRect.top && ingredientRect.bottom <= cauldronRect.bottom) {
                 cauldron.appendChild(ingredient);
-            } else if (ingredient.getBoundingClientRect().intersects(choppingBoard.getBoundingClientRect())) {
+            } else if (ingredientRect.left >= choppingBoardRect.left && ingredientRect.right <= choppingBoardRect.right &&
+                       ingredientRect.top >= choppingBoardRect.top && ingredientRect.bottom <= choppingBoardRect.bottom) {
                 choppingBoard.appendChild(ingredient);
             }
+
             updateCauldronIngredients(); // Update the count of ingredients in the cauldron
         }
     }
