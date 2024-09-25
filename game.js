@@ -188,9 +188,11 @@ let timerInterval;
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.ingredient').forEach(ingredient => {
             ingredient.addEventListener('dragstart', drag);
+            ingredient.addEventListener('ontouchstart', drag);
         });
         document.getElementById('chopping-board').addEventListener('drop', drop);
         document.getElementById('chopping-board').addEventListener('dragover', allowDrop);
         document.getElementById('cauldron').addEventListener('drop', drop);
+        document.getElementById('cauldron').addEventListener('ontouchend', drop);
         document.getElementById('cauldron').addEventListener('dragover', allowDrop);
     });
