@@ -1,4 +1,6 @@
-
+/*{
+    border: 2px solid red;
+}*/
 
 /* SUBTITLE TEXT*/
 #game-instruction.content h5 {
@@ -36,10 +38,14 @@
         font-size: 0.8rem;
     }
 }
-
+#controls{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 #controls button{
     margin: 0.5rem;
-    width: 200px;
+    width: 150px;
     height: 2rem;
     font-family: "Work Sans";
     background-color: rgba(176, 229, 192, 0.89);
@@ -54,40 +60,56 @@
     background-color: rgba(99, 185, 125, 0.443);
 }
 
+#recipe-background{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 400px;   
+    
+    border-radius: 5px;
+    text-wrap: wrap;
+}
+
 #message{
-    margin-bottom: 0.5rem;
-    margin-top: 0;
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
 }
 
 #cauldron-text{
     margin-top  : 1rem;
 }
 
-#chopping-frame {
+#chopping-frame{
+    display: flex;
+    flex-direction: row;   
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+#ingredient-frame{
     background-image: url("https://th.bing.com/th/id/R.1016f0a653f82a2a5ebca0b2fb5dcc2a?rik=7gt7Y7Pk5LOLOQ&riu=http%3a%2f%2fst.depositphotos.com%2f1548395%2f4251%2fi%2f450%2fdepositphotos_42511977-stock-photo-cartoon-image-of-fruit-basket.jpg&ehk=1SYrhyyjQviCW%2b4RjcxDAQTPkMnKEPD%2fqs4MPmzcZxo%3d&risl=&pid=ImgRaw&r=0");
     background-repeat: no-repeat;
     background-position: center top;
     background-size: 100%;
-    width: 330px;
-    height: 330px;
+    width: 400px;
+    height: 400px;
     opacity: 0.9;
-   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#chopping-board {
+    display: inline-block;
+    justify-content: center;
+    width: 80%;
   }
 
-#chopping-board {
-    width: 200px;
-    height: 200px;
-    margin-top: 3.5rem;
-    display: inline-block;
-    vertical-align: center;
-   
-  }
 
 
 #cauldron {
-    width: 400px;
+    width: 370px;
     height: 100px;
-    margin-top: 35px;
+    margin-top: 0;
     padding: 10px;
     display: inline-block;
     vertical-align: top;
@@ -98,8 +120,9 @@
     background-image: url("https://tse2.mm.bing.net/th/id/OIP.z2Kfox8zS1s7FO_NYJ1tuwHaIT?rs=1&pid=ImgDetMain");
     background-repeat: no-repeat;
     background-position: center;
-    width: 500px;
-    height: 500px;
+    background-size: 90%;
+    width: 375px;
+    height: 375px;
     margin: 0;
     padding: 10px;
     display: inline-block;
@@ -107,20 +130,32 @@
   }
 
   @media (max-width: 768px) {
-    #frame {
-      background-size: 70%; /* Adjust background size for small screens */
+    #chopping-frame {
+        width: 375px; /* Adjust background size for small screens */
+    }
+    #frame{
+        background-size: 90%;
+        width: 350px;
+        height: 350px;
     }
     #cauldron{
-        margin-top: 65px;
+        margin-top: 0;
+        width: 70%;
+    }
+    
+    #message{
+        align-items: center;
+        margin: 0.5rem;
+        text-wrap: wrap;
     }
   }
 
 #cauldron-ingredients{
-    opacity: 1;
+    margin: 0.5rem;
 }
   .ingredient {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     margin: 0;
     cursor: move;
   }

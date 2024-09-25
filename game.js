@@ -1,5 +1,5 @@
 let timerInterval;
-    let timeRemaining = 30;
+    let timeRemaining = 60;
     let coins = 0;
     let gameStarted = false;
 
@@ -59,7 +59,7 @@ let timerInterval;
 
         function startGame() {
         gameStarted = true;
-        timeRemaining = 30;
+        timeRemaining = 60;
         document.getElementById('timer').innerText = 'Time: ' + timeRemaining;
         document.getElementById('start-button').classList.add('hidden');
         document.getElementById('end-button').classList.remove('hidden');
@@ -151,7 +151,7 @@ let timerInterval;
             document.getElementById('end-button').classList.add('hidden');
             document.getElementById('clear-button').classList.add('hidden');
             document.getElementById('brew-button').classList.add('hidden');
-            document.getElementById('timer').innerText = 'Time: 30';
+            document.getElementById('timer').innerText = 'Time: 60';
             document.getElementById('message').innerText = 'Game over! You earned ' + coins + ' coins!';
             document.getElementById('cauldron-text').innerText="";
 
@@ -162,7 +162,7 @@ let timerInterval;
         document.getElementById('start-button').classList.remove('hidden');
         document.getElementById('play-button').classList.add('hidden');
         document.getElementById('brew-button').classList.add('hidden');
-        document.getElementById('message').innerText = 'Start brewing to see a recipe!';
+        document.getElementById('message span').innerText = 'Start brewing to see a recipe!';
         document.getElementById('cauldron-text').innerText="";
         resetIngredients();
     }
