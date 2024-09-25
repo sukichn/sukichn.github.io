@@ -154,7 +154,6 @@ let timerInterval;
             document.getElementById('timer').innerText = 'Time: 60';
             document.getElementById('message').innerText = 'Game over! You earned ' + coins + ' coins!';
             document.getElementById('cauldron-text').innerText="";
-
         }
     }
 
@@ -162,27 +161,29 @@ let timerInterval;
         document.getElementById('start-button').classList.remove('hidden');
         document.getElementById('play-button').classList.add('hidden');
         document.getElementById('brew-button').classList.add('hidden');
-        document.getElementById('message span').innerText = 'Start brewing to see a recipe!';
-        document.getElementById('cauldron-text').innerText="";
+        document.getElementById('message').innerText = 'Start brewing to see a recipe!';
+        document.getElementById('cauldron-text').innerText = "";
         resetIngredients();
+        clearCauldron(); // Ensure the cauldron is cleared when the game is restarted
     }
-
-    function resetIngredients() {
-        const choppingBoard = document.getElementById('chopping-board');
-        document.querySelectorAll('.ingredient').forEach(ingredient => {
-            choppingBoard.appendChild(ingredient);
-            clearCauldron(); // Clear the cauldron
-        });
-    }
-
+    
     function clearCauldron() {
         const cauldron = document.getElementById('cauldron');
         const choppingBoard = document.getElementById('chopping-board');
         const ingredients = Array.from(cauldron.getElementsByClassName('ingredient'));
+        ingredients.forEach(ingredient => {
+            choppingBoard.appendChild(ingredient); // Move each ingredient back to the chopping board
+        });
         updateCauldronIngredients(); // Update the cauldron ingredients display to be empty
-        document.getElementById('cauldron-ingredients').innerText = 'Your cauldron is empty.  Add your ingredients!';
+        document.getElementById('cauldron-ingredients').innerText = 'Your cauldron is empty. Add your ingredients!';
     }
-
+    
+    function resetIngredients() {
+        const choppingBoard = document.getElementById('chopping-board');
+        document.querySelectorAll('.ingredient').forEach(ingredient => {
+            choppingBoard.appendChild(ingredient);
+        });
+    }
    
 
     document.addEventListener('DOMContentLoaded', () => {
