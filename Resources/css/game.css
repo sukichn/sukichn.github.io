@@ -1,15 +1,18 @@
 /*{
     border: 2px solid red;
 }*/
-
+*{
+    color: white;  
+}
 body{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/game-background.jfif");
     background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
 }
 /* SUBTITLE TEXT*/
 #game-instruction.content h5 {
    
-    color: black;
     font-family: "Merriweather";
     font-style: italic;
     font-weight: normal;
@@ -91,7 +94,6 @@ body{
 }
 
 #ingredient-frame{
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/basket.png");
     background-repeat: no-repeat;
     background-position: center top;
     background-size: 100%;
@@ -121,7 +123,6 @@ body{
 }
 
 #frame {
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cauldron.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 90%;
