@@ -3,13 +3,14 @@
 }*/
 *{
     color: white;  
+    border: 2px solid red;
 }
 body{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/game-background.png");
     background-repeat: no-repeat;
+    background: cover;
     background-attachment: fixed;
   background-position: center;
-  background-size: 100%;
     
 }
 /* SUBTITLE TEXT*/
@@ -24,9 +25,8 @@ body{
 }
 
 @media (max-width: 768px) {
-    #body{
-        background-position: right;
-        background-size: 50%;
+    body{
+        background-position: 48% center;
     }
     #game-instruction.content h5 {
     font-size: 0.8rem; 
@@ -165,8 +165,8 @@ body{
     margin: 0.5rem;
 }
   .ingredient {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     margin: 0;
     cursor: move;
   }
