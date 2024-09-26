@@ -14,7 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
 </head>
 <body>
-  <div id="background">
+  
   <header>
     <div class="nav-links">
       <div class="home"><a href="index.html">Home</a></div>
@@ -37,26 +37,21 @@
 
   <div id="game-instruction" class="content">
     <h1>The Art of Alchemy</h1>
-    <div class="caption">
-      <h5>
-        Become a master alchemist by creating powerful potions through a series of carefully crafted steps.
-      </h5>
+    <div id="controls"><button id="start-button" onclick="startGame()">Start Brewing</button>
+      <button id="play-button" class="hidden" onclick="playGame()">Play Again!</button>
+      <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
+      <div id="timer">Time: 60</div>
+      <div id="coins">Coins: 0</div>
+      <div id='cauldron-text'></div>
     </div>
+    
   </div>
 
 <div id="game-container">
-
-  <div id="controls">
-    <button id="start-button" onclick="startGame()">Start Brewing</button>
-    <button id="play-button" class="hidden" onclick="playGame()">Play Again!</button>
-    <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
-    <div id="timer">Time: 60</div>
-    <div id="coins">Coins: 0</div>
-    <div id='cauldron-text'></div>
-  </div>
+  
 
   <div id="chopping-frame">
-  <div id="ingredient-frame">
+  <div id="ingredient-frame"></div>
     <div id="chopping-board">
       <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-0" class="ingredient" draggable="true">
       <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-1" class="ingredient" draggable="true">
@@ -68,34 +63,29 @@
       <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-1" class="ingredient" draggable="true">
       <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-2" class="ingredient" draggable="true">
     </div>
-  </div>
+  
   <div id="recipe-background">
     <div id="message">
       Start brewing to see a recipe!
     </div>
-    <div id ="frame">
-      <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-      <div id="controls">
-        <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Mix ingredients</button>
-        <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
-        </div>
-      </div>
-      <div id="cauldron-ingredients"><span>Your cauldron is empty. Add your ingredients!</span></div>
+    
+      
   </div>
+
+  <div id ="cauldron-background">
+    <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="cauldron-button">
+      <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Mix ingredients</button>
+      <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
+    </div> 
+    </div>
+
 </div>
-
-
   
 </div>
-  <div id="social">
-    <span></span>
-    <i class="fa fa-facebook"></i>
-    <i class="fa fa-twitter"></i>
-    <i class="fa fa-pinterest"></i>
-  </div>
-  <footer><p>© 2024 The Veridian Emporium. All rights reserved.</p></footer>
+<div id="cauldron-ingredients"><span>Your cauldron is empty. Add your ingredients!</span></div> 
 
   <script src="./game.js"></script>
-  </div>
+ 
 </body>
 </html>

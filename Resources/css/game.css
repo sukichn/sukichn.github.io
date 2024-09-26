@@ -2,10 +2,13 @@
     border: 2px solid red;
 }*/
 *{
-    color: white;  
+    color: white; 
+    font-family: "Work Sans";
     
+    
+   
 }
-#background{
+body{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/empty-background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -14,14 +17,15 @@
 }
 /* TITLE TEXT*/
 
-#game-instruction.content{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#game-instruction.content {
+    margin-top: 70px;
+    position: fixed;
+    left: 50%; /* Position the left side of the element at the horizontal center */
+    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
+    text-align: center;
 }
 #game-instruction h1 {
-    width: 50%;
-    margin: 2rem 0 0 0;
+    width: 500px;
     border: 5px solid white;
     color: white;
     font-size: 1.8rem;
@@ -43,13 +47,20 @@
 
 @media (max-width: 768px) {
     body{
-        background-position: 49% 80%;
+        background-position: 49% 65%;
     }
     #game-instruction.content h5 {
     font-size: 0.8rem; 
     }
     #game-instruction.content h1 {
-    font-size: 1.2rem;
+    display: none;
+    }
+    #cauldron-ingredients{
+        width: 100%;
+    }
+    #controls{
+        font-size: 0.8rem;
+        margin-top: 0;
     }
 }
 
@@ -61,6 +72,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-top: 200px;
+
 }
 
 @media (max-width: 768px) {
@@ -72,8 +85,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: fixed;
+    left: 50%; /* Position the left side of the element at the horizontal center */
+    transform: translate(-50%, -50%);
+    margin-top: 60px;
 }
-#controls button{
+button{
     margin: 0.5rem;
     width: 150px;
     height: 2rem;
@@ -83,11 +100,11 @@
     border: none; 
 }
 
-#controls button:hover{
-    background-color: rgba(99, 185, 125, 0.313);
+button:hover{
+    background-color: rgba(103, 230, 141, 0.895);
 }
-#controls button:active{
-    background-color: rgba(99, 185, 125, 0.443);
+button:active{
+    background-color: rgba(99, 185, 125, 0.952);
 }
 
 #recipe-background{
@@ -113,63 +130,81 @@
     flex-direction: row;   
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 50px;
     margin-bottom: 0.5rem;
+    position: fixed;
 }
 
 #ingredient-frame{
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: 100%;
-    width: 400px;
-    height: 400px;
-    opacity: 0.9;
+    position: fixed;
+    text-align: center;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+
 }
 #chopping-board {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    width: 80%;
+    width: 100%;
   }
 
 
 
 #cauldron {
     width: 370px;
-    height: 100px;
-    margin-top: 0;
+    height: 80px;
+    margin-top: 75px;
     padding: 10px;
     display: inline-block;
     vertical-align: top;
 
 }
 
-#frame {
+#cauldron-background {
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 90%;
-    width: 375px;
-    height: 375px;
-    margin: 0;
-    padding: 10px;
+    width: 500px;
+    height: 370px;
+    bottom: 15px;
     display: inline-block;
     vertical-align: top;
     position: fixed;
   }
 
+#cauldron-button{
+    margin-top: 60px;
+    position: fixed;
+    left: 50%; /* Position the left side of the element at the horizontal center */
+    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
   @media (max-width: 768px) {
+    #game-container{
+        margin-top: 100px;
+    }
+    
+    #game-instruction.content{
+        margin-top: 50px;
+    }
+    
     #chopping-frame {
         width: 375px; /* Adjust background size for small screens */
-    }
-    #frame{
-        background-size: 90%;
-        width: 350px;
-        height: 350px;
-    }
-    #cauldron{
         margin-top: 0;
+        z-index: 1;
+        
+    }
+    #chopping-board{
+        margin-top: 15px;
+    }
+    
+    #cauldron{
+        z-index: 0;
         width: 70%;
     }
     
@@ -178,10 +213,20 @@
         margin: 0.5rem;
         text-wrap: wrap;
     }
+    #controls{
+        margin-top: 1rem;
+    }
   }
 
 #cauldron-ingredients{
-    margin: 0.5rem;
+    font-size: 0.8rem;
+    
+    bottom: 7px;
+    position: fixed;
+    left: 50%; /* Position the left side of the element at the horizontal center */
+    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
+    text-align: center;
+
 }
   .ingredient {
     width: 40px;
