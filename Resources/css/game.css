@@ -5,10 +5,12 @@
     color: white;  
 }
 body{
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/game-background.jfif");
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/game-background.png");
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
+    background-attachment: fixed;
+  background-position: center;
+  background-size: 100%;
+    
 }
 /* SUBTITLE TEXT*/
 #game-instruction.content h5 {
@@ -22,6 +24,10 @@ body{
 }
 
 @media (max-width: 768px) {
+    #body{
+        background-position: right;
+        background-size: 50%;
+    }
     #game-instruction.content h5 {
     font-size: 0.8rem; 
     }
