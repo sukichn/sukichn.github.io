@@ -32,7 +32,7 @@ a {
 /* NAVIGATION BAR */
 header {
     background-color:  white;
-    margin-top: 3px;
+    padding-top: 3px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
