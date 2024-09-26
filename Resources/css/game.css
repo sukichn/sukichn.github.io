@@ -156,6 +156,7 @@
     padding: 10px;
     display: inline-block;
     vertical-align: top;
+    position: fixed;
   }
 
   @media (max-width: 768px) {
