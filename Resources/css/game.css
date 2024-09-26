@@ -3,9 +3,7 @@
 }*/
 *{
     color: white; 
-    font-family: "Work Sans";
-    
-    
+    font-family: "Work Sans"; 
    
 }
 body{
@@ -25,7 +23,7 @@ body{
     text-align: center;
 }
 #game-instruction h1 {
-    width: 500px;
+    width: 400px;
     border: 5px solid white;
     color: white;
     font-size: 1.8rem;
@@ -45,7 +43,7 @@ body{
     margin: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 481px) {
     body{
         background-position: 49% 65%;
     }
@@ -72,15 +70,7 @@ body{
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 200px;
-
-}
-
-@media (max-width: 768px) {
-    #game-container{
-        font-size: 0.8rem;
     }
-}
 #controls{
     display: flex;
     flex-direction: column;
@@ -89,6 +79,8 @@ body{
     left: 50%; /* Position the left side of the element at the horizontal center */
     transform: translate(-50%, -50%);
     margin-top: 60px;
+    width: 360px;
+    font-size: 0.8rem;
 }
 button{
     margin: 0.5rem;
@@ -111,54 +103,39 @@ button:active{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 400px;   
-    
+    max-width: 400px;  
+    min-width: 370px;
+    font-size: 0.8rem;
     border-radius: 5px;
     text-wrap: wrap;
+    position: relative;
+    top: 250px;
 }
 
 #message{
     margin: 1rem 0.5rem 0.5rem 0.5rem;
 }
 
-#cauldron-text{
-    margin-top  : 1rem;
-}
 
-#chopping-frame{
+#chopping-board{
     display: flex;
     flex-direction: row;   
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 50px;
     margin-bottom: 0.5rem;
-    position: fixed;
+    position: relative;
+    top: 380px;
+    z-index: 10;
+    
 }
-
-#ingredient-frame{
-    position: fixed;
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-
-}
-#chopping-board {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-
-
 
 #cauldron {
     width: 370px;
     height: 80px;
-    margin-top: 75px;
     padding: 10px;
     display: inline-block;
-    vertical-align: top;
+    position: relative;
+    top: 70px; /* Move the element back by half of its own width and height */
 
 }
 
@@ -168,39 +145,37 @@ button:active{
     background-position: center;
     background-size: 90%;
     width: 500px;
-    height: 370px;
-    bottom: 15px;
+    height: 365px;
+    top: 330px;
     display: inline-block;
-    vertical-align: top;
-    position: fixed;
+    position: relative;
+    
   }
-
+ 
 #cauldron-button{
-    margin-top: 60px;
-    position: fixed;
-    left: 50%; /* Position the left side of the element at the horizontal center */
-    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
-    text-align: center;
+    top: 80px;
+    position: relative;
+    align-items: center;
     display: flex;
     flex-direction: column;
 }
-  @media (max-width: 768px) {
-    #game-container{
-        margin-top: 100px;
+  @media (max-width: 481px) {
+        
+    #cauldron-background{
+        top: 140px;
+        width: 100%;
     }
     
     #game-instruction.content{
         margin-top: 50px;
     }
     
-    #chopping-frame {
-        width: 375px; /* Adjust background size for small screens */
-        margin-top: 0;
-        z-index: 1;
+    #chopping-board {
+        max-width: 370px; /* Adjust background size for small screens */
         
-    }
-    #chopping-board{
-        margin-top: 15px;
+        z-index: 10;
+       position: relative;
+       top: 170px
     }
     
     #cauldron{
@@ -210,18 +185,24 @@ button:active{
     
     #message{
         align-items: center;
-        margin: 0.5rem;
+        margin: 2rem;
         text-wrap: wrap;
     }
     #controls{
         margin-top: 1rem;
     }
+    #cauldron-ingredients{
+        bottom: 25px;
+    }
+    #recipe-background{
+        position: relative;
+        top: 100px;
+    }
   }
 
 #cauldron-ingredients{
     font-size: 0.8rem;
-    
-    bottom: 7px;
+    bottom: 15px;
     position: fixed;
     left: 50%; /* Position the left side of the element at the horizontal center */
     transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */

@@ -99,7 +99,7 @@ header {
 
 .products{
     /*border: 2px solid red;*/
-    margin-right: 2rem;
+    margin-right: 1.8rem;
 
   }
 
@@ -127,6 +127,7 @@ button.dropbtn{
     background-color: white;
     font-size: 1rem;
     width: auto;
+    height: 0;
 }
 
 @media(max-width: 768px){

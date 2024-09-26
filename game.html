@@ -42,16 +42,18 @@
       <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
       <div id="timer">Time: 60</div>
       <div id="coins">Coins: 0</div>
-      <div id='cauldron-text'></div>
+      
     </div>
     
   </div>
 
 <div id="game-container">
-  
+  <div id="recipe-background">
+    <div id="message">Start brewing to see a recipe!</div>
+    <div id='cauldron-text'></div> 
+  </div>
 
-  <div id="chopping-frame">
-  <div id="ingredient-frame"></div>
+  
     <div id="chopping-board">
       <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-0" class="ingredient" draggable="true">
       <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-1" class="ingredient" draggable="true">
@@ -63,15 +65,8 @@
       <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-1" class="ingredient" draggable="true">
       <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-2" class="ingredient" draggable="true">
     </div>
-  
-  <div id="recipe-background">
-    <div id="message">
-      Start brewing to see a recipe!
-    </div>
-    
-      
-  </div>
 
+  <div id='cauldron-text'></div>
   <div id ="cauldron-background">
     <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
     <div id="cauldron-button">
@@ -79,11 +74,9 @@
       <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
     </div> 
     </div>
+    <div id="cauldron-ingredients"><span>Your cauldron is empty. Add your ingredients!</span></div> 
+</div>
 
-</div>
-  
-</div>
-<div id="cauldron-ingredients"><span>Your cauldron is empty. Add your ingredients!</span></div> 
 
   <script src="./game.js"></script>
  
