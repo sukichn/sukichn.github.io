@@ -8,7 +8,7 @@ body{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/game-background.jfif");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 90%;
+    background-size: 100%;
 }
 /* SUBTITLE TEXT*/
 #game-instruction.content h5 {
