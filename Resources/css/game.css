@@ -79,10 +79,10 @@ body{
     left: 50%; /* Position the left side of the element at the horizontal center */
     transform: translate(-50%, -50%);
     margin-top: 60px;
-    width: 360px;
+    width: 500px;
     font-size: 0.8rem;
 }
-button{
+#controls button{
     margin: 0.5rem;
     width: 150px;
     height: 2rem;
@@ -92,11 +92,21 @@ button{
     border: none; 
 }
 
-button:hover{
+#controls button:hover, #brew-button:hover, #clear-button:hover{
     background-color: rgba(103, 230, 141, 0.895);
 }
-button:active{
+#controls button:active, #brew-button:active, #clear-button:active{
     background-color: rgba(99, 185, 125, 0.952);
+}
+
+#clear-button, #brew-button{
+    margin: 0.9rem 0 0.3rem 0;
+    width: 130px;
+    height: 1.8rem;
+    font-family: "Work Sans";
+    background-color: rgba(176, 229, 192, 0.89);
+    border-radius: 20px;
+    border: none; 
 }
 
 #recipe-background{
@@ -124,7 +134,7 @@ button:active{
     justify-content: center;
     margin-bottom: 0.5rem;
     position: relative;
-    top: 380px;
+    top: 430px;
     z-index: 10;
     
 }
@@ -139,6 +149,7 @@ button:active{
 
 }
 
+
 #cauldron-background {
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
     background-repeat: no-repeat;
@@ -146,7 +157,7 @@ button:active{
     background-size: 90%;
     width: 500px;
     height: 365px;
-    top: 330px;
+    top: 350px;
     display: inline-block;
     position: relative;
     
@@ -158,11 +169,12 @@ button:active{
     align-items: center;
     display: flex;
     flex-direction: column;
+    
 }
   @media (max-width: 481px) {
         
     #cauldron-background{
-        top: 140px;
+        top: 180px;
         width: 100%;
     }
     
@@ -175,7 +187,7 @@ button:active{
         
         z-index: 10;
        position: relative;
-       top: 170px
+       top: 270px
     }
     
     #cauldron{
@@ -185,11 +197,12 @@ button:active{
     
     #message{
         align-items: center;
-        margin: 2rem;
+        margin: 1rem;
         text-wrap: wrap;
     }
     #controls{
-        margin-top: 1rem;
+        margin-top: 2rem;
+        width: 360px;
     }
     #cauldron-ingredients{
         bottom: 25px;
@@ -210,9 +223,9 @@ button:active{
 
 }
   .ingredient {
-    width: 40px;
-    height: 40px;
-    margin: 0;
+    width: 50px;
+    height: 50px;
+    padding: 2px;
     cursor: move;
   }
 

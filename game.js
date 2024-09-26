@@ -100,7 +100,7 @@ let timerInterval;
         // Display the ingredients in the cauldron in the message box
         let ingredientsText = 'Cauldron Ingredients: ';
         for (const [ingredient, count] of Object.entries(cauldronIngredients)) {
-            ingredientsText += `${ingredient}: ${count}, `;
+            ingredientsText += `${count} ${ingredient}, `;
         }
         ingredientsText = ingredientsText.slice(0, -2); // Remove trailing comma and space
         document.getElementById('cauldron-ingredients').innerText = ingredientsText;
