@@ -195,11 +195,14 @@ body{
 }
 
 @media (min-height: 1366px) and (max-width: 1024px) and (orientation: portrait) {
-    #cauldron-background{
-        top: 350px;
-    }  
+    #cauldron-background {
+        position: absolute;
+        top: 30vh; /* Adjust as needed */
+    }
+    
     #chopping-board {
-        top: 350px;
+        position: absolute;
+        top: 40vh; /* Adjust as needed */
     }
 }
 
