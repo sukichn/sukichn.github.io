@@ -196,7 +196,7 @@ body{
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
     #cauldron-background {
-        top: 40vh !important; 
+        top: 60vh !important; 
     }
     
     #chopping-board {
