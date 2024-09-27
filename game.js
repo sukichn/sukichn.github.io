@@ -35,19 +35,7 @@ const recipes = [
 // Touch event handlers
 function handleTouchStart(e) {
     const touch = e.targetTouches[0];
-    const rect = e.target.getBoundingClientRect();
-
-    touchOffsetX = touch.clientX - rect.left;
-    touchOffsetY = touch.clientY - rect.top;
-
-    e.target.style.position = "absolute";
-    e.target.style.zIndex = 1000;
     touchData = e.target.id;
-
-    // Move element to the touch position
-    e.target.style.left = (touch.pageX - touchOffsetX) + "px";
-    e.target.style.top = (touch.pageY - touchOffsetY) + "px";
-
     e.preventDefault();
 }
 
