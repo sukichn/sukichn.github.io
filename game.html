@@ -68,9 +68,12 @@
 
   <div id='cauldron-text'></div>
   <div id ="cauldron-background">
-    <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)">
-      
-      
+    <div id="cauldron" 
+    ondrop="drop(event)" 
+    ondragover="allowDrop(event)"
+    ontouchstart="handleTouchStart(event)"
+    ontouchmove="handleTouchMove(event)"
+    ontouchend="handleTouchEnd(event)">     
     </div>
     <div id="cauldron-button">
       <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Mix ingredients</button>

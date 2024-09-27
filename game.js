@@ -1,7 +1,8 @@
 let timerInterval;
-    let timeRemaining = 60;
-    let coins = 0;
-    let gameStarted = false;
+let timeRemaining = 60;
+let coins = 0;
+let gameStarted = false;
+let touchData = null;
 
     // Recipes
     const recipes = [
@@ -82,6 +83,7 @@ let timerInterval;
     function drag(event) {
         if (gameStarted) {
             event.dataTransfer.setData("text", event.target.id);
+
         }
     }
 
@@ -93,6 +95,40 @@ let timerInterval;
             event.target.appendChild(ingredient);
             updateCauldronIngredients(); // Update the count of ingredients in the cauldron
             ingredient.style.display = 'none'; // Hide the dropped ingredient
+            touchData = null;
+        }
+    }
+
+    function handleTouchStart(event) {
+        if (gameStarted) {
+            touchData = event.target.id;
+        }
+    }
+    
+    function handleTouchMove(event) {
+        if (gameStarted && touchData) {
+            const touch = event.touches[0];
+            const element = document.getElementById(touchData);
+            element.style.position = 'absolute';
+            element.style.left = `${touch.pageX - element.offsetWidth / 2}px`;
+            element.style.top = `${touch.pageY - element.offsetHeight / 2}px`;
+        }
+    }
+    
+    function handleTouchEnd(event) {
+        if (gameStarted && touchData) {
+            const touch = event.changedTouches[0];
+            const cauldron = document.getElementById('cauldron');
+            const cauldronRect = cauldron.getBoundingClientRect();
+    
+            if (touch.pageX >= cauldronRect.left && touch.pageX <= cauldronRect.right &&
+                touch.pageY >= cauldronRect.top && touch.pageY <= cauldronRect.bottom) {
+                const ingredient = document.getElementById(touchData);
+                cauldron.appendChild(ingredient);
+                updateCauldronIngredients(); // Update the count of ingredients in the cauldron
+                ingredient.style.display = 'none'; // Hide the dropped ingredient
+            }
+            touchData = null;
         }
     }
     
@@ -245,11 +281,14 @@ let timerInterval;
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.ingredient').forEach(ingredient => {
             ingredient.addEventListener('dragstart', drag);
-            ingredient.addEventListener('ontouchstart', drag);
+            ingredient.addEventListener('touchstart', handleTouchStart);
         });
         document.getElementById('chopping-board').addEventListener('drop', drop);
         document.getElementById('chopping-board').addEventListener('dragover', allowDrop);
+        document.getElementById('chopping-board').addEventListener('touchmove', handleTouchMove);
         document.getElementById('cauldron').addEventListener('drop', drop);
-        document.getElementById('cauldron').addEventListener('ontouchend', drop);
         document.getElementById('cauldron').addEventListener('dragover', allowDrop);
+        document.getElementById('cauldron').addEventListener('touchmove', handleTouchMove);
+        document.getElementById('cauldron').addEventListener('touchend', handleTouchEnd);
     });
+    
