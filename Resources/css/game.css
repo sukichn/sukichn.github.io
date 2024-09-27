@@ -184,6 +184,15 @@ body{
     flex-direction: column;
     
 }
+@media (min-width: 481px) and (max-width: 768px) {
+    #cauldron-background{
+        top: 300px;
+    }  
+    #chopping-board {
+        top: 350px;
+    }
+}
+
   @media (max-width: 481px) {
         
     #cauldron-background{
