@@ -263,7 +263,9 @@ body{
     height: 50px;
     padding: 2px;
     cursor: move;
-    position: relative; /* Ensure the position is relative to start with */
+    position: absolute; /* Ensure position is absolute for easier manipulation */
+    transition: none; /* Disable transitions to make the movement instant */
+    
 }
 
   .hidden {
