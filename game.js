@@ -35,17 +35,29 @@ const recipes = [
 // Touch event handlers
 function handleTouchStart(e) {
     const touch = e.targetTouches[0];
-    this.style.position = "absolute";
-    this.style.left = touch.pageX - (this.offsetWidth / 2) + "px";
-    this.style.top = touch.pageY - (this.offsetHeight / 2) + "px";
-    this.style.zIndex = 1000;
+    const rect = e.target.getBoundingClientRect();
+
+    touchOffsetX = touch.clientX - rect.left;
+    touchOffsetY = touch.clientY - rect.top;
+
+    e.target.style.position = "absolute";
+    e.target.style.zIndex = 1000;
+    touchData = e.target.id;
+
+    // Move element to the touch position
+    e.target.style.left = (touch.pageX - touchOffsetX) + "px";
+    e.target.style.top = (touch.pageY - touchOffsetY) + "px";
+
     e.preventDefault();
 }
 
 function handleTouchMove(e) {
     const touch = e.targetTouches[0];
-    this.style.left = touch.pageX - (this.offsetWidth / 2) + "px";
-    this.style.top = touch.pageY - (this.offsetHeight / 2) + "px";
+
+    // Move element to the touch position
+    e.target.style.left = (touch.pageX - touchOffsetX) + "px";
+    e.target.style.top = (touch.pageY - touchOffsetY) + "px";
+
     e.preventDefault();
 }
 
