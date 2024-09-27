@@ -81,18 +81,17 @@ let touchOffsetY = 0;
     function allowDrop(event) {
         event.preventDefault();
     }
-
+    
     function drag(event) {
         if (gameStarted) {
             event.dataTransfer.setData("text", event.target.id);
-
         }
     }
-
+    
     function drop(event) {
         if (gameStarted) {
             event.preventDefault();
-            const data = event.dataTransfer.getData("text");
+            const data = event.dataTransfer ? event.dataTransfer.getData("text") : touchData;
             const ingredient = document.getElementById(data);
             event.target.appendChild(ingredient);
             updateCauldronIngredients(); // Update the count of ingredients in the cauldron
@@ -100,25 +99,27 @@ let touchOffsetY = 0;
             touchData = null;
         }
     }
-
+    
     function handleTouchStart(event) {
         if (gameStarted) {
+            event.preventDefault(); // Prevent default touch behavior
             const touch = event.touches[0];
             const element = event.target;
             touchData = element.id;
-            touchOffsetX = touch.pageX - element.getBoundingClientRect().left;
-            touchOffsetY = touch.pageY - element.getBoundingClientRect().top;
+            const rect = element.getBoundingClientRect();
+            touchOffsetX = touch.clientX - rect.left;
+            touchOffsetY = touch.clientY - rect.top;
         }
     }
     
     function handleTouchMove(event) {
         if (gameStarted && touchData) {
+            event.preventDefault(); // Prevent scrolling and other default behaviors
             const touch = event.touches[0];
             const element = document.getElementById(touchData);
             element.style.position = 'absolute';
-            element.style.left = `${touch.pageX - touchOffsetX}px`;
-            element.style.top = `${touch.pageY - touchOffsetY}px`;
-            event.preventDefault(); // Prevent scrolling
+            element.style.left = `${touch.clientX - touchOffsetX}px`;
+            element.style.top = `${touch.clientY - touchOffsetY}px`;
         }
     }
     
@@ -128,23 +129,20 @@ let touchOffsetY = 0;
             const cauldron = document.getElementById('cauldron');
             const cauldronRect = cauldron.getBoundingClientRect();
     
-            if (touch.pageX >= cauldronRect.left && touch.pageX <= cauldronRect.right &&
-                touch.pageY >= cauldronRect.top && touch.pageY <= cauldronRect.bottom) {
+            if (touch.clientX >= cauldronRect.left && touch.clientX <= cauldronRect.right &&
+                touch.clientY >= cauldronRect.top && touch.clientY <= cauldronRect.bottom) {
                 const ingredient = document.getElementById(touchData);
                 cauldron.appendChild(ingredient);
                 updateCauldronIngredients(); // Update the count of ingredients in the cauldron
                 ingredient.style.display = 'none'; // Hide the dropped ingredient
             }
             touchData = null;
+            touchOffsetX = 0;
+            touchOffsetY = 0;
         }
     }
     
-    // Add event listeners to draggable elements
-    document.querySelectorAll('.ingredient').forEach(item => {
-        item.addEventListener('dragstart', function(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        });
-    });
+    
 
         function startGame() {
         gameStarted = true;
