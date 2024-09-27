@@ -2,9 +2,8 @@
     border: 2px solid red;
 }*/
 *{
-    color: white; 
-    font-family: "Work Sans"; 
-   
+    
+    font-family: "Work Sans";  
 }
 body{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/empty-background.png");
@@ -66,8 +65,7 @@ body{
 
 #game-container {
     font-family: 'Work Sans';
-    display: flex;
-    flex-direction: column;
+    color: white;
     align-items: center;
     text-align: center;
     }
@@ -81,6 +79,7 @@ body{
     margin-top: 60px;
     width: 500px;
     font-size: 0.8rem;
+    color: white;
 }
 #controls button{
     margin: 0.5rem;
@@ -145,10 +144,24 @@ body{
     padding: 10px;
     display: inline-block;
     position: relative;
-    top: 70px; /* Move the element back by half of its own width and height */
+    top: 90px; /* Move the element back by half of its own width and height */
 
 }
+/* Cauldron sparkle effect */
+@keyframes sparkAnimation {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(9); opacity: 0; }
+}
 
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparkAnimation 0.5s ease-out;
+}
 
 #cauldron-background {
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");

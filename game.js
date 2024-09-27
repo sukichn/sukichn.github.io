@@ -36,6 +36,44 @@ let timerInterval;
         return recipes[randomRecipe];
     }
 
+    function createSparkleEffect(isMatch) {
+        const cauldron = document.getElementById("cauldron");
+        const cauldronRect = cauldron.getBoundingClientRect();
+        const sparkleCount = 5; // Number of sparkles
+        const radius = 60; // Increase this value to move the sparkles further out
+        const additionalOffsetY = 50; // Additional offset to move the sparks higher
+    
+        // Function to create and animate a sparkle
+        const createSparkle = (offsetX, offsetY) => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            if (isMatch) {
+                sparkle.style.backgroundColor = 'gold';
+            } else {
+                sparkle.style.backgroundColor = 'green';
+            }
+            sparkle.style.left = (cauldronRect.width / 2 - 5 + offsetX) + "px"; // Adjust for positioning
+            sparkle.style.top = (cauldronRect.height / 2 - 5 + offsetY - additionalOffsetY) + "px"; // Adjust for positioning and move higher
+            cauldron.appendChild(sparkle);
+    
+            // Show the spark
+            sparkle.style.display = 'block';
+    
+            // Remove the spark after the animation completes
+            setTimeout(() => {
+                cauldron.removeChild(sparkle);
+            }, 500); // Duration of the animation in milliseconds
+        };
+    
+        // Create multiple sparkles around the center
+        for (let i = 0; i < sparkleCount; i++) {
+            const angle = (i / sparkleCount) * 2 * Math.PI;
+            const offsetX = radius * Math.cos(angle); // Adjust distance from center
+            const offsetY = radius * Math.sin(angle); // Adjust distance from center
+            createSparkle(offsetX, offsetY);
+        }
+    }
+
     // Function for mouse drag and drop
     function allowDrop(event) {
         event.preventDefault();
@@ -54,8 +92,16 @@ let timerInterval;
             const ingredient = document.getElementById(data);
             event.target.appendChild(ingredient);
             updateCauldronIngredients(); // Update the count of ingredients in the cauldron
+            ingredient.style.display = 'none'; // Hide the dropped ingredient
         }
     }
+    
+    // Add event listeners to draggable elements
+    document.querySelectorAll('.ingredient').forEach(item => {
+        item.addEventListener('dragstart', function(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        });
+    });
 
         function startGame() {
         gameStarted = true;
@@ -119,19 +165,27 @@ let timerInterval;
         console.log('Cauldron Ingredients:', cauldronIngredients);
         console.log('Current Recipe Ingredients:', currentRecipe.ingredients);
     
-        // Compare the cauldron ingredients with the required recipe ingredients
-        for (const [ingredient, count] of Object.entries(currentRecipe.ingredients)) {
-            if (!cauldronIngredients[ingredient] || cauldronIngredients[ingredient] < count) {
-                document.getElementById('cauldron-text').innerText="The ingredients do not match the recipe!";
-                return false;
-            }
+        let isMatch = true;
+
+    // Compare the cauldron ingredients with the required recipe ingredients
+    for (const [ingredient, count] of Object.entries(currentRecipe.ingredients)) {
+        if (!cauldronIngredients[ingredient] || cauldronIngredients[ingredient] < count) {
+            isMatch = false;
+            break;
         }
-    
-        // If the ingredients match the recipe
+    }
+
+    // Trigger appropriate spark animation
+    if (isMatch) {
         setCoins(coins + 5);
-        document.getElementById('cauldron-text').innerText="The potion is successfully brewed! You've earned 5 coins.";
+        document.getElementById('cauldron-text').innerText = "The potion is successfully brewed! You've earned 5 coins.";
         console.log('Coins:', coins); // Debugging: Log the updated coin count
-        
+        createSparkleEffect(true);
+    } else {
+        document.getElementById('cauldron-text').innerText = "The ingredients do not match the recipe!";
+        createSparkleEffect(false);
+    }
+
         // Generate and display a new recipe
         currentRecipe = recipeSelector();
         const formattedRecipe = `${currentRecipe.name}: ${Object.entries(currentRecipe.ingredients).map(([ingredient, count]) => `${count} ${ingredient}`).join(', ')}`;
@@ -173,6 +227,7 @@ let timerInterval;
         const ingredients = Array.from(cauldron.getElementsByClassName('ingredient'));
         ingredients.forEach(ingredient => {
             choppingBoard.appendChild(ingredient); // Move each ingredient back to the chopping board
+            ingredient.style.display = 'block'; // Ensure the ingredient is visible
         });
         updateCauldronIngredients(); // Update the cauldron ingredients display to be empty
         document.getElementById('cauldron-ingredients').innerText = 'Your cauldron is empty. Add your ingredients!';
@@ -181,6 +236,7 @@ let timerInterval;
     function resetIngredients() {
         const choppingBoard = document.getElementById('chopping-board');
         document.querySelectorAll('.ingredient').forEach(ingredient => {
+            ingredient.style.display = 'block'; // Reset visibility to block
             choppingBoard.appendChild(ingredient);
         });
     }
