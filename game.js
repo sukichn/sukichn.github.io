@@ -53,7 +53,7 @@ function handleTouchEnd(e) {
     const touch = e.changedTouches[0];
     const cauldron = document.getElementById("cauldron");
     const cauldronRect = cauldron.getBoundingClientRect();
-    const ingredientRect = this.getBoundingClientRect();
+    const ingredientRect = e.target.getBoundingClientRect();
 
     if (
         ingredientRect.left < cauldronRect.right &&
@@ -61,16 +61,19 @@ function handleTouchEnd(e) {
         ingredientRect.top < cauldronRect.bottom &&
         ingredientRect.bottom > cauldronRect.top
     ) {
-        cauldron.appendChild(this);
-        this.style.position = "relative";
-        this.style.left = "0px";
-        this.style.top = "0px";
+        cauldron.appendChild(e.target);
+        e.target.style.position = "relative";
+        e.target.style.left = "0px";
+        e.target.style.top = "0px";
+        e.target.style.display = 'none'; // Hide the dropped ingredient
+        updateCauldronIngredients(); // Update the cauldron text
     } else {
-        this.style.position = "";
-        this.style.left = "";
-        this.style.top = "";
-        this.style.zIndex = "";
+        e.target.style.position = "";
+        e.target.style.left = "";
+        e.target.style.top = "";
+        e.target.style.zIndex = "";
     }
+    touchData = null;
     e.preventDefault();
 }
 
