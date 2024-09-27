@@ -197,12 +197,12 @@ body{
 @media (min-height: 1366px) and (max-width: 1024px) and (orientation: portrait) {
     #cauldron-background {
         position: absolute;
-        top: 30vh; /* Adjust as needed */
+        top: 70vh; /* Adjust as needed */
     }
     
     #chopping-board {
         position: absolute;
-        top: 40vh; /* Adjust as needed */
+        top: 60vh; /* Adjust as needed */
     }
 }
 
