@@ -3,6 +3,8 @@ let timeRemaining = 60;
 let coins = 0;
 let gameStarted = false;
 let touchData = null;
+let touchOffsetX = 0;
+let touchOffsetY = 0;
 
     // Recipes
     const recipes = [
@@ -101,8 +103,11 @@ let touchData = null;
 
     function handleTouchStart(event) {
         if (gameStarted) {
-            e.preventDefault();
-            touchData = event.target.id;
+            const touch = event.touches[0];
+            const element = event.target;
+            touchData = element.id;
+            touchOffsetX = touch.pageX - element.getBoundingClientRect().left;
+            touchOffsetY = touch.pageY - element.getBoundingClientRect().top;
         }
     }
     
@@ -110,9 +115,10 @@ let touchData = null;
         if (gameStarted && touchData) {
             const touch = event.touches[0];
             const element = document.getElementById(touchData);
-            element.style.position = 'relative';
-            element.style.left = `${touch.pageX - element.offsetWidth / 2}px`;
-            element.style.top = `${touch.pageY - element.offsetHeight / 2}px`;
+            element.style.position = 'absolute';
+            element.style.left = `${touch.pageX - touchOffsetX}px`;
+            element.style.top = `${touch.pageY - touchOffsetY}px`;
+            event.preventDefault(); // Prevent scrolling
         }
     }
     
