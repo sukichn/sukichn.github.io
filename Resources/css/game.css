@@ -194,15 +194,15 @@ body{
     }
 }
 
-@media (min-height: 1366px) and (max-width: 1024px) and (orientation: portrait) {
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
     #cauldron-background {
-        position: absolute;
-        top: 70vh; /* Adjust as needed */
+        position: absolute !important;
+        top: 70vh !important; 
     }
     
     #chopping-board {
-        position: absolute;
-        top: 60vh; /* Adjust as needed */
+        position: absolute !important;
+        top: 60vh !important; 
     }
 }
 
