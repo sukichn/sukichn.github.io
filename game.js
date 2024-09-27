@@ -101,6 +101,7 @@ let touchData = null;
 
     function handleTouchStart(event) {
         if (gameStarted) {
+            e.preventDefault();
             touchData = event.target.id;
         }
     }
@@ -109,7 +110,7 @@ let touchData = null;
         if (gameStarted && touchData) {
             const touch = event.touches[0];
             const element = document.getElementById(touchData);
-            element.style.position = 'absolute';
+            element.style.position = 'relative';
             element.style.left = `${touch.pageX - element.offsetWidth / 2}px`;
             element.style.top = `${touch.pageY - element.offsetHeight / 2}px`;
         }
