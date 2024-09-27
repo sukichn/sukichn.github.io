@@ -187,12 +187,10 @@ body{
 @media (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) {
     #cauldron-background{
         top: 380px;
-        width: 100%;
     }  
     #chopping-board {
         top: 470px;
-        max-width: 370px; /* Adjust background size for small screens */
-       position: relative;
+        
     }
 }
 
