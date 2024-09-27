@@ -186,10 +186,13 @@ body{
 }
 @media (min-width: 481px) and (max-width: 768px) {
     #cauldron-background{
-        top: 300px;
+        top: 350px;
+        width: 100%;
     }  
     #chopping-board {
         top: 350px;
+        max-width: 370px; /* Adjust background size for small screens */
+       position: relative;
     }
 }
 
@@ -206,8 +209,6 @@ body{
     
     #chopping-board {
         max-width: 370px; /* Adjust background size for small screens */
-        
-        z-index: 10;
        position: relative;
        top: 240px
     }
