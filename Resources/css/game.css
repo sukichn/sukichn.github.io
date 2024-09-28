@@ -10,6 +10,7 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
   background-position: center;
+  overflow: hidden;
     
 }
 /* TITLE TEXT*/
@@ -196,7 +197,7 @@ body{
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
     #cauldron-background {
-        top: 50vh !important; 
+        top: 40vh !important; 
     }
     
     #chopping-board {
