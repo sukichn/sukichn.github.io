@@ -35,12 +35,9 @@
     </div>
 </header>
 
-<div id="game-container">
-
+  <div id="game-instruction" class="content">
     <h1>The Art of Alchemy</h1>
-
-    <div id="controls">
-      <button id="start-button" onclick="startGame()">Start Brewing</button>
+    <div id="controls"><button id="start-button" onclick="startGame()">Start Brewing</button>
       <button id="play-button" class="hidden" onclick="playGame()">Play Again!</button>
       <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
       <div id="timer">Time: 60</div>
@@ -48,10 +45,12 @@
       
         <div id="message">Start brewing to see a recipe!</div>
         <div id='cauldron-text'></div> 
-        <div id="cauldron-ingredients">Your cauldron is empty. Add your ingredients!</div> 
+      
     </div>
     
+  </div>
 
+<div id="game-container">
 
   
     <div id="chopping-board">
@@ -66,17 +65,19 @@
       <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-2" class="ingredient" draggable="true">
 
     </div>
-    
-  <div id='cauldron-text'></div>
 
+  <div id='cauldron-text'></div>
   <div id ="cauldron-background">
-    <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)">     
+    <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)">
+      
+      
+    </div>
     <div id="cauldron-button">
-        <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Mix ingredients</button>
-        <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
+      <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Mix ingredients</button>
+      <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
     </div> 
-  </div>
-</div>    
+    </div>
+    <div id="cauldron-ingredients"><span>Your cauldron is empty. Add your ingredients!</span></div> 
 </div>
 
 
