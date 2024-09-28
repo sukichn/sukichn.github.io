@@ -2,9 +2,7 @@ let timerInterval;
 let timeRemaining = 60;
 let coins = 0;
 let gameStarted = false;
-let touchData = null;
-let touchOffsetX = 0;
-let touchOffsetY = 0;
+let newX = 0, newY = 0, startX = 0, startY = 0;
 
 // Recipes
 const recipes = [
@@ -31,51 +29,6 @@ const recipes = [
         }
     }
 ];
-
-// Touch event handlers
-function handleTouchStart(e) {
-    const touch = e.targetTouches[0];
-    touchData = e.target.id;
-    e.preventDefault();
-}
-
-function handleTouchMove(e) {
-    const touch = e.targetTouches[0];
-
-    // Move element to the touch position
-    e.target.style.left = (touch.pageX - touchOffsetX) + "px";
-    e.target.style.top = (touch.pageY - touchOffsetY) + "px";
-
-    e.preventDefault();
-}
-
-function handleTouchEnd(e) {
-    const touch = e.changedTouches[0];
-    const cauldron = document.getElementById("cauldron");
-    const cauldronRect = cauldron.getBoundingClientRect();
-    const ingredientRect = e.target.getBoundingClientRect();
-
-    if (
-        ingredientRect.left < cauldronRect.right &&
-        ingredientRect.right > cauldronRect.left &&
-        ingredientRect.top < cauldronRect.bottom &&
-        ingredientRect.bottom > cauldronRect.top
-    ) {
-        cauldron.appendChild(e.target);
-        e.target.style.position = "relative";
-        e.target.style.left = "0px";
-        e.target.style.top = "0px";
-        e.target.style.display = 'none'; // Hide the dropped ingredient
-        updateCauldronIngredients(); // Update the cauldron text
-    } else {
-        e.target.style.position = "";
-        e.target.style.left = "";
-        e.target.style.top = "";
-        e.target.style.zIndex = "";
-    }
-    touchData = null;
-    e.preventDefault();
-}
 
 // Function to select a random recipe
 function recipeSelector() {
@@ -131,12 +84,11 @@ function drag(event) {
 function drop(event) {
     if (gameStarted) {
         event.preventDefault();
-        const data = event.dataTransfer ? event.dataTransfer.getData("text") : touchData;
+        const data = event.dataTransfer.getData("text");
         const ingredient = document.getElementById(data);
         event.target.appendChild(ingredient);
         updateCauldronIngredients(); // Update the count of ingredients in the cauldron
         ingredient.style.display = 'none'; // Hide the dropped ingredient
-        touchData = null;
     }
 }
 
@@ -187,6 +139,9 @@ function updateCauldronIngredients() {
     }
     ingredientsText = ingredientsText.slice(0, -2); // Remove trailing comma and space
     document.getElementById('cauldron-ingredients').innerText = ingredientsText;
+
+    console.log('Cauldron Ingredients:', cauldronIngredients); // Log the cauldron ingredients
+    console.log('Current Recipe Ingredients:', currentRecipe.ingredients);
 }
 
 function checkRecipeMatch() {
@@ -199,8 +154,7 @@ function checkRecipeMatch() {
         cauldronIngredients[ingredientName] = (cauldronIngredients[ingredientName] || 0) + 1;
     });
 
-    console.log('Cauldron Ingredients:', cauldronIngredients);
-    console.log('Current Recipe Ingredients:', currentRecipe.ingredients);
+    
 
     let isMatch = true;
 
@@ -291,11 +245,4 @@ document.addEventListener('DOMContentLoaded', () => {
     choppingBoard.addEventListener('dragover', allowDrop);
     cauldron.addEventListener('drop', drop);
     cauldron.addEventListener('dragover', allowDrop);
-
-    // Add touch event listeners
-    ingredients.forEach(ingredient => {
-        ingredient.addEventListener('touchstart', handleTouchStart, false);
-        ingredient.addEventListener('touchmove', handleTouchMove, false);
-        ingredient.addEventListener('touchend', handleTouchEnd, false);
-    });
 });
