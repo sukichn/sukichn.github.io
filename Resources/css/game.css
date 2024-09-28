@@ -2,7 +2,7 @@
     border: 2px solid red;
 }*/
 *{
-    
+    border: 2px solid red;
     font-family: "Work Sans";  
 }
 body{
@@ -100,7 +100,7 @@ body{
 }
 
 #clear-button, #brew-button{
-    margin: 0.9rem 0 0.3rem 0;
+    margin: 0 0 0.3rem 0;
     width: 130px;
     height: 1.8rem;
     font-family: "Work Sans";
@@ -141,11 +141,11 @@ body{
 
 #cauldron {
     width: 370px;
-    height: 80px;
+    height: 150px;
     padding: 10px;
     display: inline-block;
     position: relative;
-    top: 90px; /* Move the element back by half of its own width and height */
+    top: 30px; /* Move the element back by half of its own width and height */
 
 }
 /* Cauldron sparkle effect */
@@ -178,7 +178,7 @@ body{
   }
  
 #cauldron-button{
-    top: 80px;
+    top: 20px;
     position: relative;
     align-items: center;
     display: flex;
