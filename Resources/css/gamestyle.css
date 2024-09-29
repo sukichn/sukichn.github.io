@@ -1,0 +1,35 @@
+.hidden {
+    display: none;
+  }
+
+  header{
+    width: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+  }
+  #game-container {
+    position: fixed;
+    top: 400px;
+  }
+  
+  #reset-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  #reset-button {
+    /* Additional styles for the button if needed */
+  }
+  
+  .ingredient{
+    width: 60px;
+    height: 60px;
+  }  

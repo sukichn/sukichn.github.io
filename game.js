@@ -1,99 +1,264 @@
 let timerInterval;
-    let timeRemaining = 60;
-    let coins = 0;
-    let gameStarted = false;
+let timeRemaining = 60;
+let coins = 0;
+let gameStarted = false;
+let currentRecipe = null; // To keep track of the current recipe
+const initialPositions = {}; // To store initial positions of draggable elements
 
-    // Recipes
-    const recipes = [
-        {
-            name: "Potion I",
-            ingredients: {
-                Herb: 1,
-                Berry: 2
-            }
-        },
-        {
-            name: "Potion II",
-            ingredients: {
-                Mushroom: 2,
-                Berry: 1
-            }
-        },
-        {
-            name: "Potion III",
-            ingredients: {
-                Herb: 2,
-                Mushroom: 1,
-                Berry: 1
-            }
+// Recipes
+const recipes = [
+    {
+        name: "Potion I",
+        ingredients: {
+            Herb: 1,
+            Berry: 2
         }
-    ];
-    interact('.drag-drop')
-    .draggable({
-      inertia: true,
-      modifiers: [
-        interact.modifiers.restrictRect({
-          restriction: 'parent',
-          endOnly: true
-        })
-      ],
-      autoScroll: true,
-      // dragMoveListener from the dragging demo above
-      listeners: { move: dragMoveListener }
-    })
-    function dragMoveListener (event) {
-        var target = event.target
-        // keep the dragged position in the data-x/data-y attributes
-        var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-        var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-      
-        // translate the element
-        target.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
-      
-        // update the posiion attributes
-        target.setAttribute('data-x', x)
-        target.setAttribute('data-y', y)
-      }
+    },
+    {
+        name: "Potion II",
+        ingredients: {
+            Mushroom: 2,
+            Berry: 1
+        }
+    },
+    {
+        name: "Potion III",
+        ingredients: {
+            Herb: 2,
+            Mushroom: 1,
+            Berry: 1
+        }
+    }
+];
 
-    // enable draggables to be dropped into this
+interact('.drag-drop')
+    .draggable({
+        inertia: true,
+        modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: 'parent',
+                endOnly: true
+            })
+        ],
+        autoScroll: true,
+        listeners: { move: dragMoveListener }
+    });
+
+function dragMoveListener(event) {
+    var target = event.target;
+    // keep the dragged position in the data-x/data-y attributes
+    var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+    var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the position attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+}
+
+// enable draggables to be dropped into this
 interact('.dropzone').dropzone({
     // only accept elements matching this CSS selector
-    accept: '#yes-drop',
+    accept: '.yes-drop',
     // Require a 75% element overlap for a drop to be possible
     overlap: 0.75,
-  
+
     // listen for drop related events:
-  
     ondropactivate: function (event) {
-      // add active dropzone feedback
-      event.target.classList.add('drop-active')
+        // add active dropzone feedback
+        event.target.classList.add('drop-active');
     },
     ondragenter: function (event) {
-      var draggableElement = event.relatedTarget
-      var dropzoneElement = event.target
-  
-      // feedback the possibility of a drop
-      dropzoneElement.classList.add('drop-target')
-      draggableElement.classList.add('can-drop')
+        var draggableElement = event.relatedTarget;
+        var dropzoneElement = event.target;
+
+        // feedback the possibility of a drop
+        dropzoneElement.classList.add('drop-target');
+        draggableElement.classList.add('can-drop');
     },
-    
-    
-    
+    ondragleave: function (event) {
+        // remove the drop feedback style
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+    },
+    ondrop: function (event) {
+        // Append the dropped element to the dropzone
+        var draggableElement = event.relatedTarget;
+        var dropzoneElement = event.target;
+
+        // Reset the transformation and position attributes
+        draggableElement.style.transform = 'translate(0px, 0px)';
+        draggableElement.setAttribute('data-x', 0);
+        draggableElement.setAttribute('data-y', 0);
+        
+        dropzoneElement.appendChild(draggableElement);
+
+        // update the count of yes-drop elements in inner-dropzone and display the message
+        displayCauldronMessage();
+        checkRecipeMatch();
+    },
     ondropdeactivate: function (event) {
-      // remove active dropzone feedback
-      event.target.classList.remove('drop-active')
-      event.target.classList.remove('drop-target')
+        // remove active dropzone feedback
+        event.target.classList.remove('drop-active');
+        event.target.classList.remove('drop-target');
     }
-  })
-  
-  
+});
 
-    // Function to select a random recipe
-    function recipeSelector() {
-        let randomRecipe = Math.floor(Math.random() * recipes.length);
-        return recipes[randomRecipe];
+function displayCauldronMessage() {
+    const innerDropzone = document.getElementById('inner-dropzone');
+    const yesDropElements = innerDropzone.querySelectorAll('.yes-drop');
+    
+    const ingredientCounts = {};
+
+    yesDropElements.forEach(element => {
+        const altText = element.getAttribute('alt');
+        if (ingredientCounts[altText]) {
+            ingredientCounts[altText]++;
+        } else {
+            ingredientCounts[altText] = 1;
+        }
+    });
+
+    let message = 'Cauldron ingredients: ';
+    for (const [ingredient, count] of Object.entries(ingredientCounts)) {
+        message += `${count} ${ingredient} `;
     }
 
+    document.getElementById('new-message').innerText = message.trim();
+}
+
+function checkRecipeMatch() {
+    const innerDropzone = document.getElementById('inner-dropzone');
+    const yesDropElements = innerDropzone.querySelectorAll('.yes-drop');
+    const ingredientCounts = {};
+
+    yesDropElements.forEach(element => {
+        const altText = element.getAttribute('alt');
+        if (ingredientCounts[altText]) {
+            ingredientCounts[altText]++;
+        } else {
+            ingredientCounts[altText] = 1;
+        }
+    });
+
+    if (!currentRecipe) return;
+
+    const recipeIngredients = currentRecipe.ingredients;
+    let match = true;
+
+    for (const [ingredient, quantity] of Object.entries(recipeIngredients)) {
+        if (ingredientCounts[ingredient] !== quantity) {
+            match = false;
+            break;
+        }
+    }
+
+    if (match) {
+        coins += 5;
+        document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
+        document.getElementById('coins').innerText = `Coins: ${coins}`;
+        document.getElementById('new-message').innerText = 'Your cauldron is empty. Add your ingredients!'
+        resetIngredients();
+        displayRandomRecipe();
+    } else {
+        document.getElementById('cauldron-text').innerText = "Your ingredients do not match the recipe!";
+    }
+}
+
+function startGame() {
+    document.getElementById('start-button').classList.add('hidden');
+    document.getElementById('end-button').classList.remove('hidden');
+    document.getElementById('clear-button').classList.remove('hidden');
+    
+    // Store initial positions of draggable elements
+    storeInitialPositions();
+    
+    // Start the timer
+    startTimer(60); // Start the timer with 60 seconds
+
+    // Display random recipe
+    displayRandomRecipe();
+}
+
+function endGame(autoEnd = false) {
+    if (autoEnd || confirm('Are you sure you want to end the game?')) {
+        clearInterval(timerInterval);
+        document.getElementById('end-button').classList.add('hidden');
+        document.getElementById('play-button').classList.remove('hidden');
+    }
+}
+
+function playGame() {
+    document.getElementById('start-button').classList.remove('hidden');
+    document.getElementById('play-button').classList.add('hidden');
+    document.getElementById('timer').innerText = 'Time: 60';
+    document.getElementById('message').innerText = 'Start brewing to see a recipe!';
+    document.getElementById('coins').innerText = 'Coins: 0';
+    coins = 0; // Reset coins
+}
+
+function startTimer(duration) {
+    let timer = duration;
+    const timerDisplay = document.getElementById('timer');
+
+    timerInterval = setInterval(() => {
+        let minutes = Math.floor(timer / 60);
+        let seconds = timer % 60;
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        timerDisplay.innerText = `Time: ${minutes}:${seconds}`;
+
+        if (--timer < 0) {
+            clearInterval(timerInterval);
+            endGame(true);
+        }
+    }, 1000);
+}
+
+function displayRandomRecipe() {
+    const randomIndex = Math.floor(Math.random() * recipes.length);
+    currentRecipe = recipes[randomIndex];
+
+    let recipeText = `Recipe: ${currentRecipe.name} - `;
+    for (const [ingredient, quantity] of Object.entries(currentRecipe.ingredients)) {
+        recipeText += `${quantity} ${ingredient}, `;
+    }
+    recipeText = recipeText.slice(0, -2); // Remove trailing comma and space
+
+    document.getElementById('message').innerText = recipeText;
+}
+
+function storeInitialPositions() {
+    const draggableElements = document.querySelectorAll('.drag-drop');
+    draggableElements.forEach(element => {
+        const rect = element.getBoundingClientRect();
+        initialPositions[element.id] = { x: rect.left, y: rect.top };
+    });
+}
+
+function resetIngredients() {
+    const draggableElements = document.querySelectorAll('.drag-drop');
+    draggableElements.forEach(element => {
+        const initialPosition = initialPositions[element.id];
+        element.style.transform = `translate(0px, 0px)`;
+        element.setAttribute('data-x', 0);
+        element.setAttribute('data-y', 0);
+
+        // Move the element back to its initial position
+        element.style.left = `${initialPosition.x}px`;
+        element.style.top = `${initialPosition.y}px`;
+
+        // Append the element back to its original parent
+        document.body.appendChild(element);
+
+        //Reset cauldron ingredients message
+        document.getElementById('new-message').innerText = 'Your cauldron is empty. Add your ingredients!';
+    });
+}
+/*
     function createSparkleEffect(isMatch) {
         const cauldron = document.getElementById("cauldron");
         const cauldronRect = cauldron.getBoundingClientRect();
@@ -132,7 +297,7 @@ interact('.dropzone').dropzone({
         }
     }
 
-   /* // Function for mouse drag and drop
+   // Function for mouse drag and drop
     function allowDrop(event) {
         event.preventDefault();
     }
@@ -159,7 +324,7 @@ interact('.dropzone').dropzone({
         item.addEventListener('dragstart', function(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
         });
-    });*/
+    });
 
         function startGame() {
         gameStarted = true;
@@ -299,16 +464,14 @@ interact('.dropzone').dropzone({
         });
     }
    
-/*
+
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.ingredient').forEach(ingredient => {
             ingredient.addEventListener('dragstart', drag);
-            ingredient.addEventListener('ontouchstart', drag);
         });
         document.getElementById('chopping-board').addEventListener('drop', drop);
         document.getElementById('chopping-board').addEventListener('dragover', allowDrop);
         document.getElementById('cauldron').addEventListener('drop', drop);
-        document.getElementById('cauldron').addEventListener('ontouchend', drop);
         document.getElementById('cauldron').addEventListener('dragover', allowDrop);
-    });*/
-
+    });
+*/

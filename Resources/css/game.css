@@ -2,49 +2,73 @@
     border: 2px solid red;
 }*/
 
-#outer-dropzone {
-    height: 140px;
-  }
-  
-  #inner-dropzone {
-    height: 80px;
-  }
-  
-  .dropzone {
-    background-color: #bfe4ff;
-    border: dashed 4px transparent;
-    border-radius: 4px;
-    margin: 10px auto 30px;
-    padding: 10px;
-    width: 80%;
-    transition: background-color 0.3s;
-  }
-  
-  .drop-active {
-    border-color: #aaa;
-  }
-  
-  .drop-target {
-    background-color: #29e;
-    border-color: #fff;
-    border-style: solid;
-  }
-  
-  .drag-drop {
-    display: inline-block;
-    min-width: 40px;
-    padding: 2em 0.5em;
-    margin: 1rem 0 0 1rem;
-  
+   #game{
     
+    margin-top: 300px;
+    width: 420px;
+   }
+  
+    #outer-dropzone {
+        background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 110%;
+        height: 420px;
+        width: 100%;
+    }
+      
+      #inner-dropzone {
+        height: 100px;
+      }
+      
+      .dropzone {
+        background-color: #bfe4ff;
+        border: dashed 4px transparent;
+        border-radius: 4px;
+        margin: 10px auto 30px;
+        padding: 10px;
+        width: 80%;
+        transition: background-color 0.3s;
+      }
+      
+      .drop-active {
+        border-color: #aaa;
+      }
+      
+      .drop-target {
+        background-color: #29e;
+        border-color: green;
+        border-style: solid;
+      }
+      
+      .drag-drop {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+      
+        color: #fff;
+        background-color: transparent;
+        border: solid 2px #fff;
+      
+        touch-action: none;
+      
+        transition: background-color 0.3s;
+
+        
+        cursor: grab;
+        
+        
+
+       
+      
     
-  
-    touch-action: none;
-    transform: translate(0px, 0px);
-  
-    transition: background-color 0.3s;
-  }
-  
+    }
+    
+      
+      .drag-drop.can-drop {
+        color: #000;
+        background-color: #4e4;
+      }
   
 
 *{
@@ -56,7 +80,13 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
   background-position: center;
-  overflow: hidden;
+
+  align-items: center;
+  justify-content: center;
+  
+ 
+height: 1000px;
+ 
     
 }
 /* TITLE TEXT*/
@@ -115,6 +145,8 @@ body{
     color: white;
     align-items: center;
     text-align: center;
+    display: flex;
+    flex-direction: column;
     }
 #controls{
     display: flex;
@@ -186,12 +218,11 @@ body{
 }
 
 #cauldron {
-    width: 370px;
+   
     height: 150px;
-    padding: 10px;
-    display: inline-block;
-    position: relative;
-    top: 30px; /* Move the element back by half of its own width and height */
+    
+    
+    background-color: pink;
 
 }
 /* Cauldron sparkle effect */
@@ -211,20 +242,11 @@ body{
 }
 
 #cauldron-background {
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 90%;
-    width: 500px;
-    height: 365px;
-    top: 360px;
-    display: inline-block;
-    position: relative;
-    
+ 
   }
  
 #cauldron-button{
-    top: 20px;
+    
     position: relative;
     align-items: center;
     display: flex;
