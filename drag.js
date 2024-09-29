@@ -6,7 +6,7 @@ interact('.dropzone').dropzone({
   // only accept elements matching this CSS selector
   accept: '#yes-drop, .drag-drop',
   // Require a 75% element overlap for a drop to be possible
-  overlap: 0.75,
+  overlap: 0.85,
 
   // listen for drop related events:
   ondropactivate: function (event) {
@@ -20,16 +20,20 @@ interact('.dropzone').dropzone({
     // feedback the possibility of a drop
     dropzoneElement.classList.add('drop-target');
     draggableElement.classList.add('can-drop');
-    draggableElement.textContent = 'Dragged in';
+    event.relatedTarget.textContent = event.relatedTarget.getAttribute('alt');
   },
   ondragleave: function (event) {
     // remove the drop feedback style
     event.target.classList.remove('drop-target');
     event.relatedTarget.classList.remove('can-drop');
     event.relatedTarget.textContent = 'Dragged out';
+  
   },
   ondrop: function (event) {
-    event.relatedTarget.textContent = 'Dropped';
+    //event.relatedTarget.textContent = 'Dropped';//
+    event.relatedTarget.textContent = event.relatedTarget.getAttribute('alt') + ' Dropped';
+
+    
   },
   ondropdeactivate: function (event) {
     // remove active dropzone feedback
@@ -77,6 +81,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 
+// Update the cauldron status
+function updateCauldronStatus() {
+    const innerDropzone = document.getElementById('inner-dropzone');
+    const yesDropElements = innerDropzone.querySelectorAll('.yes-drop');
+    
+    const ingredientCounts = {};
+
+    yesDropElements.forEach(element => {
+        const altText = element.getAttribute('alt');
+        if (ingredientCounts[altText]) {
+            ingredientCounts[altText]++;
+        } else {
+            ingredientCounts[altText] = 1;
+        }
+    });
+
+    let message = 'Cauldron ingredients: ';
+    for (const [ingredient, count] of Object.entries(ingredientCounts)) {
+        message += `${count} ${ingredient} `;
+    }
+
+    document.getElementById('cauldron-status').innerText = message.trim();
+}
 // Reset function to move elements back to their original positions
 function reset() {
   const draggableElements = document.querySelectorAll('.drag-drop');
@@ -85,9 +112,7 @@ function reset() {
     element.style.transform = 'translate(0px, 0px)'; // Reset the transform
     element.setAttribute('data-x', initialPosition.x);
     element.setAttribute('data-y', initialPosition.y);
-    element.textContent = element.id;
+    element.textContent = element.getAttribute('alt');
   });
+  updateCauldronStatus();
 }
-
-// This function is used later in the resizing and gesture demos
-window.dragMoveListener = dragMoveListener;

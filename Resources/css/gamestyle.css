@@ -15,6 +15,7 @@
   #game-container {
     position: fixed;
     top: 400px;
+    height: 400px;
   }
   
   #reset-button-container {

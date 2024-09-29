@@ -3,15 +3,17 @@
 }
 
 #outer-dropzone {
-  height: 140px;
+  height: 200px;
   width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  margin: 10px auto 30px;
 }
 
 #inner-dropzone {
-  height: 80px;
+  height: 150px;
+  border: 1px solid orange;
 }
 
 .dropzone {
