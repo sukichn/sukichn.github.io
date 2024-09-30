@@ -87,7 +87,8 @@ interact('.dropzone').dropzone({
         
         dropzoneElement.appendChild(draggableElement);
 
-        event.relatedTarget.textContent = event.relatedTarget.getAttribute('alt') + ' Dropped';
+        // Hide ingredient when dropped
+        draggableElement.classList.add('hidden');
         // update the count of yes-drop elements in inner-dropzone and display the message
         displayCauldronMessage();
         checkRecipeMatch();
@@ -204,6 +205,7 @@ function playGame() {
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
     document.getElementById('cauldron-text').innerText = "";
+    document.getElementById('cauldron-status').innerText = "Your cauldron is empty. Add your ingredients!";
 }
 
 function startTimer(duration) {
@@ -263,5 +265,6 @@ function reset() {
       element.setAttribute('data-x', 0);
       element.setAttribute('data-y', 0);
       element.textContent = element.getAttribute('alt');
+      element.classList.remove('hidden'); // Reset visibility
     });
 }
