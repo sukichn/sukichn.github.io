@@ -129,10 +129,13 @@ function displayCauldronMessage() {
 
     let message = 'Cauldron ingredients: ';
     for (const [ingredient, count] of Object.entries(ingredientCounts)) {
-        message += `${count} ${ingredient} `;
+        message += `${count} ${ingredient}, `;
     }
 
-    document.getElementById('new-message').innerText = message.trim();
+    // Remove the trailing comma and space
+    message = message.slice(0, -2);
+
+    document.getElementById('cauldron-status').innerText = message.trim();
 }
 
 function checkRecipeMatch() {
@@ -165,7 +168,7 @@ function checkRecipeMatch() {
         coins += 5;
         document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
         document.getElementById('coins').innerText = `Coins: ${coins}`;
-        document.getElementById('new-message').innerText = 'Your cauldron is empty. Add your ingredients!'
+        document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!'
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
     } else {
@@ -200,6 +203,7 @@ function playGame() {
     document.getElementById('coins').innerText = 'Coins: 0';
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
+    document.getElementById('cauldron-text').innerText = "";
 }
 
 function startTimer(duration) {

@@ -1,8 +1,22 @@
 * {
     border: 1px solid red;
+    font-family: "Work Sans";
+    color: white;
   }
   header{
     width: 100%;
+  }
+
+  #game-background {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    height: 1000px;
+    width: 100%;
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/empty-background.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  background-position: center;
   }
 
   body {
@@ -15,25 +29,43 @@
 
   #game-container {
     position: fixed;
-    top: 300px;
-    height: 400px;
+    top: 390px;
+    height: 420px;
+    width: 530px;
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 75%;
   }
 
+  #game-instruction{
+    height: 200px;
+  }
 #controls{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
+#timer, #coins, #message, #cauldron-status{
+    margin: 0.3rem;
+}
+
+#cauldron-status{
+text-align: center;
+}
+
   
   #outer-dropzone {
-    height: 200px;
+    height: 320px;
     width: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 10px auto 30px;
     align-items: center;
+
   }
   
   #inner-dropzone {
@@ -42,11 +74,10 @@
   }
   
   .dropzone {
-    background-color: #bfe4ff;
+    background-color: transparent;
     border: dashed 4px transparent;
     border-radius: 4px;
-    margin: 10px auto 30px;
-    padding: 10px;
+    
     width: 80%;
     transition: background-color 0.3s;
   }
@@ -63,14 +94,13 @@
   
   .drag-drop {
     display: inline-block;
-    min-width: 40px;
+    width: 50px;
+    height: 50px;
     
     color: #fff;
     background-color: #29e;
     border: solid 2px #fff;
     touch-action: none;
-    transform: translate(0px, 0px);
-    transition: background-color 0.3s;
   }
   
   .drag-drop.can-drop {
