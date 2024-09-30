@@ -169,6 +169,7 @@ function checkRecipeMatch() {
         coins += 5;
         document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
         document.getElementById('coins').innerText = `Coins: ${coins}`;
+        runAnimations(true);
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
     } else {
@@ -273,6 +274,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
       element.classList.add('hidden');// Ensure ingredients are hidden when the DOM is loaded
     });
     document.getElementById('reset-button').style.display = 'none'; // Hide reset button
+
+    // Add event listeners for animation end
+    document.getElementById('coin1').addEventListener('animationend', () => {
+        document.getElementById('coin1').classList.add('hidden');
+    });
+    document.getElementById('coin2').addEventListener('animationend', () => {
+        document.getElementById('coin2').classList.add('hidden');
+    });
 });
   
 // Reset function to move elements back to their original positions and containers
@@ -291,4 +300,27 @@ function reset() {
       element.classList.remove('hidden'); // Reset visibility
       document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!'
     });
+}
+
+function runAnimations(condition) {
+    if (condition) {
+        resetAnimations(); // Ensure previous animations are reset
+
+        // Unhide coins
+        const coins = document.querySelectorAll('.coin');
+        coins.forEach(element => {
+        element.classList.remove('hidden');
+    });
+
+        // Use a timeout to force a reflow and trigger the animations again
+        setTimeout(() => {
+            document.getElementById('coin1').classList.add('animate-coin1');
+            document.getElementById('coin2').classList.add('animate-coin2');
+        }, 0);
+    }
+}
+
+function resetAnimations() {
+    document.getElementById('coin1').classList.remove('animate-coin1');
+    document.getElementById('coin2').classList.remove('animate-coin2');
 }

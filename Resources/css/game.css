@@ -110,9 +110,14 @@ text-align: center;
   }
   
   #inner-dropzone {
-    height: 170px;
-    border: 1px solid transparent;
+    height: 150px;
+    border: 1px solid orange;
     border-radius: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+
   }
   
   .dropzone {
@@ -178,6 +183,53 @@ text-align: center;
     display: none;
 }  
 
+/* Animate coins */
+.coin {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    margin: 2px;
+}
+
+#coin1 {
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Herb.png");
+    background-position: center;
+    background-repeat: none;
+    background-size: 100%;
+}
+
+#coin2 {
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Herb.png");
+    background-position: center;
+    background-repeat: none;
+    background-size: 100%;
+}
+
+.animate-coin1 {
+    animation-name: coin1Animation;
+    animation-duration: 600ms;  
+    animation-delay: 0;
+    animation-fill-mode: forwards;
+}
+
+.animate-coin2 {
+    animation-name: coin2Animation;
+    animation-duration: 600ms;  
+    animation-delay: 100ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes coin1Animation {
+    from {top: 200px; background-color: yellow;}
+    to {top: 0px; background-color: transparent;}
+}
+
+@keyframes coin2Animation {
+    from {left: 10px; top: 150px; background-color: green;}
+    to {top: 0px; background-color: transparent;}
+}
+
+/* Media query for screen sizes */
 @media (max-width: 481px) {
     h1{
         display: none;
