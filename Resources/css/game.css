@@ -1,7 +1,7 @@
 * {
     border: 1px solid red;
     font-family: "Work Sans";
-    color: white;
+
   }
   header{
     width: 100%;
@@ -11,12 +11,13 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    height: 1000px;
+    height: 1300px;
     width: 100%;
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/empty-background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
   background-position: center;
+  color: white;
   }
 
   body {
@@ -29,9 +30,9 @@
 
   #game-container {
     position: fixed;
-    top: 390px;
+    top: 440px;
     height: 420px;
-    width: 530px;
+    width: 550px;
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
     background-repeat: no-repeat;
     background-position: bottom;
@@ -39,7 +40,9 @@
   }
 
   #game-instruction{
-    height: 200px;
+    height: 100px;
+    position: fixed;
+    top: 70px;
   }
 #controls{
     display: flex;
@@ -48,7 +51,7 @@
     align-items: center;
 }
 
-#timer, #coins, #message, #cauldron-status{
+#timer, #coins, #message, #cauldron-status, #cauldron-text{
     margin: 0.3rem;
 }
 
@@ -56,9 +59,26 @@
 text-align: center;
 }
 
-  
+#controls button{
+    margin: 0.5rem;
+    width: 150px;
+    height: 2rem;
+    font-family: "Work Sans";
+    background-color: rgba(176, 229, 192, 0.89);
+    border-radius: 20px;
+    border: none; 
+} 
+#reset-button{
+    margin-top: 50px;
+    width: 110px;
+    height: 1.5rem;
+    font-family: "Work Sans";
+    background-color: rgba(176, 229, 192, 0.89);
+    border-radius: 20px;
+    border: none; 
+} 
   #outer-dropzone {
-    height: 320px;
+    height: 250px;
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -111,3 +131,28 @@ text-align: center;
 .hidden{
     display: none;
 }  
+
+@media (max-width: 481px) {
+    h1{
+        display: none;
+    }
+    #game-background {
+        font-size: 0.8rem;
+    }
+    #game-container{
+        top: 280px;
+        width: 350px;
+        background-size: 120%;
+    }
+    #outer-dropzone{
+        width: 350px;
+        height: 230px;
+    }
+    .drag-drop{
+        width: 40px;
+        height: 40px;
+    }
+    #reset-button{
+        margin-top: 20px;
+    }
+}
