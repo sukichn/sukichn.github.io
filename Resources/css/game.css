@@ -43,11 +43,11 @@
     position: fixed;
     top: 440px;
     height: 420px;
-    width: 620px;
+    width: 650px;
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
     background-repeat: no-repeat;
     background-position: bottom;
-    background-size: 75%;
+    background-size: 70%;
   }
 
   #game-instruction{
@@ -132,6 +132,7 @@ text-align: center;
     background-color: rgba(255, 213, 0, 0.251);
     border-color: transparent;
     border-style: solid;
+    
   }
   
   .drag-drop {
@@ -141,7 +142,7 @@ text-align: center;
     
     color: transparent;
     background-color: transparent;
-    border: solid 2px transparent;
+    border: solid 3px transparent;
     touch-action: none;
 
     
