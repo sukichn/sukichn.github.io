@@ -169,7 +169,6 @@ function checkRecipeMatch() {
         coins += 5;
         document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
         document.getElementById('coins').innerText = `Coins: ${coins}`;
-        document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!'
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
     } else {
@@ -180,7 +179,15 @@ function checkRecipeMatch() {
 function startGame() {
     document.getElementById('start-button').classList.add('hidden');
     document.getElementById('end-button').classList.remove('hidden');
+    document.getElementById('reset-button').style.display = 'block'; // Unhide reset button
+    document.getElementById('reset-button').disabled = false; // Enable reset button when the game starts
     
+    // Show ingredients when the game starts
+    const draggableElements = document.querySelectorAll('.drag-drop');
+    draggableElements.forEach(element => {
+        element.classList.remove('hidden');
+    });
+
     // Start the timer
     startTimer(60); // Start the timer with 60 seconds
 
@@ -193,6 +200,13 @@ function endGame(autoEnd = false) {
         clearInterval(timerInterval);
         document.getElementById('end-button').classList.add('hidden');
         document.getElementById('play-button').classList.remove('hidden');
+        document.getElementById('reset-button').disabled = true; // Disable reset button when the game ends;
+        // Hide ingredients when the game end
+        const draggableElements = document.querySelectorAll('.drag-drop');
+        draggableElements.forEach(element => {
+        element.classList.add('hidden');
+    });
+    
     }
 }
 
@@ -205,7 +219,6 @@ function playGame() {
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
     document.getElementById('cauldron-text').innerText = "";
-    document.getElementById('cauldron-status').innerText = "Your cauldron is empty. Add your ingredients!";
 }
 
 function startTimer(duration) {
@@ -249,7 +262,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         y: element.offsetTop
       };
       initialParents[element.id] = element.parentElement; // Store the initial parent container
+      
+      element.classList.add('hidden');// Ensure ingredients are hidden when the DOM is loaded
     });
+    document.getElementById('reset-button').style.display = 'none'; // Hide reset button
 });
   
 // Reset function to move elements back to their original positions and containers
@@ -266,5 +282,6 @@ function reset() {
       element.setAttribute('data-y', 0);
       element.textContent = element.getAttribute('alt');
       element.classList.remove('hidden'); // Reset visibility
+      document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!'
     });
 }

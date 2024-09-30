@@ -64,6 +64,16 @@
 #timer, #coins, #message, #cauldron-status, #cauldron-text{
     margin: 0.3rem;
 }
+#controls button:hover, #reset-button:hover{
+    background-color: rgba(103, 230, 141, 0.895);
+}
+#controls button:active, #reset-button:active{
+    background-color: rgba(99, 185, 125, 0.952);
+}
+#controls button:disabled, #reset-button:disabled {
+    background-color: rgba(200, 200, 200, 0.5); /* Adjust the color as needed */
+    cursor: not-allowed; /* Change the cursor to indicate the button is not clickable */
+}
 
 #cauldron-status{
 text-align: center;
@@ -99,8 +109,9 @@ text-align: center;
   }
   
   #inner-dropzone {
-    height: 150px;
-    border: 1px solid orange;
+    height: 170px;
+    border: 1px solid transparent;
+    border-radius: 100px;
   }
   
   .dropzone {
@@ -117,7 +128,7 @@ text-align: center;
   }
   
   .drop-target {
-    background-color: transparent;
+    background-color: rgba(255, 213, 0, 0.251);
     border-color: transparent;
     border-style: solid;
   }
