@@ -111,7 +111,7 @@ text-align: center;
   
   #inner-dropzone {
     height: 150px;
-    border: 1px solid orange;
+    border: 1px solid transparent;
     border-radius: 100px;
     display: flex;
     flex-direction: row;
@@ -185,21 +185,21 @@ text-align: center;
 
 /* Animate coins */
 .coin {
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     position: relative;
     margin: 2px;
 }
 
 #coin1 {
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Herb.png");
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin.png");
     background-position: center;
     background-repeat: none;
     background-size: 100%;
 }
 
 #coin2 {
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Herb.png");
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin.png");
     background-position: center;
     background-repeat: none;
     background-size: 100%;
@@ -220,12 +220,12 @@ text-align: center;
 }
 
 @keyframes coin1Animation {
-    from {top: 200px; background-color: yellow;}
+    from {top: 200px; background-color: transparent;}
     to {top: 0px; background-color: transparent;}
 }
 
 @keyframes coin2Animation {
-    from {left: 10px; top: 150px; background-color: green;}
+    from {left: 10px; top: 150px; background-color: transparent;}
     to {top: 0px; background-color: transparent;}
 }
 
