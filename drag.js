@@ -81,29 +81,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 
-// Update the cauldron status
-function updateCauldronStatus() {
-    const innerDropzone = document.getElementById('inner-dropzone');
-    const yesDropElements = innerDropzone.querySelectorAll('.yes-drop');
-    
-    const ingredientCounts = {};
 
-    yesDropElements.forEach(element => {
-        const altText = element.getAttribute('alt');
-        if (ingredientCounts[altText]) {
-            ingredientCounts[altText]++;
-        } else {
-            ingredientCounts[altText] = 1;
-        }
-    });
-
-    let message = 'Cauldron ingredients: ';
-    for (const [ingredient, count] of Object.entries(ingredientCounts)) {
-        message += `${count} ${ingredient} `;
-    }
-
-    document.getElementById('cauldron-status').innerText = message.trim();
-}
 // Reset function to move elements back to their original positions
 function reset() {
   const draggableElements = document.querySelectorAll('.drag-drop');
@@ -114,5 +92,4 @@ function reset() {
     element.setAttribute('data-y', initialPosition.y);
     element.textContent = element.getAttribute('alt');
   });
-  updateCauldronStatus();
 }

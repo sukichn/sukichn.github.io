@@ -1,339 +1,83 @@
-/*{
-    border: 2px solid red;
-}*/
+* {
+    border: 1px solid red;
+  }
+  header{
+    width: 100%;
+  }
 
-   #game{
-    
-    margin-top: 300px;
-    width: 420px;
-   }
-  
-    #outer-dropzone {
-        background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 110%;
-        height: 420px;
-        width: 100%;
-    }
-      
-      #inner-dropzone {
-        height: 100px;
-      }
-      
-      .dropzone {
-        background-color: #bfe4ff;
-        border: dashed 4px transparent;
-        border-radius: 4px;
-        margin: 10px auto 30px;
-        padding: 10px;
-        width: 80%;
-        transition: background-color 0.3s;
-      }
-      
-      .drop-active {
-        border-color: #aaa;
-      }
-      
-      .drop-target {
-        background-color: #29e;
-        border-color: green;
-        border-style: solid;
-      }
-      
-      .drag-drop {
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-      
-        color: #fff;
-        background-color: transparent;
-        border: solid 2px #fff;
-      
-        touch-action: none;
-      
-        transition: background-color 0.3s;
-
-        
-        cursor: grab;
-        
-        
-
-       
-      
-    
-    }
-    
-      
-      .drag-drop.can-drop {
-        color: #000;
-        background-color: #4e4;
-      }
-  
-
-*{
-    border: 2px solid red;
-    font-family: "Work Sans";  
-}
-body{
-    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/empty-background.png");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  background-position: center;
-
-  align-items: center;
-  justify-content: center;
-  
- 
-height: 1000px;
- 
-    
-}
-/* TITLE TEXT*/
-
-#game-instruction.content {
-    margin-top: 70px;
-    position: fixed;
-    left: 50%; /* Position the left side of the element at the horizontal center */
-    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
-    text-align: center;
-}
-#game-instruction h1 {
-    width: 400px;
-    border: 5px solid white;
-    color: white;
-    font-size: 1.8rem;
-    padding: 0.7rem;
-    border-radius: 0.9rem;
-    background-color: rgba(52, 4, 4, 0.299);
-}
-/* SUBTITLE TEXT*/
-#game-instruction.content h5 {
-   
-    font-family: "Merriweather";
-    font-style: italic;
-    font-weight: normal;
-    font-size: 1.1rem;
-    text-align: center;
-    line-height: 1.5;
-    margin: 1rem;
-}
-
-@media (max-width: 481px) {
-    body{
-        background-position: 49% 65%;
-    }
-    #game-instruction.content h5 {
-    font-size: 0.8rem; 
-    }
-    #game-instruction.content h1 {
-    display: none;
-    }
-    #cauldron-ingredients{
-        width: 100%;
-    }
-    #controls{
-        font-size: 0.8rem;
-        margin-top: 0;
-    }
-}
-
-/* GAME AREA */
-
-#game-container {
-    font-family: 'Work Sans';
-    color: white;
-    align-items: center;
-    text-align: center;
+  body {
     display: flex;
     flex-direction: column;
-    }
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  #game-container {
+    position: fixed;
+    top: 300px;
+    height: 400px;
+  }
+
 #controls{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    position: fixed;
-    left: 50%; /* Position the left side of the element at the horizontal center */
-    transform: translate(-50%, -50%);
-    margin-top: 60px;
-    width: 500px;
-    font-size: 0.8rem;
-    color: white;
-}
-#controls button{
-    margin: 0.5rem;
-    width: 150px;
-    height: 2rem;
-    font-family: "Work Sans";
-    background-color: rgba(176, 229, 192, 0.89);
-    border-radius: 20px;
-    border: none; 
-}
-
-#controls button:hover, #brew-button:hover, #clear-button:hover{
-    background-color: rgba(103, 230, 141, 0.895);
-}
-#controls button:active, #brew-button:active, #clear-button:active{
-    background-color: rgba(99, 185, 125, 0.952);
-}
-
-#clear-button, #brew-button{
-    margin: 0 0 0.3rem 0;
-    width: 130px;
-    height: 1.8rem;
-    font-family: "Work Sans";
-    background-color: rgba(176, 229, 192, 0.89);
-    border-radius: 20px;
-    border: none; 
-}
-
-#recipe-background{
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    max-width: 400px;  
-    min-width: 370px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-    text-wrap: wrap;
-    position: relative;
-    top: 250px;
-}
-
-#message{
-    margin: 1rem 0.5rem 0.5rem 0.5rem;
-}
-
-
-#chopping-board{
-    display: flex;
-    flex-direction: row;   
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-    position: relative;
-    top: 440px;
-    z-index: 10;
-    
-}
-
-#cauldron {
-   
-    height: 150px;
-    
-    
-    background-color: pink;
-
-}
-/* Cauldron sparkle effect */
-@keyframes sparkAnimation {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(9); opacity: 0; }
-}
-
-
-.sparkle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    pointer-events: none;
-    animation: sparkAnimation 0.5s ease-out;
-}
-
-#cauldron-background {
- 
-  }
- 
-#cauldron-button{
-    
-    position: relative;
     align-items: center;
+}
+  
+  #outer-dropzone {
+    height: 200px;
+    width: 400px;
     display: flex;
     flex-direction: column;
-    
-}
-@media (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) {
-    #cauldron-background{
-        top: 45vh !important; 
-    }  
-    #chopping-board {
-        top: 50vh !important;  
-        
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-    #cauldron-background {
-        top: 40vh !important; 
-    }
-    
-    #chopping-board {
-        top: 50vh !important; 
-    }
-}
-
-  @media (max-width: 481px) {
-        
-    #cauldron-background{
-        top: 160px;
-        width: 100%;
-    }
-    
-    #game-instruction.content{
-        margin-top: 50px;
-    }
-    
-    #chopping-board {
-        max-width: 370px; /* Adjust background size for small screens */
-       position: relative;
-       top: 220px !important; 
-    }
-    
-    #cauldron{
-        z-index: 0;
-        width: 70%;
-    }
-    
-    #message{
-        align-items: center;
-        margin: 1rem;
-        text-wrap: wrap;
-    }
-    #controls{
-        margin-top: 2rem;
-        width: 360px;
-    }
-    #cauldron-ingredients{
-        bottom: 25px;
-    }
-    #recipe-background{
-        position: relative;
-        top: 100px;
-    }
-    .ingredient {
-        width: 20px;
-        height: 20px;
-        padding: 0.5px;
-    }
+    justify-content: center;
+    margin: 10px auto 30px;
+    align-items: center;
   }
-
-#cauldron-ingredients{
-    font-size: 0.8rem;
-    bottom: 15px;
-    position: fixed;
-    left: 50%; /* Position the left side of the element at the horizontal center */
-    transform: translate(-50%, -50%); /* Move the element back by half of its own width and height */
-    text-align: center;
-
-}
-  .ingredient {
-    width: 50px;
-    height: 50px;
-    padding: 2px;
-    cursor: move;
+  
+  #inner-dropzone {
+    height: 150px;
+    border: 1px solid orange;
   }
-
-  .hidden {
+  
+  .dropzone {
+    background-color: #bfe4ff;
+    border: dashed 4px transparent;
+    border-radius: 4px;
+    margin: 10px auto 30px;
+    padding: 10px;
+    width: 80%;
+    transition: background-color 0.3s;
+  }
+  
+  .drop-active {
+    border-color: #aaa;
+  }
+  
+  .drop-target {
+    background-color: #29e;
+    border-color: #fff;
+    border-style: solid;
+  }
+  
+  .drag-drop {
+    display: inline-block;
+    min-width: 40px;
+    
+    color: #fff;
+    background-color: #29e;
+    border: solid 2px #fff;
+    touch-action: none;
+    transform: translate(0px, 0px);
+    transition: background-color 0.3s;
+  }
+  
+  .drag-drop.can-drop {
+    color: #000;
+    background-color: #4e4;
+  }
+  
+.hidden{
     display: none;
-  }
+}  

@@ -14,7 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
   <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
 </head>
-<body>
+
   
   <header>
     <div class="nav-links">
@@ -36,12 +36,14 @@
     </div>
 </header>
 
+
+
   <div id="game-instruction" class="content">
     <h1>The Art of Alchemy</h1>
     <div id="controls"><button id="start-button" onclick="startGame()">Start Brewing</button>
       <button id="play-button" class="hidden" onclick="playGame()">Play Again!</button>
       <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
-      <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
+      
       <div id="timer">Time: 60</div>
       <div id="coins">Coins: 0</div>
       
@@ -52,28 +54,24 @@
     </div>
     
   </div>
-
+  <body>
 
   <div id="game-container">
-
-
-    <!--<div id="chopping-board">
-      
-      <img src="Resources/css/Images/mushroom.png" alt="Mushroom" id="ingredient2-0" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-   
-      <img src="Resources/css/Images/mushroom.png" alt="Mushroom" id="ingredient2-1" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/mushroom.png" alt="Mushroom" id="ingredient2-2" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-0" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-1" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/berry.png" alt="Berry" id="ingredient3-2" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-0" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-1" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-      <img src="Resources/css/Images/Herb.png" alt="Herb" id="ingredient1-2" class="ingredient" draggable="true" id="yes-drop" class="drag-drop">
-    </div>
-  </div>-->
-
-  <div id="game">
+       
+    <div class="cauldron-zone">
+      <div id="outer-dropzone" >
     
+        <div id="inner-dropzone" class="dropzone">#inner-dropzone</div>
+        <div id="reset-button-container">
+          <button id="reset-button" onclick="reset()">Reset</button>
+        </div>
+        </div>
+        
+      </div>
+    <div id="new-message"><span>Your cauldron is empty. Add your ingredients!</span></div>
+ 
+    <div id="cauldron-text"></div>
+
     <div class="yes-drop drag-drop ingredient" alt="Mushroom" id="ingredient2-0" draggable="true">Mushroom</div>
     <div class="yes-drop drag-drop ingredient" alt="Mushroom" id="ingredient2-1" draggable="true">Mushroom</div>
     <div class="yes-drop drag-drop ingredient" alt="Mushroom" id="ingredient2-2" draggable="true">Mushroom</div>
@@ -83,25 +81,9 @@
     <div class="yes-drop drag-drop ingredient" alt="Herb" id="ingredient1-0" draggable="true">Herb</div>
     <div class="yes-drop drag-drop ingredient" alt="Herb" id="ingredient1-1" draggable="true">Herb</div>
     <div class="yes-drop drag-drop ingredient" alt="Herb" id="ingredient1-2 " draggable="true">Herb</div>
-   
-    <div class="cauldron-zone">
-    <div id="outer-dropzone">
-        #outer-dropzone
-        <div id="inner-dropzone" class="dropzone">
-           <!-- <div id="cauldron-background">
-                <div id="cauldron" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-
-                <div id="cauldron-button">
-                    <button id="brew-button" class="hidden" onclick="checkRecipeMatch()">Mix ingredients</button>
-                    <button id="clear-button" class="hidden" onclick="resetIngredients()">Clear Cauldron</button>
-                </div>
-            </div>-->
-        </div>
-    </div>
-    <div id="new-message"><span>Your cauldron is empty. Add your ingredients!</span></div>
-  </div>
-    <div id="cauldron-text"></div>
     
+
+
 </div>
 
   <script src="./game.js"></script>
