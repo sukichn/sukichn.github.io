@@ -43,7 +43,7 @@
     position: fixed;
     top: 440px;
     height: 420px;
-    width: 550px;
+    width: 620px;
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/magic-cauldron.png");
     background-repeat: no-repeat;
     background-position: bottom;
@@ -100,7 +100,7 @@ text-align: center;
 } 
   #outer-dropzone {
     height: 250px;
-    width: 400px;
+    width: 410px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -136,8 +136,8 @@ text-align: center;
   
   .drag-drop {
     display: inline-block;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     
     color: transparent;
     background-color: transparent;
@@ -194,8 +194,8 @@ text-align: center;
         height: 230px;
     }
     .drag-drop{
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
     #reset-button{
         margin-top: 20px;
