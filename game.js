@@ -201,12 +201,13 @@ function endGame(autoEnd = false) {
         document.getElementById('end-button').classList.add('hidden');
         document.getElementById('play-button').classList.remove('hidden');
         document.getElementById('reset-button').disabled = true; // Disable reset button when the game ends;
-        // Hide ingredients when the game end
+        // Hide ingredients when the game ends
         const draggableElements = document.querySelectorAll('.drag-drop');
         draggableElements.forEach(element => {
         element.classList.add('hidden');
-    });
-    
+        });
+    // Display total earned coins
+    document.getElementById('cauldron-text').innerText = `Game over! You've earned ${coins} coins!`;
     }
 }
 
@@ -219,6 +220,12 @@ function playGame() {
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
     document.getElementById('cauldron-text').innerText = "";
+    // Continue hiding ingredients until start game
+    const draggableElements = document.querySelectorAll('.drag-drop');
+    draggableElements.forEach(element => {
+    element.classList.add('hidden');
+    });
+    
 }
 
 function startTimer(duration) {

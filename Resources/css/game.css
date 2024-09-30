@@ -27,6 +27,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
   background-position: center;
+  
   color: white;
   }
 
@@ -181,7 +182,7 @@ text-align: center;
         display: none;
     }
     #game-background {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
     #game-container{
         top: 280px;
