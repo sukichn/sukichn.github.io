@@ -62,6 +62,15 @@
     align-items: center;
 }
 
+#coins-icon{
+    display: flex;
+    align-items: center;
+}
+#coins-icon img{
+    width: 30px;
+    height: 30px;
+}
+
 #timer, #coins, #message, #cauldron-status, #cauldron-text{
     margin: 0.3rem;
 }

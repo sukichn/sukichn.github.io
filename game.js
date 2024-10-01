@@ -168,7 +168,7 @@ function checkRecipeMatch() {
     if (match) {
         coins += 5;
         document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
-        document.getElementById('coins').innerText = `Coins: ${coins}`;
+        document.getElementById('coins').innerText = ` ${coins}`;
         runAnimations(true);
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
@@ -217,7 +217,7 @@ function playGame() {
     document.getElementById('play-button').classList.add('hidden');
     document.getElementById('timer').innerText = 'Time: 60';
     document.getElementById('message').innerText = 'Start brewing to see a recipe!';
-    document.getElementById('coins').innerText = 'Coins: 0';
+    document.getElementById('coins').innerText = ' 0';
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
     document.getElementById('cauldron-text').innerText = "";
