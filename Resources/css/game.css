@@ -1,5 +1,5 @@
 * {
-    /*border: 1px solid red;*/
+   /* border: 1px solid red;*/
     font-family: "Work Sans";
 
   }
@@ -48,7 +48,15 @@
     background-repeat: no-repeat;
     background-position: bottom;
     background-size: 70%;
+   
   }
+
+.cauldron-zone{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
   #game-instruction{
     height: 100px;
@@ -71,7 +79,7 @@
     height: 30px;
 }
 
-#timer, #coins, #message, #cauldron-status, #cauldron-text{
+#timer, #message, #cauldron-status, #cauldron-text{
     margin: 0.3rem;
 }
 #controls button:hover, #reset-button:hover{
@@ -99,7 +107,11 @@ text-align: center;
     border: none; 
 } 
 #reset-button{
-    margin-top: 75px;
+    margin-top: 0px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the button */
     width: 110px;
     height: 1.5rem;
     font-family: "Work Sans";
@@ -113,14 +125,14 @@ text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 10px auto 30px;
+    margin: 0px auto;
     align-items: center;
 
   }
   
   #inner-dropzone {
     width: 250px;
-    height: 150px;
+    height: 175px;
     border: 1px solid transparent;
     border-radius: 50px;
     display: flex;
@@ -230,12 +242,12 @@ text-align: center;
 }
 
 @keyframes coin1Animation {
-    from {top: 150px; background-color: transparent;}
+    from {top: 50px; background-color: transparent;}
     to {top: 0px; background-color: transparent;}
 }
 
 @keyframes coin2Animation {
-    from {left: 10px; top: 100px; background-color: transparent;}
+    from {left: 10px; top: 40px; background-color: transparent;}
     to {top: 0px; background-color: transparent;}
 }
 
