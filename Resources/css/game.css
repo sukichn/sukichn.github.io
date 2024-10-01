@@ -273,7 +273,7 @@ text-align: center;
         height: 50px;
     }
     #reset-button{
-        margin-top: 40px;
+        margin-top: 0px;
     }
     #inner-dropzone{
         border-radius: 40px;
