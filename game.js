@@ -170,6 +170,7 @@ function checkRecipeMatch() {
         document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
         document.getElementById('coins').innerText = ` ${coins}`;
         runAnimations(true);
+        playSuccessAudio(); // Play success audio
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
     } else {
@@ -323,4 +324,10 @@ function runAnimations(condition) {
 function resetAnimations() {
     document.getElementById('coin1').classList.remove('animate-coin1');
     document.getElementById('coin2').classList.remove('animate-coin2');
+}
+
+// Function to play success audio
+function playSuccessAudio() {
+    const audio = document.getElementById('success-audio');
+    audio.play();
 }
