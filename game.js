@@ -169,6 +169,12 @@ function checkRecipeMatch() {
         coins += 5;
         document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
         document.getElementById('coins').innerText = ` ${coins}`;
+        // Change the background color to purple
+        innerDropzone.style.backgroundColor = "rgba(128, 0, 128, 0.7)";
+        // Revert the background color after a delay
+        setTimeout(() => {
+            innerDropzone.style.backgroundColor = "";
+        }, 500); // 500 milliseconds
         runAnimations(true);
         playMagicAudio(); // Play magic audio
         /*playSuccessAudio(); // Play coin audio*/
@@ -196,6 +202,8 @@ function startGame() {
 
     // Display random recipe
     displayRandomRecipe();
+
+    
 }
 
 function endGame(autoEnd = false) {
@@ -261,6 +269,7 @@ function displayRandomRecipe() {
     recipeText = recipeText.slice(0, -2); // Remove trailing comma and space
 
     document.getElementById('message').innerText = recipeText;
+    
 }
 
 // Initialize the initial positions and parent containers after the DOM is fully loaded
@@ -300,7 +309,7 @@ function reset() {
       element.setAttribute('data-y', 0);
       element.textContent = element.getAttribute('alt');
       element.classList.remove('hidden'); // Reset visibility
-      document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!'
+      document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!';
     });
 }
 
