@@ -126,7 +126,7 @@ text-align: center;
     display: flex;
     flex-direction: row;
     justify-content: center; 
-    filter: blur(20px); 
+    filter: blur(15px); 
 
   }
   
@@ -261,6 +261,6 @@ text-align: center;
         height: 50px;
     }
     #reset-button{
-        margin-top: 25px;
+        margin-top: 40px;
     }
 }

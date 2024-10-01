@@ -176,8 +176,8 @@ function checkRecipeMatch() {
             innerDropzone.style.backgroundColor = "";
         }, 500); // 500 milliseconds
         runAnimations(true);
-        playMagicAudio(); // Play magic audio
-        /*playSuccessAudio(); // Play coin audio*/
+        /*playMagicAudio(); // Play magic audio*/
+        playSuccessAudio(); // Play coin audio
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
     } else {
