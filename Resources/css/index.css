@@ -100,18 +100,14 @@ header.scrolled #nav-logo {
     flex: 1;
     margin-right: 0.5rem;
     color: white;
+    white-space: nowrap;
+    align-items: baseline;
 }
 
 #nav-logo {
     width: 33%;
     display: flex;
     justify-content: center;
-}
-
-#nav-shopcart {
-    text-align: right;
-    white-space: nowrap;
-    align-items: baseline;
 }
 
 /* Spacing navigation links */
