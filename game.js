@@ -207,11 +207,6 @@ function checkRecipeMatch() {
             messageDisplay.style.color = "yellow";
             cauldronText.style.color = "transparent";
         }, 1000); // 800 milliseconds
-
-        // Change to white after displaying the recipe
-        setTimeout(() => {
-            messageDisplay.style.color = "white";
-        }, 2000); // 1000 milliseconds after displaying the recipe (total 1800ms)
     } else {
         cauldronText.innerText = "Your ingredients do not match the recipe!";
     }
@@ -257,6 +252,7 @@ function playGame() {
     document.getElementById('play-button').classList.add('hidden');
     timerDisplay.innerText = 'Time: 60';
     messageDisplay.innerText = 'Start brewing to see a recipe!';
+    messageDisplay.style.color = "white";
     coinsDisplay.innerText = ' 0';
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
