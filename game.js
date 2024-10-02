@@ -63,7 +63,7 @@ const recipes = [
             Herb: 1, 
             Mushroom: 1, 
             Pearl: 1, 
-            Moonstone : 1,
+            Moonstone : 2,
         }
     }
 ];
@@ -212,7 +212,10 @@ function checkRecipeMatch() {
         let coinsEarned = 5;
         if (currentRecipe.name === "Potion IV" || currentRecipe.name === "Potion V") {
             coinsEarned = 10;
+        } else if (currentRecipe.name === "Potion VI") {
+            coinsEarned = 15;
         }
+        
         coins += coinsEarned;
         cauldronText.innerText = `You've earned ${coinsEarned} coins and 3 seconds!`;
         coinsDisplay.innerText = ` ${coins}`;
@@ -329,14 +332,16 @@ function startTimer(duration) {
 
 function displayRandomRecipe() {
     let recipePool;
-    if (matchCount < 3) {
-        // First three matches, use the first three recipes
+    if (matchCount < 2) {
+        // First two matches, use the first three recipes
         recipePool = recipes.slice(0, 3);
-    } else {
-        // After the first three matches, use the next three recipes
-        recipePool = recipes.slice(3, 6);
-        // Show Pearl and Moonstone starting from match 4
+    } else if (matchCount >= 2 && matchCount < 4) {
+        // Matches 2 to 4, use the next two recipes and show special ingredients
+        recipePool = recipes.slice(2, 4);
         showSpecialIngredients();
+    } else {
+        // Matches 4 and above, use the last two recipes
+        recipePool = recipes.slice(4, 6);
     }
 
     const randomIndex = Math.floor(Math.random() * recipePool.length);
@@ -412,7 +417,7 @@ function reset() {
       element.classList.remove('hidden'); // Reset visibility
     });
 
-    if (matchCount < 4) {
+    if (matchCount < 3) {
         // Hide Pearl and Moonstone if match count is less than 3
         hideSpecialIngredients();
     }
