@@ -178,7 +178,7 @@ text-align: center;
     display: inline-block;
     width: 60px;
     height: 60px;
-    
+    margin-bottom: 2px;
     color: transparent;
     background-color: transparent;
     border: solid 3px transparent;
@@ -203,6 +203,20 @@ text-align: center;
 
 #ingredient1-0, #ingredient1-1, #ingredient1-2{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Herb.png");
+    background-position: center;
+    background-repeat: none;
+    background-size: 100%;
+}
+
+#ingredient4-0, #ingredient4-1, #ingredient4-2{
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/pearl.png");
+    background-position: center;
+    background-repeat: none;
+    background-size: 100%;
+}
+
+#ingredient5-0, #ingredient5-1, #ingredient5-2{
+    background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png");
     background-position: center;
     background-repeat: none;
     background-size: 100%;

@@ -4,6 +4,7 @@ let coins = 0;
 let gameStarted = false;
 let currentRecipe = null; // To keep track of the current recipe
 let yesDropElements = []; // Global variable for yesDropElements
+let matchCount = 0; // Variable to track the number of matches
 
 // Global elements
 const innerDropzone = document.getElementById('inner-dropzone');
@@ -38,6 +39,31 @@ const recipes = [
             Herb: 2,
             Mushroom: 1,
             Berry: 1
+        }
+    },
+    {
+        name: "Potion IV",
+        ingredients: {
+            Herb: 1,
+            Mushroom: 1,
+            Pearl: 1
+        }
+    },
+    {
+        name: "Potion V",
+        ingredients: {
+            Berry: 2,
+            Pearl: 1,
+            Moonstone: 1,
+        }
+    },
+    {
+        name: "Potion VI",
+        ingredients: {
+            Herb: 1, 
+            Mushroom: 1, 
+            Pearl: 1, 
+            Moonstone : 1,
         }
     }
 ];
@@ -183,9 +209,18 @@ function checkRecipeMatch() {
     }
 
     if (match) {
-        coins += 5;
-        cauldronText.innerText = "You've earned 5 coins!";
+        let coinsEarned = 5;
+        if (currentRecipe.name === "Potion IV" || currentRecipe.name === "Potion V") {
+            coinsEarned = 10;
+        }
+        coins += coinsEarned;
+        cauldronText.innerText = `You've earned ${coinsEarned} coins and 3 seconds!`;
         coinsDisplay.innerText = ` ${coins}`;
+
+        // Add 3 seconds to the timer
+        timeRemaining += 3;
+        updateTimerDisplay();
+
         // Change the background color to purple
         innerDropzone.style.backgroundColor = "rgba(52, 4, 52, 0.7)";
         // Revert the background color after a delay
@@ -195,7 +230,7 @@ function checkRecipeMatch() {
         runAnimations(true);
         playMagicAudio(); // Play magic audio
         /*playSuccessAudio(); // Play coin audio*/
-        reset(); // Call reset instead of resetIngredients
+        displayRandomRecipe(); // Call displayRandomRecipe instead of resetIngredients
 
         // Set initial transparent color
         messageDisplay.style.color = "transparent";
@@ -203,13 +238,19 @@ function checkRecipeMatch() {
 
         // Change to yellow after a brief moment and display the next recipe
         setTimeout(() => {
-            displayRandomRecipe();
             messageDisplay.style.color = "yellow";
             cauldronText.style.color = "transparent";
-        }, 1000); // 800 milliseconds
+        }, 1000); // 1000 milliseconds
     } else {
         cauldronText.innerText = "Your ingredients do not match the recipe!";
     }
+}
+
+function updateTimerDisplay() {
+    let minutes = Math.floor(timeRemaining / 60);
+    let seconds = timeRemaining % 60;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    timerDisplay.innerText = `Time: ${minutes}:${seconds}`;
 }
 
 function startGame() {
@@ -223,6 +264,9 @@ function startGame() {
     draggableElements.forEach(element => {
         element.classList.remove('hidden');
     });
+
+    // Hide Pearl and Moonstone initially
+    hideSpecialIngredients();
 
     // Start the timer
     startTimer(60); // Start the timer with 60 seconds
@@ -243,7 +287,7 @@ function endGame(autoEnd = false) {
         element.classList.add('hidden');
         });
     // Display total earned coins
-    cauldronText.innerText = `Game over! You've earned ${coins} coins!`;
+    cauldronText.innerText = `Game over! You've earned ${coins} coins and 3 seconds!`;
     }
 }
 
@@ -255,6 +299,7 @@ function playGame() {
     messageDisplay.style.color = "white";
     coinsDisplay.innerText = ' 0';
     coins = 0; // Reset coins
+    matchCount = 0; // Reset match count
     reset(); // Ensure the game elements are reset to their initial state
     cauldronText.innerText = "";
     // Continue hiding ingredients until start game
@@ -262,29 +307,40 @@ function playGame() {
     draggableElements.forEach(element => {
         element.classList.add('hidden');
     });
+
+    // Hide Pearl and Moonstone initially
+    hideSpecialIngredients();
 }
 
 function startTimer(duration) {
-    let timer = duration;
-
+    timeRemaining = duration;
+    updateTimerDisplay();
+    
     timerInterval = setInterval(() => {
-        let minutes = Math.floor(timer / 60);
-        let seconds = timer % 60;
-
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-
-        timerDisplay.innerText = `Time: ${minutes}:${seconds}`;
-
-        if (--timer < 0) {
+        if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             endGame(true);
+        } else {
+            timeRemaining--;
+            updateTimerDisplay();
         }
     }, 1000);
 }
 
 function displayRandomRecipe() {
-    const randomIndex = Math.floor(Math.random() * recipes.length);
-    currentRecipe = recipes[randomIndex];
+    let recipePool;
+    if (matchCount < 3) {
+        // First three matches, use the first three recipes
+        recipePool = recipes.slice(0, 3);
+    } else {
+        // After the first three matches, use the next three recipes
+        recipePool = recipes.slice(3, 6);
+        // Show Pearl and Moonstone starting from match 4
+        showSpecialIngredients();
+    }
+
+    const randomIndex = Math.floor(Math.random() * recipePool.length);
+    currentRecipe = recipePool[randomIndex];
 
     let recipeText = `Recipe: ${currentRecipe.name} - `;
     for (const [ingredient, quantity] of Object.entries(currentRecipe.ingredients)) {
@@ -293,6 +349,25 @@ function displayRandomRecipe() {
     recipeText = recipeText.slice(0, -2); // Remove trailing comma and space
 
     messageDisplay.innerText = recipeText;
+    matchCount++; // Increment match count after displaying a recipe
+
+    reset(); // Ensure the game elements are reset to their initial state after displaying a new recipe
+}
+
+// Hide Pearl and Moonstone initially
+function hideSpecialIngredients() {
+    const specialIngredients = document.querySelectorAll('[alt="Pearl"], [alt="Moonstone"]');
+    specialIngredients.forEach(element => {
+        element.classList.add('hidden');
+    });
+}
+
+// Show Pearl and Moonstone after the fourth match
+function showSpecialIngredients() {
+    const specialIngredients = document.querySelectorAll('[alt="Pearl"], [alt="Moonstone"]');
+    specialIngredients.forEach(element => {
+        element.classList.remove('hidden');
+    });
 }
 
 // Initialize the initial positions and parent containers after the DOM is fully loaded
@@ -336,6 +411,12 @@ function reset() {
       element.textContent = element.getAttribute('alt');
       element.classList.remove('hidden'); // Reset visibility
     });
+
+    if (matchCount < 4) {
+        // Hide Pearl and Moonstone if match count is less than 3
+        hideSpecialIngredients();
+    }
+
     cauldronStatus.innerText = 'Your cauldron is empty. Add your ingredients!';
     // Check the ingredient counts and disable the reset button if necessary
     checkIngredientCounts();
