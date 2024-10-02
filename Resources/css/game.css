@@ -191,35 +191,35 @@ text-align: center;
 #ingredient2-0, #ingredient2-1, #ingredient2-2{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom.png");
     background-position: center;
-    background-repeat: none;
+    background-repeat: no-repeat;
     background-size: 100%;
 }
 
 #ingredient3-0, #ingredient3-1, #ingredient3-2{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/berry.png");
     background-position: center;
-    background-repeat: none;
+    background-repeat: no-repeat;
     background-size: 100%;
 }
 
 #ingredient1-0, #ingredient1-1, #ingredient1-2{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Herb.png");
     background-position: center;
-    background-repeat: none;
+    background-repeat: no-repeat;
     background-size: 100%;
 }
 
 #ingredient4-0, #ingredient4-1, #ingredient4-2{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/pearl.png");
     background-position: center;
-    background-repeat: none;
-    background-size: 100%;
+    background-repeat: no-repeat;
+    background-size: 80%;
 }
 
 #ingredient5-0, #ingredient5-1, #ingredient5-2{
     background-image: url("https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png");
     background-position: center;
-    background-repeat: none;
+    background-repeat: no-repeat;
     background-size: 100%;
 }
   
