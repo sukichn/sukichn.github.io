@@ -89,7 +89,7 @@ header.scrolled .dropdown-content{
     header {
         font-size: 0.8rem; 
         height: 1.8rem;
-        background-color: rgba(221, 182, 91, 0.333);
+        background-color: rgba(255, 255, 255, 0.196)
     }
     header .dropdown-content{
         background-color: rgba(76, 10, 79, 0.667);
