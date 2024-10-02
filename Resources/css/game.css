@@ -114,6 +114,7 @@ text-align: center;
     background-color: rgba(176, 229, 192, 0.89);
     border-radius: 20px;
     border: none; 
+    color: black;
 } 
 #reset-button{
     margin-top: 0px;
@@ -127,6 +128,7 @@ text-align: center;
     background-color: rgba(176, 229, 192, 0.89);
     border-radius: 20px;
     border: none; 
+    color: black;
 } 
   #outer-dropzone {
     height: 250px;
