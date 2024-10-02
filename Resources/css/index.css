@@ -6,6 +6,7 @@ body {
     background-position: center top; /* Ensure the background starts at the top */
     /* Ensures the background stays fixed while scrolling */
     background-repeat: no-repeat;
+    overflow-x: hidden;
 }
 
 html {
@@ -52,7 +53,7 @@ header {
     background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent */
     height: 2rem;
     padding-left: 5px;
-    padding-top: 5px;
+    padding-top: 10px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -83,6 +84,7 @@ header.scrolled #nav-logo {
 @media (max-width: 768px) {
     header {
         font-size: 0.8rem; 
+        height: 1.5rem;
     }
     body{
         background-size: 300%;
@@ -127,7 +129,7 @@ header.scrolled #nav-logo {
     margin-right: 1.8rem;
 }
 
-#nav-links .home:hover, .game:hover, .contact:hover, .dropbtn:hover {
+#nav-links a:hover, .home:hover, .game:hover, .contact:hover, .dropbtn:hover {
     color: rgba(145, 195, 161, 0.8);
 }
 
@@ -351,6 +353,7 @@ button.dropbtn {
 #fortuneButton {
     display: block;
     margin: 20px auto;
+    color: black;
 }
 
 @keyframes scroll {

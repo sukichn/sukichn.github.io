@@ -3,6 +3,7 @@ let timeRemaining = 60;
 let coins = 0;
 let gameStarted = false;
 let currentRecipe = null; // To keep track of the current recipe
+let yesDropElements = []; // Global variable for yesDropElements
 
 // Global elements
 const innerDropzone = document.getElementById('inner-dropzone');
@@ -126,7 +127,7 @@ interact('.drag-drop')
     });
 
 function displayCauldronMessage() {
-    const yesDropElements = innerDropzone.querySelectorAll('.drag-drop');
+    yesDropElements = Array.from(innerDropzone.querySelectorAll('.drag-drop')); // Update the global variable
 
     const ingredientCounts = {};
 
@@ -158,7 +159,6 @@ function displayCauldronMessage() {
 }
 
 function checkRecipeMatch() {
-    const yesDropElements = innerDropzone.querySelectorAll('.drag-drop');
     const ingredientCounts = {};
 
     yesDropElements.forEach(element => {
@@ -196,7 +196,22 @@ function checkRecipeMatch() {
         playMagicAudio(); // Play magic audio
         /*playSuccessAudio(); // Play coin audio*/
         reset(); // Call reset instead of resetIngredients
-        displayRandomRecipe();
+
+        // Set initial transparent color
+        messageDisplay.style.color = "transparent";
+        cauldronText.style.color = "yellow";
+
+        // Change to yellow after a brief moment and display the next recipe
+        setTimeout(() => {
+            displayRandomRecipe();
+            messageDisplay.style.color = "yellow";
+            cauldronText.style.color = "transparent";
+        }, 1000); // 800 milliseconds
+
+        // Change to white after displaying the recipe
+        setTimeout(() => {
+            messageDisplay.style.color = "white";
+        }, 2000); // 1000 milliseconds after displaying the recipe (total 1800ms)
     } else {
         cauldronText.innerText = "Your ingredients do not match the recipe!";
     }
