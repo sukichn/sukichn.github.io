@@ -4,6 +4,17 @@ let coins = 0;
 let gameStarted = false;
 let currentRecipe = null; // To keep track of the current recipe
 
+// Global elements
+const innerDropzone = document.getElementById('inner-dropzone');
+const cauldronStatus = document.getElementById('cauldron-status');
+const cauldronText = document.getElementById('cauldron-text');
+const resetButton = document.getElementById('reset-button');
+const coin1 = document.getElementById('coin1');
+const coin2 = document.getElementById('coin2');
+const timerDisplay = document.getElementById('timer');
+const messageDisplay = document.getElementById('message');
+const coinsDisplay = document.getElementById('coins');
+
 // Recipes
 const recipes = [
     {
@@ -89,8 +100,9 @@ interact('.dropzone').dropzone({
 
         // Hide ingredient when dropped
         draggableElement.classList.add('hidden');
-        // update the count of yes-drop elements in inner-dropzone and display the message
+        // Update the cauldron message and check ingredient counts
         displayCauldronMessage();
+        checkIngredientCounts();
         checkRecipeMatch();
     },
     ondropdeactivate: function (event) {
@@ -114,9 +126,8 @@ interact('.drag-drop')
     });
 
 function displayCauldronMessage() {
-    const innerDropzone = document.getElementById('inner-dropzone');
     const yesDropElements = innerDropzone.querySelectorAll('.drag-drop');
-    
+
     const ingredientCounts = {};
 
     yesDropElements.forEach(element => {
@@ -128,19 +139,25 @@ function displayCauldronMessage() {
         }
     });
 
-    let message = 'Cauldron ingredients: ';
-    for (const [ingredient, count] of Object.entries(ingredientCounts)) {
-        message += `${count} ${ingredient}, `;
+    let message = '';
+    const totalIngredients = Object.values(ingredientCounts).reduce((total, count) => total + count, 0);
+
+    if (totalIngredients > 0) {
+        message = 'Cauldron ingredients: ';
+        for (const [ingredient, count] of Object.entries(ingredientCounts)) {
+            message += `${count} ${ingredient}, `;
+        }
+        // Remove the trailing comma and space
+        message = message.slice(0, -2);
     }
 
-    // Remove the trailing comma and space
-    message = message.slice(0, -2);
+    cauldronStatus.innerText = message.trim();
 
-    document.getElementById('cauldron-status').innerText = message.trim();
+    // Return the ingredient counts
+    return ingredientCounts;
 }
 
 function checkRecipeMatch() {
-    const innerDropzone = document.getElementById('inner-dropzone');
     const yesDropElements = innerDropzone.querySelectorAll('.drag-drop');
     const ingredientCounts = {};
 
@@ -167,10 +184,10 @@ function checkRecipeMatch() {
 
     if (match) {
         coins += 5;
-        document.getElementById('cauldron-text').innerText = "You've earned 5 coins!";
-        document.getElementById('coins').innerText = ` ${coins}`;
+        cauldronText.innerText = "You've earned 5 coins!";
+        coinsDisplay.innerText = ` ${coins}`;
         // Change the background color to purple
-        innerDropzone.style.backgroundColor = "rgba(128, 0, 128, 0.7)";
+        innerDropzone.style.backgroundColor = "rgba(52, 4, 52, 0.7)";
         // Revert the background color after a delay
         setTimeout(() => {
             innerDropzone.style.backgroundColor = "";
@@ -181,15 +198,15 @@ function checkRecipeMatch() {
         reset(); // Call reset instead of resetIngredients
         displayRandomRecipe();
     } else {
-        document.getElementById('cauldron-text').innerText = "Your ingredients do not match the recipe!";
+        cauldronText.innerText = "Your ingredients do not match the recipe!";
     }
 }
 
 function startGame() {
     document.getElementById('start-button').classList.add('hidden');
     document.getElementById('end-button').classList.remove('hidden');
-    document.getElementById('reset-button').style.display = 'block'; // Unhide reset button
-    document.getElementById('reset-button').disabled = false; // Enable reset button when the game starts
+    resetButton.style.display = 'block'; // Unhide reset button
+    resetButton.disabled = true; // Enable reset button when the game starts
     
     // Show ingredients when the game starts
     const draggableElements = document.querySelectorAll('.drag-drop');
@@ -202,8 +219,6 @@ function startGame() {
 
     // Display random recipe
     displayRandomRecipe();
-
-    
 }
 
 function endGame(autoEnd = false) {
@@ -211,37 +226,35 @@ function endGame(autoEnd = false) {
         clearInterval(timerInterval);
         document.getElementById('end-button').classList.add('hidden');
         document.getElementById('play-button').classList.remove('hidden');
-        document.getElementById('reset-button').disabled = true; // Disable reset button when the game ends;
+        resetButton.disabled = true; // Disable reset button when the game ends;
         // Hide ingredients when the game ends
         const draggableElements = document.querySelectorAll('.drag-drop');
         draggableElements.forEach(element => {
         element.classList.add('hidden');
         });
     // Display total earned coins
-    document.getElementById('cauldron-text').innerText = `Game over! You've earned ${coins} coins!`;
+    cauldronText.innerText = `Game over! You've earned ${coins} coins!`;
     }
 }
 
 function playGame() {
     document.getElementById('start-button').classList.remove('hidden');
     document.getElementById('play-button').classList.add('hidden');
-    document.getElementById('timer').innerText = 'Time: 60';
-    document.getElementById('message').innerText = 'Start brewing to see a recipe!';
-    document.getElementById('coins').innerText = ' 0';
+    timerDisplay.innerText = 'Time: 60';
+    messageDisplay.innerText = 'Start brewing to see a recipe!';
+    coinsDisplay.innerText = ' 0';
     coins = 0; // Reset coins
     reset(); // Ensure the game elements are reset to their initial state
-    document.getElementById('cauldron-text').innerText = "";
+    cauldronText.innerText = "";
     // Continue hiding ingredients until start game
     const draggableElements = document.querySelectorAll('.drag-drop');
     draggableElements.forEach(element => {
-    element.classList.add('hidden');
+        element.classList.add('hidden');
     });
-    
 }
 
 function startTimer(duration) {
     let timer = duration;
-    const timerDisplay = document.getElementById('timer');
 
     timerInterval = setInterval(() => {
         let minutes = Math.floor(timer / 60);
@@ -268,8 +281,7 @@ function displayRandomRecipe() {
     }
     recipeText = recipeText.slice(0, -2); // Remove trailing comma and space
 
-    document.getElementById('message').innerText = recipeText;
-    
+    messageDisplay.innerText = recipeText;
 }
 
 // Initialize the initial positions and parent containers after the DOM is fully loaded
@@ -284,15 +296,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
       
       element.classList.add('hidden');// Ensure ingredients are hidden when the DOM is loaded
     });
-    document.getElementById('reset-button').style.display = 'none'; // Hide reset button
+    resetButton.style.display = 'none'; // Hide reset button
 
     // Add event listeners for animation end
-    document.getElementById('coin1').addEventListener('animationend', () => {
-        document.getElementById('coin1').classList.add('hidden');
+    coin1.addEventListener('animationend', () => {
+        coin1.classList.add('hidden');
     });
-    document.getElementById('coin2').addEventListener('animationend', () => {
-        document.getElementById('coin2').classList.add('hidden');
+    coin2.addEventListener('animationend', () => {
+        coin2.classList.add('hidden');
     });
+
+    // Call the function initially to check the ingredient counts on page load
+    checkIngredientCounts();
 });
   
 // Reset function to move elements back to their original positions and containers
@@ -309,8 +324,10 @@ function reset() {
       element.setAttribute('data-y', 0);
       element.textContent = element.getAttribute('alt');
       element.classList.remove('hidden'); // Reset visibility
-      document.getElementById('cauldron-status').innerText = 'Your cauldron is empty. Add your ingredients!';
     });
+    cauldronStatus.innerText = 'Your cauldron is empty. Add your ingredients!';
+    // Check the ingredient counts and disable the reset button if necessary
+    checkIngredientCounts();
 }
 
 function runAnimations(condition) {
@@ -325,15 +342,15 @@ function runAnimations(condition) {
 
         // Use a timeout to force a reflow and trigger the animations again
         setTimeout(() => {
-            document.getElementById('coin1').classList.add('animate-coin1');
-            document.getElementById('coin2').classList.add('animate-coin2');
+            coin1.classList.add('animate-coin1');
+            coin2.classList.add('animate-coin2');
         }, 0);
     }
 }
 
 function resetAnimations() {
-    document.getElementById('coin1').classList.remove('animate-coin1');
-    document.getElementById('coin2').classList.remove('animate-coin2');
+    coin1.classList.remove('animate-coin1');
+    coin2.classList.remove('animate-coin2');
 }
 
 // Function to play magic audio
@@ -342,8 +359,25 @@ function playMagicAudio() {
     audio.play();
 }
 
-// Function to play coin audio
-function playSuccessAudio() {
-    const audio = document.getElementById('success-audio');
-    audio.play();
+resetButton.addEventListener('click', playResetAudio);
+
+// Function to play reset audio
+function playResetAudio() {
+    const audio = document.getElementById('reset-audio');
+    audio.play().catch(error => {
+        console.error('Error playing audio:', error);
+    });
+}
+
+// Function to check the ingredient counts and disable the reset button if necessary
+function checkIngredientCounts() {
+    const ingredientCounts = displayCauldronMessage();
+
+    // Check if there are no ingredients in the cauldron
+    const totalIngredients = Object.values(ingredientCounts).reduce((total, count) => total + count, 0);
+    if (totalIngredients === 0) {
+        resetButton.disabled = true;
+    } else {
+        resetButton.disabled = false;
+    }
 }

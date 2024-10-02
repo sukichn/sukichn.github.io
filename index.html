@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Veridian Emporium</title>
-  <link rel="stylesheet" type="text/css" href="Resources\css\index.css">
+  <link rel="stylesheet" type="text/css" href="Resources/css/index.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
-  <link rel="icon" href="Resources\css\Images\magic-hat.ico" type="image/x-icon">
+  <link rel="icon" href="Resources/css/Images/magic-hat.ico" type="image/x-icon">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
     
   <script id="templateHB" type="text/x-handlebars-template">
@@ -32,70 +32,66 @@
         {{/each}}
     </div>
     {{/each}}
-</script>
+  </script>
 
 </head>
 <body>
-  
+
   <header>
-    <div class="nav-links">
+    <div id="nav-links">
       <div class="home"><a href="#">Home</a></div>
       <div class="products">
-
-        <!-- Nav content -->
-        
-          <button class="dropbtn">Products</button>
-          <div class="dropdown-content">
-            <a href="#potions-header">Potions & Tinctures</a>
-            <a href="#magic-items-header">Magical Objects</a>
-            <a href="#lottery-header">Win a potion!</a>
-           </div>
-        
-
+        <button class="dropbtn">Products</button>
+        <div class="dropdown-content">
+          <a href="#potions-header">Potions & Tinctures</a>
+          <a href="#magic-items-header">Magical Objects</a>
+          <a href="#lottery-header">Win a potion!</a>
+        </div>
       </div>
       <div class="game"><a href="game.html">Alchemy</a></div>
       <div class="contact"><a href="#social">Contact</a></div>
     </div>   
-    
-    <div class="nav-logo"></div>
-    <div class="nav-shopcart">
-        <i class="fa fa-shopping-cart fa-lg"></i>
+    <div id="nav-logo"></div>
+    <div id="nav-shopcart">
+      <i id="fa fa-shopping-cart fa-lg"></i>
     </div>
-</header>
-
-  <div id="banner" class="content">
-    <h1>The Veridian Emporium</h1>
-    <div class="caption">
-      <h5>
-        Step into our mystical realm and discover an enchanting array of spellbinding artifacts, bewitching potions, and captivating curiosities. From arcane talismans to elixirs of mystical prowess, our online emporium is your gateway to a world of wonder and magic. Unearth ancient knowledge, embrace the arcane, and embark on a journey filled with marvels and enchantment at every turn. Welcome to a realm where every purchase is a step into the extraordinary.
-      </h5>
+  </header>
+  
+  <div id="hero-section">
+    <div id="banner" class="content">
+      <h1>The Veridian Emporium</h1>
+      <div class="caption">
+        <h5>
+          Step into our mystical realm and discover an enchanting array of spellbinding artifacts, bewitching potions, and captivating curiosities. From arcane talismans to elixirs of mystical prowess, our online emporium is your gateway to a world of wonder and magic. Unearth ancient knowledge, embrace the arcane, and embark on a journey filled with marvels and enchantment at every turn. Welcome to a realm where every purchase is a step into the extraordinary.
+        </h5>
+      </div>
+      <p id="fortune"></p>
     </div>
-    <p id="fortune"></p>
   </div>
 
-  <section id='information'>
-    
+<div id="white-background">
+  <section id='information'></section>
+  
+  <!-- Random potion generator -->
+  <div id="lottery-header">
+    <h3>Win a potion!</h3>
+  </div>
+  <section id="potion-generator">
+    <p id="fortuneMessage">Win a potion with three matching potions!</p>
+    <div id="potion-img">
+      <div class="potion-container">
+        <img id="potion1" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
+      </div>
+      <div class="potion-container">
+        <img id="potion2" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
+      </div>
+      <div class="potion-container">
+        <img id="potion3" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
+      </div>
+    </div>
+    <p id="tryCountDisplay">Number of tries: 0/10</p>
+    <button id="fortuneButton">Try your luck!</button>
   </section>
-<!-- Random potion generator -->
-<div id="lottery-header">
-  <h3>Win a potion!</h3>
-</div>
-<section id="potion-generator">
-  <p id="fortuneMessage">Win a potion with three matching potions!</p>
-  <div id="potion-img">
-      <div class="potion-container">
-          <img id="potion1" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
-      </div>
-      <div class="potion-container">
-          <img id="potion2" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
-      </div>
-      <div class="potion-container">
-          <img id="potion3" class="potion-image" src="Resources/css/Images/PotionX.png" alt="Potion X">
-      </div>
-  </div>
-  <p id="tryCountDisplay">Number of tries: 0/10</p>
-  <button id="fortuneButton">Try your luck!</button>
-</section>
 
   <!-- Social Media Icons -->
   <div id="social">
@@ -104,10 +100,11 @@
     <i class="fa fa-twitter"></i>
     <i class="fa fa-pinterest"></i>
   </div>
-  <footer><p>© 2024 The Veridian Emporium. All rights reserved.</p></footer>
+  
+  <footer>
+    <p>© 2024 The Veridian Emporium. All rights reserved.</p>
+  </footer>
 
-  <script src="./veridian.js">
-
-  </script>
+  <script src="./veridian.js"></script>
 </body>
 </html>

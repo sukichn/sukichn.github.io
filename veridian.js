@@ -234,5 +234,22 @@ const context = {
 const compiledHtml = template(context);
 document.getElementById("information").innerHTML = compiledHtml;
 
+// Header scrolling
+const header = document.querySelector('header');
+
+// Listen for the scroll event
+window.addEventListener('scroll', () => {
+  // Check if the user has scrolled beyond a certain point, for example, 100px from the top
+  if (window.scrollY > 100) {
+    // Add a class to the header when the user has scrolled beyond the specified point
+    header.classList.add('scrolled');
+    
+  } else {
+    // Remove the class when the user scrolls back up
+    header.classList.remove('scrolled');
+  
+  }
+});
+
 
 

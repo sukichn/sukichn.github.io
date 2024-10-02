@@ -5,6 +5,7 @@
   }
   header{
     width: 100%;
+    color: white;
   }
 
   #game-instruction h1 {
@@ -68,6 +69,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 0.9rem;
+    background-color: rgba(52, 4, 52, 0.356);
+    padding: 5px;
 }
 
 #coins-icon{
@@ -134,7 +138,7 @@ text-align: center;
     width: 250px;
     height: 175px;
     border: 1px solid transparent;
-    border-radius: 50px;
+    border-radius: 60px;
     display: flex;
     flex-direction: row;
     justify-content: center; 
@@ -157,7 +161,7 @@ text-align: center;
   }
   
   .drop-target {
-    background-color: rgba(255, 213, 0, 0.251);
+    background-color: rgba(255, 213, 0, 0.274);
     border-color: transparent;
     border-style: none;
     
