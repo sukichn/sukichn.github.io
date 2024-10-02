@@ -245,7 +245,7 @@ function checkRecipeMatch() {
             cauldronText.style.color = "transparent";
         }, 1000); // 1000 milliseconds
     } else {
-        cauldronText.innerText = "";
+        cauldronText.innerText = ""; // You're ingredients do not match the recipe;
     }
 }
 
@@ -339,11 +339,11 @@ function displayRandomRecipe() {
         // First two matches, use the first three recipes
         recipePool = recipes.slice(0, 3);
     } else if (matchCount >= 2 && matchCount < 4) {
-        // Matches 2 to 4, use the next two recipes and show special ingredients
-        recipePool = recipes.slice(2, 4);
+        // Matches 2 to 4
+        recipePool = recipes.slice(2, 5);
         showSpecialIngredients();
     } else {
-        // Matches 4 and above, use the last two recipes
+        // Matches 4 and above
         recipePool = recipes.slice(3, 6);
     }
 
@@ -357,6 +357,7 @@ function displayRandomRecipe() {
     recipeText = recipeText.slice(0, -2); // Remove trailing comma and space
 
     messageDisplay.innerText = recipeText;
+    messageDisplay.style.color = "yellow";
     matchCount++; // Increment match count after displaying a recipe
 
     reset(); // Ensure the game elements are reset to their initial state after displaying a new recipe
