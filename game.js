@@ -36,7 +36,7 @@ const recipes = [
     {
         name: "Potion III",
         ingredients: {
-            Herb: 2,
+            Herb: 1,
             Mushroom: 1,
             Berry: 1
         }
@@ -215,7 +215,7 @@ function checkRecipeMatch() {
         } else if (currentRecipe.name === "Potion VI") {
             coinsEarned = 15;
         }
-        
+
         coins += coinsEarned;
         cauldronText.innerText = `You've earned ${coinsEarned} coins and 3 seconds!`;
         coinsDisplay.innerText = ` ${coins}`;
@@ -283,14 +283,17 @@ function endGame(autoEnd = false) {
         clearInterval(timerInterval);
         document.getElementById('end-button').classList.add('hidden');
         document.getElementById('play-button').classList.remove('hidden');
-        resetButton.disabled = true; // Disable reset button when the game ends;
+        resetButton.disabled = true; // Disable reset button when the game ends
+
         // Hide ingredients when the game ends
         const draggableElements = document.querySelectorAll('.drag-drop');
         draggableElements.forEach(element => {
-        element.classList.add('hidden');
+            element.classList.add('hidden');
         });
-    // Display total earned coins
-    cauldronText.innerText = `Game over! You've earned ${coins} coins and 3 seconds!`;
+        
+        // Display total earned coins
+        cauldronText.innerText = `Game over! You've earned ${coins} coins!`;
+        cauldronText.style.color = "yellow"; // Ensure the color is set to visible
     }
 }
 
@@ -341,7 +344,7 @@ function displayRandomRecipe() {
         showSpecialIngredients();
     } else {
         // Matches 4 and above, use the last two recipes
-        recipePool = recipes.slice(4, 6);
+        recipePool = recipes.slice(3, 6);
     }
 
     const randomIndex = Math.floor(Math.random() * recipePool.length);
