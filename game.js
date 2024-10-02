@@ -92,7 +92,7 @@ interact('.dropzone').dropzone({
     // only accept elements matching this CSS selector
     accept: '#yes-drop, .drag-drop',
     // Require a 75% element overlap for a drop to be possible
-    overlap: 0.85,  
+    overlap: 0.75,  
 
     // listen for drop related events:
     ondropactivate: function (event) {
@@ -245,7 +245,7 @@ function checkRecipeMatch() {
             cauldronText.style.color = "transparent";
         }, 1000); // 1000 milliseconds
     } else {
-        cauldronText.innerText = "Your ingredients do not match the recipe!";
+        cauldronText.innerText = "";
     }
 }
 
