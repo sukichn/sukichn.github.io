@@ -22,9 +22,19 @@ function create() {
   gameState.player.setCollideWorldBounds(true);
 
   this.physics.add.collider(gameState.player, platforms);
+  gameState.cursors=this.input.keyboard.createCursorKeys();
 }
 
 function update() {
+    if (gameState.cursors.left.isDown){
+        gameState.player.setVelocityX(-160)
+      }
+      else if (gameState.cursors.right.isDown){
+        gameState.player.setVelocityX(160)
+      }
+      else{
+        gameState.player.setVelocityX(0)
+      }
 }
 
 const config = {
