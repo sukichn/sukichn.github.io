@@ -5,6 +5,7 @@ let gameStarted = false;
 let currentRecipe = null; // To keep track of the current recipe
 let yesDropElements = []; // Global variable for yesDropElements
 let matchCount = 0; // Variable to track the number of matches
+let highScore = 0; // Variable to store the high score
 
 // Global elements
 const innerDropzone = document.getElementById('inner-dropzone');
@@ -16,6 +17,7 @@ const coin2 = document.getElementById('coin2');
 const timerDisplay = document.getElementById('timer');
 const messageDisplay = document.getElementById('message');
 const coinsDisplay = document.getElementById('coins');
+const highScoreDisplay = document.getElementById('high-score'); // Element to display high score
 
 // Recipes
 const recipes = [
@@ -294,6 +296,14 @@ function endGame(autoEnd = false) {
         // Display total earned coins
         cauldronText.innerText = `Game over! You've earned ${coins} coins!`;
         cauldronText.style.color = "yellow"; // Ensure the color is set to visible
+
+        // Update high score if current score is higher
+        if (coins > highScore) {
+            highScore = coins;
+            localStorage.setItem('highScore', highScore);
+            highScoreDisplay.innerText = `| High Score: ${highScore}`;
+            highScoreDisplay.style.display = 'block'; // Ensure high score display is visible
+        }
     }
 }
 
@@ -403,6 +413,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Call the function initially to check the ingredient counts on page load
     checkIngredientCounts();
+
+    // Load high score from local storage
+    highScore = localStorage.getItem('highScore') || 0;
+    if (highScore > 0) {
+        highScoreDisplay.innerText = `| High Score: ${highScore}`;
+        highScoreDisplay.style.display = 'block';
+    } else {
+        highScoreDisplay.style.display = 'none';
+    }
 });
   
 // Reset function to move elements back to their original positions and containers

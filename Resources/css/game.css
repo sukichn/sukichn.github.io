@@ -89,7 +89,7 @@
     height: 30px;
 }
 
-#timer, #message, #cauldron-status, #cauldron-text{
+#timer, #message, #cauldron-status, #cauldron-text, #high-score{
     margin: 0.3rem;
 }
 #controls button:hover, #reset-button:hover{
