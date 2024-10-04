@@ -15,14 +15,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
   <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
   <style>
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-    body{
-    color: white;
     
-    }
+    html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
   </style>
 
 </head>
@@ -49,64 +53,7 @@
   </header>
 
 <body>
-    <!--
-    <div id = "background">
-    <div id="game-instruction" class="content">
-        <h1>The Art of Alchemy</h1>
-        <div id="controls"><button id="start-button" onclick="startGame()">Start Brewing</button>
-          <button id="play-button" class="hidden" onclick="playGame()">Play Again!</button>
-          <button id="end-button" class="hidden" onclick="endGame()">End Game</button>
-          
-          <div id="timer">Time: 60</div>
-          <div id="coins-icon"><img src="Resources/css/Images/coin.png"><div id="coins"> 0</div></div>
-          
-            <div id="message">Start brewing to see a recipe!</div>
-            <div id="cauldron-status"></div>
-            <div id='cauldron-text'></div> 
-            
-          
-        </div>
-    <div id="game-container">
-       
-        <div class="cauldron-zone">
-          <div id="outer-dropzone" >
-            <div id="coin1" class="coin hidden"></div>
-            <div id="coin2" class="coin hidden"></div>
-            <div id="inner-dropzone" class="dropzone">
-              
-            </div>
-            
-            </div>
-            
-          </div>
     
-          <div id="reset-button-container">
-            <button id="reset-button" onclick="reset()">Reset</button>
-          </div>
-
-          <div id="reset-button-container">
-            <button id="reset-button" onclick="reset()">Reset</button>
-          </div>
-    
-        <div class="yes-drop drag-drop ingredient hidden" alt="Mushroom" id="ingredient2-0" draggable="true">Mushroom</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Mushroom" id="ingredient2-1" draggable="true">Mushroom</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Mushroom" id="ingredient2-2" draggable="true">Mushroom</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Berry" id="ingredient3-0" draggable="true">Berry</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Berry" id="ingredient3-1" draggable="true">Berry</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Berry" id="ingredient3-2" draggable="true">Berry</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Herb" id="ingredient1-0" draggable="true">Herb</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Herb" id="ingredient1-1" draggable="true">Herb</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Herb" id="ingredient1-2" draggable="true">Herb</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Pearl" id="ingredient4-0" draggable="true">Pearl</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Pearl" id="ingredient4-1" draggable="true">Pearl</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Moonstone" id="ingredient5-0" draggable="true">Moonstone</div>
-        <div class="yes-drop drag-drop ingredient hidden" alt="Moonstone" id="ingredient5-1" draggable="true">Moonstone</div>
-        
-        
-    
-    </div>
-    </div>
-    -->
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
 
