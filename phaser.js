@@ -1,8 +1,4 @@
 let gameState = {};
-var isClicking = false;
-var swipeDirection;
-let swipeStartX = 0;
-let swipeStartY = 0;
 
 // Phaser Start Scene
 class StartScene extends Phaser.Scene {
@@ -165,58 +161,60 @@ class GameScene extends Phaser.Scene {
         
 
         if (gameState.active) {
-            // Touch input settings
-            // Swipe detection logic
-            if (gameState.active) {
-                // Swipe detection logic
-                if (!this.input.activePointer.isDown && isClicking) {
-                    // Capture the end position of the swipe
-                    let swipeEndX = this.input.activePointer.x;
-                    let swipeEndY = this.input.activePointer.y;
-                    let deltaX = swipeEndX - swipeStartX;
-                    let deltaY = swipeEndY - swipeStartY;
-        
-                    // Determine the swipe direction based on the deltas
-                    if (Math.abs(deltaX) >= 50 && Math.abs(deltaY) < Math.abs(deltaX)) {
-                        if (deltaX > 0) {
-                            swipeDirection = 'right';
-                        } else {
-                            swipeDirection = 'left';
-                        }
-                    } else if (Math.abs(deltaY) >= 50 && Math.abs(deltaX) < Math.abs(deltaY)) {
-                        if (deltaY < 0) {
-                            swipeDirection = 'up';
-                        }
-                    }
-                    isClicking = false;
-                } else if (this.input.activePointer.isDown && !isClicking) {
-                    // Capture the start position of the swipe
-                    isClicking = true;
-                    swipeStartX = this.input.activePointer.x;
-                    swipeStartY = this.input.activePointer.y;
-                }
+            // Variables to track swipe start position
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+
+    // Touch input settings for swipe detection
+    this.input.on('pointerdown', function (pointer) {
+        swipeStartX = pointer.x;
+        swipeStartY = pointer.y;
+    });
+
+    this.input.on('pointerup', function (pointer) {
+        let swipeEndX = pointer.x;
+        let swipeEndY = pointer.y;
+
+        let deltaX = swipeEndX - swipeStartX;
+        let deltaY = swipeEndY - swipeStartY;
+
+        // Determine the swipe direction
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > 50) {
+                // Swipe right
+                gameState.swipeDirection = 'right';
+            } else if (deltaX < -50) {
+                // Swipe left
+                gameState.swipeDirection = 'left';
             }
-    
-            // Handle movement based on swipe gestures or keyboard input
-            if (gameState.cursors.left.isDown || swipeDirection === 'left') {
-                gameState.player.setVelocityX(-360);
-                gameState.player.anims.play('run', true);
-                gameState.player.flipX = true;
-                swipeDirection = '';  // Reset swipe direction after handling
-            } else if (gameState.cursors.right.isDown || swipeDirection === 'right') {
-                gameState.player.setVelocityX(360);
-                gameState.player.anims.play('run', true);
-                gameState.player.flipX = false;
-                swipeDirection = '';  // Reset swipe direction after handling
-            } else {
-                gameState.player.setVelocityX(0);
-                gameState.player.anims.play('idle', true);
+        } else {
+            if (deltaY < -50) {
+                // Swipe up
+                gameState.swipeDirection = 'up';
             }
-    
-            if ((gameState.cursors.up.isDown || swipeDirection === 'up') && gameState.player.body.touching.down) {
-                gameState.player.setVelocityY(-800);
-                swipeDirection = '';  // Reset swipe direction after handling
-            }
+        }
+    });
+
+    // Reset swipe direction
+    gameState.swipeDirection = '';
+
+    // Handle movement based on swipe gestures or keyboard input
+    if (gameState.cursors.left.isDown || gameState.swipeDirection === 'left') {
+        gameState.player.setVelocityX(-360);
+        gameState.player.anims.play('run', true);
+        gameState.player.flipX = true;
+    } else if (gameState.cursors.right.isDown || gameState.swipeDirection === 'right') {
+        gameState.player.setVelocityX(360);
+        gameState.player.anims.play('run', true);
+        gameState.player.flipX = false;
+    } else {
+        gameState.player.setVelocityX(0);
+        gameState.player.anims.play('idle', true);
+    }
+
+    if ((gameState.cursors.up.isDown || gameState.swipeDirection === 'up') && gameState.player.body.touching.down) {
+        gameState.player.setVelocityY(-800);
+    }
 
             // Check if the player has fallen off the page
             if (gameState.player.y > 950) {
