@@ -49,6 +49,10 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet('codey', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/codey_sprite.png', { frameWidth: 72, frameHeight: 90 });
         this.load.spritesheet('snowman', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/snowman.png', { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet('exit', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_exit.png', { frameWidth: 60, frameHeight: 70 });
+        this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
+        this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
+        this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
+
     }
 
     create() {
@@ -155,8 +159,14 @@ class GameScene extends Phaser.Scene {
           }
         }
 
+        const leftButton = this.add.image(0, 700, 'leftButton').setInteractive().setDepth(1);
+        const upButton = this.add.image(50, 700, 'leftButton').setInteractive().setDepth(1);
+        const rightButton = this.add.image(100, 700, 'leftButton').setInteractive().setDepth(1);
+
+
         // Set the camera to follow the player only along the x-axis
         this.cameras.main.startFollow(gameState.player, true);
+
 
       }
 
@@ -166,52 +176,48 @@ class GameScene extends Phaser.Scene {
 
         if (gameState.active) {
             // Touch input settings
-            // Swipe detection logic
-            if (gameState.active) {
-                // Swipe detection logic
-                this.input.on('pointerdown', function (pointer) {
-                    if (pointer.x < this.scale.width / 2) {
-                        // Left side of the screen
-                        gameState.leftPressed = true;
-                        gameState.rightPressed = false;
-                    } else {
-                        // Right side of the screen
-                        gameState.rightPressed = true;
-                        gameState.leftPressed = false;
-                    }
-                }, this);
-
-                this.input.on('pointerup', function (pointer) {
-                    gameState.leftPressed = false;
+            this.input.on('pointerdown', function (pointer) {
+                if (pointer.x < this.scale.width / 2) {
+                    // Left side of the screen
+                    gameState.leftPressed = true;
                     gameState.rightPressed = false;
-                }, this);
-
-                if (!this.input.activePointer.isDown && isClicking) {
-                    // Capture the end position of the swipe
-                    let swipeEndX = this.input.activePointer.x;
-                    let swipeEndY = this.input.activePointer.y;
-                    let deltaX = swipeEndX - swipeStartX;
-                    let deltaY = swipeEndY - swipeStartY;
-        
-                    // Determine the swipe direction based on the deltas
-                    if (Math.abs(deltaX) >= 50 && Math.abs(deltaY) < Math.abs(deltaX)) {
-                        if (deltaX > 0) {
-                            swipeDirection = 'right';
-                        } else {
-                            swipeDirection = 'left';
-                        }
-                    } else if (Math.abs(deltaY) >= 50 && Math.abs(deltaX) < Math.abs(deltaY)) {
-                        if (deltaY < 0) {
-                            swipeDirection = 'up';
-                        }
-                    }
-                    isClicking = false;
-                } else if (this.input.activePointer.isDown && !isClicking) {
-                    // Capture the start position of the swipe
-                    isClicking = true;
-                    swipeStartX = this.input.activePointer.x;
-                    swipeStartY = this.input.activePointer.y;
+                } else {
+                    // Right side of the screen
+                    gameState.rightPressed = true;
+                    gameState.leftPressed = false;
                 }
+            }, this);
+        
+            this.input.on('pointerup', function (pointer) {
+                gameState.leftPressed = false;
+                gameState.rightPressed = false;
+            }, this);
+        
+            this.input.on('pointerdown', function (pointer) {
+                if (pointer.y < this.scale.height / 2) {
+                    // Top half of the screen
+                    gameState.upPressed = true;
+                }
+            }, this);
+        
+            this.input.on('pointerup', function (pointer) {
+                gameState.upPressed = false;
+            }, this);
+        
+            // Handle movement based on touch input or keyboard input
+            if (gameState.cursors.left.isDown || gameState.leftPressed) {
+                gameState.player.setVelocityX(-360);
+                gameState.player.anims.play('run', true);
+            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
+                gameState.player.setVelocityX(360);
+                gameState.player.anims.play('run', true);
+            } else {
+                gameState.player.setVelocityX(0);
+                gameState.player.anims.play('idle', true);
+            }
+        
+            if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
+                gameState.player.setVelocityY(-800);
             }
     
             // Handle movement based on swipe gestures or keyboard input
