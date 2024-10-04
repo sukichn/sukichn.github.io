@@ -181,6 +181,11 @@ class GameScene extends Phaser.Scene {
                     }
                 }, this);
 
+                this.input.on('pointerup', function (pointer) {
+                    gameState.leftPressed = false;
+                    gameState.rightPressed = false;
+                }, this);
+
                 if (!this.input.activePointer.isDown && isClicking) {
                     // Capture the end position of the swipe
                     let swipeEndX = this.input.activePointer.x;
