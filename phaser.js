@@ -161,51 +161,60 @@ class GameScene extends Phaser.Scene {
         
 
         if (gameState.active) {
-            // Touch input settings
-            this.input.on('pointerdown', function (pointer) {
-                if (pointer.x < this.scale.width / 2) {
-                    // Left side of the screen
-                    gameState.leftPressed = true;
-                    gameState.rightPressed = false;
-                } else {
-                    // Right side of the screen
-                    gameState.rightPressed = true;
-                    gameState.leftPressed = false;
-                }
-            }, this);
-        
-            this.input.on('pointerup', function (pointer) {
-                gameState.leftPressed = false;
-                gameState.rightPressed = false;
-            }, this);
-        
-            this.input.on('pointerdown', function (pointer) {
-                if (pointer.y < this.scale.height / 2) {
-                    // Top half of the screen
-                    gameState.upPressed = true;
-                }
-            }, this);
-        
-            this.input.on('pointerup', function (pointer) {
-                gameState.upPressed = false;
-            }, this);
-        
-            // Handle movement based on touch input or keyboard input
-            if (gameState.cursors.left.isDown || gameState.leftPressed) {
-                gameState.player.setVelocityX(-360);
-                gameState.player.anims.play('run', true);
-            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
-                gameState.player.setVelocityX(360);
-                gameState.player.anims.play('run', true);
-            } else {
-                gameState.player.setVelocityX(0);
-                gameState.player.anims.play('idle', true);
+            // Variables to track swipe start position
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+
+    // Touch input settings for swipe detection
+    this.input.on('pointerdown', function (pointer) {
+        swipeStartX = pointer.x;
+        swipeStartY = pointer.y;
+    });
+
+    this.input.on('pointerup', function (pointer) {
+        let swipeEndX = pointer.x;
+        let swipeEndY = pointer.y;
+
+        let deltaX = swipeEndX - swipeStartX;
+        let deltaY = swipeEndY - swipeStartY;
+
+        // Determine the swipe direction
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > 50) {
+                // Swipe right
+                gameState.swipeDirection = 'right';
+            } else if (deltaX < -50) {
+                // Swipe left
+                gameState.swipeDirection = 'left';
             }
-        
-            if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
-                gameState.player.setVelocityY(-800);
+        } else {
+            if (deltaY < -50) {
+                // Swipe up
+                gameState.swipeDirection = 'up';
             }
-        
+        }
+    });
+
+    // Reset swipe direction
+    gameState.swipeDirection = '';
+
+    // Handle movement based on swipe gestures or keyboard input
+    if (gameState.cursors.left.isDown || gameState.swipeDirection === 'left') {
+        gameState.player.setVelocityX(-360);
+        gameState.player.anims.play('run', true);
+        gameState.player.flipX = true;
+    } else if (gameState.cursors.right.isDown || gameState.swipeDirection === 'right') {
+        gameState.player.setVelocityX(360);
+        gameState.player.anims.play('run', true);
+        gameState.player.flipX = false;
+    } else {
+        gameState.player.setVelocityX(0);
+        gameState.player.anims.play('idle', true);
+    }
+
+    if ((gameState.cursors.up.isDown || gameState.swipeDirection === 'up') && gameState.player.body.touching.down) {
+        gameState.player.setVelocityY(-800);
+    }
 
             // Check if the player has fallen off the page
             if (gameState.player.y > 950) {
