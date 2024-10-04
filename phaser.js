@@ -166,34 +166,52 @@ class GameScene extends Phaser.Scene {
 
         if (gameState.active) {
             // Touch input settings
-            // Swipe detection logic
-            if (gameState.active) {
-                // Swipe detection logic
-                if (!this.input.activePointer.isDown && isClicking) {
-                    // Capture the end position of the swipe
-                    let swipeEndX = this.input.activePointer.x;
-                    let swipeEndY = this.input.activePointer.y;
-                    let deltaX = swipeEndX - swipeStartX;
-                    let deltaY = swipeEndY - swipeStartY;
+            if (!this.input.activePointer.isDown && isClicking == true) {
+                const deltaX = Math.abs(this.input.activePointer.upX - this.input.activePointer.downX);
+                const deltaY = Math.abs(this.input.activePointer.upY - this.input.activePointer.downY);
         
-                    // Determine the swipe direction based on the deltas
-                    if (Math.abs(deltaX) >= 50 && Math.abs(deltaY) < Math.abs(deltaX)) {
-                        if (deltaX > 0) {
-                            swipeDirection = 'right';
-                        } else {
-                            swipeDirection = 'left';
-                        }
-                    } else if (Math.abs(deltaY) >= 50 && Math.abs(deltaX) < Math.abs(deltaY)) {
-                        if (deltaY < 0) {
-                            swipeDirection = 'up';
-                        }
+                if (deltaY >= 50 && deltaY > deltaX) {
+                    if (this.input.activePointer.upY < this.input.activePointer.downY) {
+                        swipeDirection = "up";
+                    } else if (this.input.activePointer.upY > this.input.activePointer.downY) {
+                        swipeDirection = "down";
                     }
-                    isClicking = false;
-                } else if (this.input.activePointer.isDown && !isClicking) {
-                    // Capture the start position of the swipe
-                    isClicking = true;
-                    swipeStartX = this.input.activePointer.x;
-                    swipeStartY = this.input.activePointer.y;
+                } else if (deltaX >= 50 && deltaX > deltaY) {
+                    if (this.input.activePointer.upX < this.input.activePointer.downX) {
+                        swipeDirection = "left";
+                    } else if (this.input.activePointer.upX > this.input.activePointer.downX) {
+                        swipeDirection = "right";
+                    }
+                }
+        
+                isClicking = false;
+            } else if (this.input.activePointer.isDown && isClicking == false) {
+                isClicking = true;
+            }
+        
+            if (swipeDirection == "down" && plane.y < 500) {
+                if (Math.abs(plane.y - 500) <= 10) {
+                    plane.y = 500;
+                } else {
+                    plane.y += 8;
+                }
+            } else if (swipeDirection == "up" && plane.y > 150) {
+                if (Math.abs(plane.y - 150) <= 10) {
+                    plane.y = 150;
+                } else {
+                    plane.y -= 8;
+                }
+            } else if (swipeDirection == "left" && plane.x > 150) {
+                if (Math.abs(plane.x - 150) <= 10) {
+                    plane.x = 150;
+                } else {
+                    plane.x -= 32;
+                }
+            } else if (swipeDirection == "right" && plane.x < 500) {
+                if (Math.abs(plane.x - 500) <= 10) {
+                    plane.x = 500;
+                } else {
+                    plane.x += 32;
                 }
             }
     
