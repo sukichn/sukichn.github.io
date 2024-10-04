@@ -169,6 +169,18 @@ class GameScene extends Phaser.Scene {
             // Swipe detection logic
             if (gameState.active) {
                 // Swipe detection logic
+                this.input.on('pointerdown', function (pointer) {
+                    if (pointer.x < this.scale.width / 2) {
+                        // Left side of the screen
+                        gameState.leftPressed = true;
+                        gameState.rightPressed = false;
+                    } else {
+                        // Right side of the screen
+                        gameState.rightPressed = true;
+                        gameState.leftPressed = false;
+                    }
+                }, this);
+
                 if (!this.input.activePointer.isDown && isClicking) {
                     // Capture the end position of the swipe
                     let swipeEndX = this.input.activePointer.x;
@@ -198,12 +210,12 @@ class GameScene extends Phaser.Scene {
             }
     
             // Handle movement based on swipe gestures or keyboard input
-            if (gameState.cursors.left.isDown || swipeDirection === 'left') {
+            if (gameState.cursors.left.isDown || gameState.leftPressed) {
                 gameState.player.setVelocityX(-360);
                 gameState.player.anims.play('run', true);
                 gameState.player.flipX = true;
                 swipeDirection = '';  // Reset swipe direction after handling
-            } else if (gameState.cursors.right.isDown || swipeDirection === 'right') {
+            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
                 gameState.player.setVelocityX(360);
                 gameState.player.anims.play('run', true);
                 gameState.player.flipX = false;
