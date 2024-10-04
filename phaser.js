@@ -180,15 +180,15 @@ class GameScene extends Phaser.Scene {
 
         // Determine the swipe direction
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            if (deltaX > 50) {
+            if (deltaX > 5) {
                 // Swipe right
                 gameState.swipeDirection = 'right';
-            } else if (deltaX < -50) {
+            } else if (deltaX < -5) {
                 // Swipe left
                 gameState.swipeDirection = 'left';
             }
         } else {
-            if (deltaY < -50) {
+            if (deltaY < -5) {
                 // Swipe up
                 gameState.swipeDirection = 'up';
             }
