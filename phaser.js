@@ -1,6 +1,8 @@
 let gameState = {};
 var isClicking = false;
 var swipeDirection;
+let swipeStartX = 0;
+let swipeStartY = 0;
 
 // Phaser Start Scene
 class StartScene extends Phaser.Scene {
@@ -164,27 +166,35 @@ class GameScene extends Phaser.Scene {
 
         if (gameState.active) {
             // Touch input settings
-            if (!this.input.activePointer.isDown && isClicking) {
-                let deltaX = this.input.activePointer.upX - this.input.activePointer.downX;
-                let deltaY = this.input.activePointer.upY - this.input.activePointer.downY;
-    
-                if (Math.abs(deltaX) >= 50) {
-                    if (deltaX > 0) {
-                        swipeDirection = 'right';
-                    } else {
-                        swipeDirection = 'left';
+            // Swipe detection logic
+            if (gameState.active) {
+                // Swipe detection logic
+                if (!this.input.activePointer.isDown && isClicking) {
+                    // Capture the end position of the swipe
+                    let swipeEndX = this.input.activePointer.x;
+                    let swipeEndY = this.input.activePointer.y;
+                    let deltaX = swipeEndX - swipeStartX;
+                    let deltaY = swipeEndY - swipeStartY;
+        
+                    // Determine the swipe direction based on the deltas
+                    if (Math.abs(deltaX) >= 50 && Math.abs(deltaY) < Math.abs(deltaX)) {
+                        if (deltaX > 0) {
+                            swipeDirection = 'right';
+                        } else {
+                            swipeDirection = 'left';
+                        }
+                    } else if (Math.abs(deltaY) >= 50 && Math.abs(deltaX) < Math.abs(deltaY)) {
+                        if (deltaY < 0) {
+                            swipeDirection = 'up';
+                        }
                     }
-                } else if (Math.abs(deltaY) >= 50) {
-                    if (deltaY < 0) {
-                        swipeDirection = 'up';
-                    }
+                    isClicking = false;
+                } else if (this.input.activePointer.isDown && !isClicking) {
+                    // Capture the start position of the swipe
+                    isClicking = true;
+                    swipeStartX = this.input.activePointer.x;
+                    swipeStartY = this.input.activePointer.y;
                 }
-                isClicking = false;
-            } else if (this.input.activePointer.isDown && !isClicking) {
-                isClicking = true;
-                // Store the starting positions for comparison
-                this.input.activePointer.downX = this.input.activePointer.x;
-                this.input.activePointer.downY = this.input.activePointer.y;
             }
     
             // Handle movement based on swipe gestures or keyboard input
