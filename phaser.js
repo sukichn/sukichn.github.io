@@ -166,63 +166,41 @@ class GameScene extends Phaser.Scene {
 
         if (gameState.active) {
             // Touch input settings
-            if (!this.input.activePointer.isDown && isClicking == true) {
-                const deltaX = Math.abs(this.input.activePointer.upX - this.input.activePointer.downX);
-                const deltaY = Math.abs(this.input.activePointer.upY - this.input.activePointer.downY);
+            if (!this.input.activePointer.isDown && isClicking) {
+                let deltaX = this.input.activePointer.upX - this.input.activePointer.downX;
+                let deltaY = this.input.activePointer.upY - this.input.activePointer.downY;
         
-                if (deltaY >= 50 && deltaY > deltaX) {
-                    if (this.input.activePointer.upY < this.input.activePointer.downY) {
-                        swipeDirection = "up";
-                    } else if (this.input.activePointer.upY > this.input.activePointer.downY) {
-                        swipeDirection = "down";
+                if (Math.abs(deltaX) >= 50) {
+                    if (deltaX > 0) {
+                        swipeDirection = 'right';
+                        swipeDistance = deltaX;  // Store the swipe distance
+                    } else {
+                        swipeDirection = 'left';
+                        swipeDistance = deltaX;  // Store the swipe distance (will be negative)
                     }
-                } else if (deltaX >= 50 && deltaX > deltaY) {
-                    if (this.input.activePointer.upX < this.input.activePointer.downX) {
-                        swipeDirection = "left";
-                    } else if (this.input.activePointer.upX > this.input.activePointer.downX) {
-                        swipeDirection = "right";
+                } else if (Math.abs(deltaY) >= 50) {
+                    if (deltaY < 0) {
+                        swipeDirection = 'up';
                     }
                 }
-        
                 isClicking = false;
-            } else if (this.input.activePointer.isDown && isClicking == false) {
+            } else if (this.input.activePointer.isDown && !isClicking) {
                 isClicking = true;
+                // Store the starting positions for comparison
+                this.input.activePointer.downX = this.input.activePointer.x;
+                this.input.activePointer.downY = this.input.activePointer.y;
             }
         
-            if (swipeDirection == "down" && plane.y < 500) {
-                if (Math.abs(plane.y - 500) <= 10) {
-                    plane.y = 500;
-                } else {
-                    plane.y += 8;
-                }
-            } else if (swipeDirection == "up" && plane.y > 150) {
-                if (Math.abs(plane.y - 150) <= 10) {
-                    plane.y = 150;
-                } else {
-                    plane.y -= 8;
-                }
-            } else if (swipeDirection == "left" && plane.x > 150) {
-                if (Math.abs(plane.x - 150) <= 10) {
-                    plane.x = 150;
-                } else {
-                    plane.x -= 32;
-                }
-            } else if (swipeDirection == "right" && plane.x < 500) {
-                if (Math.abs(plane.x - 500) <= 10) {
-                    plane.x = 500;
-                } else {
-                    plane.x += 32;
-                }
-            }
-    
             // Handle movement based on swipe gestures or keyboard input
             if (gameState.cursors.left.isDown || swipeDirection === 'left') {
-                gameState.player.setVelocityX(-360);
+                let velocity = swipeDirection === 'left' ? -360 + Math.abs(swipeDistance) * -2 : -360;
+                gameState.player.setVelocityX(velocity);
                 gameState.player.anims.play('run', true);
                 gameState.player.flipX = true;
                 swipeDirection = '';  // Reset swipe direction after handling
             } else if (gameState.cursors.right.isDown || swipeDirection === 'right') {
-                gameState.player.setVelocityX(360);
+                let velocity = swipeDirection === 'right' ? 360 + swipeDistance * 2 : 360;
+                gameState.player.setVelocityX(velocity);
                 gameState.player.anims.play('run', true);
                 gameState.player.flipX = false;
                 swipeDirection = '';  // Reset swipe direction after handling
@@ -230,12 +208,12 @@ class GameScene extends Phaser.Scene {
                 gameState.player.setVelocityX(0);
                 gameState.player.anims.play('idle', true);
             }
-    
+        
             if ((gameState.cursors.up.isDown || swipeDirection === 'up') && gameState.player.body.touching.down) {
                 gameState.player.setVelocityY(-800);
                 swipeDirection = '';  // Reset swipe direction after handling
             }
-
+        
             // Check if the player has fallen off the page
             if (gameState.player.y > 950) {
                 this.add.text(900, 500, '      Game over!\nClick to play again.', {
@@ -243,7 +221,7 @@ class GameScene extends Phaser.Scene {
                     fontSize: '36px',
                     color: '#ffffff'
                 }).setOrigin(0.5);
-
+        
                 this.physics.pause();
                 gameState.active = false;
                 gameState.player.setTint(0xff0000);
