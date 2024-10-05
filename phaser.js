@@ -245,6 +245,7 @@ class GameScene extends BaseScene {
 
             this.input.on('pointermove', function (pointer) {
                 if (pointer.isDown) { // Only process if the pointer is down
+                    // Horizontal movement handling
                     if (pointer.x < this.scale.width / 2) {
                         // Left side of the screen
                         gameState.leftPressed = true;
@@ -254,22 +255,40 @@ class GameScene extends BaseScene {
                         gameState.rightPressed = true;
                         gameState.leftPressed = false;
                     }
+            
+                    // Vertical movement handling
+                    if (pointer.y < this.scale.height / 2) {
+                        // Top half of the screen
+                        gameState.upPressed = true;
+                    } else {
+                        // Bottom half of the screen
+                        gameState.upPressed = false;
+                    }
                 }
             }, this);
-        
-            this.input.on('pointerup', function (pointer) {
-                gameState.leftPressed = false;
-                gameState.rightPressed = false;
-            }, this);
-        
+            
             this.input.on('pointerdown', function (pointer) {
+                // Horizontal movement handling
+                if (pointer.x < this.scale.width / 2) {
+                    // Left side of the screen
+                    gameState.leftPressed = true;
+                    gameState.rightPressed = false;
+                } else {
+                    // Right side of the screen
+                    gameState.rightPressed = true;
+                    gameState.leftPressed = false;
+                }
+            
+                // Vertical movement handling
                 if (pointer.y < this.scale.height / 2) {
                     // Top half of the screen
                     gameState.upPressed = true;
                 }
             }, this);
-        
+            
             this.input.on('pointerup', function (pointer) {
+                gameState.leftPressed = false;
+                gameState.rightPressed = false;
                 gameState.upPressed = false;
             }, this);
         
