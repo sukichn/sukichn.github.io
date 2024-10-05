@@ -82,7 +82,7 @@ class GameScene extends BaseScene {
         this.load.spritesheet('codey', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/codey_sprite.png', { frameWidth: 72, frameHeight: 90 });
         this.load.spritesheet('snowman', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/snowman.png', { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet('exit', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_exit.png', { frameWidth: 60, frameHeight: 70 });
-        this.load.spritesheet('coin', 'https://www.vhv.rs/dpng/d/420-4201833_coins-clipart-sprite-coin-sprite-sheet-png-transparent.png', { frameWidth: 200, frameHeight:  100});
+        this.load.spritesheet('coin', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', { frameWidth: 60, frameHeight:  70});
         this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
