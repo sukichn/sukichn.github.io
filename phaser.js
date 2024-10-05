@@ -241,15 +241,19 @@ class GameScene extends BaseScene {
 
         if (gameState.active) {
             // Touch input settings
-            this.input.on('pointerdown', function (pointer) {
-                if (pointer.x < this.scale.width / 2) {
-                    // Left side of the screen
-                    gameState.leftPressed = true;
-                    gameState.rightPressed = false;
-                } else {
-                    // Right side of the screen
-                    gameState.rightPressed = true;
-                    gameState.leftPressed = false;
+            
+
+            this.input.on('pointermove', function (pointer) {
+                if (pointer.isDown) { // Only process if the pointer is down
+                    if (pointer.x < this.scale.width / 2) {
+                        // Left side of the screen
+                        gameState.leftPressed = true;
+                        gameState.rightPressed = false;
+                    } else {
+                        // Right side of the screen
+                        gameState.rightPressed = true;
+                        gameState.leftPressed = false;
+                    }
                 }
             }, this);
         
@@ -290,12 +294,12 @@ class GameScene extends BaseScene {
                 gameState.player.setVelocityX(-360);
                 gameState.player.anims.play('run', true);
                 gameState.player.flipX = true;
-                swipeDirection = '';  // Reset swipe direction after handling
+    
             } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
                 gameState.player.setVelocityX(360);
                 gameState.player.anims.play('run', true);
                 gameState.player.flipX = false;
-                swipeDirection = '';  // Reset swipe direction after handling
+        
             } else {
                 gameState.player.setVelocityX(0);
                 gameState.player.anims.play('idle', true);
