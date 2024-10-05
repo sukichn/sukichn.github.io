@@ -184,7 +184,6 @@ class GameScene extends BaseScene {
         this.cameras.main.startFollow(gameState.player, true);
 
         // Touch input settings for left/right press detection
-        // Touch input settings
         this.input.on('pointerdown', function (pointer) {
             if (pointer.x < this.scale.width / 2) {
                 // Left side of the screen
@@ -195,76 +194,28 @@ class GameScene extends BaseScene {
                 gameState.rightPressed = true;
                 gameState.leftPressed = false;
             }
+
+            // Store the starting positions for swipe detection
+            isClicking = true;
+            swipeStartY = pointer.y;
         }, this);
-    
+
         this.input.on('pointerup', function (pointer) {
             gameState.leftPressed = false;
             gameState.rightPressed = false;
-        }, this);
-    
-        this.input.on('pointerdown', function (pointer) {
-            if (pointer.y < this.scale.height / 2) {
-                // Top half of the screen
-                gameState.upPressed = true;
+
+            // Capture the end position of the swipe
+            if (isClicking) {
+                let swipeEndY = pointer.y;
+                let deltaY = swipeEndY - swipeStartY;
+
+                if (Math.abs(deltaY) >= 50 && deltaY < 0) {
+                    swipeDirection = 'up';
+                }
+
+                isClicking = false;
             }
         }, this);
-    
-        this.input.on('pointerup', function (pointer) {
-            gameState.upPressed = false;
-        }, this);
-    
-        // Handle movement based on touch input or keyboard input
-        if (gameState.cursors.left.isDown || gameState.leftPressed) {
-            gameState.player.setVelocityX(-360);
-            gameState.player.anims.play('run', true);
-        } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
-            gameState.player.setVelocityX(360);
-            gameState.player.anims.play('run', true);
-        } else {
-            gameState.player.setVelocityX(0);
-            gameState.player.anims.play('idle', true);
-        }
-    
-        if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
-            gameState.player.setVelocityY(-800);
-        }
-
-        // Handle movement based on swipe gestures or keyboard input
-        if (gameState.cursors.left.isDown || gameState.leftPressed) {
-            gameState.player.setVelocityX(-360);
-            gameState.player.anims.play('run', true);
-            gameState.player.flipX = true;
-            swipeDirection = '';  // Reset swipe direction after handling
-        } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
-            gameState.player.setVelocityX(360);
-            gameState.player.anims.play('run', true);
-            gameState.player.flipX = false;
-            swipeDirection = '';  // Reset swipe direction after handling
-        } else {
-            gameState.player.setVelocityX(0);
-            gameState.player.anims.play('idle', true);
-        }
-
-        if ((gameState.cursors.up.isDown || swipeDirection === 'up') && gameState.player.body.touching.down) {
-            gameState.player.setVelocityY(-800);
-            swipeDirection = '';  // Reset swipe direction after handling
-        }
-
-        // Check if the player has fallen off the page
-        if (gameState.player.y > 950) {
-            this.add.text(900, 500, '      Game over!\nClick to play again.', {
-                fontFamily: 'Arial',
-                fontSize: '36px',
-                color: '#ffffff'
-            }).setOrigin(0.5);
-
-            this.physics.pause();
-            gameState.active = false;
-            gameState.player.setTint(0xff0000);
-            this.input.once('pointerup', () => {
-                this.scene.restart();
-            });
-        }
     }
 
     update() {
@@ -275,20 +226,67 @@ class GameScene extends BaseScene {
         gameState.fog.tilePositionX += 0.7;
 
         if (gameState.active) {
+            // Touch input settings
+            this.input.on('pointerdown', function (pointer) {
+                if (pointer.x < this.scale.width / 2) {
+                    // Left side of the screen
+                    gameState.leftPressed = true;
+                    gameState.rightPressed = false;
+                } else {
+                    // Right side of the screen
+                    gameState.rightPressed = true;
+                    gameState.leftPressed = false;
+                }
+            }, this);
+        
+            this.input.on('pointerup', function (pointer) {
+                gameState.leftPressed = false;
+                gameState.rightPressed = false;
+            }, this);
+        
+            this.input.on('pointerdown', function (pointer) {
+                if (pointer.y < this.scale.height / 2) {
+                    // Top half of the screen
+                    gameState.upPressed = true;
+                }
+            }, this);
+        
+            this.input.on('pointerup', function (pointer) {
+                gameState.upPressed = false;
+            }, this);
+        
             // Handle movement based on touch input or keyboard input
             if (gameState.cursors.left.isDown || gameState.leftPressed) {
                 gameState.player.setVelocityX(-360);
                 gameState.player.anims.play('run', true);
-                gameState.player.flipX = true;
             } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
                 gameState.player.setVelocityX(360);
                 gameState.player.anims.play('run', true);
-                gameState.player.flipX = false;
             } else {
                 gameState.player.setVelocityX(0);
                 gameState.player.anims.play('idle', true);
             }
-
+        
+            if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
+                gameState.player.setVelocityY(-800);
+            }
+    
+            // Handle movement based on swipe gestures or keyboard input
+            if (gameState.cursors.left.isDown || gameState.leftPressed) {
+                gameState.player.setVelocityX(-360);
+                gameState.player.anims.play('run', true);
+                gameState.player.flipX = true;
+                swipeDirection = '';  // Reset swipe direction after handling
+            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
+                gameState.player.setVelocityX(360);
+                gameState.player.anims.play('run', true);
+                gameState.player.flipX = false;
+                swipeDirection = '';  // Reset swipe direction after handling
+            } else {
+                gameState.player.setVelocityX(0);
+                gameState.player.anims.play('idle', true);
+            }
+    
             if ((gameState.cursors.up.isDown || swipeDirection === 'up') && gameState.player.body.touching.down) {
                 gameState.player.setVelocityY(-800);
                 swipeDirection = '';  // Reset swipe direction after handling
