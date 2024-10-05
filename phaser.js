@@ -18,10 +18,10 @@ class BaseScene extends Phaser.Scene {
     }
 
     createBackground() {
-        gameState.background = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'bg').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
-        gameState.trees = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'trees').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
-        gameState.fog = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'fog').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
-        gameState.foreground = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'foreground').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
+        gameState.background = this.add.tileSprite(0, 55, this.cameras.main.width, this.cameras.main.height, 'bg').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
+        gameState.trees = this.add.tileSprite(0, 55, this.cameras.main.width, this.cameras.main.height, 'trees').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
+        gameState.fog = this.add.tileSprite(0, 55, this.cameras.main.width, this.cameras.main.height, 'fog').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
+        gameState.foreground = this.add.tileSprite(0, 55, this.cameras.main.width, this.cameras.main.height, 'foreground').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
     }
 
     updateBackground() {
@@ -51,12 +51,17 @@ class StartScene extends BaseScene {
         // Add a start button
         const startButton = this.add.image(800, 500, 'startButton').setInteractive().setDepth(1).setScale(0.1);
         startButton.on('pointerdown', () => {
-            this.scene.stop('StartScene')
-            this.scene.start('GameScene')
+            this.scene.stop('StartScene');
+            this.scene.start('GameScene');
+            document.getElementById('main-header').style.display = 'none';
         });
 
-        // Add instructions or other UI elements as needed
-        this.add.text(800, 750, 'Click to start!', { fontSize: '32px', fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
+        const startText = this.add.text(800, 750, 'Click to start!', { fontSize: '32px', fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
+        startText.on('pointerdown', () => {
+            this.scene.stop('StartScene');
+            this.scene.start('GameScene');
+            document.getElementById('main-header').style.display = 'none';
+        });    
     }
 
     update() {
@@ -88,16 +93,22 @@ class GameScene extends BaseScene {
     
         const platforms = this.physics.add.staticGroup();
         const platPositions = [
-            { x: -150, y: 575 },{ x: 50, y: 575 }, { x: 250, y: 575 }, { x: 450, y: 575 }, { x: 400, y: 380 }, { x: 100, y: 200 },
-            { x: 650, y: 775 }
+        { x: -550, y: 875 },  // Adjusted y-coordinate
+        { x: -350, y: 875 },    // Adjusted y-coordinate
+        { x: -150, y: 875 },   // Adjusted y-coordinate
+        { x: 150, y: 875 },   // Adjusted y-coordinate
+        { x: 100, y: 680 },   // Adjusted y-coordinate
+        { x: -200, y: 550 },   // Adjusted y-coordinate
+        { x: 350, y: 1075 },
+        { x: 550, y: 875 },    
         ];
         platPositions.forEach(plat => {
           platforms.create(plat.x, plat.y, 'platform')
         });
     
-        gameState.player = this.physics.add.sprite(50, 500, 'codey').setScale(.8);
+        gameState.player = this.physics.add.sprite(-250, 500, 'codey').setScale(.8);
         this.physics.add.collider(gameState.player, platforms);
-        gameState.player.setCollideWorldBounds(true);
+        
     
         gameState.cursors = this.input.keyboard.createCursorKeys();
     
@@ -115,7 +126,7 @@ class GameScene extends BaseScene {
           repeat: -1
         });
     
-        gameState.enemy = this.physics.add.sprite(480, 300, 'snowman');
+        gameState.enemy = this.physics.add.sprite(30, 600, 'snowman');
         this.physics.add.collider(gameState.enemy, platforms);
     
         this.anims.create({
@@ -128,7 +139,7 @@ class GameScene extends BaseScene {
         gameState.enemy.anims.play('snowmanAlert', true);
     
         this.physics.add.overlap(gameState.player, gameState.enemy, () => {
-          this.add.text(150, 50, '      Game Over...\n  Click to play again.', { fontFamily: 'Arial', fontSize: 36, color: '#ffffff' });
+          this.add.text(100, 300, '      Game Over...\n  Click to play again.', { fontFamily: 'Work Sans', fontSize: 36, color: '#ffffff' });
           this.physics.pause();
           gameState.active = false;
           this.anims.pauseAll();
@@ -139,7 +150,7 @@ class GameScene extends BaseScene {
           });
         });
     
-        gameState.exit = this.physics.add.sprite(50, 142, 'exit');
+        gameState.exit = this.physics.add.sprite(-250, 142, 'exit');
         this.anims.create({
           key: 'glow',
           frames: this.anims.generateFrameNumbers('exit', { start: 0, end: 5 }),
@@ -150,7 +161,7 @@ class GameScene extends BaseScene {
         gameState.exit.anims.play('glow', true);
     
         this.physics.add.overlap(gameState.player, gameState.exit, () => {
-          this.add.text(150, 50, 'You reached the exit!\n  Click to play again.', { fontFamily: 'Arial', fontSize: 36, color: '#ffffff' });
+          this.add.text(0, 300, 'You reached the exit!\n  Click to play again.', { fontFamily: 'Work Sans', fontSize: 36, color: '#ffffff' });
           this.physics.pause();
           gameState.active = false;
           this.anims.pauseAll();
@@ -163,20 +174,23 @@ class GameScene extends BaseScene {
     
         gameState.enemy.move = this.tweens.add({
           targets: gameState.enemy,
-          x: 320,
+          x: 100 + 90,
           ease: 'Linear',
-          duration: 1800,
+          duration: 2000,
           repeat: -1,
           yoyo: true,
           onRepeat: growSnowman
         });
         
-        let scaleChange = 1.1;
+        let scaleChange = 1;
         function growSnowman() {
-          if (scaleChange < 4) {
+          if (scaleChange < 2) {
             scaleChange += .3;
             gameState.enemy.setScale(scaleChange);
             gameState.enemy.y -= 15;
+          }
+          else{
+            scaleChange += 0;
           }
         }
 
@@ -287,15 +301,11 @@ class GameScene extends BaseScene {
                 gameState.player.anims.play('idle', true);
             }
     
-            if ((gameState.cursors.up.isDown || swipeDirection === 'up') && gameState.player.body.touching.down) {
-                gameState.player.setVelocityY(-800);
-                swipeDirection = '';  // Reset swipe direction after handling
-            }
 
             // Check if the player has fallen off the page
-            if (gameState.player.y > 950) {
-                this.add.text(900, 500, '      Game over!\nClick to play again.', {
-                    fontFamily: 'Arial',
+            if (gameState.player.y > 1200) {
+                this.add.text(900, 900, '      Game over!\nClick to play again.', {
+                    fontFamily: 'Work Sans',
                     fontSize: '36px',
                     color: '#ffffff'
                 }).setOrigin(0.5);
