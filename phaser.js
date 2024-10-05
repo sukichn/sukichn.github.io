@@ -82,6 +82,7 @@ class GameScene extends BaseScene {
         this.load.spritesheet('codey', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/codey_sprite.png', { frameWidth: 72, frameHeight: 90 });
         this.load.spritesheet('snowman', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/snowman.png', { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet('exit', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_exit.png', { frameWidth: 60, frameHeight: 70 });
+        this.load.spritesheet('coin', 'https://www.vhv.rs/dpng/d/420-4201833_coins-clipart-sprite-coin-sprite-sheet-png-transparent.png', { frameWidth: 200, frameHeight:  100});
         this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
@@ -125,6 +126,8 @@ class GameScene extends BaseScene {
           frameRate: 5,
           repeat: -1
         });
+
+       
     
         gameState.enemy = this.physics.add.sprite(30, 600, 'snowman');
         this.physics.add.collider(gameState.enemy, platforms);
@@ -149,38 +152,58 @@ class GameScene extends BaseScene {
             this.scene.restart();
           });
         });
-    
-        gameState.exit = this.physics.add.sprite(-250, 142, 'exit');
-        this.anims.create({
-          key: 'glow',
-          frames: this.anims.generateFrameNumbers('exit', { start: 0, end: 5 }),
-          frameRate: 4,
-          repeat: -1
-        });
-        this.physics.add.collider(gameState.exit, platforms);
-        gameState.exit.anims.play('glow', true);
-    
-        this.physics.add.overlap(gameState.player, gameState.exit, () => {
-          this.add.text(0, 300, 'You reached the exit!\n  Click to play again.', { fontFamily: 'Work Sans', fontSize: 36, color: '#ffffff' });
-          this.physics.pause();
-          gameState.active = false;
-          this.anims.pauseAll();
-          gameState.enemy.move.stop();
-          this.input.on('pointerup', () => {
+
+         // Create and animate the coin
+    gameState.coin = this.add.sprite(gameState.enemy.x + 50, gameState.enemy.y - 100, 'snowman'); // Ensure the coin has a physics body
+    this.anims.create({
+        key: 'coinAlert',
+        frames: this.anims.generateFrameNumbers('snowman', { start: 0, end: 3 }),
+        frameRate: 4,
+        repeat: -1
+    });
+    gameState.coin.anims.play('coinAlert', true);
+
+    // Create a non-physics group for the coin
+    gameState.coinGroup = this.add.group();
+    gameState.coinGroup.add(gameState.coin);
+
+    // Add overlap detection between player and coinGroup
+    this.physics.add.overlap(gameState.player, gameState.coinGroup, (player, coin) => {
+        console.log('Player overlapped with the coin'); // Debugging line
+        coin.destroy();
+    }, null, this);
+
+    gameState.exit = this.physics.add.sprite(-250, 142, 'exit');
+    this.anims.create({
+        key: 'glow',
+        frames: this.anims.generateFrameNumbers('exit', { start: 0, end: 5 }),
+        frameRate: 4,
+        repeat: -1
+    });
+    this.physics.add.collider(gameState.exit, platforms);
+    gameState.exit.anims.play('glow', true);
+
+    this.physics.add.overlap(gameState.player, gameState.exit, () => {
+        this.add.text(0, 300, 'You reached the exit!\n  Click to play again.', { fontFamily: 'Work Sans', fontSize: 36, color: '#ffffff' });
+        this.physics.pause();
+        gameState.active = false;
+        this.anims.pauseAll();
+        gameState.enemy.move.stop();
+        this.input.on('pointerup', () => {
             this.anims.resumeAll();
             this.scene.restart();
-          });
         });
-    
-        gameState.enemy.move = this.tweens.add({
-          targets: gameState.enemy,
-          x: 100 + 90,
-          ease: 'Linear',
-          duration: 2000,
-          repeat: -1,
-          yoyo: true,
-          onRepeat: growSnowman
-        });
+    });
+
+    gameState.enemy.move = this.tweens.add({
+        targets: gameState.enemy,
+        x: 100 + 90,
+        ease: 'Linear',
+        duration: 2000,
+        repeat: -1,
+        yoyo: true,
+        onRepeat: growSnowman
+    });
         
         let scaleChange = 1;
         function growSnowman() {
