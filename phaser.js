@@ -158,6 +158,7 @@ class GameScene extends BaseScene {
                 gameState.active = false;
                 this.anims.pauseAll();
                 gameState.player.setTint(0xff0000);
+                document.getElementById('coins-earned').innerText = 'Coins: 0';
                 this.input.once('pointerup', () => {
                     this.scene.restart();
                 });
@@ -230,7 +231,7 @@ class GameScene extends BaseScene {
     
         // Positions for coins on platforms
         const coinPositions = [
-            { x: 300, y: 825 }, // Coin on Platform 1
+            
             { x: 500, y: 825 }, // Coin on Platform 2
             { x: 700, y: 825 }, // Coin on Platform 3
             { x: 900, y: 825 }, // Coin on Platform 4
@@ -387,7 +388,7 @@ class GameScene extends BaseScene {
                     fontSize: '36px',
                     color: '#ffffff'
                 }).setOrigin(0.5);
-
+                document.getElementById('coins-earned').innerText = 'Coins: 0';
                 this.physics.pause();
                 gameState.active = false;
                 gameState.player.setTint(0xff0000);
