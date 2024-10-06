@@ -29,6 +29,9 @@ class Scene1 extends Phaser.Scene {
 
             // Initialize coin counter
         gameState.coinsCollected = 0;
+
+        // Clear game alerts
+        document.getElementById('game-alert').innerText ="";
         
             // Create platforms and ensure correct positioning
             const platforms = this.physics.add.staticGroup();
@@ -83,13 +86,16 @@ class Scene1 extends Phaser.Scene {
         
                 // Add overlap detection between player and snowman
                 this.physics.add.overlap(gameState.player, snowman, () => {
-                    this.add.text(800, 400, '      Game Over...\n  Click to play again.', { fontFamily: 'Work Sans', fontSize: 36, color: '#ffffff' }).setOrigin(0.5);
+                    document.getElementById('game-alert').innerText = 'Game over!\n Click to play again';
                     this.physics.pause();
                     gameState.active = false;
                     this.anims.pauseAll();
                     gameState.player.setTint(0xff0000);
-                    document.getElementById('coins-earned').innerText = 'Coins: 0';
-                    this.input.once('pointerup', () => {
+                    document.getElementById('coins-earned').innerText = 'Score: 0';
+                    this.input.once('pointerup',  () => {
+                        this.scene.restart();
+                    });
+                    this.input.keyboard.on('keydown',  () => {
                         this.scene.restart();
                     });
                     if (snowman.move) snowman.move.stop(); // Stop the movement of the snowman if it has a move property
@@ -144,7 +150,7 @@ class Scene1 extends Phaser.Scene {
             this.physics.add.collider(gameState.exit, platforms);
         
             this.physics.add.overlap(gameState.player, gameState.exit, () => {
-                this.add.text(800, 400, 'You reached the exit!\n  Click to play again.', { fontFamily: 'Work Sans', fontSize: 36, color: '#ffffff' }).setOrigin(0.5);
+                document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
                 this.physics.pause();
                 gameState.active = false;
                 this.anims.pauseAll();
@@ -152,6 +158,9 @@ class Scene1 extends Phaser.Scene {
                 if (gameState.enemy2.move) gameState.enemy2.move.stop();
                 this.input.on('pointerup', () => {
                     this.anims.resumeAll();
+                    this.scene.restart();
+                });
+                this.input.keyboard.on('keydown',  () => {
                     this.scene.restart();
                 });
             });
@@ -191,7 +200,7 @@ class Scene1 extends Phaser.Scene {
             this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
                 coin.destroy();
                 gameState.coinsCollected += 5;
-                document.getElementById('coins-earned').innerText = `Coins: ${gameState.coinsCollected}`;
+                document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
       
             }, null, this);
         
@@ -221,7 +230,7 @@ class Scene1 extends Phaser.Scene {
         update() {
         // Update background assets using the global function
         updateBackgroundAssets(gameState);    
-        
+
             if (gameState.active) {
                 // Touch input settings
                 
@@ -310,16 +319,15 @@ class Scene1 extends Phaser.Scene {
     
                 // Check if the player has fallen off the page
                 if (gameState.player.y > 1200) {
-                    this.add.text(900, 900, '      Game over!\nClick to play again.', {
-                        fontFamily: 'Work Sans',
-                        fontSize: '36px',
-                        color: '#ffffff'
-                    }).setOrigin(0.5);
-                    document.getElementById('coins-earned').innerText = 'Coins: 0';
+                    document.getElementById('game-alert').innerText = 'Game over!\n Click to play again';
+                    document.getElementById('coins-earned').innerText = 'Score: 0';
                     this.physics.pause();
                     gameState.active = false;
                     gameState.player.setTint(0xff0000);
                     this.input.once('pointerup', () => {
+                        this.scene.restart();
+                    });
+                    this.input.keyboard.on('keydown',  () => {
                         this.scene.restart();
                     });
                 }

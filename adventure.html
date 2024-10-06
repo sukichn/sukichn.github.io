@@ -116,7 +116,7 @@ button.dropbtn {
     height: 0;
 }
 
-#coins-earned {
+#game-text {
     position: absolute;
     top: 30px;
     left: 30px;
@@ -124,6 +124,12 @@ button.dropbtn {
     color: white;
     font-family: 'Work Sans', sans-serif;
     z-index: 1000; /* Ensure it's on top of the canvas */
+}
+#coins-earned{
+    margin-bottom: 10px;
+}
+#game-alert{
+    color: yellow;
 }
   </style>
 
@@ -142,8 +148,12 @@ button.dropbtn {
           <i class="fa fa-shopping-cart fa-lg"></i>
       </div>
   </header>
-    
-  <div id="coins-earned">Coins: 0</div>
+
+<div id="game-text">
+  <div id="coins-earned">Score: 0</div>
+  <div id="game-alert"></div>
+</div>
+  
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
   <script src="backgroundAssets.js"></script>
