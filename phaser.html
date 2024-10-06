@@ -115,6 +115,16 @@ button.dropbtn {
     width: auto;
     height: 0;
 }
+
+#coins-earned {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 24px;
+    color: white;
+    font-family: 'Work Sans', sans-serif;
+    z-index: 1000; /* Ensure it's on top of the canvas */
+}
   </style>
 
 </head>
@@ -133,6 +143,7 @@ button.dropbtn {
       </div>
   </header>
     
+  <div id="coins-earned">Coins: 0</div>
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
 

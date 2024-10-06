@@ -48,12 +48,16 @@ class StartScene extends BaseScene {
         // Add a title
         this.add.text(800, 250, 'Start Game', { fontSize: '58px', fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
 
+        // Hide coins earned
+        document.getElementById('coins-earned').style.display = 'none';
+
         // Add a start button
         const startButton = this.add.image(800, 500, 'startButton').setInteractive().setDepth(1).setScale(0.1);
         startButton.on('pointerdown', () => {
             this.scene.stop('StartScene');
             this.scene.start('GameScene');
             document.getElementById('main-header').style.display = 'none';
+            document.getElementById('coins-earned').style.display = 'block';
         });
 
         const startText = this.add.text(800, 750, 'Click to start!', { fontSize: '32px', fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
@@ -61,6 +65,7 @@ class StartScene extends BaseScene {
             this.scene.stop('StartScene');
             this.scene.start('GameScene');
             document.getElementById('main-header').style.display = 'none';
+            document.getElementById('coins-earned').style.display = 'block';
         });    
     }
 
@@ -91,6 +96,9 @@ class GameScene extends BaseScene {
     create() {
         super.createBackground();
         gameState.active = true;
+
+        // Initialize coin counter
+    gameState.coinsCollected = 0;
     
         // Create platforms and ensure correct positioning
         const platforms = this.physics.add.staticGroup();
@@ -251,6 +259,9 @@ class GameScene extends BaseScene {
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
+            gameState.coinsCollected += 5;
+            document.getElementById('coins-earned').innerText = `Coins: ${gameState.coinsCollected}`;
+  
         }, null, this);
     
         // Set the camera to follow the player only along the x-axis
