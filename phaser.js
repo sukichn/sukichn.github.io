@@ -149,6 +149,10 @@ class GameScene extends BaseScene {
                 this.physics.pause();
                 gameState.active = false;
                 this.anims.pauseAll();
+                gameState.player.setTint(0xff0000);
+                this.input.once('pointerup', () => {
+                    this.scene.restart();
+                });
                 if (snowman.move) snowman.move.stop(); // Stop the movement of the snowman if it has a move property
                 this.input.on('pointerup', () => {
                     this.anims.resumeAll();
@@ -156,20 +160,33 @@ class GameScene extends BaseScene {
                 });
             });
     
-            // Add movement for the snowman if moveX is provided
-            if (moveX) {
-                snowman.move = this.tweens.add({
-                    targets: snowman,
-                    x: moveX,
-                    ease: 'Linear',
-                    duration: 2000,
-                    repeat: -1,
-                    yoyo: true
-                });
+
+            // Add movement and growSnowman callback for the snowman if moveX is provided
+        if (moveX) {
+            let scaleChange = 1;
+            function growSnowman() {
+                if (scaleChange < 1.5) {
+                    scaleChange += .3;
+                    snowman.setScale(scaleChange);
+                    snowman.y -= 15;
+                }
             }
+
+            snowman.move = this.tweens.add({
+                targets: snowman,
+                x: moveX,
+                ease: 'Linear',
+                duration: 2000,
+                repeat: -1,
+                yoyo: true,
+                onRepeat: growSnowman
+            });
+        }
     
             return snowman;
         };
+
+
     
         // Create snowmen on different platforms
         gameState.enemy1 = createSnowman(300, 800, 400); // Snowman on Platform 1 with movement
@@ -250,44 +267,111 @@ class GameScene extends BaseScene {
                 gameState.rightPressed = true;
                 gameState.leftPressed = false;
             }
-    
-            // Store the starting positions for swipe detection
-            isClicking = true;
-            swipeStartY = pointer.y;
         }, this);
-    
+
         this.input.on('pointerup', function (pointer) {
             gameState.leftPressed = false;
             gameState.rightPressed = false;
+
         }, this);
     }
 
     update() {
         // Update background positions for parallax effect
-        super.updateBackground();
+        gameState.background.tilePositionX += 0.1;
+        gameState.trees.tilePositionX += 0.14;
+        gameState.foreground.tilePositionX += 0.2;
+        gameState.fog.tilePositionX += 0.7;
 
         if (gameState.active) {
+            // Touch input settings
+            
+
+            this.input.on('pointermove', function (pointer) {
+                if (pointer.isDown) { // Only process if the pointer is down
+                    // Horizontal movement handling
+                    if (pointer.x < this.scale.width / 2) {
+                        // Left side of the screen
+                        gameState.leftPressed = true;
+                        gameState.rightPressed = false;
+                    } else {
+                        // Right side of the screen
+                        gameState.rightPressed = true;
+                        gameState.leftPressed = false;
+                    }
+            
+                    // Vertical movement handling
+                    if (pointer.y < this.scale.height / 2) {
+                        // Top half of the screen
+                        gameState.upPressed = true;
+                    } else {
+                        // Bottom half of the screen
+                        gameState.upPressed = false;
+                    }
+                }
+            }, this);
+            
+            this.input.on('pointerdown', function (pointer) {
+                // Horizontal movement handling
+                if (pointer.x < this.scale.width / 2) {
+                    // Left side of the screen
+                    gameState.leftPressed = true;
+                    gameState.rightPressed = false;
+                } else {
+                    // Right side of the screen
+                    gameState.rightPressed = true;
+                    gameState.leftPressed = false;
+                }
+            
+                // Vertical movement handling
+                if (pointer.y < this.scale.height / 2) {
+                    // Top half of the screen
+                    gameState.upPressed = true;
+                }
+            }, this);
+            
+            this.input.on('pointerup', function (pointer) {
+                gameState.leftPressed = false;
+                gameState.rightPressed = false;
+                gameState.upPressed = false;
+            }, this);
+        
             // Handle movement based on touch input or keyboard input
             if (gameState.cursors.left.isDown || gameState.leftPressed) {
                 gameState.player.setVelocityX(-360);
                 gameState.player.anims.play('run', true);
-                gameState.player.flipX = true;
             } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
                 gameState.player.setVelocityX(360);
                 gameState.player.anims.play('run', true);
-                gameState.player.flipX = false;
             } else {
                 gameState.player.setVelocityX(0);
                 gameState.player.anims.play('idle', true);
             }
-
+        
             if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
                 gameState.player.setVelocityY(-800);
             }
+    
+            // Handle movement based on swipe gestures or keyboard input
+            if (gameState.cursors.left.isDown || gameState.leftPressed) {
+                gameState.player.setVelocityX(-360);
+                gameState.player.anims.play('run', true);
+                gameState.player.flipX = true;
+    
+            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
+                gameState.player.setVelocityX(360);
+                gameState.player.anims.play('run', true);
+                gameState.player.flipX = false;
+        
+            } else {
+                gameState.player.setVelocityX(0);
+                gameState.player.anims.play('idle', true);
+            }
+    
 
             // Check if the player has fallen off the page
             if (gameState.player.y > 1200) {
-                this.add.text(800, 500, '      Game over!\nClick to play again.', {
+                this.add.text(900, 900, '      Game over!\nClick to play again.', {
                     fontFamily: 'Work Sans',
                     fontSize: '36px',
                     color: '#ffffff'
