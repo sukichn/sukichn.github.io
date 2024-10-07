@@ -26,7 +26,8 @@
             align-items: center;
             font: Work Sans;
             font-size: 18px;
-            
+            user-select: none; /* Disable text selection */
+            -webkit-tap-highlight-color: transparent; /* Disable highlight color on touch */
         }
     header {
     background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent */
@@ -141,8 +142,6 @@ button.dropbtn {
     left: 50%;
     transform: translateX(-50%);
     bottom: 20px;
-    user-select: none; /* Disable text selection */
-    -webkit-tap-highlight-color: transparent; /* Disable highlight color on touch */
 }
 
 #joystick:hover{
