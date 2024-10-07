@@ -89,6 +89,8 @@
         scene.physics.pause();
         gameState.active = false;
         scene.anims.pauseAll();
+        if (gameState.enemy1.move) gameState.enemy1.move.stop();
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();
         gameState.player.setTint(0xff0000);
         document.getElementById('coins-earned').innerText = 'Score: 0';
 
