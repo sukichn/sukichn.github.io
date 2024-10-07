@@ -89,23 +89,29 @@
         scene.physics.pause();
         gameState.active = false;
         scene.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
         gameState.player.setTint(0xff0000);
         document.getElementById('coins-earned').innerText = 'Score: 0';
 
         // Remove previous event listeners to avoid multiple triggers
         scene.input.keyboard.off('keydown');
         scene.input.off('pointerup');
+        scene.input.off('pointerdown');
+        scene.input.off('pointermove');
 
         // Add new event listeners for restarting the scene
         scene.input.keyboard.on('keydown', () => {
             scene.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
             scene.scene.restart();
         });
 
         scene.input.on('pointerup', () => {
             scene.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
             scene.scene.restart();
         });
     };
@@ -122,15 +128,23 @@
         // Remove previous event listeners to avoid multiple triggers
         scene.input.keyboard.off('keydown');
         scene.input.off('pointerup');
+        scene.input.off('pointerdown');
+        scene.input.off('pointermove');
 
         // Add new event listeners for restarting the scene
         scene.input.on('pointerup', () => {
             scene.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
             scene.scene.restart();
         });
 
         scene.input.keyboard.on('keydown', () => {
             scene.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
             scene.scene.restart();
         });
     };
