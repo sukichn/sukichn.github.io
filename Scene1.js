@@ -15,7 +15,7 @@ class Scene1 extends Phaser.Scene {
         this.load.spritesheet('codey', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/codey_sprite.png', { frameWidth: 72, frameHeight: 90 });
         this.load.spritesheet('snowman', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/snowman.png', { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet('exit', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_exit.png', { frameWidth: 60, frameHeight: 70 });
-        this.load.spritesheet('coin', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', { frameWidth: 190, frameHeight: 200});
+        this.load.spritesheet('coin', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', { frameWidth: 150, frameHeight: 150});
         this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
@@ -187,7 +187,7 @@ class Scene1 extends Phaser.Scene {
         
             this.anims.create({
                 key: 'coinAlert',
-                frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 1 }),
+                frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 6 }),
                 frameRate: 5,
                 repeat: -1
             });
