@@ -259,7 +259,7 @@
             const pointerX = event.clientX - rect.left;
             const pointerY = event.clientY - rect.top;
 
-            if (pointerY < rect.height / 2) {
+            if (pointerY < rect.height / 3) {
                 gameState.joystick.isMoving = true;
                 gameState.joystick.direction = 'up';
                 if (pointerX < rect.width / 2) {
@@ -267,7 +267,7 @@
                 } else {
                     gameState.joystick.direction = 'upRight';
                 }
-            } else if (pointerY >= rect.height / 2) {
+            } else if (pointerY >= rect.height / 3) {
                 if (pointerX < rect.width / 2) {
                     gameState.joystick.isMoving = true;
                     gameState.joystick.direction = 'left';
@@ -286,7 +286,7 @@
                 const screenHeight = window.innerHeight;
 
                 // Check if the pointer is in the top half of the joystick or upper half of the screen
-                if (pointerY < rect.height / 2 || event.clientY < screenHeight / 2) {
+                if (pointerY < rect.height / 3 || event.clientY < screenHeight / 3) {
                     gameState.joystick.isMoving = true;
                     gameState.joystick.direction = 'up';
                     if (pointerX < rect.width / 2) {
@@ -294,7 +294,7 @@
                     } else {
                         gameState.joystick.direction = 'upRight';
                     }
-                } else if (pointerY >= rect.height / 2) {
+                } else if (pointerY >= rect.height / 3) {
                     if (pointerX < rect.width / 2) {
                         gameState.joystick.isMoving = true;
                         gameState.joystick.direction = 'left';
