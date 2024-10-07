@@ -1,7 +1,7 @@
 (function(global) {
     // Load coin spritesheet
     global.loadCoinAssets = function(scene) {
-        scene.load.spritesheet('coin', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', {
+        scene.load.spritesheet('coinSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', {
             frameWidth: 55,
             frameHeight: 51
         });
@@ -10,10 +10,29 @@
     // Create coin animations
     global.createCoinAnimations = function(scene) {
         scene.anims.create({
-            key: 'coinAlert',
-            frames: scene.anims.generateFrameNumbers('coin', { start: 0, end: 12 }),
+            key: 'coinHere',
+            frames: scene.anims.generateFrameNumbers('coinSprite', { start: 0, end: 12 }),
             frameRate: 11,
             repeat: -1
+        });
+    };
+
+    // Create and animate coins
+    global.createAndAnimateCoins = function(scene, gameState) {
+        gameState.coins = scene.physics.add.staticGroup();
+        const coinPositions = [
+            { x: 300, y: 825 }, // Coin on Platform 2
+            { x: 700, y: 825 }, // Coin on Platform 3
+            { x: 900, y: 825 }, // Coin on Platform 4
+            { x: 1050, y: 630 }, // Coin on Platform 5
+            { x: 1300, y: 1025 }, // Coin on Platform 7
+            { x: 1500, y: 825 }, // Coin on Platform 8
+        ];
+
+        coinPositions.forEach(pos => {
+            const coin = scene.add.sprite(pos.x, pos.y, 'coinSprite').setScale(0.8);
+            gameState.coins.add(coin);
+            coin.anims.play('coinHere', true); // Play coin animation
         });
     };
 

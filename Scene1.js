@@ -94,22 +94,10 @@ class Scene1 extends Phaser.Scene {
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
         setupExitLogic(this, gameState);
 
-        // Create coin assets
-        gameState.coins = this.physics.add.staticGroup();
-        const coinPositions = [
-            { x: 500, y: 825 }, // Coin on Platform 2
-            { x: 700, y: 825 }, // Coin on Platform 3
-            { x: 900, y: 825 }, // Coin on Platform 4
-            { x: 1050, y: 630 }, // Coin on Platform 5
-            { x: 1300, y: 1025 }, // Coin on Platform 7
-            { x: 1500, y: 825 }, // Coin on Platform 8
-        ];
-        coinPositions.forEach(pos => {
-            const coin = this.add.sprite(pos.x, pos.y, 'coin').setScale(0.8);
-            gameState.coins.add(coin);
-        });
+        // Create and animate coins
         createCoinAnimations(this);
-        
+        createAndAnimateCoins(this, gameState);
+
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
