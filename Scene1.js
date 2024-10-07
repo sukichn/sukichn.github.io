@@ -15,7 +15,7 @@ class Scene1 extends Phaser.Scene {
         this.load.spritesheet('codey', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/codey_sprite.png', { frameWidth: 72, frameHeight: 90 });
         this.load.spritesheet('snowman', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/snowman.png', { frameWidth: 50, frameHeight: 70 });
         this.load.spritesheet('exit', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_exit.png', { frameWidth: 60, frameHeight: 70 });
-        this.load.spritesheet('coin', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', { frameWidth: 150, frameHeight: 150});
+        this.load.spritesheet('coin', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', { frameWidth: 55, frameHeight: 51});
         this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
         this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
@@ -51,7 +51,7 @@ class Scene1 extends Phaser.Scene {
             });
         
             // Create player and ensure it collides with platforms
-            gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.8);
+            gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
             this.physics.add.collider(gameState.player, platforms);
         
             // Setup cursor keys for player movement
@@ -181,14 +181,14 @@ class Scene1 extends Phaser.Scene {
         
             // Create and position coins
             coinPositions.forEach(pos => {
-                const coin = this.add.sprite(pos.x, pos.y, 'coin').setScale(0.2);
+                const coin = this.add.sprite(pos.x, pos.y, 'coin').setScale(0.8);
                 gameState.coins.add(coin);
             });
         
             this.anims.create({
                 key: 'coinAlert',
-                frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 6 }),
-                frameRate: 5,
+                frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 12 }),
+                frameRate: 11,
                 repeat: -1
             });
         
