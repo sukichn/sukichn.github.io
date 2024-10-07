@@ -89,11 +89,16 @@
         scene.physics.pause();
         gameState.active = false;
         scene.anims.pauseAll();
-        gameState.player.setTint(0xff0000);
-        document.getElementById('coins-earned').innerText = 'Score: 0';
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
-        
+        gameState.player.setTint(0xff0000);
+        document.getElementById('coins-earned').innerText = 'Score: 0';
+
+        // Remove previous event listeners to avoid multiple triggers
+        scene.input.keyboard.off('keydown');
+        scene.input.off('pointerup');
+
+        // Add new event listeners for restarting the scene
         scene.input.keyboard.on('keydown', () => {
             scene.anims.resumeAll();
             scene.scene.restart();
@@ -114,6 +119,11 @@
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
 
+        // Remove previous event listeners to avoid multiple triggers
+        scene.input.keyboard.off('keydown');
+        scene.input.off('pointerup');
+
+        // Add new event listeners for restarting the scene
         scene.input.on('pointerup', () => {
             scene.anims.resumeAll();
             scene.scene.restart();
@@ -194,14 +204,18 @@
 
     // Handle player movement
     global.handlePlayerMovement = function(scene, gameState) {
+        let isMoving = false;
+
         if (gameState.cursors.left.isDown || gameState.leftPressed) {
             gameState.player.setVelocityX(-360);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = true;
+            isMoving = true;
         } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
             gameState.player.setVelocityX(360);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = false;
+            isMoving = true;
         } else {
             gameState.player.setVelocityX(0);
             gameState.player.anims.play('idle', true);
@@ -209,7 +223,10 @@
 
         if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
             gameState.player.setVelocityY(-800);
+            isMoving = true;
         }
+
+        return isMoving;
     };
 
     // Setup exit logic

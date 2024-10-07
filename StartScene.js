@@ -49,7 +49,10 @@ const fontSize = getResponsiveFontSize();
     
         update() {
             // Update background assets using the global function
-    updateBackgroundAssets(gameState);
-    
+            gameState.background.tilePositionX += 0.1;
+            gameState.trees.tilePositionX += 0.14;
+            gameState.foreground.tilePositionX += 0.2;
+            gameState.fog.tilePositionX += 0.7;
+          
         }
     }

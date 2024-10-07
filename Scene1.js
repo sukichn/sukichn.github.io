@@ -12,10 +12,6 @@ class Scene1 extends Phaser.Scene {
         loadPlatformAssets(this);
         loadExitAssets(this);
 
-        this.load.image('cave', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_background.png');
-        this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
-        this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
-        this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
     }
 
     create() {
@@ -113,10 +109,7 @@ class Scene1 extends Phaser.Scene {
             gameState.coins.add(coin);
         });
         createCoinAnimations(this);
-        gameState.coins.getChildren().forEach(coin => {
-            coin.anims.play('coinAlert', true);
-        });
-
+        
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
@@ -130,12 +123,14 @@ class Scene1 extends Phaser.Scene {
     }
 
     update() {
-        // Update background assets using the global function
-        updateBackgroundAssets(gameState);
-
         if (gameState.active) {
             // Handle player movement
-            handlePlayerMovement(this, gameState);
+            const isMoving = handlePlayerMovement(this, gameState);
+
+            // Update background assets only if the player is moving
+            if (isMoving) {
+                updateBackgroundAssets(gameState);
+            }
 
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
