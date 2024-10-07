@@ -168,6 +168,8 @@
         // Setup cursor keys for player movement
         gameState.cursors = scene.input.keyboard.createCursorKeys();
 
+         /*
+
         // Touch input settings for left/right press detection
         scene.input.on('pointerdown', function (pointer) {
             if (pointer.x < scene.scale.width / 2) {
@@ -215,19 +217,92 @@
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
+        });*/
+    };
+
+    // Setup joystick input
+    global.setupJoystick = function(scene, gameState) {
+        const joystickButton = document.getElementById('joystick');
+        let pointerPressed = false;
+
+        const stopMovement = () => {
+            pointerPressed = false;
+            gameState.joystick.isMoving = false;
+            gameState.joystick.direction = null;
+            gameState.player.setVelocityX(0); // Stop horizontal movement
+            gameState.player.anims.play('idle', true); // Play idle animation
+            
+        };
+
+        joystickButton.addEventListener('pointerdown', (event) => {
+            pointerPressed = true;
+            const rect = joystickButton.getBoundingClientRect();
+            const pointerX = event.clientX - rect.left;
+            const pointerY = event.clientY - rect.top;
+
+            if (pointerY < rect.height / 2) {
+                gameState.joystick.isMoving = true;
+                gameState.joystick.direction = 'up';
+                if (pointerX < rect.width / 2) {
+                    gameState.joystick.direction = 'upLeft';
+                } else {
+                    gameState.joystick.direction = 'upRight';
+                }
+            } else if (pointerY >= rect.height / 2) {
+                if (pointerX < rect.width / 2) {
+                    gameState.joystick.isMoving = true;
+                    gameState.joystick.direction = 'left';
+                } else {
+                    gameState.joystick.isMoving = true;
+                    gameState.joystick.direction = 'right';
+                }
+            }
         });
+
+        document.addEventListener('pointermove', (event) => {
+            if (pointerPressed) {
+                const rect = joystickButton.getBoundingClientRect();
+                const pointerX = event.clientX - rect.left;
+                const pointerY = event.clientY - rect.top;
+                const screenHeight = window.innerHeight;
+
+                // Check if the pointer is in the top half of the joystick or upper half of the screen
+                if (pointerY < rect.height / 2 || event.clientY < screenHeight / 2) {
+                    gameState.joystick.isMoving = true;
+                    gameState.joystick.direction = 'up';
+                    if (pointerX < rect.width / 2) {
+                        gameState.joystick.direction = 'upLeft';
+                    } else {
+                        gameState.joystick.direction = 'upRight';
+                    }
+                } else if (pointerY >= rect.height / 2) {
+                    if (pointerX < rect.width / 2) {
+                        gameState.joystick.isMoving = true;
+                        gameState.joystick.direction = 'left';
+                    } else {
+                        gameState.joystick.isMoving = true;
+                        gameState.joystick.direction = 'right';
+                    }
+                } else {
+                    gameState.joystick.isMoving = false;
+                    gameState.joystick.direction = null;
+                }
+            }
+        });
+
+        document.addEventListener('pointerup', stopMovement);
     };
 
     // Handle player movement
     global.handlePlayerMovement = function(scene, gameState) {
         let isMoving = false;
 
-        if (gameState.cursors.left.isDown || gameState.leftPressed) {
+        if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft') {
             gameState.player.setVelocityX(-360);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = true;
             isMoving = true;
-        } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
+        } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight') {
             gameState.player.setVelocityX(360);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = false;
@@ -237,13 +312,14 @@
             gameState.player.anims.play('idle', true);
         }
 
-        if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
+        if ((gameState.cursors.up.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'up' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'upRight'))) && gameState.player.body.touching.down) {
             gameState.player.setVelocityY(-800);
             isMoving = true;
         }
 
         return isMoving;
     };
+
 
     // Setup exit logic
     global.setupExitLogic = function(scene, gameState) {

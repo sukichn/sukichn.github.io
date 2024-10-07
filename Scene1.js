@@ -1,6 +1,7 @@
 class Scene1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Scene1' });
+        gameState.joystick = { isMoving: false, direction: null };
     }
 
     preload() {
@@ -11,7 +12,6 @@ class Scene1 extends Phaser.Scene {
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
         loadExitAssets(this);
-
     }
 
     create() {
@@ -120,6 +120,9 @@ class Scene1 extends Phaser.Scene {
         // Setup camera and input
         setupCamera(this, gameState);
         setupInput(this, gameState);
+
+        // Setup joystick input
+        setupJoystick(this, gameState);
     }
 
     update() {
