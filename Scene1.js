@@ -33,7 +33,7 @@ class Scene1 extends Phaser.Scene {
             { x: 500, y: 875 },  // Platform 2 starting
             { x: 700, y: 875 },  // Platform 3 starting
             { x: 900, y: 875 },  // Platform 4 starting
-            { x: 1050, y: 680 }, // Platform 5
+            { x: 1150, y: 680 }, // Platform 5
             { x: 750, y: 550 },  // Platform 6
             { x: 1300, y: 1075 }, // Platform 7
             { x: 1500, y: 875 },  // Platform 8
@@ -88,13 +88,14 @@ class Scene1 extends Phaser.Scene {
         // Create snowmen on different platforms
         createSnowmanAnimations(this);
         gameState.enemy1 = createSnowman(500, 800, 400); // Snowman on Platform 1 with movement
-        gameState.enemy2 = createSnowman(1300, 1005, 1400); // Snowman on Platform 7 with movement
+        /*gameState.enemy2 = createSnowman(1300, 1005, 1400); // Snowman on Platform 7 with movement*/
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
         setupExitLogic(this, gameState);
 
         // Create and animate coins
+        
         createCoinAnimations(this);
         createAndAnimateCoins(this, gameState);
 

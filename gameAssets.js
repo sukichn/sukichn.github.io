@@ -24,7 +24,7 @@
             { x: 300, y: 825 }, // Coin on Platform 2
             { x: 700, y: 825 }, // Coin on Platform 3
             { x: 900, y: 825 }, // Coin on Platform 4
-            { x: 1050, y: 630 }, // Coin on Platform 5
+            { x: 1150, y: 630 }, // Coin on Platform 5
             { x: 1300, y: 1025 }, // Coin on Platform 7
             { x: 1500, y: 825 }, // Coin on Platform 8
         ];
@@ -109,7 +109,7 @@
         gameState.active = false;
         scene.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+        /*if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
         gameState.player.setTint(0xff0000);
         document.getElementById('coins-earned').innerText = 'Score: 0';
 
@@ -144,7 +144,7 @@
         gameState.active = false;
         scene.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+        /*if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
 
         // Remove previous event listeners to avoid multiple triggers
         scene.input.keyboard.off('keydown');
@@ -193,8 +193,8 @@
         const joystickButton = document.getElementById('joystick');
         const joystickDot = document.createElement('div');
         joystickDot.id = 'joystick-dot';
-        joystickDot.style.width = '30px';
-        joystickDot.style.height = '30px';
+        joystickDot.style.width = '40px';
+        joystickDot.style.height = '40px';
         joystickDot.style.backgroundColor = 'blue';
         joystickDot.style.borderRadius = '50%';
         joystickDot.style.border = '2px solid white';
