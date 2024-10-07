@@ -11,6 +11,11 @@ class Scene1 extends Phaser.Scene {
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
         loadExitAssets(this);
+
+        this.load.image('cave', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_background.png');
+        this.load.image('leftButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
+        this.load.image('upButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
+        this.load.image('rightButton', 'Resources/css/Images/.png'); // Replace with the actual path to your start button image
     }
 
     create() {
@@ -45,9 +50,6 @@ class Scene1 extends Phaser.Scene {
         gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
 
-        // Setup cursor keys for player movement
-        gameState.cursors = this.input.keyboard.createCursorKeys();
-
         // Create player animations
         createCodeyAnimations(this);
 
@@ -59,22 +61,7 @@ class Scene1 extends Phaser.Scene {
 
             // Add overlap detection between player and snowman
             this.physics.add.overlap(gameState.player, snowman, () => {
-                document.getElementById('game-alert').innerText = 'Game over!\n Click to play again';
-                this.physics.pause();
-                gameState.active = false;
-                this.anims.pauseAll();
-                gameState.player.setTint(0xff0000);
-                document.getElementById('coins-earned').innerText = 'Score: 0';
-
-                this.input.keyboard.on('keydown', () => {
-                    this.anims.resumeAll();
-                    this.scene.restart();
-                });
-                if (snowman.move) snowman.move.stop(); // Stop the movement of the snowman if it has a move property
-                this.input.on('pointerup', () => {
-                    this.anims.resumeAll();
-                    this.scene.restart();
-                });
+                handleGameOver(this, gameState);
             });
 
             // Add movement and growSnowman callback for the snowman if moveX is provided
@@ -109,25 +96,7 @@ class Scene1 extends Phaser.Scene {
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
-        createExitAnimations(this);
-        gameState.exit.anims.play('glow', true);
-        this.physics.add.collider(gameState.exit, gameState.platforms);
-        this.physics.add.overlap(gameState.player, gameState.exit, () => {
-            document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
-            this.physics.pause();
-            gameState.active = false;
-            this.anims.pauseAll();
-            if (gameState.enemy1.move) gameState.enemy1.move.stop();
-            if (gameState.enemy2.move) gameState.enemy2.move.stop();
-            this.input.on('pointerup', () => {
-                this.anims.resumeAll();
-                this.scene.restart();
-            });
-            this.input.keyboard.on('keydown', () => {
-                this.anims.resumeAll();
-                this.scene.restart();
-            });
-        });
+        setupExitLogic(this, gameState);
 
         // Create coin assets
         gameState.coins = this.physics.add.staticGroup();
@@ -155,26 +124,9 @@ class Scene1 extends Phaser.Scene {
             document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
         }, null, this);
 
-        // Set the camera to follow the player only along the x-axis
-        this.cameras.main.startFollow(gameState.player, true);
-
-        // Touch input settings for left/right press detection
-        this.input.on('pointerdown', function (pointer) {
-            if (pointer.x < this.scale.width / 2) {
-                // Left side of the screen
-                gameState.leftPressed = true;
-                gameState.rightPressed = false;
-            } else {
-                // Right side of the screen
-                gameState.rightPressed = true;
-                gameState.leftPressed = false;
-            }
-        }, this);
-
-        this.input.on('pointerup', function (pointer) {
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-        }, this);
+        // Setup camera and input
+        setupCamera(this, gameState);
+        setupInput(this, gameState);
     }
 
     update() {
@@ -182,105 +134,11 @@ class Scene1 extends Phaser.Scene {
         updateBackgroundAssets(gameState);
 
         if (gameState.active) {
-            // Touch input settings
-            this.input.on('pointermove', function (pointer) {
-                if (pointer.isDown) { // Only process if the pointer is down
-                    // Horizontal movement handling
-                    if (pointer.x < this.scale.width / 2) {
-                        // Left side of the screen
-                        gameState.leftPressed = true;
-                        gameState.rightPressed = false;
-                    } else {
-                        // Right side of the screen
-                        gameState.rightPressed = true;
-                        gameState.leftPressed = false;
-                    }
-
-                    // Vertical movement handling
-                    if (pointer.y < this.scale.height / 2) {
-                        // Top half of the screen
-                        gameState.upPressed = true;
-                    } else {
-                        // Bottom half of the screen
-                        gameState.upPressed = false;
-                    }
-                }
-            }, this);
-
-            this.input.on('pointerdown', function (pointer) {
-                // Horizontal movement handling
-                if (pointer.x < this.scale.width / 2) {
-                    // Left side of the screen
-                    gameState.leftPressed = true;
-                    gameState.rightPressed = false;
-                } else {
-                    // Right side of the screen
-                    gameState.rightPressed = true;
-                    gameState.leftPressed = false;
-                }
-
-                // Vertical movement handling
-                if (pointer.y < this.scale.height / 2) {
-                    // Top half of the screen
-                    gameState.upPressed = true;
-                }
-            }, this);
-
-            this.input.on('pointerup', function (pointer) {
-                gameState.leftPressed = false;
-                gameState.rightPressed = false;
-                gameState.upPressed = false;
-            }, this);
-
-            // Handle movement based on touch input or keyboard input
-            if (gameState.cursors.left.isDown || gameState.leftPressed) {
-                gameState.player.setVelocityX(-360);
-                gameState.player.anims.play('run', true);
-            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
-                gameState.player.setVelocityX(360);
-                gameState.player.anims.play('run', true);
-            } else {
-                gameState.player.setVelocityX(0);
-                gameState.player.anims.play('idle', true);
-            }
-
-            if ((gameState.cursors.up.isDown || gameState.upPressed) && gameState.player.body.touching.down) {
-                gameState.player.setVelocityY(-800);
-            }
-
-            // Handle movement based on swipe gestures or keyboard input
-            if (gameState.cursors.left.isDown || gameState.leftPressed) {
-                gameState.player.setVelocityX(-360);
-                gameState.player.anims.play('run', true);
-                gameState.player.flipX = true;
-
-            } else if (gameState.cursors.right.isDown || gameState.rightPressed) {
-                gameState.player.setVelocityX(360);
-                gameState.player.anims.play('run', true);
-                gameState.player.flipX = false;
-
-            } else {
-                gameState.player.setVelocityX(0);
-                gameState.player.anims.play('idle', true);
-            }
+            // Handle player movement
+            handlePlayerMovement(this, gameState);
 
             // Check if the player has fallen off the page
-            if (gameState.player.y > 1200) {
-                document.getElementById('game-alert').innerText = 'Game over!\n Click to play again';
-                document.getElementById('coins-earned').innerText = 'Score: 0';
-                this.physics.pause();
-                gameState.active = false;
-                gameState.player.setTint(0xff0000);
-                this.input.once('pointerup', () => {
-                    this.anims.resumeAll();
-                    this.scene.restart();
-                });
-                this.input.keyboard.on('keydown', () => {
-                    this.anims.resumeAll();
-                    this.scene.restart();
-                });
-            }
+            handlePlayerFallsOffPlatform(this, gameState);
         }
     }
 }
-
