@@ -87,7 +87,7 @@ class Scene1 extends Phaser.Scene {
 
         // Create snowmen on different platforms
         createSnowmanAnimations(this);
-        gameState.enemy1 = createSnowman(300, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemy1 = createSnowman(500, 800, 400); // Snowman on Platform 1 with movement
         gameState.enemy2 = createSnowman(1300, 1005, 1400); // Snowman on Platform 7 with movement
 
         // Create exit assets
