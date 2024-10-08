@@ -104,7 +104,6 @@ const gameAlert = document.getElementById('game-alert');
     // Handle game over logic
     global.handleGameOver = function(scene, gameState) {
         gameAlert.innerText = 'Game over!\n Click to play again';
-        gameAlert.classList.remove('show');
         void gameAlert.offsetWidth; // Trigger reflow to restart the animation
         gameAlert.classList.add('show');
 
@@ -128,6 +127,7 @@ const gameAlert = document.getElementById('game-alert');
         scene.input.off('pointermove');
 
         const restartGame = () => {
+            
             gameAlert.classList.remove('show');
             scene.anims.resumeAll();
             gameState.leftPressed = false;
@@ -149,6 +149,7 @@ const gameAlert = document.getElementById('game-alert');
     // Handle player reaching the exit
     global.handlePlayerReachesExit = function(scene, gameState) {
         document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
+        gameAlert.classList.add('show');
         scene.physics.pause();
         gameState.active = false;
         scene.anims.pauseAll();
@@ -326,7 +327,7 @@ const gameAlert = document.getElementById('game-alert');
             let width = event.width || 0;
             let height = event.height || 0;
 
-            // Ensure the width and height are at least 30 pixels
+            // Set pointer width and height
             width = Math.max(width, 40);
             height = Math.max(height, 40);
 
