@@ -201,15 +201,22 @@ const gameAlert = document.getElementById('game-alert');
     // Setup joystick input and dot
     global.setupJoystick = function(scene, gameState) {
         const joystickButton = document.getElementById('joystick');
-        const joystickDot = document.createElement('div');
-        joystickDot.id = 'joystick-dot';
-        joystickDot.style.width = '65px';  // Diameter is 50px
-        joystickDot.style.height = '65px'; // Diameter is 50px
-        joystickDot.style.backgroundColor = 'rgba(63, 63, 255, 0.447)';
-        joystickDot.style.borderRadius = '50%';
-        joystickDot.style.border = '2px solid white';
-        joystickDot.style.position = 'absolute';
-        joystickButton.appendChild(joystickDot);
+        let joystickDot = document.getElementById('joystick-dot');
+
+        if (!joystickDot) {
+            joystickDot = document.createElement('div');
+            joystickDot.id = 'joystick-dot';
+            joystickDot.style.width = '65px';  // Diameter is 50px
+            joystickDot.style.height = '65px'; // Diameter is 50px
+            joystickDot.style.backgroundColor = 'rgba(63, 63, 255, 0.447)';
+            joystickDot.style.borderRadius = '50%';
+            joystickDot.style.border = '2px solid white';
+            joystickDot.style.position = 'absolute';
+            joystickButton.appendChild(joystickDot);
+        } else {
+            // Reset the style in case it was modified
+            joystickDot.style.backgroundColor = 'rgba(63, 63, 255, 0.447)';
+        }
 
         const joystickDotRadius = 32.5; // Half of the dot's diameter
         let pointerPressed = false;
@@ -240,8 +247,6 @@ const gameAlert = document.getElementById('game-alert');
             updateJoystickDotPosition(event);
             calculateContactArea(event);
         });
-
-    
 
         document.addEventListener('pointermove', (event) => {
             if (pointerPressed) {
@@ -305,11 +310,11 @@ const gameAlert = document.getElementById('game-alert');
         const calculateContactArea = (event) => {
             let width = event.width || 0;
             let height = event.height || 0;
-    
+
             // Ensure the width and height are at least 30 pixels
             width = Math.max(width, 40);
             height = Math.max(height, 40);
-    
+
             const area = width * height;
             console.log('Area:', area, 'Width:', width, 'Height:', height);
         };

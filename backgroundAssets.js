@@ -22,4 +22,6 @@
             gameState.fog.tilePositionX += 0.7;
         }
     };
+
+    
 })(window);
