@@ -120,89 +120,87 @@
     };
 
     // Handle game over logic
-    global.handleGameOver = function(scene, gameState) {
-        document.getElementById('game-alert').innerText = 'Game over!\n Click to play again';
-        scene.physics.pause();
-        gameState.active = false;
-        scene.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
-        gameState.player.setTint(0xff0000);
-        document.getElementById('coins-earned').innerText = 'Score: 0';
+global.handleGameOver = function(scene, gameState) {
+    document.getElementById('game-alert').innerText = 'Game over!\n Click to play again';
+    scene.physics.pause();
+    gameState.active = false;
+    scene.anims.pauseAll();
+    if (gameState.enemy1.move) gameState.enemy1.move.stop();
+    if (gameState.enemy2.move) gameState.enemy2.move.stop();
+    gameState.player.setTint(0xff0000);
+    document.getElementById('coins-earned').innerText = 'Score: 0';
 
-        // Stop the timer event
-        if (gameState.timerEvent) {
-            gameState.timerEvent.remove();
-        }
+    // Stop the timer event
+    if (gameState.timerEvent) {
+        gameState.timerEvent.remove();
+    }
 
-        // Remove previous event listeners to avoid multiple triggers
-        scene.input.keyboard.off('keydown');
-        scene.input.off('pointerup');
-        scene.input.off('pointerdown');
-        scene.input.off('pointermove');
+    // Remove previous event listeners to avoid multiple triggers
+    scene.input.keyboard.off('keydown');
+    scene.input.off('pointerup');
+    scene.input.off('pointerdown');
+    scene.input.off('pointermove');
 
-        // Add new event listeners for restarting the scene
-        scene.input.keyboard.on('keydown', () => {
-            scene.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-            scene.scene.restart();
-        });
-
-        scene.input.on('pointerup', () => {
-            scene.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-            scene.scene.restart();
-        });
+    const restartGame = () => {
+        scene.anims.resumeAll();
+        gameState.leftPressed = false;
+        gameState.rightPressed = false;
+        gameState.upPressed = false;
+        scene.scene.restart();
     };
 
-    // Handle player reaching the exit
-    global.handlePlayerReachesExit = function(scene, gameState) {
-        document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
-        scene.physics.pause();
-        gameState.active = false;
-        scene.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+    // Add new event listeners for restarting the scene
+    scene.input.keyboard.on('keydown', restartGame);
+    scene.input.on('pointerup', restartGame);
 
-        // Stop the timer event
-        if (gameState.timerEvent) {
-            gameState.timerEvent.remove();
-        }
+    // Add event listener for joystick area
+    const joystickButton = document.getElementById('joystick');
+    joystickButton.addEventListener('pointerdown', restartGame, { once: true });
+};
 
-        // Remove previous event listeners to avoid multiple triggers
-        scene.input.keyboard.off('keydown');
-        scene.input.off('pointerup');
-        scene.input.off('pointerdown');
-        scene.input.off('pointermove');
+// Handle player reaching the exit
+global.handlePlayerReachesExit = function(scene, gameState) {
+    document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
+    scene.physics.pause();
+    gameState.active = false;
+    scene.anims.pauseAll();
+    if (gameState.enemy1.move) gameState.enemy1.move.stop();
+    if (gameState.enemy2.move) gameState.enemy2.move.stop();
 
-        // Add new event listeners for restarting the scene
-        scene.input.on('pointerup', () => {
-            scene.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-            scene.scene.restart();
-        });
+    // Stop the timer event
+    if (gameState.timerEvent) {
+        gameState.timerEvent.remove();
+    }
 
-        scene.input.keyboard.on('keydown', () => {
-            scene.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-            scene.scene.restart();
-        });
+    // Remove previous event listeners to avoid multiple triggers
+    scene.input.keyboard.off('keydown');
+    scene.input.off('pointerup');
+    scene.input.off('pointerdown');
+    scene.input.off('pointermove');
+
+    const restartGame = () => {
+        scene.anims.resumeAll();
+        gameState.leftPressed = false;
+        gameState.rightPressed = false;
+        gameState.upPressed = false;
+        scene.scene.restart();
     };
 
-    // Handle player falling off the platform
-    global.handlePlayerFallsOffPlatform = function(scene, gameState) {
-        if (gameState.player.y > 1200) {
-            global.handleGameOver(scene, gameState);
-        }
-    };
+    // Add new event listeners for restarting the scene
+    scene.input.keyboard.on('keydown', restartGame);
+    scene.input.on('pointerup', restartGame);
+
+    // Add event listener for joystick area
+    const joystickButton = document.getElementById('joystick');
+    joystickButton.addEventListener('pointerdown', restartGame, { once: true });
+};
+
+// Handle player falling off the platform
+global.handlePlayerFallsOffPlatform = function(scene, gameState) {
+    if (gameState.player.y > 1200) {
+        global.handleGameOver(scene, gameState);
+    }
+};
 
     // Setup camera to follow the player
     global.setupCamera = function(scene, gameState) {
@@ -215,124 +213,134 @@
         gameState.cursors = scene.input.keyboard.createCursorKeys();
     };
 
-    // Setup joystick input and dot
-    global.setupJoystick = function(scene, gameState) {
-        const joystickButton = document.getElementById('joystick');
-        const joystickDot = document.createElement('div');
-        joystickDot.id = 'joystick-dot';
-        joystickDot.style.width = '40px';
-        joystickDot.style.height = '40px';
-        joystickDot.style.backgroundColor = 'rgba(63, 63, 255, 0.447)';
-        joystickDot.style.borderRadius = '50%';
-        joystickDot.style.border = '2px solid white';
-        joystickDot.style.position = 'absolute';
-        joystickDot.style.display = 'none';
-        joystickButton.appendChild(joystickDot);
+// Setup joystick input and dot
+global.setupJoystick = function(scene, gameState) {
+    const joystickButton = document.getElementById('joystick');
+    const joystickDot = document.createElement('div');
+    joystickDot.id = 'joystick-dot';
+    joystickDot.style.width = '50px';  // Diameter is 100px
+    joystickDot.style.height = '50px'; // Diameter is 100px
+    joystickDot.style.backgroundColor = 'rgba(63, 63, 255, 0.447)';
+    joystickDot.style.borderRadius = '50%';
+    joystickDot.style.border = '2px solid white';
+    joystickDot.style.position = 'absolute';
+    joystickButton.appendChild(joystickDot);
 
-        const joystickDotRadius = 10; // Half of the dot's diameter
-        let pointerPressed = false;
+    const joystickDotRadius = 25; // Half of the dot's diameter
+    let pointerPressed = false;
 
-        const stopMovement = () => {
-            pointerPressed = false;
-            gameState.joystick.isMoving = false;
-            gameState.joystick.direction = null;
-            gameState.player.setVelocityX(0); // Stop horizontal movement
-            gameState.player.anims.play('idle', true); // Play idle animation
-            joystickDot.style.display = 'none'; // Hide the dot
-        };
+    const centerJoystickDot = () => {
+        const rect = joystickButton.getBoundingClientRect();
+        const centerX = (rect.width / 2) - joystickDotRadius;
+        const centerY = (rect.height / 2) - joystickDotRadius;
+        joystickDot.style.left = `${centerX}px`;
+        joystickDot.style.top = `${centerY}px`;
+    };
 
-        joystickButton.addEventListener('pointerdown', (event) => {
-            pointerPressed = true;
+    // Center the dot initially
+    centerJoystickDot();
+
+    const stopMovement = () => {
+        pointerPressed = false;
+        gameState.joystick.isMoving = false;
+        gameState.joystick.direction = null;
+        gameState.player.setVelocityX(0); // Stop horizontal movement
+        gameState.player.anims.play('idle', true); // Play idle animation
+        // Reset the dot to the center
+        centerJoystickDot();
+    };
+
+    joystickButton.addEventListener('pointerdown', (event) => {
+        pointerPressed = true;
+        updateJoystickDotPosition(event);
+    });
+
+    document.addEventListener('pointermove', (event) => {
+        if (pointerPressed) {
             updateJoystickDotPosition(event);
-            joystickDot.style.display = 'block'; // Show the dot
-        });
+        }
+    });
 
-        document.addEventListener('pointermove', (event) => {
-            if (pointerPressed) {
-                updateJoystickDotPosition(event);
+    const updateJoystickDotPosition = (event) => {
+        const rect = joystickButton.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+
+        // Ensure the dot stays within the bounds of the joystick area
+        x = Math.max(joystickDotRadius, Math.min(x, rect.width - joystickDotRadius));
+        y = Math.max(joystickDotRadius, Math.min(y, rect.height - joystickDotRadius));
+
+        joystickDot.style.left = `${x - joystickDotRadius}px`;
+        joystickDot.style.top = `${y - joystickDotRadius}px`;
+
+        // Determine direction based on the pointer position
+        const thirdHeight = rect.height / 3;
+        const thirdWidth = rect.width / 3;
+
+        if (y < thirdHeight) { // Upper third
+            gameState.joystick.isMoving = true;
+            if (x < thirdWidth) {
+                gameState.joystick.direction = 'upLeft';
+            } else if (x > 2 * thirdWidth) {
+                gameState.joystick.direction = 'upRight';
+            } else {
+                gameState.joystick.direction = 'up';
             }
-        });
-
-        const updateJoystickDotPosition = (event) => {
-            const rect = joystickButton.getBoundingClientRect();
-            let x = event.clientX - rect.left;
-            let y = event.clientY - rect.top;
-
-            // Ensure the dot stays within the bounds of the joystick area
-            x = Math.max(joystickDotRadius, Math.min(x, rect.width - joystickDotRadius));
-            y = Math.max(joystickDotRadius, Math.min(y, rect.height - joystickDotRadius));
-
-            joystickDot.style.left = `${x - joystickDotRadius}px`;
-            joystickDot.style.top = `${y - joystickDotRadius}px`;
-
-            // Determine direction based on the pointer position
-            const thirdHeight = rect.height / 3;
-            const thirdWidth = rect.width / 3;
-
-            if (y < thirdHeight) { // Upper third
+        } else if (y < 2 * thirdHeight) { // Middle third
+            if (x < thirdWidth) {
                 gameState.joystick.isMoving = true;
-                if (x < thirdWidth) {
-                    gameState.joystick.direction = 'upLeft';
-                } else if (x > 2 * thirdWidth) {
-                    gameState.joystick.direction = 'upRight';
-                } else {
-                    gameState.joystick.direction = 'up';
-                }
-            } else if (y < 2 * thirdHeight) { // Middle third
-                if (x < thirdWidth) {
-                    gameState.joystick.isMoving = true;
-                    gameState.joystick.direction = 'left';
-                } else if (x > 2 * thirdWidth) {
-                    gameState.joystick.isMoving = true;
-                    gameState.joystick.direction = 'right';
-                } else {
-                    gameState.joystick.isMoving = false;
-                    gameState.joystick.direction = null;
-                }
-            } else { // Lower third
-                if (x < thirdWidth) {
-                    gameState.joystick.isMoving = true;
-                    gameState.joystick.direction = 'left';
-                } else if (x > 2 * thirdWidth) {
-                    gameState.joystick.isMoving = true;
-                    gameState.joystick.direction = 'right';
-                } else {
-                    gameState.joystick.isMoving = false;
-                    gameState.joystick.direction = null;
-                }
+                gameState.joystick.direction = 'left';
+            } else if (x > 2 * thirdWidth) {
+                gameState.joystick.isMoving = true;
+                gameState.joystick.direction = 'right';
+            } else {
+                gameState.joystick.isMoving = false;
+                gameState.joystick.direction = null;
             }
-        };
-
-        document.addEventListener('pointerup', stopMovement);
-        document.addEventListener('pointercancel', stopMovement);
+        } else { // Lower third
+            if (x < thirdWidth) {
+                gameState.joystick.isMoving = true;
+                gameState.joystick.direction = 'left';
+            } else if (x > 2 * thirdWidth) {
+                gameState.joystick.isMoving = true;
+                gameState.joystick.direction = 'right';
+            } else {
+                gameState.joystick.isMoving = false;
+                gameState.joystick.direction = null;
+            }
+        }
     };
 
-    // Handle player movement
-    global.handlePlayerMovement = function(scene, gameState) {
-        let isMoving = false;
+    document.addEventListener('pointerup', stopMovement);
+    document.addEventListener('pointercancel', stopMovement);
+};
 
-        if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft') {
-            gameState.player.setVelocityX(-360);
-            gameState.player.anims.play('run', true);
-            gameState.player.flipX = true;
-            isMoving = true;
-        } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight') {
-            gameState.player.setVelocityX(360);
-            gameState.player.anims.play('run', true);
-            gameState.player.flipX = false;
-            isMoving = true;
-        } else {
-            gameState.player.setVelocityX(0);
-            gameState.player.anims.play('idle', true);
-        }
+// Handle player movement
+global.handlePlayerMovement = function(scene, gameState) {
+    let isMoving = false;
 
-        if ((gameState.cursors.up.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'up' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'upRight'))) && gameState.player.body.touching.down) {
-            gameState.player.setVelocityY(-820);
-            isMoving = true;
-        }
+    if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft') {
+        gameState.player.setVelocityX(-360);
+        gameState.player.anims.play('run', true);
+        gameState.player.flipX = true;
+        isMoving = true;
+    } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight') {
+        gameState.player.setVelocityX(360);
+        gameState.player.anims.play('run', true);
+        gameState.player.flipX = false;
+        isMoving = true;
+    } else {
+        gameState.player.setVelocityX(0);
+        gameState.player.anims.play('idle', true);
+    }
 
-        return isMoving;
-    };
+    if ((gameState.cursors.up.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'up' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'upRight'))) && gameState.player.body.touching.down) {
+        gameState.player.setVelocityY(-820);
+        isMoving = true;
+    }
+
+    return isMoving;
+};
 
     // Setup exit logic
     global.setupExitLogic = function(scene, gameState) {
