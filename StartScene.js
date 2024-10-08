@@ -12,6 +12,7 @@ class StartScene extends Phaser.Scene {
                    loadBackgroundAssets(this);
         this.load.image('startImage', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Enchanted_hat_I.png'); // Replace with the actual path to your start button image
         document.getElementById('timer').style.display = 'none';
+        document.getElementById('health').style.display = 'none';
         document.getElementById('coins-earned').style.display = 'none';
         document.getElementById('joystick').style.display = 'none';
         }
@@ -46,6 +47,7 @@ const fontSize = getResponsiveFontSize();
         this.scene.start('Scene1');
         document.getElementById('main-header').style.display = 'none';
         document.getElementById('timer').style.display = 'block';
+        document.getElementById('health').style.display = 'block';
         document.getElementById('coins-earned').style.display = 'block';
         document.getElementById('joystick').style.display = 'block';
     });    

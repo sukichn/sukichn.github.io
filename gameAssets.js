@@ -113,7 +113,6 @@ const gameAlert = document.getElementById('game-alert');
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
         gameState.player.setTint(0xff0000);
-        document.getElementById('coins-earned').innerText = 'Score: 0';
 
         // Stop the timer event
         if (gameState.timerEvent) {
@@ -135,6 +134,7 @@ const gameAlert = document.getElementById('game-alert');
             gameState.upPressed = false;
             gameState.health = 100; // Reset health
             document.getElementById('health').innerText = `Health: ${gameState.health}`;
+            document.getElementById('coins-earned').innerText = 'Score: 0';
             scene.scene.restart();
         };
 
@@ -169,6 +169,7 @@ const gameAlert = document.getElementById('game-alert');
 
         const restartGame = () => {
             document.getElementById('game-alert').classList.remove('show');
+            document.getElementById('health').style.display = 'none';
             scene.anims.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
