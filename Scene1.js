@@ -5,6 +5,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload() {
+        console.log('Preloading assets...');
         // Load common assets
         loadBackgroundAssets(this);
         loadCoinAssets(this);
@@ -15,6 +16,10 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {
+        console.log('Creating scene...');
+        // Set the current scene instance
+        gameState.scene = this;
+
         // Create background assets using the global function
         createBackgroundAssets(this, gameState);
         gameState.active = true;
@@ -24,6 +29,7 @@ class Scene1 extends Phaser.Scene {
 
         // Initialize timer
         gameState.startTime = this.time.now; // Correctly initialize startTime
+        console.log('Timer initialized:', gameState.startTime);
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
@@ -44,10 +50,12 @@ class Scene1 extends Phaser.Scene {
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
         });
+        console.log('Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.4);
+        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
+        console.log('Player created.');
 
         // Create player animations
         createCodeyAnimations(this);
@@ -92,10 +100,12 @@ class Scene1 extends Phaser.Scene {
         createSnowmanAnimations(this);
         gameState.enemy1 = createSnowman(500, 800, 400); // Snowman on Platform 1 with movement
         gameState.enemy2 = createSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        console.log('Snowmen created.');
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
         setupExitLogic(this, gameState);
+        console.log('Exit created.');
 
         // Define coin positions
         const coinPositions = [
@@ -104,12 +114,13 @@ class Scene1 extends Phaser.Scene {
             { x: 900, y: 825 }, // Coin on Platform 4
             { x: 1150, y: 630 }, // Coin on Platform 5
             { x: 1300, y: 925 }, // Coin on Platform 7
-            { x: 1500, y: 825 }, // Coin on Platform 8
+            { x: 1500, y: 825 }  // Coin on Platform 8
         ];
 
         // Create and animate coins
         createCoinAnimations(this);
         createAndAnimateCoins(this, gameState, coinPositions);
+        console.log('Coins created and animated.');
 
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
@@ -117,27 +128,26 @@ class Scene1 extends Phaser.Scene {
             gameState.coinsCollected += 5;
             document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
         }, null, this);
+        console.log('Overlap detection for coins added.');
 
         // Setup camera and input
         setupCamera(this, gameState);
         setupInput(this, gameState);
+        console.log('Camera and input setup.');
 
         // Setup joystick input
         setupJoystick(this, gameState);
+        console.log('Joystick setup.');
 
         // Setup timer event to update every frame
         gameState.timerEvent = this.time.addEvent({
-            delay: 100, // Update every 100 milliseconds
+            delay: 10, // Update every 10 milliseconds
             callback: () => {
-                const currentTime = this.time.now;
-                const elapsedTime = currentTime - gameState.startTime;
-                const seconds = Math.floor(elapsedTime / 1000);
-                const milliseconds = Math.floor((elapsedTime % 1000) / 10); // Get two digits for milliseconds
-                const formattedMilliseconds = milliseconds < 10 ? `0${milliseconds}` : milliseconds; // Ensure two digits
-                document.getElementById('timer').innerText = `Time: ${seconds}:${formattedMilliseconds}`;
+                updateTimer(gameState);
             },
             loop: true
         });
+        console.log('Timer setup.');
     }
 
     update() {
