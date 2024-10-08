@@ -46,7 +46,7 @@ class Scene1 extends Phaser.Scene {
         });
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.4);
         this.physics.add.collider(gameState.player, gameState.platforms);
 
         // Create player animations

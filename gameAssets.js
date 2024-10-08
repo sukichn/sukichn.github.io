@@ -31,8 +31,8 @@
     // Load codey spritesheet
     global.loadCodeyAssets = function(scene) {
         scene.load.spritesheet('codey', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/diablo.png', {
-            frameWidth: 72,
-            frameHeight: 90
+            frameWidth: 250,
+            frameHeight: 300
         });
     };
 
@@ -41,14 +41,14 @@
         scene.anims.create({
             key: 'run',
             frames: scene.anims.generateFrameNumbers('codey', { start: 0, end: 3 }),
-            frameRate: 5,
+            frameRate: 3,
             repeat: -1
         });
 
         scene.anims.create({
             key: 'idle',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 4, end: 5 }),
-            frameRate: 5,
+            frames: scene.anims.generateFrameNumbers('codey', { start: 0, end: 2 }),
+            frameRate: 3,
             repeat: -1
         });
     };
@@ -289,12 +289,12 @@
         if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft') {
             gameState.player.setVelocityX(-360);
             gameState.player.anims.play('run', true);
-            gameState.player.flipX = true;
+            gameState.player.flipX = false;
             isMoving = true;
         } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight') {
             gameState.player.setVelocityX(360);
             gameState.player.anims.play('run', true);
-            gameState.player.flipX = false;
+            gameState.player.flipX = true;
             isMoving = true;
         } else {
             gameState.player.setVelocityX(0);
