@@ -146,8 +146,8 @@ const gameAlert = document.getElementById('game-alert');
         document.addEventListener('pointerdown', restartGame, { once: true });
     };
 
-     // Handle player reaching the exit
-     global.handlePlayerReachesExit = function(scene, gameState) {
+    // Handle player reaching the exit
+    global.handlePlayerReachesExit = function(scene, gameState) {
         document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
         scene.physics.pause();
         gameState.active = false;
@@ -166,22 +166,18 @@ const gameAlert = document.getElementById('game-alert');
         scene.input.off('pointerdown');
         scene.input.off('pointermove');
 
-        // Add new event listeners for restarting the scene
-        scene.input.on('pointerup', () => {
+        const restartGame = () => {
+            document.getElementById('game-alert').classList.remove('show');
             scene.anims.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
             scene.scene.restart();
-        });
+        };
 
-        scene.input.keyboard.on('keydown', () => {
-            scene.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-            scene.scene.restart();
-        });
+        // Add new event listeners for restarting the scene
+        scene.input.on('pointerup', restartGame);
+        scene.input.keyboard.on('keydown', restartGame);
     };
 
     // Handle player falling off the platform
@@ -199,8 +195,9 @@ const gameAlert = document.getElementById('game-alert');
                 // Store updated health in a global variable
                 global.currentHealth = gameState.health;
 
-                // Restart the scene
-                scene.scene.restart();
+                // Reset player's position without restarting the entire scene
+                gameState.player.setVelocity(0, 0);
+                gameState.player.setPosition(200, 700);
             }
         }
     };
