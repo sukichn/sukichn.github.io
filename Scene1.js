@@ -2,6 +2,7 @@ class Scene1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Scene1' });
         gameState.joystick = { isMoving: false, direction: null };
+        gameState.lastDamageTime = 0; // Initialize last damage time
     }
 
     preload() {
@@ -27,7 +28,9 @@ class Scene1 extends Phaser.Scene {
         // Initialize coin counter
         gameState.coinsCollected = 0;
 
-        
+        // Initialize health
+        gameState.health = 3;
+        document.getElementById('health').innerText = `Health: ${gameState.health}`;
 
         // Initialize timer
         gameState.startTime = this.time.now; // Correctly initialize startTime
@@ -47,7 +50,7 @@ class Scene1 extends Phaser.Scene {
             { x: 1150, y: 680 }, // Platform 5
             { x: 750, y: 550 },  // Platform 6
             { x: 1300, y: 975 }, // Platform 7
-            { x: 1500, y: 875 },  // Platform 8
+            { x: 1500, y: 875 }  // Platform 8
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
@@ -62,46 +65,10 @@ class Scene1 extends Phaser.Scene {
         // Create player animations
         createCodeyAnimations(this);
 
-        // Create snowman assets
-        const createSnowman = (x, y, moveX) => {
-            const snowman = this.physics.add.sprite(x, y, 'snowman');
-            this.physics.add.collider(snowman, gameState.platforms);
-            snowman.anims.play('snowmanAlert', true);
-
-            // Add overlap detection between player and snowman
-            this.physics.add.overlap(gameState.player, snowman, () => {
-                handleGameOver(this, gameState);
-            });
-
-            // Add movement and growSnowman callback for the snowman if moveX is provided
-            if (moveX) {
-                let scaleChange = 1;
-                function growSnowman() {
-                    if (scaleChange < 1.2) {
-                        scaleChange += .3;
-                        snowman.setScale(scaleChange);
-                        snowman.y -= 15;
-                    }
-                }
-
-                snowman.move = this.tweens.add({
-                    targets: snowman,
-                    x: moveX,
-                    ease: 'Linear',
-                    duration: 2000,
-                    repeat: -1,
-                    yoyo: true,
-                    onRepeat: growSnowman
-                });
-            }
-
-            return snowman;
-        };
-
         // Create snowmen on different platforms
         createSnowmanAnimations(this);
-        gameState.enemy1 = createSnowman(500, 800, 400); // Snowman on Platform 1 with movement
-        gameState.enemy2 = createSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
         console.log('Snowmen created.');
 
         // Create exit assets
@@ -150,6 +117,37 @@ class Scene1 extends Phaser.Scene {
             loop: true
         });
         console.log('Timer setup.');
+    }
+
+    addSnowman(x, y, moveX) {
+        const snowman = this.physics.add.sprite(x, y, 'snowman');
+        this.physics.add.collider(snowman, gameState.platforms);
+        snowman.anims.play('snowmanAlert', true);
+
+        handlePlayerSnowmanOverlap(this, gameState, snowman);
+
+        if (moveX) {
+            let scaleChange = 1;
+            function growSnowman() {
+                if (scaleChange < 1.2) {
+                    scaleChange += 0.3;
+                    snowman.setScale(scaleChange);
+                    snowman.y -= 15;
+                }
+            }
+
+            snowman.move = this.tweens.add({
+                targets: snowman,
+                x: moveX,
+                ease: 'Linear',
+                duration: 2000,
+                repeat: -1,
+                yoyo: true,
+                onRepeat: growSnowman
+            });
+        }
+
+        return snowman;
     }
 
     update() {

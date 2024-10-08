@@ -2,7 +2,7 @@ const gameAlert = document.getElementById('game-alert');
 
 (function(global) {
     global.initializeGameState = function(gameState) {
-        gameState.health = 100; // Initialize health
+        gameState.health = 3; // Initialize health
         document.getElementById('health').innerText = `Health: ${gameState.health}`; // Update the health display
     };
 
@@ -126,13 +126,12 @@ const gameAlert = document.getElementById('game-alert');
         scene.input.off('pointermove');
 
         const restartGame = () => {
-            
             gameAlert.classList.remove('show');
             scene.anims.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
-            gameState.health = 100; // Reset health
+            gameState.health = 3; // Reset health
             document.getElementById('health').innerText = `Health: ${gameState.health}`;
             document.getElementById('coins-earned').innerText = 'Score: 0';
             scene.scene.restart();
@@ -169,7 +168,7 @@ const gameAlert = document.getElementById('game-alert');
 
         const restartGame = () => {
             document.getElementById('game-alert').classList.remove('show');
-            document.getElementById('health').style.display = 'none';
+            
             scene.anims.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
@@ -186,9 +185,9 @@ const gameAlert = document.getElementById('game-alert');
     global.handlePlayerFallsOffPlatform = function(scene, gameState) {
         if (gameState.player.y > 1200) {
             if (typeof gameState.health !== 'number') {
-                gameState.health = 100; // Ensure health is a number
+                gameState.health = 3; // Ensure health is a number
             }
-            gameState.health -= 10;
+            gameState.health -= 1;
             document.getElementById('health').innerText = `Health: ${gameState.health}`;
 
             if (gameState.health <= 0) {
@@ -390,10 +389,34 @@ const gameAlert = document.getElementById('game-alert');
         document.getElementById('timer').innerText = `Time: ${formattedMinutes}:${formattedSeconds}:${formattedHundredths}`;
     };
 
-    // Call the initializeGameState function at the beginning of the game
-    window.addEventListener('load', () => {
-        const gameState = {};
-        global.initializeGameState(gameState);
-    });
+    // Handle player-snowman overlap
+    global.handlePlayerSnowmanOverlap = function(scene, gameState, snowman) {
+        scene.physics.add.overlap(gameState.player, snowman, () => {
+            const currentTime = scene.time.now;
+
+            // Check if enough time has passed since the last damage
+            if (currentTime - gameState.lastDamageTime > 1000) { // 1000 ms = 1 second
+                if (typeof gameState.health !== 'number') {
+                    gameState.health = 3; // Ensure health is a number
+                }
+                gameState.health -= 1;
+                document.getElementById('health').innerText = `Health: ${gameState.health}`;
+
+                if (gameState.health <= 0) {
+                    global.handleGameOver(scene, gameState);
+                } else {
+                    gameState.player.setTint(0xff0000);
+
+                    // Reset the tint after 500 milliseconds
+                    scene.time.delayedCall(500, () => {
+                        gameState.player.clearTint();
+                    });
+                }
+
+                // Update last damage time
+                gameState.lastDamageTime = currentTime;
+            }
+        });
+    };
 
 })(window);
