@@ -1,3 +1,5 @@
+const gameAlert = document.getElementById('game-alert');
+
 (function(global) {
     global.loadBackgroundAssets = function(scene) {
         scene.load.image('bg', 'https://raw.githubusercontent.com/devshareacademy/phaser-3-typescript-games-and-examples/refs/heads/main/examples/parallax-scrolling-background/public/assets/images/background.png');
@@ -22,6 +24,74 @@
             gameState.fog.tilePositionX += 0.7;
         }
     };
+
+    // Timer logic
+    global.updateTimer = function(gameState) {
+        const currentTime = gameState.scene.time.now;
+        const elapsedTime = currentTime - gameState.startTime;
+
+        const minutes = Math.floor(elapsedTime / 60000);
+        const seconds = Math.floor((elapsedTime % 60000) / 1000);
+        const hundredths = Math.floor((elapsedTime % 1000) / 10); // Get two digits for hundredths
+
+        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+        const formattedHundredths = hundredths < 10 ? `0${hundredths}` : hundredths; // Ensure two digits
+
+        document.getElementById('timer').innerText = `Time: ${formattedMinutes}:${formattedSeconds}:${formattedHundredths}`;
+    };
+
+    // Health logic
+    global.initializeGameState = function(gameState) {
+        gameState.health = 3; // Initialize health
+        document.getElementById('health').innerText = `Health: ${gameState.health}`; // Update the health display
+    };
+
+    // Handle game over logic
+    global.handleGameOver = function(scene, gameState) {
+        gameAlert.innerText = 'Game over!\n Click to play again';
+        void gameAlert.offsetWidth; // Trigger reflow to restart the animation
+        gameAlert.classList.add('show');
+
+        scene.physics.pause();
+        gameState.active = false;
+        scene.anims.pauseAll();
+        if (gameState.enemy1.move) gameState.enemy1.move.stop();
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+        gameState.player.setTint(0xff0000);
+
+        // Stop the timer event
+        if (gameState.timerEvent) {
+            gameState.timerEvent.remove();
+        }
+
+        // Remove previous event listeners to avoid multiple triggers
+        scene.input.keyboard.off('keydown');
+        scene.input.off('pointerup');
+        scene.input.off('pointerdown');
+        scene.input.off('pointermove');
+
+        const restartGame = () => {
+            gameAlert.classList.remove('show');
+            scene.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
+            gameState.health = 3; // Reset health
+            document.getElementById('health').innerText = `Health: ${gameState.health}`;
+            document.getElementById('coins-earned').innerText = 'Score: 0';
+            scene.scene.restart();
+        };
+
+        // Add new event listeners for restarting the scene
+        scene.input.keyboard.on('keydown', restartGame);
+        scene.input.on('pointerup', restartGame);
+
+        // Add global event listener for pointerdown on the entire screen
+        document.addEventListener('pointerdown', restartGame, { once: true });
+    };
+
+    
 
     
 })(window);
