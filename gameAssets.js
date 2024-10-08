@@ -1,6 +1,11 @@
 const gameAlert = document.getElementById('game-alert');
 
 (function(global) {
+    global.initializeGameState = function(gameState) {
+        gameState.health = 100; // Initialize health
+        document.getElementById('health').innerText = `Health: ${gameState.health}`; // Update the health display
+    };
+
     // Load coin spritesheet
     global.loadCoinAssets = function(scene) {
         scene.load.spritesheet('coinSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', {
@@ -128,6 +133,8 @@ const gameAlert = document.getElementById('game-alert');
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
+            gameState.health = 100; // Reset health
+            document.getElementById('health').innerText = `Health: ${gameState.health}`;
             scene.scene.restart();
         };
 
@@ -139,13 +146,9 @@ const gameAlert = document.getElementById('game-alert');
         document.addEventListener('pointerdown', restartGame, { once: true });
     };
 
-    // Handle player reaching the exit
-    global.handlePlayerReachesExit = function(scene, gameState) {
-        gameAlert.innerText = "You've reached the exit!\n Click to play again";
-        gameAlert.classList.remove('show');
-        void gameAlert.offsetWidth; // Trigger reflow to restart the animation
-        gameAlert.classList.add('show');
-
+     // Handle player reaching the exit
+     global.handlePlayerReachesExit = function(scene, gameState) {
+        document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to play again';
         scene.physics.pause();
         gameState.active = false;
         scene.anims.pauseAll();
@@ -163,27 +166,42 @@ const gameAlert = document.getElementById('game-alert');
         scene.input.off('pointerdown');
         scene.input.off('pointermove');
 
-        const restartGame = () => {
-            gameAlert.classList.remove('show');
+        // Add new event listeners for restarting the scene
+        scene.input.on('pointerup', () => {
             scene.anims.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
             scene.scene.restart();
-        };
+        });
 
-        // Add new event listeners for restarting the scene
-        scene.input.keyboard.on('keydown', restartGame);
-        scene.input.on('pointerup', restartGame);
-
-        // Add global event listener for pointerdown on the entire screen
-        document.addEventListener('pointerdown', restartGame, { once: true });
+        scene.input.keyboard.on('keydown', () => {
+            scene.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
+            scene.scene.restart();
+        });
     };
 
     // Handle player falling off the platform
     global.handlePlayerFallsOffPlatform = function(scene, gameState) {
         if (gameState.player.y > 1200) {
-            global.handleGameOver(scene, gameState);
+            if (typeof gameState.health !== 'number') {
+                gameState.health = 100; // Ensure health is a number
+            }
+            gameState.health -= 10;
+            document.getElementById('health').innerText = `Health: ${gameState.health}`;
+
+            if (gameState.health <= 0) {
+                global.handleGameOver(scene, gameState);
+            } else {
+                // Store updated health in a global variable
+                global.currentHealth = gameState.health;
+
+                // Restart the scene
+                scene.scene.restart();
+            }
         }
     };
 
@@ -372,4 +390,11 @@ const gameAlert = document.getElementById('game-alert');
 
         document.getElementById('timer').innerText = `Time: ${formattedMinutes}:${formattedSeconds}:${formattedHundredths}`;
     };
+
+    // Call the initializeGameState function at the beginning of the game
+    window.addEventListener('load', () => {
+        const gameState = {};
+        global.initializeGameState(gameState);
+    });
+
 })(window);

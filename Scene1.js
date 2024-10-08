@@ -27,6 +27,8 @@ class Scene1 extends Phaser.Scene {
         // Initialize coin counter
         gameState.coinsCollected = 0;
 
+        
+
         // Initialize timer
         gameState.startTime = this.time.now; // Correctly initialize startTime
         console.log('Timer initialized:', gameState.startTime);

@@ -207,35 +207,14 @@
   <div id="game-text">
     <div id="timer">Time: 00:00:00</div>
     <div id="coins-earned">Score: 0</div>
-    <button id="fullscreen-btn">Fullscreen</button>
+    <div id="health">Health: 100</div>
+   
   </div>
   <div id="game-alert"></div>
 
   <div id="joystick"></div>
 
-  <script>
-    // Fullscreen function
-    function toggleFullscreen() {
-                const elem = document.documentElement;
-                if (!document.fullscreenElement) {
-                    elem.requestFullscreen({ navigationUI: "show" })
-                        .then(() => {})
-                        .catch((err) => {
-                            alert(`An error occurred while trying to switch into fullscreen mode: ${err.message} (${err.name})`);
-                        });
-                } else {
-                    document.exitFullscreen()
-                        .then(() => {})
-                        .catch((err) => {
-                            alert(`An error occurred while trying to exit fullscreen mode: ${err.message} (${err.name})`);
-                        });
-                }
-            }
-
-            // Add event listener to the fullscreen button
-            document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
-
-  </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
   <script src="backgroundAssets.js"></script>
   <script src="gameAssets.js"></script>
