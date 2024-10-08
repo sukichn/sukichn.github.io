@@ -18,16 +18,8 @@
     };
 
     // Create and animate coins
-    global.createAndAnimateCoins = function(scene, gameState) {
+    global.createAndAnimateCoins = function(scene, gameState, coinPositions) {
         gameState.coins = scene.physics.add.staticGroup();
-        const coinPositions = [
-            { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 700, y: 825 }, // Coin on Platform 3
-            { x: 900, y: 825 }, // Coin on Platform 4
-            { x: 1150, y: 630 }, // Coin on Platform 5
-            { x: 1300, y: 1025 }, // Coin on Platform 7
-            { x: 1500, y: 825 }, // Coin on Platform 8
-        ];
 
         coinPositions.forEach(pos => {
             const coin = scene.add.sprite(pos.x, pos.y, 'coinSprite').setScale(0.8);
@@ -109,9 +101,14 @@
         gameState.active = false;
         scene.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        /*if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();
         gameState.player.setTint(0xff0000);
         document.getElementById('coins-earned').innerText = 'Score: 0';
+
+        // Stop the timer event
+        if (gameState.timerEvent) {
+            gameState.timerEvent.remove();
+        }
 
         // Remove previous event listeners to avoid multiple triggers
         scene.input.keyboard.off('keydown');
@@ -144,7 +141,12 @@
         gameState.active = false;
         scene.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        /*if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+
+        // Stop the timer event
+        if (gameState.timerEvent) {
+            gameState.timerEvent.remove();
+        }
 
         // Remove previous event listeners to avoid multiple triggers
         scene.input.keyboard.off('keydown');
@@ -195,7 +197,7 @@
         joystickDot.id = 'joystick-dot';
         joystickDot.style.width = '40px';
         joystickDot.style.height = '40px';
-        joystickDot.style.backgroundColor = 'blue';
+        joystickDot.style.backgroundColor = 'rgba(63, 63, 255, 0.447)';
         joystickDot.style.borderRadius = '50%';
         joystickDot.style.border = '2px solid white';
         joystickDot.style.position = 'absolute';
@@ -300,7 +302,7 @@
         }
 
         if ((gameState.cursors.up.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'up' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'upRight'))) && gameState.player.body.touching.down) {
-            gameState.player.setVelocityY(-800);
+            gameState.player.setVelocityY(-820);
             isMoving = true;
         }
 

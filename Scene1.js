@@ -22,6 +22,9 @@ class Scene1 extends Phaser.Scene {
         // Initialize coin counter
         gameState.coinsCollected = 0;
 
+        // Initialize timer
+        gameState.startTime = this.time.now; // Correctly initialize startTime
+
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
 
@@ -35,7 +38,7 @@ class Scene1 extends Phaser.Scene {
             { x: 900, y: 875 },  // Platform 4 starting
             { x: 1150, y: 680 }, // Platform 5
             { x: 750, y: 550 },  // Platform 6
-            { x: 1300, y: 1075 }, // Platform 7
+            { x: 1300, y: 975 }, // Platform 7
             { x: 1500, y: 875 },  // Platform 8
         ];
         platPositions.forEach(plat => {
@@ -64,7 +67,7 @@ class Scene1 extends Phaser.Scene {
             if (moveX) {
                 let scaleChange = 1;
                 function growSnowman() {
-                    if (scaleChange < 1.5) {
+                    if (scaleChange < 1.2) {
                         scaleChange += .3;
                         snowman.setScale(scaleChange);
                         snowman.y -= 15;
@@ -88,16 +91,25 @@ class Scene1 extends Phaser.Scene {
         // Create snowmen on different platforms
         createSnowmanAnimations(this);
         gameState.enemy1 = createSnowman(500, 800, 400); // Snowman on Platform 1 with movement
-        /*gameState.enemy2 = createSnowman(1300, 1005, 1400); // Snowman on Platform 7 with movement*/
+        gameState.enemy2 = createSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
         setupExitLogic(this, gameState);
 
+        // Define coin positions
+        const coinPositions = [
+            { x: 300, y: 825 }, // Coin on Platform 2
+            { x: 700, y: 825 }, // Coin on Platform 3
+            { x: 900, y: 825 }, // Coin on Platform 4
+            { x: 1150, y: 630 }, // Coin on Platform 5
+            { x: 1300, y: 925 }, // Coin on Platform 7
+            { x: 1500, y: 825 }, // Coin on Platform 8
+        ];
+
         // Create and animate coins
-        
         createCoinAnimations(this);
-        createAndAnimateCoins(this, gameState);
+        createAndAnimateCoins(this, gameState, coinPositions);
 
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
@@ -112,6 +124,20 @@ class Scene1 extends Phaser.Scene {
 
         // Setup joystick input
         setupJoystick(this, gameState);
+
+        // Setup timer event to update every frame
+        gameState.timerEvent = this.time.addEvent({
+            delay: 100, // Update every 100 milliseconds
+            callback: () => {
+                const currentTime = this.time.now;
+                const elapsedTime = currentTime - gameState.startTime;
+                const seconds = Math.floor(elapsedTime / 1000);
+                const milliseconds = Math.floor((elapsedTime % 1000) / 10); // Get two digits for milliseconds
+                const formattedMilliseconds = milliseconds < 10 ? `0${milliseconds}` : milliseconds; // Ensure two digits
+                document.getElementById('timer').innerText = `Time: ${seconds}:${formattedMilliseconds}`;
+            },
+            loop: true
+        });
     }
 
     update() {
