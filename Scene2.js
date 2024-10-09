@@ -1,6 +1,6 @@
-class Scene1 extends Phaser.Scene {
+class Scene2 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Scene1' });
+        super({ key: 'Scene2' });
         gameState.joystick = { isMoving: false, direction: null };
         gameState.lastDamageTime = 0; // Initialize last damage time
         if (typeof gameState.health !== 'number') {
@@ -25,22 +25,23 @@ class Scene1 extends Phaser.Scene {
         // Set the current scene instance
         gameState.scene = this;
 
+        // Display the stored time from Scene 1
+        const formattedEndTime = this.formatTime(gameState.elapsedTime);
+        document.getElementById('timer').innerText = `Time: ${formattedEndTime}`;
+        console.log('Stored time from Scene 1:', formattedEndTime);
+
+        // Clear game alerts
+        document.getElementById('game-alert').innerText = "";
+
         // Create background assets using the global function
         createBackgroundAssets(this, gameState);
         gameState.active = true;
 
-        // Initialize coin counter
-        gameState.coinsCollected = 0;
+        // Initialize coin counter (do not reset coins collected)
+        document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
-
-        // Initialize timer
-        gameState.startTime = this.time.now; // Correctly initialize startTime
-        console.log('Timer initialized:', gameState.startTime);
-
-        // Clear game alerts
-        document.getElementById('game-alert').innerText = "";
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -70,13 +71,11 @@ class Scene1 extends Phaser.Scene {
 
         // Create snowmen on different platforms
         createSnowmanAnimations(this);
-        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
         gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
         console.log('Snowmen created.');
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
-        
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
@@ -140,7 +139,7 @@ class Scene1 extends Phaser.Scene {
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count
 
-        document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to move on';
+        document.getElementById('game-alert').innerText = 'You reached the exit!\n';
         gameAlert.classList.add('show');
         this.physics.pause();
         gameState.active = false;
@@ -148,15 +147,10 @@ class Scene1 extends Phaser.Scene {
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
 
-        // Stop and store the elapsed time of the timer
+        // Stop the timer event
         if (gameState.timerEvent) {
-            gameState.elapsedTime = this.time.now - gameState.startTime;
             gameState.timerEvent.remove();
         }
-
-        // Store the current time when the game ends
-        gameState.endTime = this.time.now;
-        console.log('Game ended at:', this.formatTime(gameState.endTime - gameState.startTime));
 
         // Remove previous event listeners to avoid multiple triggers
         this.input.keyboard.off('keydown');
@@ -174,9 +168,9 @@ class Scene1 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Start Scene 2 and stop Scene 1
-            this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined in your game
-            this.scene.stop('Scene1');
+            // Start Scene 3 and stop Scene 2
+            this.scene.start('Scene3'); // Make sure 'Scene3' is properly defined in your game
+            this.scene.stop('Scene2');
         };
 
         // Add new event listeners for moving to the next scene
