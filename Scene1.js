@@ -38,24 +38,6 @@ class Scene1 extends Phaser.Scene {
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
 
-        // Initialize timer
-        if (!this.sys.game.globalStartTime) {
-            this.sys.game.globalStartTime = this.time.now; // Record the current time
-            this.sys.game.globalElapsed = 0; // Start with 0 elapsed time
-        }
-        console.log('Lvl 1 Start time unformatted:', this.sys.game.globalStartTime);
-
-        // Update timer every 10ms
-        gameState.timerEvent = this.time.addEvent({
-            delay: 10, // Update every 10ms for smooth updates
-            callback: this.updateTimer,
-            callbackScope: this,
-            loop: true
-        });
-
-        console.log('Timer start:', this.formatTime(this.sys.game.globalStartTime));
-        console.log('Timer initialized:', this.formatTime(this.sys.game.globalElapsed));
-
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
 
@@ -142,6 +124,75 @@ class Scene1 extends Phaser.Scene {
         // Setup joystick input
         setupJoystick(this, gameState);
         console.log('Joystick setup.');
+
+        // Initialize and start the countdown timer
+        this.startCountdown(5 * 60 * 1000); // 5 minutes in milliseconds
+    }
+
+    startCountdown(duration) {
+        let timer = duration;
+        const countdownElement = document.getElementById('countdown');
+        const timerElement = document.getElementById('timer');
+        const initialDuration = duration;
+
+        gameState.timerEvent = this.time.addEvent({
+            delay: 10, // Update every 10 milliseconds
+            callback: () => {
+                const minutes = Math.floor(timer / 60000);
+                const seconds = Math.floor((timer % 60000) / 1000);
+                const milliseconds = Math.floor((timer % 1000) / 10); // Get two digits for milliseconds
+                countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}:${milliseconds < 10 ? '0' : ''}${milliseconds}`;
+
+                const elapsed = initialDuration - timer;
+                const elapsedMinutes = Math.floor(elapsed / 60000);
+                const elapsedSeconds = Math.floor((elapsed % 60000) / 1000);
+                const elapsedMilliseconds = Math.floor((elapsed % 1000) / 10);
+                timerElement.innerText = `${elapsedMinutes}:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}:${elapsedMilliseconds < 10 ? '0' : ''}${elapsedMilliseconds}`;
+
+                if ((timer -= 10) < 0) {
+                    this.handleTimeOut();
+                }
+            },
+            loop: true
+        });
+    }
+
+    handleTimeOut() {
+        document.getElementById('game-alert').innerText = 'Time is up!';
+        gameAlert.classList.add('show');
+        this.physics.pause();
+        gameState.active = false;
+        this.anims.pauseAll();
+        if (gameState.enemy1.move) gameState.enemy1.move.stop();
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+
+        // Stop the timer event
+        if (gameState.timerEvent) {
+            gameState.timerEvent.remove();
+        }
+
+        // Remove previous event listeners to avoid multiple triggers
+        this.input.keyboard.off('keydown');
+        this.input.off('pointerup');
+        this.input.off('pointerdown');
+        this.input.off('pointermove');
+
+        const restartScene = () => {
+            document.getElementById('game-alert').classList.remove('show');
+
+            // Resume animations and clear user inputs
+            this.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
+
+            // Restart Scene 1
+            this.scene.restart();
+        };
+
+        // Add new event listeners for restarting the scene
+        this.input.on('pointerup', restartScene);
+        this.input.keyboard.on('keydown', restartScene);
     }
 
     handlePlayerReachesExit() {
@@ -154,10 +205,12 @@ class Scene1 extends Phaser.Scene {
         this.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
-    
-        console.log('Game ended at:', this.formatTime(this.sys.game.globalElapsed));
+
         // Stop the timer event
-        this.time.removeAllEvents();
+        if (gameState.timerEvent) {
+            gameState.timerEvent.remove();
+        }
+
 
         // Remove previous event listeners to avoid multiple triggers
         this.input.keyboard.off('keydown');
@@ -229,35 +282,5 @@ class Scene1 extends Phaser.Scene {
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
         }
-    }
-
-    updateTimer() {
-        // Calculate the elapsed time and update the global timer
-        this.sys.game.globalElapsed = this.time.now - this.sys.game.globalStartTime;
-        
-        // Format and display the time in the external HTML element with id "timer"
-        const timeString = this.formatTime(this.sys.game.globalElapsed);
-        document.getElementById('timer').innerText = `Time: ${timeString}`;
-    }
-
-    formatTime(elapsed) {
-        // Convert milliseconds to minutes, seconds, and milliseconds
-        const minutes = Math.floor(elapsed / 60000);
-        const seconds = Math.floor((elapsed % 60000) / 1000);
-        const milliseconds = Math.floor((elapsed % 1000) / 10);
-    
-        // Log the calculated values for debugging
-        /*console.log(`Elapsed: ${elapsed} ms -> ${minutes}m ${seconds}s ${milliseconds}ms`);*/
-    
-        // Pad the values to ensure they are always two digits
-        const paddedMinutes = String(minutes).padStart(2, '0');
-        const paddedSeconds = String(seconds).padStart(2, '0');
-        const paddedMilliseconds = String(milliseconds).padStart(2, '0');
-    
-        // Log the padded values for debugging
-        /*console.log(`Padded Time: ${paddedMinutes}:${paddedSeconds}:${paddedMilliseconds}`);*/
-    
-        // Return formatted time as MM:SS:MS (2 digits each)
-        return `${paddedMinutes}:${paddedSeconds}:${paddedMilliseconds}`;
     }
 }

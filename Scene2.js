@@ -28,14 +28,6 @@ class Scene2 extends Phaser.Scene {
         // Display level
         document.getElementById('level').innerText = `Level 2`;
 
-        // Display the stored time from Scene 1
-        if (!this.sys.game.globalStartTime) {
-            this.sys.game.globalStartTime = this.time.now; // Record the current time
-            this.sys.game.globalElapsed = 0; // Start with 0 elapsed time
-        }
-        console.log('Lvl 2 Start time:', this.sys.game.globalStartTime);
-        console.log('Lvl 2 Time initialized:', this.sys.game.globalElapsed);
-
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
 
@@ -131,7 +123,74 @@ class Scene2 extends Phaser.Scene {
         setupJoystick(this, gameState);
         console.log('Joystick setup.');
 
-        
+        // Initialize and start the countdown timer
+        this.startCountdown(5 * 60 * 1000); // 5 minutes in milliseconds
+    }
+
+    startCountdown(duration) {
+        let timer = duration;
+        const countdownElement = document.getElementById('countdown');
+        const timerElement = document.getElementById('timer');
+        const initialDuration = duration;
+
+        gameState.timerEvent = this.time.addEvent({
+            delay: 10, // Update every 10 milliseconds
+            callback: () => {
+                const minutes = Math.floor(timer / 60000);
+                const seconds = Math.floor((timer % 60000) / 1000);
+                const milliseconds = Math.floor((timer % 1000) / 10); // Get two digits for milliseconds
+                countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}:${milliseconds < 10 ? '0' : ''}${milliseconds}`;
+
+                const elapsed = initialDuration - timer;
+                const elapsedMinutes = Math.floor(elapsed / 60000);
+                const elapsedSeconds = Math.floor((elapsed % 60000) / 1000);
+                const elapsedMilliseconds = Math.floor((elapsed % 1000) / 10);
+                timerElement.innerText = `${elapsedMinutes}:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}:${elapsedMilliseconds < 10 ? '0' : ''}${elapsedMilliseconds}`;
+
+                if ((timer -= 10) < 0) {
+                    this.handleTimeOut();
+                }
+            },
+            loop: true
+        });
+    }
+
+    handleTimeOut() {
+        document.getElementById('game-alert').innerText = 'Time is up!';
+        gameAlert.classList.add('show');
+        this.physics.pause();
+        gameState.active = false;
+        this.anims.pauseAll();
+        if (gameState.enemy1.move) gameState.enemy1.move.stop();
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+
+        // Stop the timer event
+        if (gameState.timerEvent) {
+            gameState.timerEvent.remove();
+        }
+
+        // Remove previous event listeners to avoid multiple triggers
+        this.input.keyboard.off('keydown');
+        this.input.off('pointerup');
+        this.input.off('pointerdown');
+        this.input.off('pointermove');
+
+        const restartScene = () => {
+            document.getElementById('game-alert').classList.remove('show');
+
+            // Resume animations and clear user inputs
+            this.anims.resumeAll();
+            gameState.leftPressed = false;
+            gameState.rightPressed = false;
+            gameState.upPressed = false;
+
+            // Restart Scene 2
+            this.scene.restart();
+        };
+
+        // Add new event listeners for restarting the scene
+        this.input.on('pointerup', restartScene);
+        this.input.keyboard.on('keydown', restartScene);
     }
 
     handlePlayerReachesExit() {
@@ -221,5 +280,4 @@ class Scene2 extends Phaser.Scene {
             handlePlayerFallsOffPlatform(this, gameState);
         }
     }
-
 }
