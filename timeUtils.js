@@ -76,7 +76,14 @@
 
                 // Reset coins to zero
                 gameState.coinsCollected = 0;
-                document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`
+                const coinsElement = document.getElementById('coins-earned');
+                coinsElement.innerText = `Score: ${gameState.coinsCollected}`;
+                coinsElement.style.color = "red"; // Change color to red
+
+                // Set timeout to change the color back to its original color after 1 second
+                setTimeout(() => {
+                    coinsElement.style.color = ""; // Change color back to original
+                }, 400); // 1000 milliseconds = 1 second
             };
 
             // Add new event listeners for restarting the scene
