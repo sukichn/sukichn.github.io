@@ -25,10 +25,16 @@ class Scene2 extends Phaser.Scene {
         // Set the current scene instance
         gameState.scene = this;
 
+        // Display level
+        document.getElementById('level').innerText = `Level 2`;
+
         // Display the stored time from Scene 1
-        const formattedEndTime = this.formatTime(gameState.elapsedTime);
-        document.getElementById('timer').innerText = `Time: ${formattedEndTime}`;
-        console.log('Stored time from Scene 1:', formattedEndTime);
+        if (!this.sys.game.globalStartTime) {
+            this.sys.game.globalStartTime = this.time.now; // Record the current time
+            this.sys.game.globalElapsed = 0; // Start with 0 elapsed time
+        }
+        console.log('Lvl 2 Start time:', this.sys.game.globalStartTime);
+        console.log('Lvl 2 Time initialized:', this.sys.game.globalElapsed);
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
@@ -125,15 +131,7 @@ class Scene2 extends Phaser.Scene {
         setupJoystick(this, gameState);
         console.log('Joystick setup.');
 
-        // Setup timer event to update every frame
-        gameState.timerEvent = this.time.addEvent({
-            delay: 10, // Update every 10 milliseconds
-            callback: () => {
-                updateTimer(gameState);
-            },
-            loop: true
-        });
-        console.log('Timer setup.');
+        
     }
 
     handlePlayerReachesExit() {
@@ -224,18 +222,4 @@ class Scene2 extends Phaser.Scene {
         }
     }
 
-    formatTime(milliseconds) {
-        let totalMilliseconds = milliseconds;
-        let totalSeconds = Math.floor(totalMilliseconds / 1000);
-        let minutes = Math.floor(totalSeconds / 60);
-        let seconds = totalSeconds % 60;
-        let millis = totalMilliseconds % 1000;
-
-        // Pad the minutes and seconds with leading zeros if needed
-        minutes = String(minutes).padStart(2, '0');
-        seconds = String(seconds).padStart(2, '0');
-        millis = String(millis).padStart(3, '0');
-
-        return `${minutes}:${seconds}:${millis}`;
-    }
 }

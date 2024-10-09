@@ -25,7 +25,7 @@ const gameAlert = document.getElementById('game-alert');
         }
     };
 
-    // Timer logic
+    /*// Timer logic
     global.updateTimer = function(gameState) {
         const currentTime = gameState.scene.time.now;
         const elapsedTime = currentTime - gameState.startTime;
@@ -39,7 +39,7 @@ const gameAlert = document.getElementById('game-alert');
         const formattedHundredths = hundredths < 10 ? `0${hundredths}` : hundredths; // Ensure two digits
 
         document.getElementById('timer').innerText = `Time: ${formattedMinutes}:${formattedSeconds}:${formattedHundredths}`;
-    };
+    };*/
 
     // Health logic
     global.initializeGameState = function(gameState) {
