@@ -1,6 +1,6 @@
-class Scene2 extends Phaser.Scene {
+class Scene3 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Scene2' });
+        super({ key: 'Scene3' });
         gameState.joystick = { isMoving: false, direction: null };
         gameState.lastDamageTime = 0; // Initialize last damage time
         if (typeof gameState.health !== 'number') {
@@ -26,7 +26,7 @@ class Scene2 extends Phaser.Scene {
         gameState.scene = this;
 
         // Display level
-        document.getElementById('level').innerText = `Level 2`;
+        document.getElementById('level').innerText = `Level 3`;
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
@@ -48,10 +48,6 @@ class Scene2 extends Phaser.Scene {
         const initialElapsedSeconds = Math.floor((initialElapsed % 60000) / 1000);
         const initialElapsedMilliseconds = Math.floor((initialElapsed % 1000) / 10);
         totalTimeElement.innerText = `Total Time: ${initialElapsedMinutes}:${initialElapsedSeconds < 10 ? '0' : ''}${initialElapsedSeconds}:${initialElapsedMilliseconds < 10 ? '0' : ''}${initialElapsedMilliseconds}`;
-
-        // Initialize total elapsed time for this scene
-        gameState.totalElapsedTime = initialElapsed;
-        console.log('initialElapsed');
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -162,7 +158,6 @@ class Scene2 extends Phaser.Scene {
 
                 // Calculate and display the total elapsed time
                 const totalElapsed = gameState.elapsedTime + elapsed;
-                gameState.totalElapsedTime = totalElapsed; // Update total elapsed time
                 const totalElapsedMinutes = Math.floor(totalElapsed / 60000);
                 const totalElapsedSeconds = Math.floor((totalElapsed % 60000) / 1000);
                 const totalElapsedMilliseconds = Math.floor((totalElapsed % 1000) / 10);
@@ -246,12 +241,9 @@ class Scene2 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Update total elapsed time
-            gameState.elapsedTime = gameState.totalElapsedTime;
-
             // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene3'); // Make sure 'Scene3' is properly defined in your game
-            this.scene.stop('Scene2');
+            this.scene.start('Scene4'); // Make sure 'Scene3' is properly defined in your game
+            this.scene.stop('Scene3');
         };
 
         // Add new event listeners for moving to the next scene

@@ -6,6 +6,7 @@ class Scene1 extends Phaser.Scene {
         if (typeof gameState.health !== 'number') {
             gameState.health = 3; // Initialize health if it is not already set
         }
+        gameState.elapsedTime = 0; // Initialize elapsed time
     }
 
     preload() {
@@ -126,7 +127,7 @@ class Scene1 extends Phaser.Scene {
         console.log('Joystick setup.');
 
         // Initialize and start the countdown timer
-        this.startCountdown(5 * 60 * 1000); // 5 minutes in milliseconds
+        this.startCountdown(1 * 10 * 1000); // 10 secs in milliseconds
     }
 
     startCountdown(duration) {
@@ -144,10 +145,12 @@ class Scene1 extends Phaser.Scene {
                 countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}:${milliseconds < 10 ? '0' : ''}${milliseconds}`;
 
                 const elapsed = initialDuration - timer;
+                gameState.elapsedTime = elapsed; // Store the elapsed time in gameState
+                console.log(elapsed);
                 const elapsedMinutes = Math.floor(elapsed / 60000);
                 const elapsedSeconds = Math.floor((elapsed % 60000) / 1000);
                 const elapsedMilliseconds = Math.floor((elapsed % 1000) / 10);
-                timerElement.innerText = `${elapsedMinutes}:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}:${elapsedMilliseconds < 10 ? '0' : ''}${elapsedMilliseconds}`;
+                timerElement.innerText = `Time: ${elapsedMinutes}:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}:${elapsedMilliseconds < 10 ? '0' : ''}${elapsedMilliseconds}`;
 
                 if ((timer -= 10) < 0) {
                     this.handleTimeOut();

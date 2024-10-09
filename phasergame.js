@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     width: 1600,
     height: 1000,
-    scene: [StartScene, Scene1, Scene2], // Include both start and game scenes
+    scene: [StartScene, Scene1, Scene2, Scene3], // Include both start and game scenes
     
     physics: {
         default: 'arcade',
