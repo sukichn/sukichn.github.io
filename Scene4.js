@@ -1,6 +1,6 @@
-class Scene3 extends Phaser.Scene {
+class Scene4 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Scene3' });
+        super({ key: 'Scene4' });
         gameState.joystick = { isMoving: false, direction: null };
         gameState.lastDamageTime = 0; // Initialize last damage time
         if (typeof gameState.health !== 'number') {
@@ -26,7 +26,7 @@ class Scene3 extends Phaser.Scene {
         gameState.scene = this;
 
         // Display level
-        document.getElementById('level').innerText = `Level 3`;
+        document.getElementById('level').innerText = `Level 4`;
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
@@ -52,7 +52,7 @@ class Scene3 extends Phaser.Scene {
         // Initialize total elapsed time for this scene
         gameState.totalElapsedTime = initialElapsed;
         console.log(gameState.totalElapsedTime);
-
+        
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
@@ -139,6 +139,7 @@ class Scene3 extends Phaser.Scene {
         window.timeUtils.startCountdown(this, 1 * 10 * 1000, gameState); // 10 secs in milliseconds
     }
 
+
     handleTimeOut() {
         document.getElementById('game-alert').innerText = 'Time is up!';
         gameAlert.classList.add('show');
@@ -152,9 +153,6 @@ class Scene3 extends Phaser.Scene {
         if (gameState.timerEvent) {
             gameState.timerEvent.remove();
         }
-
-        // Update total elapsed time
-        gameState.elapsedTime = gameState.totalElapsedTime;
 
         // Remove previous event listeners to avoid multiple triggers
         this.input.keyboard.off('keydown');
@@ -171,7 +169,7 @@ class Scene3 extends Phaser.Scene {
             gameState.rightPressed = false;
             gameState.upPressed = false;
 
-            // Restart Scene 3
+            // Restart Scene 2
             this.scene.restart();
         };
 
@@ -196,9 +194,6 @@ class Scene3 extends Phaser.Scene {
             gameState.timerEvent.remove();
         }
 
-        // Update total elapsed time
-        gameState.elapsedTime = gameState.totalElapsedTime;
-
         // Remove previous event listeners to avoid multiple triggers
         this.input.keyboard.off('keydown');
         this.input.off('pointerup');
@@ -215,9 +210,9 @@ class Scene3 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Start Scene 4 and stop Scene 3
-            this.scene.start('Scene4'); // Make sure 'Scene4' is properly defined in your game
-            this.scene.stop('Scene3');
+            // Start Scene and Stop Scene
+            this.scene.start('Scene5'); 
+            this.scene.stop('Scene4');
         };
 
         // Add new event listeners for moving to the next scene

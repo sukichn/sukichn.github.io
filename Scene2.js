@@ -51,7 +51,7 @@ class Scene2 extends Phaser.Scene {
 
         // Initialize total elapsed time for this scene
         gameState.totalElapsedTime = initialElapsed;
-        console.log('initialElapsed');
+        console.log(gameState.totalElapsedTime);
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -136,10 +136,11 @@ class Scene2 extends Phaser.Scene {
         console.log('Joystick setup.');
 
         // Initialize and start the countdown timer
-        this.startCountdown(1 * 10 * 1000); // 10 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 10 * 1000, gameState); // 10 secs in milliseconds
+
     }
 
-    startCountdown(duration) {
+    /*startCountdown(duration) {
         let timer = duration;
         const countdownElement = document.getElementById('countdown');
         const timerElement = document.getElementById('timer');
@@ -174,7 +175,7 @@ class Scene2 extends Phaser.Scene {
             },
             loop: true
         });
-    }
+    }*/
 
     handleTimeOut() {
         document.getElementById('game-alert').innerText = 'Time is up!';

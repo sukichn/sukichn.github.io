@@ -25,22 +25,6 @@ const gameAlert = document.getElementById('game-alert');
         }
     };
 
-    /*// Timer logic
-    global.updateTimer = function(gameState) {
-        const currentTime = gameState.scene.time.now;
-        const elapsedTime = currentTime - gameState.startTime;
-
-        const minutes = Math.floor(elapsedTime / 60000);
-        const seconds = Math.floor((elapsedTime % 60000) / 1000);
-        const hundredths = Math.floor((elapsedTime % 1000) / 10); // Get two digits for hundredths
-
-        const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-        const formattedHundredths = hundredths < 10 ? `0${hundredths}` : hundredths; // Ensure two digits
-
-        document.getElementById('timer').innerText = `Time: ${formattedMinutes}:${formattedSeconds}:${formattedHundredths}`;
-    };*/
-
     // Health logic
     global.initializeGameState = function(gameState) {
         gameState.health = 3; // Initialize health
