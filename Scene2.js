@@ -177,7 +177,7 @@ class Scene2 extends Phaser.Scene {
         });
     }*/
 
-    handleTimeOut() {
+   /* handleTimeOut() {
         document.getElementById('game-alert').innerText = 'Time is up!';
         gameAlert.classList.add('show');
         this.physics.pause();
@@ -213,7 +213,7 @@ class Scene2 extends Phaser.Scene {
         // Add new event listeners for restarting the scene
         this.input.on('pointerup', restartScene);
         this.input.keyboard.on('keydown', restartScene);
-    }
+    }*/
 
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count

@@ -63,7 +63,8 @@ const gameAlert = document.getElementById('game-alert');
             gameState.upPressed = false;
             gameState.health = 3; // Reset health
             document.getElementById('health').innerText = `Health: ${gameState.health}`;
-            document.getElementById('coins-earned').innerText = 'Score: 0';
+            gameState.coinsCollected = 0; // Reset coins to zero
+            document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`
             scene.scene.restart();
         };
 
@@ -73,6 +74,9 @@ const gameAlert = document.getElementById('game-alert');
 
         // Add global event listener for pointerdown on the entire screen
         document.addEventListener('pointerdown', restartGame, { once: true });
+
+        // Update total elapsed time
+        gameState.elapsedTime = gameState.totalElapsedTime;
     };
 
     

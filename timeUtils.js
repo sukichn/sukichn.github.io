@@ -73,6 +73,10 @@
 
                 // Restart the current scene
                 scene.scene.restart();
+
+                // Reset coins to zero
+                gameState.coinsCollected = 0;
+                document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`
             };
 
             // Add new event listeners for restarting the scene

@@ -26,21 +26,33 @@ class Scene1 extends Phaser.Scene {
         // Set the current scene instance
         gameState.scene = this;
 
-        // Create background assets using the global function
-        createBackgroundAssets(this, gameState);
-        gameState.active = true;
-
         // Display level
         document.getElementById('level').innerText = `Level 1`;
 
+        // Clear game alerts
+        document.getElementById('game-alert').innerText = "";
+
         // Initialize coin counter
         gameState.coinsCollected = 0;
+        document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
 
-        // Clear game alerts
-        document.getElementById('game-alert').innerText = "";
+        // Display total elapsed time from Scene1
+        const totalTimeElement = document.getElementById('total-time');
+        const initialElapsed = gameState.elapsedTime;
+        const initialElapsedMinutes = Math.floor(initialElapsed / 60000);
+        const initialElapsedSeconds = Math.floor((initialElapsed % 60000) / 1000);
+        const initialElapsedMilliseconds = Math.floor((initialElapsed % 1000) / 10);
+        totalTimeElement.innerText = `Total Time: ${initialElapsedMinutes}:${initialElapsedSeconds < 10 ? '0' : ''}${initialElapsedSeconds}:${initialElapsedMilliseconds < 10 ? '0' : ''}${initialElapsedMilliseconds}`;
+
+        // Initialize total elapsed time for this scene
+        gameState.totalElapsedTime = initialElapsed;
+
+        // Create background assets using the global function
+        createBackgroundAssets(this, gameState);
+        gameState.active = true;
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -76,7 +88,6 @@ class Scene1 extends Phaser.Scene {
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
-        
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
@@ -127,80 +138,12 @@ class Scene1 extends Phaser.Scene {
         console.log('Joystick setup.');
 
         // Initialize and start the countdown timer
-        this.startCountdown(1 * 10 * 1000); // 10 secs in milliseconds
-    }
-
-    startCountdown(duration) {
-        let timer = duration;
-        const countdownElement = document.getElementById('countdown');
-        const timerElement = document.getElementById('timer');
-        const initialDuration = duration;
-
-        gameState.timerEvent = this.time.addEvent({
-            delay: 10, // Update every 10 milliseconds
-            callback: () => {
-                const minutes = Math.floor(timer / 60000);
-                const seconds = Math.floor((timer % 60000) / 1000);
-                const milliseconds = Math.floor((timer % 1000) / 10); // Get two digits for milliseconds
-                countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}:${milliseconds < 10 ? '0' : ''}${milliseconds}`;
-
-                const elapsed = initialDuration - timer;
-                gameState.elapsedTime = elapsed; // Store the elapsed time in gameState
-                console.log(elapsed);
-                const elapsedMinutes = Math.floor(elapsed / 60000);
-                const elapsedSeconds = Math.floor((elapsed % 60000) / 1000);
-                const elapsedMilliseconds = Math.floor((elapsed % 1000) / 10);
-                timerElement.innerText = `Time: ${elapsedMinutes}:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}:${elapsedMilliseconds < 10 ? '0' : ''}${elapsedMilliseconds}`;
-
-                if ((timer -= 10) < 0) {
-                    this.handleTimeOut();
-                }
-            },
-            loop: true
-        });
-    }
-
-    handleTimeOut() {
-        document.getElementById('game-alert').innerText = 'Time is up!';
-        gameAlert.classList.add('show');
-        this.physics.pause();
-        gameState.active = false;
-        this.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
-
-        // Stop the timer event
-        if (gameState.timerEvent) {
-            gameState.timerEvent.remove();
-        }
-
-        // Remove previous event listeners to avoid multiple triggers
-        this.input.keyboard.off('keydown');
-        this.input.off('pointerup');
-        this.input.off('pointerdown');
-        this.input.off('pointermove');
-
-        const restartScene = () => {
-            document.getElementById('game-alert').classList.remove('show');
-
-            // Resume animations and clear user inputs
-            this.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-
-            // Restart Scene 1
-            this.scene.restart();
-        };
-
-        // Add new event listeners for restarting the scene
-        this.input.on('pointerup', restartScene);
-        this.input.keyboard.on('keydown', restartScene);
+        window.timeUtils.startCountdown(this, 1 * 10 * 1000, gameState); // 10 secs in milliseconds
     }
 
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count
-    
+
         document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to move on';
         gameAlert.classList.add('show');
         this.physics.pause();
@@ -214,28 +157,30 @@ class Scene1 extends Phaser.Scene {
             gameState.timerEvent.remove();
         }
 
+        // Update total elapsed time
+        gameState.elapsedTime = gameState.totalElapsedTime;
 
         // Remove previous event listeners to avoid multiple triggers
         this.input.keyboard.off('keydown');
         this.input.off('pointerup');
         this.input.off('pointerdown');
         this.input.off('pointermove');
-    
+
         const moveToNextScene = () => {
             document.getElementById('game-alert').classList.remove('show');
-    
+
             // Resume animations and clear user inputs
             this.anims.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
-    
+
             // Start Scene 2 and stop Scene 1
             this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined in your game
             this.scene.stop('Scene1');
         };
-    
+
         // Add new event listeners for moving to the next scene
         this.input.on('pointerup', moveToNextScene);
         this.input.keyboard.on('keydown', moveToNextScene);

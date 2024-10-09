@@ -140,44 +140,6 @@ class Scene4 extends Phaser.Scene {
     }
 
 
-    handleTimeOut() {
-        document.getElementById('game-alert').innerText = 'Time is up!';
-        gameAlert.classList.add('show');
-        this.physics.pause();
-        gameState.active = false;
-        this.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
-
-        // Stop the timer event
-        if (gameState.timerEvent) {
-            gameState.timerEvent.remove();
-        }
-
-        // Remove previous event listeners to avoid multiple triggers
-        this.input.keyboard.off('keydown');
-        this.input.off('pointerup');
-        this.input.off('pointerdown');
-        this.input.off('pointermove');
-
-        const restartScene = () => {
-            document.getElementById('game-alert').classList.remove('show');
-
-            // Resume animations and clear user inputs
-            this.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-
-            // Restart Scene 2
-            this.scene.restart();
-        };
-
-        // Add new event listeners for restarting the scene
-        this.input.on('pointerup', restartScene);
-        this.input.keyboard.on('keydown', restartScene);
-    }
-
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count
 
