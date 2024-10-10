@@ -34,7 +34,7 @@ class Scene2 extends Phaser.Scene {
         gameState.scene = this;
 
         // Display level
-        document.getElementById('level').innerText = `Level 1`;
+        document.getElementById('level').innerText = `Level 2`;
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
@@ -159,7 +159,6 @@ class Scene2 extends Phaser.Scene {
         // Define moonstone positions
         const moonstonePositions = [
             { x: 600, y: 625 }, // Moonstone on Platform 1
-          
         ];
 
         // Create and animate moonstones
@@ -227,8 +226,8 @@ class Scene2 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Start Scene 2 and stop Scene 1
-            this.scene.start('Scene3'); // Make sure 'Scene2' is properly defined in your game
+            // Start Scene 3 and stop Scene 2
+            this.scene.start('Scene3'); // Make sure 'Scene3' is properly defined in your game
             this.scene.stop('Scene2');
         };
 
@@ -284,20 +283,20 @@ class Scene2 extends Phaser.Scene {
             // Shoot repellent when spacebar is pressed
             if (Phaser.Input.Keyboard.JustDown(gameState.cursors.space)) {
                 if (gameState.player.flipX) {
-                    shootRepellent(this, 'left', gameState.player, gameState.repellent);
+                    shootRepellent(this, 'left', gameState.player, gameState.repellent, gameState);
                 } else {
-                    shootRepellent(this, 'right', gameState.player, gameState.repellent);
+                    shootRepellent(this, 'right', gameState.player, gameState.repellent, gameState);
                 }
             }
 
             // Shoot repellent upward when Z key is pressed
             if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootUp)) {
-                shootRepellent(this, 'up', gameState.player, gameState.repellent);
+                shootRepellent(this, 'up', gameState.player, gameState.repellent, gameState);
             }
 
             // Shoot repellent downward when X key is pressed
             if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootDown)) {
-                shootRepellent(this, 'down', gameState.player, gameState.repellent);
+                shootRepellent(this, 'down', gameState.player, gameState.repellent, gameState);
             }
         }
     }

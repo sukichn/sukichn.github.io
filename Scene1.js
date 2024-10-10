@@ -7,6 +7,9 @@ class Scene1 extends Phaser.Scene {
             gameState.health = 3; // Initialize health if it is not already set
         }
         gameState.elapsedTime = 0; // Initialize elapsed time
+        if (typeof gameState.attacks !== 'number') {
+            gameState.attacks = 0; // Initialize attacks if it is not already set
+        }
     }
 
     preload() {
@@ -264,20 +267,20 @@ class Scene1 extends Phaser.Scene {
             // Shoot repellent when spacebar is pressed
             if (Phaser.Input.Keyboard.JustDown(gameState.cursors.space)) {
                 if (gameState.player.flipX) {
-                    shootRepellent(this, 'left', gameState.player, gameState.repellent);
+                    shootRepellent(this, 'left', gameState.player, gameState.repellent, gameState);
                 } else {
-                    shootRepellent(this, 'right', gameState.player, gameState.repellent);
+                    shootRepellent(this, 'right', gameState.player, gameState.repellent, gameState);
                 }
             }
 
             // Shoot repellent upward when Z key is pressed
             if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootUp)) {
-                shootRepellent(this, 'up', gameState.player, gameState.repellent);
+                shootRepellent(this, 'up', gameState.player, gameState.repellent, gameState);
             }
 
             // Shoot repellent downward when X key is pressed
             if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootDown)) {
-                shootRepellent(this, 'down', gameState.player, gameState.repellent);
+                shootRepellent(this, 'down', gameState.player, gameState.repellent, gameState);
             }
         }
     }

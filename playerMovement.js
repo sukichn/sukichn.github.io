@@ -154,8 +154,12 @@
         return isMoving;
     };
 
-    // Repellent shooting logic
-    global.shootRepellent = function(scene, direction, player, repellentsGroup) {
+   // Repellent shooting logic
+global.shootRepellent = function(scene, direction, player, repellentsGroup, gameState) {
+    // Check if gameState.attacks is greater than 0
+    if (gameState.attacks >= 0.5) {
+        console.log("Attacks left before shooting: " + gameState.attacks);
+
         const repellent = repellentsGroup.create(player.x, player.y, 'repellent');
         repellent.body.allowGravity = false; // Disable gravity for the repellent
 
@@ -175,20 +179,52 @@
                 repellent.setVelocity(xVelocityDown, 800); // Shoot downward
                 break;
         }
-    };
 
-    // Setup shooting button
-    global.setupShooterButton = function(scene, gameState) {
-        const shooterButton = document.getElementById('shooter');
+        // Decrease the number of attacks by 0.5
+        gameState.attacks -= 0.5;
+        console.log("Repellent shot. Attacks remaining after shooting: " + gameState.attacks);
+        
+        // Update the inner text of the attacks element
+        document.getElementById('attacks').innerText = `Attacks: ${Math.floor(gameState.attacks)}`;
+    } else {
+        // Logic when there are no attacks left
+        console.log("No attacks left to shoot repellent.");
+    }
+};
 
-        if (shooterButton) {
-            shooterButton.addEventListener('pointerdown', () => {
-                if (gameState.player.flipX) {
-                    shootRepellent(scene, 'left', gameState.player, gameState.repellent);
-                } else {
-                    shootRepellent(scene, 'right', gameState.player, gameState.repellent);
-                }
-            });
-        }
-    };
+// Setup shooting button
+global.setupShooterButton = function(scene, gameState) {
+    const shooterButton = document.getElementById('shooter');
+
+    if (shooterButton) {
+        shooterButton.addEventListener('pointerup', (event) => {
+            console.log('Shooter button pressed');
+            const direction = gameState.player.flipX ? 'left' : 'right';
+            shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
+            event.stopPropagation(); // Prevent event from firing multiple times
+        });
+    }
+
+    // Setup spacebar to shoot
+    scene.input.keyboard.on('keydown-SPACE', (event) => {
+        console.log('Spacebar pressed');
+        const direction = gameState.player.flipX ? 'left' : 'right';
+        shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
+        event.stopPropagation(); // Prevent event from firing multiple times
+    });
+};
+
+// Load moonstone assets
+global.loadAttackAssets = function(scene) {
+    scene.load.image('moonstone', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
+};
+
+// Handle player-moonstone overlap
+global.handlePlayerMoonstoneOverlap = function(scene, gameState, moonstone) {
+    scene.physics.add.overlap(gameState.player, moonstone, () => {
+        gameState.attacks += 3;
+        document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
+        moonstone.destroy();
+    });
+};
 })(window);
