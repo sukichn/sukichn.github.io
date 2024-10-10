@@ -41,7 +41,6 @@ class Scene2 extends Phaser.Scene {
         document.getElementById('game-alert').innerText = "";
 
         // Initialize coin counter
-        gameState.coinsCollected = 0;
         document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
