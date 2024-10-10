@@ -6,6 +6,10 @@ class Scene2 extends Phaser.Scene {
         if (typeof gameState.health !== 'number') {
             gameState.health = 3; // Initialize health if it is not already set
         }
+        gameState.elapsedTime = 0; // Initialize elapsed time
+        if (typeof gameState.attacks !== 'number') {
+            gameState.attacks = 0; // Initialize attacks if it is not already set
+        }
     }
 
     preload() {
@@ -17,7 +21,11 @@ class Scene2 extends Phaser.Scene {
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
         loadExitAssets(this);
-        loadPotionAssets(this);  // Load potion assets
+        loadPotionAssets(this);  
+        loadAttackAssets(this);  
+
+        // Load the repellent asset
+        this.load.image('repellent', 'https://content.codecademy.com/courses/learn-phaser/Bug%20Invaders/bugPellet.png');
     }
 
     create() {
@@ -26,16 +34,13 @@ class Scene2 extends Phaser.Scene {
         gameState.scene = this;
 
         // Display level
-        document.getElementById('level').innerText = `Level 2`;
+        document.getElementById('level').innerText = `Level 1`;
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
 
-        // Create background assets using the global function
-        createBackgroundAssets(this, gameState);
-        gameState.active = true;
-
-        // Initialize coin counter (do not reset coins collected)
+        // Initialize coin counter
+        gameState.coinsCollected = 0;
         document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
@@ -51,7 +56,10 @@ class Scene2 extends Phaser.Scene {
 
         // Initialize total elapsed time for this scene
         gameState.totalElapsedTime = initialElapsed;
-        console.log(gameState.totalElapsedTime);
+
+        // Create background assets using the global function
+        createBackgroundAssets(this, gameState);
+        gameState.active = true;
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -79,10 +87,32 @@ class Scene2 extends Phaser.Scene {
         // Create player animations
         createCodeyAnimations(this);
 
-        // Create snowmen on different platforms
+        // Create a group for the enemies
+        gameState.enemies = this.physics.add.group();
+
+        // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
+        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemies.add(gameState.enemy1);
         gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
+
+        // Create a group for the repellents
+        gameState.repellent = this.physics.add.group({
+            defaultKey: 'repellent',
+            maxSize: 10,
+            allowGravity: false // Ensure gravity is disabled for the repellent
+        });
+
+        // Create cursor keys for input
+        gameState.cursors = this.input.keyboard.createCursorKeys();
+        
+        // Create additional keys for shooting in different directions
+        gameState.keys = {
+            shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
+            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+        };
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
@@ -126,6 +156,20 @@ class Scene2 extends Phaser.Scene {
         });
         console.log('Potions created and animated.');
 
+        // Define moonstone positions
+        const moonstonePositions = [
+            { x: 600, y: 625 }, // Moonstone on Platform 1
+          
+        ];
+
+        // Create and animate moonstones
+        moonstonePositions.forEach(pos => {
+            const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(0.1); // Set the scale
+            this.physics.add.collider(moonstone, gameState.platforms);
+            handlePlayerMoonstoneOverlap(this, gameState, moonstone);
+        });
+        console.log('Moonstones created and animated.');
+
         // Setup camera and input
         setupCamera(this, gameState);
         setupInput(this, gameState);
@@ -135,90 +179,23 @@ class Scene2 extends Phaser.Scene {
         setupJoystick(this, gameState);
         console.log('Joystick setup.');
 
+        // Setup shooter button
+        setupShooterButton(this, gameState);
+
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 10 * 1000, gameState); // 10 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 30 * 1000, gameState); // 30 secs in milliseconds
 
-    }
-
-    /*startCountdown(duration) {
-        let timer = duration;
-        const countdownElement = document.getElementById('countdown');
-        const timerElement = document.getElementById('timer');
-        const initialDuration = duration;
-        const totalTimeElement = document.getElementById('total-time');
-
-        gameState.timerEvent = this.time.addEvent({
-            delay: 10, // Update every 10 milliseconds
-            callback: () => {
-                const minutes = Math.floor(timer / 60000);
-                const seconds = Math.floor((timer % 60000) / 1000);
-                const milliseconds = Math.floor((timer % 1000) / 10); // Get two digits for milliseconds
-                countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}:${milliseconds < 10 ? '0' : ''}${milliseconds}`;
-
-                const elapsed = initialDuration - timer;
-                const elapsedMinutes = Math.floor(elapsed / 60000);
-                const elapsedSeconds = Math.floor((elapsed % 60000) / 1000);
-                const elapsedMilliseconds = Math.floor((elapsed % 1000) / 10);
-                timerElement.innerText = `Time: ${elapsedMinutes}:${elapsedSeconds < 10 ? '0' : ''}${elapsedSeconds}:${elapsedMilliseconds < 10 ? '0' : ''}${elapsedMilliseconds}`;
-
-                // Calculate and display the total elapsed time
-                const totalElapsed = gameState.elapsedTime + elapsed;
-                gameState.totalElapsedTime = totalElapsed; // Update total elapsed time
-                const totalElapsedMinutes = Math.floor(totalElapsed / 60000);
-                const totalElapsedSeconds = Math.floor((totalElapsed % 60000) / 1000);
-                const totalElapsedMilliseconds = Math.floor((totalElapsed % 1000) / 10);
-                totalTimeElement.innerText = `Total Time: ${totalElapsedMinutes}:${totalElapsedSeconds < 10 ? '0' : ''}${totalElapsedSeconds}:${totalElapsedMilliseconds < 10 ? '0' : ''}${totalElapsedMilliseconds}`;
-
-                if ((timer -= 10) < 0) {
-                    this.handleTimeOut();
-                }
-            },
-            loop: true
+        // Add collision detection between repellents and enemies
+        this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
+            enemy.destroy(); // Destroy the enemy
+            repellent.destroy(); // Destroy the repellent
         });
-    }*/
-
-   /* handleTimeOut() {
-        document.getElementById('game-alert').innerText = 'Time is up!';
-        gameAlert.classList.add('show');
-        this.physics.pause();
-        gameState.active = false;
-        this.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
-
-        // Stop the timer event
-        if (gameState.timerEvent) {
-            gameState.timerEvent.remove();
-        }
-
-        // Remove previous event listeners to avoid multiple triggers
-        this.input.keyboard.off('keydown');
-        this.input.off('pointerup');
-        this.input.off('pointerdown');
-        this.input.off('pointermove');
-
-        const restartScene = () => {
-            document.getElementById('game-alert').classList.remove('show');
-
-            // Resume animations and clear user inputs
-            this.anims.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-
-            // Restart Scene 2
-            this.scene.restart();
-        };
-
-        // Add new event listeners for restarting the scene
-        this.input.on('pointerup', restartScene);
-        this.input.keyboard.on('keydown', restartScene);
-    }*/
+    }
 
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count
 
-        document.getElementById('game-alert').innerText = 'You reached the exit!\n';
+        document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to move on';
         gameAlert.classList.add('show');
         this.physics.pause();
         gameState.active = false;
@@ -230,6 +207,9 @@ class Scene2 extends Phaser.Scene {
         if (gameState.timerEvent) {
             gameState.timerEvent.remove();
         }
+
+        // Update total elapsed time
+        gameState.elapsedTime = gameState.totalElapsedTime;
 
         // Remove previous event listeners to avoid multiple triggers
         this.input.keyboard.off('keydown');
@@ -247,11 +227,8 @@ class Scene2 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Update total elapsed time
-            gameState.elapsedTime = gameState.totalElapsedTime;
-
-            // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene3'); // Make sure 'Scene3' is properly defined in your game
+            // Start Scene 2 and stop Scene 1
+            this.scene.start('Scene3'); // Make sure 'Scene2' is properly defined in your game
             this.scene.stop('Scene2');
         };
 
@@ -303,6 +280,25 @@ class Scene2 extends Phaser.Scene {
 
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
+
+            // Shoot repellent when spacebar is pressed
+            if (Phaser.Input.Keyboard.JustDown(gameState.cursors.space)) {
+                if (gameState.player.flipX) {
+                    shootRepellent(this, 'left', gameState.player, gameState.repellent);
+                } else {
+                    shootRepellent(this, 'right', gameState.player, gameState.repellent);
+                }
+            }
+
+            // Shoot repellent upward when Z key is pressed
+            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootUp)) {
+                shootRepellent(this, 'up', gameState.player, gameState.repellent);
+            }
+
+            // Shoot repellent downward when X key is pressed
+            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootDown)) {
+                shootRepellent(this, 'down', gameState.player, gameState.repellent);
+            }
         }
     }
 }

@@ -88,8 +88,6 @@ class Scene1 extends Phaser.Scene {
 
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
-        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
-        gameState.enemies.add(gameState.enemy1);
         gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
@@ -165,7 +163,7 @@ class Scene1 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 10 * 1000, gameState); // 10 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 30 * 1000, gameState); // 30 secs in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
@@ -182,7 +180,7 @@ class Scene1 extends Phaser.Scene {
         this.physics.pause();
         gameState.active = false;
         this.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
+
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
 
         // Stop the timer event

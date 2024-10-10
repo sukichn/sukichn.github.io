@@ -15,6 +15,7 @@ class StartScene extends Phaser.Scene {
         document.getElementById('health').style.display = 'none';
         document.getElementById('coins-earned').style.display = 'none';
         document.getElementById('joystick').style.display = 'none';
+        document.getElementById('shooter').style.display = 'none';
         }
     
         create() {
@@ -50,6 +51,7 @@ const fontSize = getResponsiveFontSize();
         document.getElementById('health').style.display = 'block';
         document.getElementById('coins-earned').style.display = 'block';
         document.getElementById('joystick').style.display = 'block';
+        document.getElementById('shooter').style.display = 'block';
     });    
         }
     
