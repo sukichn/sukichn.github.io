@@ -19,6 +19,9 @@ class Scene1 extends Phaser.Scene {
         loadPlatformAssets(this);
         loadExitAssets(this);
         loadPotionAssets(this);  // Load potion assets
+
+        // Load the repellent asset
+        this.load.image('repellent', 'https://content.codecademy.com/courses/learn-phaser/Bug%20Invaders/bugPellet.png');
     }
 
     create() {
@@ -80,11 +83,32 @@ class Scene1 extends Phaser.Scene {
         // Create player animations
         createCodeyAnimations(this);
 
-        // Create snowmen on different platforms
+        // Create a group for the enemies
+        gameState.enemies = this.physics.add.group();
+
+        // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
         gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemies.add(gameState.enemy1);
         gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
+
+        // Create a group for the repellents
+        gameState.repellent = this.physics.add.group({
+            defaultKey: 'repellent',
+            maxSize: 10,
+            allowGravity: false // Ensure gravity is disabled for the repellent
+        });
+
+        // Create cursor keys for input
+        gameState.cursors = this.input.keyboard.createCursorKeys();
+        
+        // Create additional keys for shooting in different directions
+        gameState.keys = {
+            shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
+            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+        };
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
@@ -137,8 +161,17 @@ class Scene1 extends Phaser.Scene {
         setupJoystick(this, gameState);
         console.log('Joystick setup.');
 
+        // Setup shooter button
+        setupShooterButton(this, gameState);
+
         // Initialize and start the countdown timer
         window.timeUtils.startCountdown(this, 1 * 10 * 1000, gameState); // 10 secs in milliseconds
+
+        // Add collision detection between repellents and enemies
+        this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
+            enemy.destroy(); // Destroy the enemy
+            repellent.destroy(); // Destroy the repellent
+        });
     }
 
     handlePlayerReachesExit() {
@@ -229,6 +262,25 @@ class Scene1 extends Phaser.Scene {
 
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
+
+            // Shoot repellent when spacebar is pressed
+            if (Phaser.Input.Keyboard.JustDown(gameState.cursors.space)) {
+                if (gameState.player.flipX) {
+                    shootRepellent(this, 'left', gameState.player, gameState.repellent);
+                } else {
+                    shootRepellent(this, 'right', gameState.player, gameState.repellent);
+                }
+            }
+
+            // Shoot repellent upward when Z key is pressed
+            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootUp)) {
+                shootRepellent(this, 'up', gameState.player, gameState.repellent);
+            }
+
+            // Shoot repellent downward when X key is pressed
+            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootDown)) {
+                shootRepellent(this, 'down', gameState.player, gameState.repellent);
+            }
         }
     }
 }
