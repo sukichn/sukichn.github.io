@@ -27,6 +27,8 @@ class Scene3 extends Phaser.Scene {
 
         // Load the repellent asset
         this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
+        // Load the mushroom asset
+        this.load.image('mushroom', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
     }
 
     create() {
@@ -41,7 +43,6 @@ class Scene3 extends Phaser.Scene {
         document.getElementById('game-alert').innerText = "";
 
         // Initialize coin counter
-        
         document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
@@ -65,9 +66,9 @@ class Scene3 extends Phaser.Scene {
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
-            { x: 200, y: 875 },  // Platform 1 starting
-            { x: 300, y: 875 },  // Platform 1 starting
-            { x: 500, y: 875 },  // Platform 2 starting
+            { x: 100, y: 575 },  // Platform 1 starting
+            { x: 500, y: 575 },  // Platform 1 starting
+            { x: 900, y: 575 },  // Platform 2 starting
             { x: 700, y: 875 },  // Platform 3 starting
             { x: 900, y: 875 },  // Platform 4 starting
             { x: 1150, y: 680 }, // Platform 5
@@ -81,7 +82,7 @@ class Scene3 extends Phaser.Scene {
         console.log('Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(130, 100, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
@@ -120,10 +121,37 @@ class Scene3 extends Phaser.Scene {
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
+        // Define mushroom positions
+        const mushroomPositions = [
+            { x: 500, y: 520 }, // Mushroom on Platform 1
+        ];
+
+        // Create and animate mushrooms
+        createAndAnimateMushrooms(this, gameState, mushroomPositions);
+        console.log('Mushrooms created and animated.');
+
+        // Add overlap detection between player and each mushroom
+        this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
+            mushroom.destroy();
+            gameState.attacks += 3; // Increase attacks by 3
+            document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
+
+            // Display the game alert message if needed
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "Attacks increased!";
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 2 seconds if needed
+            setTimeout(() => {
+                gameAlert.classList.remove('show');
+            }, 2000);
+        }, null, this);
+        console.log('Overlap detection for mushrooms added.');
+
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 700, y: 825 }, // Coin on Platform 3
+            { x: 300, y: 400 }, // Coin on Platform 2
+            { x: 700, y: 400 }, // Coin on Platform 3
             { x: 900, y: 825 }, // Coin on Platform 4
             { x: 1150, y: 630 }, // Coin on Platform 5
             { x: 1300, y: 925 }, // Coin on Platform 7
@@ -143,33 +171,6 @@ class Scene3 extends Phaser.Scene {
         }, null, this);
         console.log('Overlap detection for coins added.');
 
-        // Define potion positions
-        const potionPositions = [
-            { x: 400, y: 625 }, // Potion on Platform 1
-            { x: 1100, y: 230 } // Potion on Platform 5
-        ];
-
-        // Create and animate potions
-        potionPositions.forEach(pos => {
-            const potion = this.physics.add.sprite(pos.x, pos.y, 'potion').setScale(0.1); // Set the scale
-            this.physics.add.collider(potion, gameState.platforms);
-            handlePlayerPotionOverlap(this, gameState, potion);
-        });
-        console.log('Potions created and animated.');
-
-        // Define moonstone positions
-        const moonstonePositions = [
-            { x: 600, y: 625 }, // Moonstone on Platform 1
-        ];
-
-        // Create and animate moonstones
-        moonstonePositions.forEach(pos => {
-            const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(0.1); // Set the scale
-            this.physics.add.collider(moonstone, gameState.platforms);
-            handlePlayerMoonstoneOverlap(this, gameState, moonstone);
-        });
-        console.log('Moonstones created and animated.');
-
         // Setup camera and input
         setupCamera(this, gameState);
         setupInput(this, gameState);
@@ -183,7 +184,7 @@ class Scene3 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 30 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 60 secs in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
@@ -227,8 +228,8 @@ class Scene3 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene4'); // Make sure 'Scene3' is properly defined in your game
+            // Start Scene 4 and stop Scene 3
+            this.scene.start('Scene4'); // Make sure 'Scene4' is properly defined in your game
             this.scene.stop('Scene3');
         };
 
@@ -337,4 +338,30 @@ class Scene3 extends Phaser.Scene {
             }
         }
     }
+}
+
+// Function to create and animate mushrooms
+function createAndAnimateMushrooms(scene, gameState, mushroomPositions) {
+    gameState.mushrooms = scene.physics.add.staticGroup();
+
+    mushroomPositions.forEach(pos => {
+        const mushroom = scene.add.sprite(pos.x, pos.y, 'mushroom').setScale(1);
+
+        gameState.mushrooms.add(mushroom);
+
+
+        // Optionally, if you have mushroom animations, you can play them here
+        // mushroom.anims.play('mushroomAnimation', true);
+    });
+}
+
+// Function to create and animate coins
+function createAndAnimateCoins(scene, gameState, coinPositions) {
+    gameState.coins = scene.physics.add.staticGroup();
+
+    coinPositions.forEach(pos => {
+        const coin = scene.add.sprite(pos.x, pos.y, 'coinSprite').setScale(0.8);
+        gameState.coins.add(coin);
+        coin.anims.play('coinHere', true); // Play coin animation
+    });
 }

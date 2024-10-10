@@ -21,7 +21,7 @@
 
             // Reset player's position without restarting the entire scene
             gameState.player.setVelocity(0, 0);
-            gameState.player.setPosition(200, 700);
+            gameState.player.setPosition(200, 100);
         }
     }
 };
