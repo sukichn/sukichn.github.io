@@ -56,6 +56,20 @@ class Scene1 extends Phaser.Scene {
         // Initialize total elapsed time for this scene
         gameState.totalElapsedTime = initialElapsed;
 
+        // Display game alert message
+        const gameAlert = document.getElementById('game-alert');
+        if (window.innerWidth < 769) {
+            gameAlert.innerText = "Use joystick in right-hand corner to move";
+        } else {
+            gameAlert.innerText = "Use arrow keys to move";
+        }
+        gameAlert.classList.add('show');
+
+        // Hide the alert after 2 seconds
+        setTimeout(() => {
+            gameAlert.classList.remove('show');
+        }, 2000);
+
         // Create background assets using the global function
         createBackgroundAssets(this, gameState);
         gameState.active = true;
@@ -66,12 +80,10 @@ class Scene1 extends Phaser.Scene {
             { x: 200, y: 875 },  // Platform 1 starting
             { x: 300, y: 875 },  // Platform 1 starting
             { x: 500, y: 875 },  // Platform 2 starting
-            { x: 700, y: 875 },  // Platform 3 starting
-            { x: 900, y: 875 },  // Platform 4 starting
-            { x: 1150, y: 680 }, // Platform 5
-            { x: 750, y: 550 },  // Platform 6
-            { x: 1300, y: 975 }, // Platform 7
-            { x: 1500, y: 875 }  // Platform 8
+            { x: 700, y: 830 },  // Platform 3 starting
+            { x: 900, y: 830 },  // Platform 4 starting
+         
+            
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
@@ -89,11 +101,11 @@ class Scene1 extends Phaser.Scene {
         // Create a group for the enemies
         gameState.enemies = this.physics.add.group();
 
-        // Create snowmen on different platforms and add them to the enemies group
+        /*// Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
         gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
-        console.log('Snowmen created.');
+        console.log('Snowmen created.');*/
 
         // Create a group for the repellents
         gameState.repellent = this.physics.add.group({
@@ -112,18 +124,16 @@ class Scene1 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(700, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(800, 130, 'exit');
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
         // Define coin positions
         const coinPositions = [
             { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 700, y: 825 }, // Coin on Platform 3
-            { x: 900, y: 825 }, // Coin on Platform 4
-            { x: 1150, y: 630 }, // Coin on Platform 5
-            { x: 1300, y: 925 }, // Coin on Platform 7
-            { x: 1500, y: 825 }  // Coin on Platform 8
+            { x: 795, y: 770 }, // Coin on Platform 3
+           /* { x: 900, y: 825 }, // Coin on Platform 4*/
+            
         ];
 
         // Create and animate coins
@@ -141,8 +151,8 @@ class Scene1 extends Phaser.Scene {
 
         // Define potion positions
         const potionPositions = [
-            { x: 400, y: 625 }, // Potion on Platform 1
-            { x: 1100, y: 230 } // Potion on Platform 5
+        /*    { x: 400, y: 625 }, // Potion on Platform 1
+            { x: 1100, y: 230 } // Potion on Platform 5*/
         ];
 
         // Create and animate potions
@@ -184,7 +194,7 @@ class Scene1 extends Phaser.Scene {
         gameState.active = false;
         this.anims.pauseAll();
 
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+       /* if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
 
         // Stop the timer event
         if (gameState.timerEvent) {

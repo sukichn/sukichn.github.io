@@ -57,6 +57,16 @@ class Scene2 extends Phaser.Scene {
         // Initialize total elapsed time for this scene
         gameState.totalElapsedTime = initialElapsed;
 
+        // Display game alert message
+        const gameAlert = document.getElementById('game-alert');
+        gameAlert.innerText = "Avoid the enemies and collect berries & moonstones!";
+        gameAlert.classList.add('show');
+
+        // Hide the alert after 2 seconds
+        setTimeout(() => {
+            gameAlert.classList.remove('show');
+        }, 2000);
+
         // Create background assets using the global function
         createBackgroundAssets(this, gameState);
         gameState.active = true;
@@ -92,7 +102,7 @@ class Scene2 extends Phaser.Scene {
 
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
-        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemy1 = this.addSnowman(600, 800, 400); // Snowman on Platform 1 with movement
         gameState.enemies.add(gameState.enemy1);
         gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
@@ -144,7 +154,7 @@ class Scene2 extends Phaser.Scene {
 
         // Define potion positions
         const potionPositions = [
-            { x: 400, y: 625 }, // Potion on Platform 1
+            /*{ x: 400, y: 625 }, // Potion on Platform 1*/
             { x: 1100, y: 230 } // Potion on Platform 5
         ];
 
@@ -152,7 +162,7 @@ class Scene2 extends Phaser.Scene {
         potionPositions.forEach(pos => {
             const potion = this.physics.add.sprite(pos.x, pos.y, 'potion').setScale(0.1); // Set the scale
             this.physics.add.collider(potion, gameState.platforms);
-            handlePlayerPotionOverlap(this, gameState, potion);
+            this.handlePlayerPotionOverlap(potion);
         });
         console.log('Potions created and animated.');
 
@@ -165,7 +175,7 @@ class Scene2 extends Phaser.Scene {
         moonstonePositions.forEach(pos => {
             const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(0.1); // Set the scale
             this.physics.add.collider(moonstone, gameState.platforms);
-            handlePlayerMoonstoneOverlap(this, gameState, moonstone);
+            this.handlePlayerMoonstoneOverlap(moonstone);
         });
         console.log('Moonstones created and animated.');
 
@@ -335,5 +345,45 @@ class Scene2 extends Phaser.Scene {
                 }
             }
         }
+    }
+
+    handlePlayerMoonstoneOverlap(moonstone) {
+        this.physics.add.overlap(gameState.player, moonstone, () => {
+            moonstone.destroy();
+            gameState.attacks += 3; // Add 3 attacks
+            document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
+
+            // Check the screen width and set the appropriate alert message
+            const gameAlert = document.getElementById('game-alert');
+            if (window.innerWidth < 769) {
+                gameAlert.innerText = "Press on shooter in left-hand corner to release attacks on enemies";
+            } else {
+                gameAlert.innerText = "Press space bar/z/x to release moonstone attacks on enemies";
+            }
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 4 seconds
+            setTimeout(() => {
+                gameAlert.classList.remove('show');
+            }, 3000);
+        });
+    }
+
+    handlePlayerPotionOverlap(potion) {
+        this.physics.add.overlap(gameState.player, potion, () => {
+            potion.destroy();
+            gameState.health += 1; // Increase health
+            document.getElementById('health').innerText = `Health: ${gameState.health}`;
+
+            // Display the game alert message if needed
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "Health increased!";
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 2 seconds if needed
+            setTimeout(() => {
+            gameAlert.classList.remove('show');
+            }, 2000);
+        });
     }
 }
