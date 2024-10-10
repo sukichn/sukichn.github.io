@@ -154,10 +154,10 @@
         return isMoving;
     };
 
-   // Repellent shooting logic
+// Repellent shooting logic
 global.shootRepellent = function(scene, direction, player, repellentsGroup, gameState) {
     // Check if gameState.attacks is greater than 0
-    if (gameState.attacks >= 0.5) {
+    if (gameState.attacks > 0) {
         console.log("Attacks left before shooting: " + gameState.attacks);
 
         const repellent = repellentsGroup.create(player.x, player.y, 'repellent');
@@ -180,12 +180,12 @@ global.shootRepellent = function(scene, direction, player, repellentsGroup, game
                 break;
         }
 
-        // Decrease the number of attacks by 0.5
-        gameState.attacks -= 0.5;
+        // Decrease the number of attacks
+        gameState.attacks--;
         console.log("Repellent shot. Attacks remaining after shooting: " + gameState.attacks);
         
         // Update the inner text of the attacks element
-        document.getElementById('attacks').innerText = `Attacks: ${Math.floor(gameState.attacks)}`;
+        document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
     } else {
         // Logic when there are no attacks left
         console.log("No attacks left to shoot repellent.");
@@ -196,21 +196,38 @@ global.shootRepellent = function(scene, direction, player, repellentsGroup, game
 global.setupShooterButton = function(scene, gameState) {
     const shooterButton = document.getElementById('shooter');
 
+    // Flags to track button press and release state
+    gameState.pointerPressed = false;
+    gameState.spacePressed = false;
+
     if (shooterButton) {
-        shooterButton.addEventListener('pointerup', (event) => {
+        shooterButton.addEventListener('pointerdown', () => {
             console.log('Shooter button pressed');
-            const direction = gameState.player.flipX ? 'left' : 'right';
-            shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
-            event.stopPropagation(); // Prevent event from firing multiple times
+            gameState.pointerPressed = true;
+        });
+
+        shooterButton.addEventListener('pointerup', () => {
+            console.log('Shooter button released');
+            if (gameState.pointerPressed) {
+                const direction = gameState.player.flipX ? 'left' : 'right';
+                shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
+                gameState.pointerPressed = false; // Reset the flag
+            }
         });
     }
 
-    // Setup spacebar to shoot
-    scene.input.keyboard.on('keydown-SPACE', (event) => {
+    scene.input.keyboard.on('keydown-SPACE', () => {
         console.log('Spacebar pressed');
-        const direction = gameState.player.flipX ? 'left' : 'right';
-        shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
-        event.stopPropagation(); // Prevent event from firing multiple times
+        gameState.spacePressed = true;
+    });
+
+    scene.input.keyboard.on('keyup-SPACE', () => {
+        console.log('Spacebar released');
+        if (gameState.spacePressed) {
+            const direction = gameState.player.flipX ? 'left' : 'right';
+            shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
+            gameState.spacePressed = false; // Reset the flag
+        }
     });
 };
 

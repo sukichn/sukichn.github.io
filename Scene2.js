@@ -10,6 +10,7 @@ class Scene2 extends Phaser.Scene {
         if (typeof gameState.attacks !== 'number') {
             gameState.attacks = 0; // Initialize attacks if it is not already set
         }
+        gameState.attackCooldown = false; // Initialize attack cooldown flag
     }
 
     preload() {
@@ -280,23 +281,59 @@ class Scene2 extends Phaser.Scene {
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
 
-            // Shoot repellent when spacebar is pressed
-            if (Phaser.Input.Keyboard.JustDown(gameState.cursors.space)) {
-                if (gameState.player.flipX) {
-                    shootRepellent(this, 'left', gameState.player, gameState.repellent, gameState);
-                } else {
-                    shootRepellent(this, 'right', gameState.player, gameState.repellent, gameState);
+            // Full press and release mechanism for shooting repellent
+            if (gameState.cursors.space.isDown && !gameState.spacePressed) {
+                gameState.spacePressed = true;
+                gameState.spaceReleased = false;
+            }
+
+            if (gameState.cursors.space.isUp && gameState.spacePressed && !gameState.spaceReleased) {
+                gameState.spaceReleased = true;
+                gameState.spacePressed = false;
+                if (!gameState.attackCooldown) {
+                    gameState.attackCooldown = true;
+                    const direction = gameState.player.flipX ? 'left' : 'right';
+                    shootRepellent(this, direction, gameState.player, gameState.repellent, gameState);
+                    this.time.delayedCall(200, () => {
+                        gameState.attackCooldown = false;
+                    });
                 }
             }
 
-            // Shoot repellent upward when Z key is pressed
-            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootUp)) {
-                shootRepellent(this, 'up', gameState.player, gameState.repellent, gameState);
+            // Full press and release mechanism for Z key to shoot upward
+            if (gameState.keys.shootUp.isDown && !gameState.shootUpPressed) {
+                gameState.shootUpPressed = true;
+                gameState.shootUpReleased = false;
             }
 
-            // Shoot repellent downward when X key is pressed
-            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootDown)) {
-                shootRepellent(this, 'down', gameState.player, gameState.repellent, gameState);
+            if (gameState.keys.shootUp.isUp && gameState.shootUpPressed && !gameState.shootUpReleased) {
+                gameState.shootUpReleased = true;
+                gameState.shootUpPressed = false;
+                if (!gameState.attackCooldown) {
+                    gameState.attackCooldown = true;
+                    shootRepellent(this, 'up', gameState.player, gameState.repellent, gameState);
+                    this.time.delayedCall(200, () => {
+                        gameState.attackCooldown = false;
+                    });
+                }
+            }
+
+            // Full press and release mechanism for X key to shoot downward
+            if (gameState.keys.shootDown.isDown && !gameState.shootDownPressed) {
+                gameState.shootDownPressed = true;
+                gameState.shootDownReleased = false;
+            }
+
+            if (gameState.keys.shootDown.isUp && gameState.shootDownPressed && !gameState.shootDownReleased) {
+                gameState.shootDownReleased = true;
+                gameState.shootDownPressed = false;
+                if (!gameState.attackCooldown) {
+                    gameState.attackCooldown = true;
+                    shootRepellent(this, 'down', gameState.player, gameState.repellent, gameState);
+                    this.time.delayedCall(200, () => {
+                        gameState.attackCooldown = false;
+                    });
+                }
             }
         }
     }
