@@ -153,7 +153,7 @@
 
         return isMoving;
     };
-
+/*
 // Repellent shooting logic
 global.shootRepellent = function(scene, direction, player, repellentsGroup, gameState) {
     // Check if gameState.attacks is greater than 0
@@ -229,7 +229,7 @@ global.setupShooterButton = function(scene, gameState) {
             gameState.spacePressed = false; // Reset the flag
         }
     });
-};
+};*/
 
 // Load moonstone assets
 global.loadAttackAssets = function(scene) {
