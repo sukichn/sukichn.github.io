@@ -174,7 +174,7 @@
       background-color: rgba(180, 180, 248, 0.447);
       border-radius: 50%;
       z-index: 1000;
-      left: 60%;
+      left: 80%;
       transform: translateX(-50%);
       bottom: 20px;
       user-select: none;
@@ -187,26 +187,50 @@
       background-color: rgba(139, 139, 243, 0.447);
     }
 
+
     #shooter {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background-color: rgba(243, 139, 193, 0.447);
-      border-radius: 50%;
-      z-index: 1000;
-      left: 35%;
-      transform: translateX(-50%);
-      bottom: 20px;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: none;
+        position: absolute;
+        width: 120px;
+        height: 80px;
+        background-color: transparent; /* Make background transparent to show the halves */
+        border-radius: 50%;
+        z-index: 1000;
+        left: 20%;
+        transform: translateX(-50%);
+        bottom: 20px;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: none;
     }
-    #shooter:hover{
+
+    .left-half, .right-half {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        border-radius: 50% 0 0 50%; /* For left half */
+        background-color: rgba(243, 139, 193, 0.447);
+        transition: background-color 0.3s;
+    }
+
+    .right-half {
+        left: 50%; 
+        border-radius: 0 50% 50% 0; /* For right half */
+        background-color: rgba(193, 139, 243, 0.447);
+    }
+
+    .left-half:hover {
         background-color: rgba(243, 139, 193, 0.626);
     }
-    #shooter:active{
-        background-color: rgba(243, 139, 193, 0.888);
+
+    .right-half:hover {
+        background-color: rgba(193, 139, 243, 0.626);
+    }
+
+    .left-half:active, .right-half:active {
+        background-color: rgba(243, 139, 193, 0.888); /* Adjust active color for both halves if needed */
     }
 
     #countdown{
@@ -246,7 +270,10 @@
   </div>
   <div id="game-alert"></div>
 
-  <div id="shooter"></div>
+  <div id="shooter">
+    <div class="left-half"></div>
+    <div class="right-half"></div>
+  </div>
   <div id="joystick"></div>
 
   
