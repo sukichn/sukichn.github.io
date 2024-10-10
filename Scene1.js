@@ -23,8 +23,6 @@ class Scene1 extends Phaser.Scene {
         loadExitAssets(this);
         loadPotionAssets(this);  // Load potion assets
 
-        // Load the repellent asset
-        this.load.image('repellent', 'https://content.codecademy.com/courses/learn-phaser/Bug%20Invaders/bugPellet.png');
     }
 
     create() {

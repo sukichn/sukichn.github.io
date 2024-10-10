@@ -5,23 +5,23 @@
         if (gameState.attacks > 0) {
             console.log("Attacks left before shooting: " + gameState.attacks);
     
-            const repellent = repellentsGroup.create(player.x, player.y, 'repellent');
+            const repellent = repellentsGroup.create(player.x, player.y, 'repellent').setScale(.08);
             repellent.body.allowGravity = false; // Disable gravity for the repellent
     
             switch (direction) {
                 case 'left':
-                    repellent.setVelocity(-800, 0); // Shoot left
+                    repellent.setVelocity(-850, 0); // Shoot left
                     break;
                 case 'right':
-                    repellent.setVelocity(800, 0); // Shoot right
+                    repellent.setVelocity(850, 0); // Shoot right
                     break;
                 case 'up':
                     const xVelocityUp = player.body.velocity.x * 0.5; // Add a fraction of the player's X velocity
-                    repellent.setVelocity(xVelocityUp, -800); // Shoot upward
+                    repellent.setVelocity(xVelocityUp, -850); // Shoot upward
                     break;
                 case 'down':
                     const xVelocityDown = player.body.velocity.x * 0.5; // Add a fraction of the player's X velocity
-                    repellent.setVelocity(xVelocityDown, 800); // Shoot downward
+                    repellent.setVelocity(xVelocityDown, 850); // Shoot downward
                     break;
             }
     

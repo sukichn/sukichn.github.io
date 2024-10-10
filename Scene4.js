@@ -26,7 +26,7 @@ class Scene4 extends Phaser.Scene {
         loadAttackAssets(this);  
 
         // Load the repellent asset
-        this.load.image('repellent', 'https://content.codecademy.com/courses/learn-phaser/Bug%20Invaders/bugPellet.png');
+        this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
     }
 
     create() {
@@ -183,7 +183,7 @@ class Scene4 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 30 * 1000, gameState); // 30 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 30 secs in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
