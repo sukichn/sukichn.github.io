@@ -160,15 +160,15 @@ class Scene4 extends Phaser.Scene {
             mushroom.destroy();
             
 
-            // Enable flying for 5000 ms
+            // Enable flying for 10 seconds
             gameState.canFly = true;
-            this.time.delayedCall(5000, () => {
+            this.time.delayedCall(10000, () => {
                 gameState.canFly = false;
             });
 
             // Display the game alert message if needed
             const gameAlert = document.getElementById('game-alert');
-            gameAlert.innerText = "Hooray! You can fly for 5 seconds!";
+            gameAlert.innerText = "Hooray! You can fly for 10 seconds!";
             gameAlert.classList.add('show');
 
             // Hide the alert after 2 seconds if needed
@@ -380,9 +380,9 @@ class Scene4 extends Phaser.Scene {
             // Handle flying behavior
             if (gameState.canFly) {
                 gameState.player.body.allowGravity = false;
-                if (gameState.cursors.up.isDown) {
+                if (gameState.cursors.up.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'up' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'upRight'))) {
                     gameState.player.setVelocityY(-360);
-                } else if (gameState.cursors.down.isDown) {
+                } else if (gameState.cursors.down.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'down' || gameState.joystick.direction === 'downLeft' || gameState.joystick.direction === 'downRight'))) {
                     gameState.player.setVelocityY(360);
                 } else {
                     gameState.player.setVelocityY(0); // Stop vertical movement when no key is pressed

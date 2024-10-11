@@ -98,15 +98,13 @@
                     gameState.joystick.direction = null;
                 }
             } else { // Lower third
+                gameState.joystick.isMoving = true;
                 if (x < thirdWidth) {
-                    gameState.joystick.isMoving = true;
-                    gameState.joystick.direction = 'left';
+                    gameState.joystick.direction = 'downLeft';
                 } else if (x > 2 * thirdWidth) {
-                    gameState.joystick.isMoving = true;
-                    gameState.joystick.direction = 'right';
+                    gameState.joystick.direction = 'downRight';
                 } else {
-                    gameState.joystick.isMoving = false;
-                    gameState.joystick.direction = null;
+                    gameState.joystick.direction = 'down';
                 }
             }
         };
@@ -131,12 +129,12 @@
     global.handlePlayerMovement = function(scene, gameState) {
         let isMoving = false;
 
-        if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft') {
+        if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'downLeft') {
             gameState.player.setVelocityX(-360);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = true;
             isMoving = true;
-        } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight') {
+        } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight' || gameState.joystick.direction === 'downRight') {
             gameState.player.setVelocityX(360);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = false;
@@ -151,83 +149,11 @@
             isMoving = true;
         }
 
+        if (gameState.cursors.down.isDown || gameState.joystick.direction === 'down' || gameState.joystick.direction === 'downLeft' || gameState.joystick.direction === 'downRight') {
+            gameState.player.setVelocityY(360);
+            isMoving = true;
+        }
+
         return isMoving;
     };
-/*
-// Repellent shooting logic
-global.shootRepellent = function(scene, direction, player, repellentsGroup, gameState) {
-    // Check if gameState.attacks is greater than 0
-    if (gameState.attacks > 0) {
-        console.log("Attacks left before shooting: " + gameState.attacks);
-
-        const repellent = repellentsGroup.create(player.x, player.y, 'repellent');
-        repellent.body.allowGravity = false; // Disable gravity for the repellent
-
-        switch (direction) {
-            case 'left':
-                repellent.setVelocity(-800, 0); // Shoot left
-                break;
-            case 'right':
-                repellent.setVelocity(800, 0); // Shoot right
-                break;
-            case 'up':
-                const xVelocityUp = player.body.velocity.x * 0.5; // Add a fraction of the player's X velocity
-                repellent.setVelocity(xVelocityUp, -800); // Shoot upward
-                break;
-            case 'down':
-                const xVelocityDown = player.body.velocity.x * 0.5; // Add a fraction of the player's X velocity
-                repellent.setVelocity(xVelocityDown, 800); // Shoot downward
-                break;
-        }
-
-        // Decrease the number of attacks
-        gameState.attacks--;
-        console.log("Repellent shot. Attacks remaining after shooting: " + gameState.attacks);
-        
-        // Update the inner text of the attacks element
-        document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
-    } else {
-        // Logic when there are no attacks left
-        console.log("No attacks left to shoot repellent.");
-    }
-};
-
-// Setup shooting button
-global.setupShooterButton = function(scene, gameState) {
-    const shooterButton = document.getElementById('shooter');
-
-    // Flags to track button press and release state
-    gameState.pointerPressed = false;
-    gameState.spacePressed = false;
-
-    if (shooterButton) {
-        shooterButton.addEventListener('pointerdown', () => {
-            console.log('Shooter button pressed');
-            gameState.pointerPressed = true;
-        });
-
-        shooterButton.addEventListener('pointerup', () => {
-            console.log('Shooter button released');
-            if (gameState.pointerPressed) {
-                const direction = gameState.player.flipX ? 'left' : 'right';
-                shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
-                gameState.pointerPressed = false; // Reset the flag
-            }
-        });
-    }
-
-    scene.input.keyboard.on('keydown-SPACE', () => {
-        console.log('Spacebar pressed');
-        gameState.spacePressed = true;
-    });
-
-    scene.input.keyboard.on('keyup-SPACE', () => {
-        console.log('Spacebar released');
-        if (gameState.spacePressed) {
-            const direction = gameState.player.flipX ? 'left' : 'right';
-            shootRepellent(scene, direction, gameState.player, gameState.repellent, gameState);
-            gameState.spacePressed = false; // Reset the flag
-        }
-    });
-};*/
 })(window);
