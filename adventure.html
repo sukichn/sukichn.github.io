@@ -32,8 +32,8 @@
     }
 
     canvas {
-        touch-action: manipulation;
-        -ms-touch-action: manipulation;
+      touch-action: manipulation;
+      -ms-touch-action: manipulation;
     }
 
     header {
@@ -148,30 +148,29 @@
     }
 
     #game-alert {
-    color: yellow;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: none;
-    opacity: 0; /* Start hidden */
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the alert */
-    font-size: 24px;
-    text-align: center;
-    padding: 1em;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
-    border-radius: 10px; /* Optional: rounded corners */
-    width: 250px;
-}
+      color: yellow;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+      opacity: 0; /* Start hidden */
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center the alert */
+      font-size: 24px;
+      text-align: center;
+      padding: 1em;
+      background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
+      border-radius: 10px; /* Optional: rounded corners */
+      width: 250px;
+    }
 
-#game-alert.show {
-    opacity: 1; /* Show */
-    transform: translate(-50%, -50%); /* Ensure it stays centered */
-}
+    #game-alert.show {
+      opacity: 1; /* Show */
+      transform: translate(-50%, -50%); /* Ensure it stays centered */
+    }
 
     #joystick {
       position: absolute;
@@ -193,58 +192,58 @@
       background-color: rgba(139, 139, 243, 0.447);
     }
 
-
     #shooter {
-        position: absolute;
-        width: 120px;
-        height: 80px;
-        background-color: transparent; /* Make background transparent to show the halves */
-        border-radius: 50%;
-        z-index: 1000;
-        left: 20%;
-        transform: translateX(-50%);
-        bottom: 20px;
-        user-select: none;
-        -webkit-user-select: none;
-        -webkit-tap-highlight-color: transparent;
-        touch-action: none;
+      position: absolute;
+      width: 120px;
+      height: 80px;
+      background-color: transparent; /* Make background transparent to show the halves */
+      border-radius: 50%;
+      z-index: 1000;
+      left: 20%;
+      transform: translateX(-50%);
+      bottom: 20px;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
     }
 
     .left-half, .right-half {
-        position: absolute;
-        width: 50%;
-        height: 100%;
-        top: 0;
-        bottom: 0;
-        border-radius: 50% 0 0 50%; /* For left half */
-        background-color: rgba(243, 139, 193, 0.447);
-        transition: background-color 0.3s;
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      border-radius: 50% 0 0 50%; /* For left half */
+      background-color: rgba(243, 139, 193, 0.447);
+      transition: background-color 0.3s;
     }
 
     .right-half {
-        left: 50%; 
-        border-radius: 0 50% 50% 0; /* For right half */
-        background-color: rgba(193, 139, 243, 0.447);
+      left: 50%;
+      border-radius: 0 50% 50% 0; /* For right half */
+      background-color: rgba(193, 139, 243, 0.447);
     }
 
     .left-half:hover {
-        background-color: rgba(243, 139, 193, 0.626);
+      background-color: rgba(243, 139, 193, 0.626);
     }
 
     .right-half:hover {
-        background-color: rgba(193, 139, 243, 0.626);
+      background-color: rgba(193, 139, 243, 0.626);
     }
 
     .left-half:active, .right-half:active {
-        background-color: rgba(243, 139, 193, 0.888); /* Adjust active color for both halves if needed */
+      background-color: rgba(243, 139, 193, 0.888); /* Adjust active color for both halves if needed */
     }
 
-    #countdown{
-        display: none;
+    #countdown {
+      display: none;
     }
-    #coins-earned{
-        color: yellow;
-        transition: color 0.4s ease; /* Smooth transition effect for color change */
+
+    #coins-earned {
+      color: yellow;
+      transition: color 0.4s ease; /* Smooth transition effect for color change */
     }
   </style>
 </head>
@@ -272,7 +271,6 @@
     <div id="health"></div>
     <div id="attacks"></div>
     <div id="coins-earned">Score: 0</div>
-   
   </div>
   <div id="game-alert"></div>
 
@@ -282,7 +280,6 @@
   </div>
   <div id="joystick"></div>
 
-  
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
   <script src="backgroundAssets.js"></script>
   <script src="exitAssets.js"></script>

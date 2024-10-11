@@ -15,36 +15,54 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-// Prevent default touch actions on the canvas
-const canvas = document.querySelector('canvas');
-canvas.addEventListener('touchstart', (event) => {
-    if (event.touches.length > 1) {
+// Ensure the DOM is fully loaded before adding event listeners
+window.addEventListener('DOMContentLoaded', (event) => {
+    // Prevent default touch actions on the canvas
+    const canvas = document.querySelector('canvas');
+    canvas.addEventListener('touchstart', (event) => {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (event) => {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (event) => {
         event.preventDefault();
-    }
-}, { passive: false });
+    }, { passive: false });
 
-canvas.addEventListener('touchmove', (event) => {
-    if (event.touches.length > 1) {
+    canvas.addEventListener('touchcancel', (event) => {
         event.preventDefault();
+    }, { passive: false });
+
+    // Function to prevent default touch actions
+    function preventDefaultTouchActions(element) {
+        element.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+        }, { passive: false });
+
+        element.addEventListener('touchmove', (event) => {
+            event.preventDefault();
+        }, { passive: false });
+
+        element.addEventListener('touchend', (event) => {
+            event.preventDefault();
+        }, { passive: false });
+
+        element.addEventListener('touchcancel', (event) => {
+            event.preventDefault();
+        }, { passive: false });
     }
-}, { passive: false });
 
-// Prevent default touch actions on the joystick
-const joystick = document.getElementById('joystick');
-joystick.addEventListener('touchstart', (event) => {
-    event.preventDefault();
-}, { passive: false });
+    // Prevent default touch actions on the joystick
+    const joystick = document.getElementById('joystick');
+    preventDefaultTouchActions(joystick);
 
-joystick.addEventListener('touchmove', (event) => {
-    event.preventDefault();
-}, { passive: false });
-
-// Prevent default touch actions on the shooter
-const shooter = document.getElementById('shooter');
-shooter.addEventListener('touchstart', (event) => {
-    event.preventDefault();
-}, { passive: false });
-
-shooter.addEventListener('touchmove', (event) => {
-    event.preventDefault();
-}, { passive: false });
+    // Prevent default touch actions on the shooter
+    const shooter = document.getElementById('shooter');
+    preventDefaultTouchActions(shooter);
+});
