@@ -208,8 +208,13 @@ class Scene2 extends Phaser.Scene {
         this.physics.pause();
         gameState.active = false;
         this.anims.pauseAll();
-        if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();
+
+        // Stop movements of all enemies
+        if (Array.isArray(gameState.enemies)) {
+            gameState.enemies.children.iterate(enemy => {
+                if (enemy.move) enemy.move.stop();
+            });
+        }
 
         // Stop the timer event
         if (gameState.timerEvent) {

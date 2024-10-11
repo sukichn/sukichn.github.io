@@ -129,7 +129,7 @@ class Scene1 extends Phaser.Scene {
         // Define coin positions
         const coinPositions = [
             { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 795, y: 770 }, // Coin on Platform 3
+            { x: 860, y: 770 }, // Coin on Platform 3
         ];
 
         // Create and animate coins
