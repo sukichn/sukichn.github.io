@@ -121,7 +121,9 @@ class Scene2 extends Phaser.Scene {
         // Create additional keys for shooting in different directions
         gameState.keys = {
             shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
-            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+            nextScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N), // Add the 'N' key for next scene
+            previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B) // Add the 'B' key for previous scene
         };
 
         // Create exit assets
@@ -132,7 +134,6 @@ class Scene2 extends Phaser.Scene {
         // Define coin positions
         const coinPositions = [
             { x: 300, y: 825 }, // Coin on Platform 2
-           
             { x: 1150, y: 630 }, // Coin on Platform 5
             { x: 1300, y: 925 }, // Coin on Platform 7
             { x: 1500, y: 825 }  // Coin on Platform 8
@@ -216,6 +217,9 @@ class Scene2 extends Phaser.Scene {
             });
         }
 
+        // Pause all tweens
+        this.tweens.pauseAll();
+
         // Stop the timer event
         if (gameState.timerEvent) {
             gameState.timerEvent.remove();
@@ -235,6 +239,7 @@ class Scene2 extends Phaser.Scene {
 
             // Resume animations and clear user inputs
             this.anims.resumeAll();
+            this.tweens.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
@@ -347,6 +352,18 @@ class Scene2 extends Phaser.Scene {
                         gameState.attackCooldown = false;
                     });
                 }
+            }
+
+            // Check for the 'N' key press to move to the next scene
+            if (gameState.keys.nextScene.isDown) {
+                this.scene.start('Scene3'); // Make sure 'Scene3' is properly defined
+                this.scene.stop('Scene2');
+            }
+
+            // Check for the 'B' key press to go back to the previous scene
+            if (gameState.keys.previousScene.isDown) {
+                this.scene.start('Scene1'); // Make sure 'Scene1' is properly defined
+                this.scene.stop('Scene2');
             }
         }
     }

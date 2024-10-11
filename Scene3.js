@@ -69,10 +69,8 @@ class Scene3 extends Phaser.Scene {
             { x: 100, y: 575 },  // Platform 1 starting
             { x: 500, y: 575 },  // Platform 2 starting
             { x: 900, y: 575 },  // Platform 3 starting
-
             { x: 900, y: 875 },  // Platform below 3
             { x: 1150, y: 680 }, // Platform 4
-            
             { x: 1300, y: 375 },  // Exit platform
         ];
         platPositions.forEach(plat => {
@@ -94,12 +92,11 @@ class Scene3 extends Phaser.Scene {
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
         gameState.enemy1 = this.addSnowman(580, 300, 400); // Snowman on Platform 1 with movement
-        
         gameState.enemies.add(gameState.enemy1);
         gameState.enemy2 = this.addSnowman(850, 550, 950); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
-        
+
         // Add enemy3 on the platform located at { x: 1150, y: 680 }
         gameState.enemy3 = this.addSnowman(1100, 350, 1200); // Snowman on Platform { x: 1150, y: 680 } with movement
         gameState.enemies.add(gameState.enemy3);
@@ -117,7 +114,9 @@ class Scene3 extends Phaser.Scene {
         // Create additional keys for shooting in different directions
         gameState.keys = {
             shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
-            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+            nextScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N), // Add the 'N' key for next scene
+            previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B) // Add the 'B' key for previous scene
         };
 
         // Create exit assets
@@ -127,9 +126,7 @@ class Scene3 extends Phaser.Scene {
 
         // Define moonstone positions
         const moonstonePositions = [
-           /* { x: 720, y: 400 }, // moonstone on Platform 1*/
             { x: 900, y: 800 }, // moonstone on Platform below Platform 3
-            
         ];
 
         // Create and animate moonstones
@@ -159,7 +156,6 @@ class Scene3 extends Phaser.Scene {
             { x: 300, y: 400 }, // Coin on between platform 1 and 2
             { x: 700, y: 400 },
             { x: 1100, y: 200 },
-            
         ];
 
         // Create and animate coins
@@ -341,9 +337,18 @@ class Scene3 extends Phaser.Scene {
                     });
                 }
             }
+
+            // Check for the 'N' key press to move to the next scene
+            if (gameState.keys.nextScene.isDown) {
+                this.scene.start('Scene4'); // Make sure 'Scene4' is properly defined
+                this.scene.stop('Scene3');
+            }
+
+            // Check for the 'B' key press to go back to the previous scene
+            if (gameState.keys.previousScene.isDown) {
+                this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined
+                this.scene.stop('Scene3');
+            }
         }
     }
 }
-
-
-

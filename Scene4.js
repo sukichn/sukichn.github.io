@@ -27,6 +27,8 @@ class Scene4 extends Phaser.Scene {
 
         // Load the repellent asset
         this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
+        // Load the moonstone asset
+        this.load.image('moonstone', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
     }
 
     create() {
@@ -41,7 +43,6 @@ class Scene4 extends Phaser.Scene {
         document.getElementById('game-alert').innerText = "";
 
         // Initialize coin counter
-        
         document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
@@ -65,15 +66,12 @@ class Scene4 extends Phaser.Scene {
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
-            { x: 200, y: 875 },  // Platform 1 starting
-            { x: 300, y: 875 },  // Platform 1 starting
-            { x: 500, y: 875 },  // Platform 2 starting
-            { x: 700, y: 875 },  // Platform 3 starting
-            { x: 900, y: 875 },  // Platform 4 starting
-            { x: 1150, y: 680 }, // Platform 5
-            { x: 750, y: 550 },  // Platform 6
-            { x: 1300, y: 975 }, // Platform 7
-            { x: 1500, y: 875 }  // Platform 8
+            { x: 100, y: 575 },  // Platform 1 starting
+            { x: 500, y: 575 },  // Platform 2 starting
+            { x: 900, y: 575 },  // Platform 3 starting
+            { x: 900, y: 875 },  // Platform below 3
+            { x: 1150, y: 680 }, // Platform 4
+            { x: 1300, y: 375 },  // Exit platform
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
@@ -81,7 +79,7 @@ class Scene4 extends Phaser.Scene {
         console.log('Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(140, 100, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
@@ -93,11 +91,15 @@ class Scene4 extends Phaser.Scene {
 
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
-        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemy1 = this.addSnowman(580, 300, 400); // Snowman on Platform 1 with movement
         gameState.enemies.add(gameState.enemy1);
-        gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        gameState.enemy2 = this.addSnowman(850, 550, 950); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
+
+        // Add enemy3 on the platform located at { x: 1150, y: 680 }
+        gameState.enemy3 = this.addSnowman(1100, 350, 1200); // Snowman on Platform { x: 1150, y: 680 } with movement
+        gameState.enemies.add(gameState.enemy3);
 
         // Create a group for the repellents
         gameState.repellent = this.physics.add.group({
@@ -112,22 +114,48 @@ class Scene4 extends Phaser.Scene {
         // Create additional keys for shooting in different directions
         gameState.keys = {
             shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
-            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+            nextScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N), // Add the 'N' key for next scene
+            previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B) // Add the 'B' key for previous scene
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(700, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(1350, 130, 'exit');
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
+        // Define moonstone positions
+        const moonstonePositions = [
+            { x: 900, y: 800 }, // moonstone on Platform below Platform 3
+        ];
+
+        // Create and animate moonstones
+        createAndAnimatemoonstones(this, gameState, moonstonePositions);
+        console.log('moonstones created and animated.');
+
+        // Add overlap detection between player and each moonstone
+        this.physics.add.overlap(gameState.player, gameState.moonstones, (player, moonstone) => {
+            moonstone.destroy();
+            gameState.attacks += 3; // Increase attacks by 3
+            document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
+
+            // Display the game alert message if needed
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "Attacks increased!";
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 2 seconds if needed
+            setTimeout(() => {
+                gameAlert.classList.remove('show');
+            }, 2000);
+        }, null, this);
+        console.log('Overlap detection for moonstones added.');
+
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 700, y: 825 }, // Coin on Platform 3
-            { x: 900, y: 825 }, // Coin on Platform 4
-            { x: 1150, y: 630 }, // Coin on Platform 5
-            { x: 1300, y: 925 }, // Coin on Platform 7
-            { x: 1500, y: 825 }  // Coin on Platform 8
+            { x: 300, y: 400 }, // Coin on between platform 1 and 2
+            { x: 700, y: 400 },
+            { x: 1100, y: 200 },
         ];
 
         // Create and animate coins
@@ -143,33 +171,6 @@ class Scene4 extends Phaser.Scene {
         }, null, this);
         console.log('Overlap detection for coins added.');
 
-        // Define potion positions
-        const potionPositions = [
-            { x: 400, y: 625 }, // Potion on Platform 1
-            { x: 1100, y: 230 } // Potion on Platform 5
-        ];
-
-        // Create and animate potions
-        potionPositions.forEach(pos => {
-            const potion = this.physics.add.sprite(pos.x, pos.y, 'potion').setScale(0.1); // Set the scale
-            this.physics.add.collider(potion, gameState.platforms);
-            handlePlayerPotionOverlap(this, gameState, potion);
-        });
-        console.log('Potions created and animated.');
-
-        // Define moonstone positions
-        const moonstonePositions = [
-            { x: 600, y: 625 }, // Moonstone on Platform 1
-        ];
-
-        // Create and animate moonstones
-        moonstonePositions.forEach(pos => {
-            const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(0.1); // Set the scale
-            this.physics.add.collider(moonstone, gameState.platforms);
-            handlePlayerMoonstoneOverlap(this, gameState, moonstone);
-        });
-        console.log('Moonstones created and animated.');
-
         // Setup camera and input
         setupCamera(this, gameState);
         setupInput(this, gameState);
@@ -183,7 +184,7 @@ class Scene4 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 30 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 60 secs in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
@@ -202,6 +203,7 @@ class Scene4 extends Phaser.Scene {
         this.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
+        if (gameState.enemy3.move) gameState.enemy3.move.stop();
 
         // Stop the timer event
         if (gameState.timerEvent) {
@@ -227,8 +229,8 @@ class Scene4 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene5'); // Make sure 'Scene3' is properly defined in your game
+            // Start Scene 4 and stop Scene 3
+            this.scene.start('Scene5'); // Make sure 'Scene4' is properly defined in your game
             this.scene.stop('Scene4');
         };
 
@@ -334,6 +336,18 @@ class Scene4 extends Phaser.Scene {
                         gameState.attackCooldown = false;
                     });
                 }
+            }
+
+            // Check for the 'N' key press to move to the next scene
+            if (gameState.keys.nextScene.isDown) {
+                this.scene.start('Scene5'); // Make sure 'Scene4' is properly defined
+                this.scene.stop('Scene4');
+            }
+
+            // Check for the 'B' key press to go back to the previous scene
+            if (gameState.keys.previousScene.isDown) {
+                this.scene.start('Scene3'); // Make sure 'Scene2' is properly defined
+                this.scene.stop('Scene4');
             }
         }
     }

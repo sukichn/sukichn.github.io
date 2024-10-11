@@ -118,7 +118,9 @@ class Scene1 extends Phaser.Scene {
         // Create additional keys for shooting in different directions
         gameState.keys = {
             shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
-            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X)
+            shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
+            nextScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N), // Add the 'N' key for next scene
+            previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B) // Add the 'B' key for previous scene
         };
 
         // Create exit assets
@@ -202,8 +204,16 @@ class Scene1 extends Phaser.Scene {
         this.physics.pause();
         gameState.active = false;
         this.anims.pauseAll();
-        /*if (gameState.enemy1.move) gameState.enemy1.move.stop();
-        if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
+
+        // Stop movements of all enemies
+        if (Array.isArray(gameState.enemies)) {
+            gameState.enemies.children.iterate(enemy => {
+                if (enemy.move) enemy.move.stop();
+            });
+        }
+
+        // Pause all tweens
+        this.tweens.pauseAll();
 
         // Stop the timer event
         if (gameState.timerEvent) {
@@ -224,13 +234,14 @@ class Scene1 extends Phaser.Scene {
 
             // Resume animations and clear user inputs
             this.anims.resumeAll();
+            this.tweens.resumeAll();
             gameState.leftPressed = false;
             gameState.rightPressed = false;
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
             // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene2'); // Make sure 'Scene3' is properly defined in your game
+            this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined in your game
             this.scene.stop('Scene1');
         };
 
@@ -336,6 +347,18 @@ class Scene1 extends Phaser.Scene {
                         gameState.attackCooldown = false;
                     });
                 }
+            }
+
+            // Check for the 'N' key press to move to the next scene
+            if (gameState.keys.nextScene.isDown) {
+                this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined
+                this.scene.stop('Scene1');
+            }
+
+            // Check for the 'B' key press to go back to the previous scene
+            if (gameState.keys.previousScene.isDown) {
+                this.scene.start('StartScene'); // Make sure 'StartScene' is properly defined
+                this.scene.stop('Scene1');
             }
         }
     }
