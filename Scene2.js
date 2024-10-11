@@ -90,7 +90,7 @@ class Scene2 extends Phaser.Scene {
         console.log('Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(140, 700, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
@@ -132,8 +132,7 @@ class Scene2 extends Phaser.Scene {
         // Define coin positions
         const coinPositions = [
             { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 700, y: 825 }, // Coin on Platform 3
-            { x: 900, y: 825 }, // Coin on Platform 4
+           
             { x: 1150, y: 630 }, // Coin on Platform 5
             { x: 1300, y: 925 }, // Coin on Platform 7
             { x: 1500, y: 825 }  // Coin on Platform 8

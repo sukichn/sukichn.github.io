@@ -67,14 +67,13 @@ class Scene3 extends Phaser.Scene {
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
             { x: 100, y: 575 },  // Platform 1 starting
-            { x: 500, y: 575 },  // Platform 1 starting
-            { x: 900, y: 575 },  // Platform 2 starting
-            { x: 700, y: 875 },  // Platform 3 starting
-            { x: 900, y: 875 },  // Platform 4 starting
-            { x: 1150, y: 680 }, // Platform 5
-            { x: 750, y: 550 },  // Platform 6
-            { x: 1300, y: 975 }, // Platform 7
-            { x: 1500, y: 875 }  // Platform 8
+            { x: 500, y: 575 },  // Platform 2 starting
+            { x: 900, y: 575 },  // Platform 3 starting
+
+            { x: 900, y: 875 },  // Platform below 3
+            { x: 1150, y: 680 }, // Platform 4
+            
+            { x: 1300, y: 375 },  // Exit platform
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
@@ -82,7 +81,7 @@ class Scene3 extends Phaser.Scene {
         console.log('Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(130, 100, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(140, 100, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
@@ -94,11 +93,16 @@ class Scene3 extends Phaser.Scene {
 
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
-        gameState.enemy1 = this.addSnowman(500, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemy1 = this.addSnowman(580, 300, 400); // Snowman on Platform 1 with movement
+        
         gameState.enemies.add(gameState.enemy1);
-        gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        gameState.enemy2 = this.addSnowman(850, 550, 950); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
+        
+        // Add enemy3 on the platform located at { x: 1150, y: 680 }
+        gameState.enemy3 = this.addSnowman(1100, 350, 1200); // Snowman on Platform { x: 1150, y: 680 } with movement
+        gameState.enemies.add(gameState.enemy3);
 
         // Create a group for the repellents
         gameState.repellent = this.physics.add.group({
@@ -117,13 +121,15 @@ class Scene3 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(700, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(1350, 130, 'exit');
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
         // Define moonstone positions
         const moonstonePositions = [
-            { x: 500, y: 320 }, // moonstone on Platform 1
+           /* { x: 720, y: 400 }, // moonstone on Platform 1*/
+            { x: 900, y: 800 }, // moonstone on Platform below Platform 3
+            
         ];
 
         // Create and animate moonstones
@@ -150,12 +156,10 @@ class Scene3 extends Phaser.Scene {
 
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 400 }, // Coin on Platform 2
-            { x: 700, y: 400 }, // Coin on Platform 3
-            { x: 900, y: 825 }, // Coin on Platform 4
-            { x: 1150, y: 630 }, // Coin on Platform 5
-            { x: 1300, y: 925 }, // Coin on Platform 7
-            { x: 1500, y: 825 }  // Coin on Platform 8
+            { x: 300, y: 400 }, // Coin on between platform 1 and 2
+            { x: 700, y: 400 },
+            { x: 1100, y: 200 },
+            
         ];
 
         // Create and animate coins
@@ -203,6 +207,7 @@ class Scene3 extends Phaser.Scene {
         this.anims.pauseAll();
         if (gameState.enemy1.move) gameState.enemy1.move.stop();
         if (gameState.enemy2.move) gameState.enemy2.move.stop();
+        if (gameState.enemy3.move) gameState.enemy3.move.stop();
 
         // Stop the timer event
         if (gameState.timerEvent) {

@@ -85,11 +85,11 @@ const gameAlert = document.getElementById('game-alert');
         // Update total elapsed time
         gameState.elapsedTime = gameState.totalElapsedTime;
 
-        // Reset attacks to 0
-        gameState.attacks = 0;
+        
     };
 
     
 
     
 })(window);
+

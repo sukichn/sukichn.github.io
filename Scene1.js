@@ -10,6 +10,7 @@ class Scene1 extends Phaser.Scene {
         if (typeof gameState.attacks !== 'number') {
             gameState.attacks = 0; // Initialize attacks if it is not already set
         }
+        gameState.attackCooldown = false; // Initialize attack cooldown flag
     }
 
     preload() {
@@ -21,8 +22,11 @@ class Scene1 extends Phaser.Scene {
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
         loadExitAssets(this);
-        loadPotionAssets(this);  // Load potion assets
+        loadPotionAssets(this);  
+        loadAttackAssets(this);  
 
+        // Load the repellent asset
+        this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
     }
 
     create() {
@@ -56,11 +60,7 @@ class Scene1 extends Phaser.Scene {
 
         // Display game alert message
         const gameAlert = document.getElementById('game-alert');
-        if (window.innerWidth < 769) {
-            gameAlert.innerText = "Use joystick in right-hand corner to move";
-        } else {
-            gameAlert.innerText = "Use arrow keys to move";
-        }
+        gameAlert.innerText = "Use arrow keys to move and jump!";
         gameAlert.classList.add('show');
 
         // Hide the alert after 2 seconds
@@ -75,13 +75,11 @@ class Scene1 extends Phaser.Scene {
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
-            { x: 200, y: 875 },  // Platform 1 starting
+            {x: 200, y: 875 },  // Platform 1 starting
             { x: 300, y: 875 },  // Platform 1 starting
             { x: 500, y: 875 },  // Platform 2 starting
             { x: 700, y: 830 },  // Platform 3 starting
             { x: 900, y: 830 },  // Platform 4 starting
-         
-            
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
@@ -89,7 +87,7 @@ class Scene1 extends Phaser.Scene {
         console.log('Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(200, 700, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(140, 700, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
@@ -99,11 +97,13 @@ class Scene1 extends Phaser.Scene {
         // Create a group for the enemies
         gameState.enemies = this.physics.add.group();
 
-        /*// Create snowmen on different platforms and add them to the enemies group
+        // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
-        gameState.enemy2 = this.addSnowman(1300, 800, 1400); // Snowman on Platform 7 with movement
+        gameState.enemy1 = this.addSnowman(1700, 800, 400); // Snowman on Platform 1 with movement
+        gameState.enemies.add(gameState.enemy1);
+        gameState.enemy2 = this.addSnowman(1700, 800, 1400); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
-        console.log('Snowmen created.');*/
+        console.log('Snowmen created.');
 
         // Create a group for the repellents
         gameState.repellent = this.physics.add.group({
@@ -130,8 +130,6 @@ class Scene1 extends Phaser.Scene {
         const coinPositions = [
             { x: 300, y: 825 }, // Coin on Platform 2
             { x: 795, y: 770 }, // Coin on Platform 3
-           /* { x: 900, y: 825 }, // Coin on Platform 4*/
-            
         ];
 
         // Create and animate coins
@@ -149,17 +147,30 @@ class Scene1 extends Phaser.Scene {
 
         // Define potion positions
         const potionPositions = [
-        /*    { x: 400, y: 625 }, // Potion on Platform 1
-            { x: 1100, y: 230 } // Potion on Platform 5*/
+            /*{ x: 400, y: 625 }, // Potion on Platform 1*/
+            { x: 1100, y: 230 } // Potion on Platform 5
         ];
 
         // Create and animate potions
         potionPositions.forEach(pos => {
             const potion = this.physics.add.sprite(pos.x, pos.y, 'potion').setScale(0.1); // Set the scale
             this.physics.add.collider(potion, gameState.platforms);
-            handlePlayerPotionOverlap(this, gameState, potion);
+            this.handlePlayerPotionOverlap(potion);
         });
         console.log('Potions created and animated.');
+
+        // Define moonstone positions
+        const moonstonePositions = [
+            /*{ x: 600, y: 625 }, // Moonstone on Platform 1*/
+        ];
+
+        // Create and animate moonstones
+        moonstonePositions.forEach(pos => {
+            const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(1); // Set the scale
+            this.physics.add.collider(moonstone, gameState.platforms);
+            this.handlePlayerMoonstoneOverlap(moonstone);
+        });
+        console.log('Moonstones created and animated.');
 
         // Setup camera and input
         setupCamera(this, gameState);
@@ -174,7 +185,7 @@ class Scene1 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 30 * 1000, gameState); // 30 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 30 secs in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
@@ -191,8 +202,8 @@ class Scene1 extends Phaser.Scene {
         this.physics.pause();
         gameState.active = false;
         this.anims.pauseAll();
-
-       /* if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
+        /*if (gameState.enemy1.move) gameState.enemy1.move.stop();
+        if (gameState.enemy2.move) gameState.enemy2.move.stop();*/
 
         // Stop the timer event
         if (gameState.timerEvent) {
@@ -218,8 +229,8 @@ class Scene1 extends Phaser.Scene {
             gameState.upPressed = false;
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
-            // Start Scene 2 and stop Scene 1
-            this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined in your game
+            // Start Scene 3 and stop Scene 2
+            this.scene.start('Scene2'); // Make sure 'Scene3' is properly defined in your game
             this.scene.stop('Scene1');
         };
 
@@ -272,24 +283,88 @@ class Scene1 extends Phaser.Scene {
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
 
-            // Shoot repellent when spacebar is pressed
-            if (Phaser.Input.Keyboard.JustDown(gameState.cursors.space)) {
-                if (gameState.player.flipX) {
-                    shootRepellent(this, 'left', gameState.player, gameState.repellent, gameState);
-                } else {
-                    shootRepellent(this, 'right', gameState.player, gameState.repellent, gameState);
+            // Full press and release mechanism for shooting repellent
+            if (gameState.cursors.space.isDown && !gameState.spacePressed) {
+                gameState.spacePressed = true;
+                gameState.spaceReleased = false;
+            }
+
+            if (gameState.cursors.space.isUp && gameState.spacePressed && !gameState.spaceReleased) {
+                gameState.spaceReleased = true;
+                gameState.spacePressed = false;
+                if (!gameState.attackCooldown) {
+                    gameState.attackCooldown = true;
+                    const direction = gameState.player.flipX ? 'left' : 'right';
+                    shootRepellent(this, direction, gameState.player, gameState.repellent, gameState);
+                    this.time.delayedCall(200, () => {
+                        gameState.attackCooldown = false;
+                    });
                 }
             }
 
-            // Shoot repellent upward when Z key is pressed
-            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootUp)) {
-                shootRepellent(this, 'up', gameState.player, gameState.repellent, gameState);
+            // Full press and release mechanism for Z key to shoot upward
+            if (gameState.keys.shootUp.isDown && !gameState.shootUpPressed) {
+                gameState.shootUpPressed = true;
+                gameState.shootUpReleased = false;
             }
 
-            // Shoot repellent downward when X key is pressed
-            if (Phaser.Input.Keyboard.JustDown(gameState.keys.shootDown)) {
-                shootRepellent(this, 'down', gameState.player, gameState.repellent, gameState);
+            if (gameState.keys.shootUp.isUp && gameState.shootUpPressed && !gameState.shootUpReleased) {
+                gameState.shootUpReleased = true;
+                gameState.shootUpPressed = false;
+                if (!gameState.attackCooldown) {
+                    gameState.attackCooldown = true;
+                    shootRepellent(this, 'up', gameState.player, gameState.repellent, gameState);
+                    this.time.delayedCall(200, () => {
+                        gameState.attackCooldown = false;
+                    });
+                }
+            }
+
+            // Full press and release mechanism for X key to shoot downward
+            if (gameState.keys.shootDown.isDown && !gameState.shootDownPressed) {
+                gameState.shootDownPressed = true;
+                gameState.shootDownReleased = false;
+            }
+
+            if (gameState.keys.shootDown.isUp && gameState.shootDownPressed && !gameState.shootDownReleased) {
+                gameState.shootDownReleased = true;
+                gameState.shootDownPressed = false;
+                if (!gameState.attackCooldown) {
+                    gameState.attackCooldown = true;
+                    shootRepellent(this, 'down', gameState.player, gameState.repellent, gameState);
+                    this.time.delayedCall(200, () => {
+                        gameState.attackCooldown = false;
+                    });
+                }
             }
         }
+    }
+
+    handlePlayerMoonstoneOverlap(moonstone) {
+        this.physics.add.overlap(gameState.player, moonstone, () => {
+            moonstone.destroy();
+            gameState.attacks += 3; // Add 3 attacks
+            document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
+
+            
+        });
+    }
+
+    handlePlayerPotionOverlap(potion) {
+        this.physics.add.overlap(gameState.player, potion, () => {
+            potion.destroy();
+            gameState.health += 1; // Increase health
+            document.getElementById('health').innerText = `Health: ${gameState.health}`;
+
+            // Display the game alert message if needed
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "Health increased!";
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 2 seconds if needed
+            setTimeout(() => {
+            gameAlert.classList.remove('show');
+            }, 2000);
+        });
     }
 }
