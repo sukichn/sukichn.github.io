@@ -1,9 +1,7 @@
-// timeUtils.js
-
 (function(global) {
     global.timeUtils = {
         startCountdown: function(scene, duration, gameState) {
-            let timer = duration;
+            let startTime = performance.now();
             const countdownElement = document.getElementById('countdown');
             const timerElement = document.getElementById('timer');
             const initialDuration = duration;
@@ -12,6 +10,14 @@
             gameState.timerEvent = scene.time.addEvent({
                 delay: 10, // Update every 10 milliseconds
                 callback: () => {
+                    const currentTime = performance.now();
+                    const elapsedTime = currentTime - startTime;
+                    let timer = duration - elapsedTime;
+
+                    if (timer < 0) {
+                        timer = 0;
+                    }
+
                     const minutes = Math.floor(timer / 60000);
                     const seconds = Math.floor((timer % 60000) / 1000);
                     const milliseconds = Math.floor((timer % 1000) / 10); // Get two digits for milliseconds
@@ -31,7 +37,7 @@
                     const totalElapsedMilliseconds = Math.floor((totalElapsed % 1000) / 10);
                     totalTimeElement.innerText = `Total Time: ${totalElapsedMinutes}:${totalElapsedSeconds < 10 ? '0' : ''}${totalElapsedSeconds}:${totalElapsedMilliseconds < 10 ? '0' : ''}${totalElapsedMilliseconds}`;
 
-                    if ((timer -= 10) < 0) {
+                    if (timer <= 0) {
                         global.timeUtils.handleTimeOut(scene, gameState);
                     }
                 },
@@ -40,7 +46,8 @@
         },
 
         handleTimeOut: function(scene, gameState) {
-            document.getElementById('game-alert').innerText = 'Time is up!';
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = 'Time is up!';
             gameAlert.classList.add('show');
             scene.physics.pause();
             gameState.active = false;
@@ -63,7 +70,7 @@
             scene.input.off('pointermove');
 
             const restartScene = () => {
-                document.getElementById('game-alert').classList.remove('show');
+                gameAlert.classList.remove('show');
 
                 // Resume animations and clear user inputs
                 scene.anims.resumeAll();
@@ -83,7 +90,7 @@
                 // Set timeout to change the color back to its original color after 1 second
                 setTimeout(() => {
                     coinsElement.style.color = ""; // Change color back to original
-                }, 400); // 1000 milliseconds = 1 second
+                }, 400); // 400 milliseconds = 0.4 second
             };
 
             // Add new event listeners for restarting the scene

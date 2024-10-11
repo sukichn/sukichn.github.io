@@ -160,11 +160,46 @@ class Scene4 extends Phaser.Scene {
             mushroom.destroy();
             
 
-            // Enable flying for 10 seconds
-            gameState.canFly = true;
-            this.time.delayedCall(10000, () => {
-                gameState.canFly = false;
-            });
+             // Enable flying for 10 seconds
+             gameState.canFly = true;
+             gameState.player.setTint(0xffff00);
+ 
+             // 6000 ms tinted yellow
+             this.time.delayedCall(7000, () => {
+                 gameState.player.clearTint(); // No tint
+ 
+                 // 500 ms no tint
+                 this.time.delayedCall(500, () => {
+                     gameState.player.setTint(0xffff00); // Yellow tint again
+ 
+                     // 500 ms yellow tint
+                     this.time.delayedCall(500, () => {
+                         gameState.player.clearTint(); // No tint
+ 
+                         // 500 ms no tint
+                         this.time.delayedCall(500, () => {
+                             gameState.player.setTint(0xffff00); // Yellow tint again
+ 
+                             // 500 ms yellow tint
+                             this.time.delayedCall(500, () => {
+                                 gameState.canFly = false; // Disable flying
+                                 gameState.player.clearTint(); // Clear tint
+
+                                 // 500 ms no tint
+                                this.time.delayedCall(500, () => {
+                                    gameState.player.setTint(0xffff00); // Yellow tint again
+
+                                    // 500 ms yellow tint
+                                    this.time.delayedCall(500, () => {
+                                        gameState.canFly = false; // Disable flying
+                                        gameState.player.clearTint(); // Clear tint
+                                    });
+                                });
+                             });
+                         });
+                     });
+                 });
+             });
 
             // Display the game alert message if needed
             const gameAlert = document.getElementById('game-alert');
