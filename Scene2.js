@@ -24,9 +24,6 @@ class Scene2 extends Phaser.Scene {
         loadExitAssets(this);
         loadPotionAssets(this);  
         loadAttackAssets(this);  
-
-        // Load the repellent asset
-        this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
     }
 
     create() {

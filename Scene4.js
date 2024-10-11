@@ -24,14 +24,6 @@ class Scene4 extends Phaser.Scene {
         loadExitAssets(this);
         loadPotionAssets(this);  
         loadAttackAssets(this);  
-
-        // Load the repellent asset
-        this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
-        // Load the moonstone asset
-        this.load.image('moonstone', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
-        
-        // Load the mushroom asset
-        this.load.image('mushroom', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png');
     }
 
     create() {

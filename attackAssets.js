@@ -1,7 +1,10 @@
 (function(global) { 
     // Load moonstone assets
     global.loadAttackAssets = function(scene) {
+        scene.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
         scene.load.image('moonstone', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
+        scene.load.image('mushroom', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png');
+
     };
     
     // Handle player-moonstone overlap
