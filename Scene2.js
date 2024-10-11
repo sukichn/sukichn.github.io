@@ -173,7 +173,7 @@ class Scene2 extends Phaser.Scene {
 
         // Create and animate moonstones
         moonstonePositions.forEach(pos => {
-            const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(0.1); // Set the scale
+            const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(1); // Set the scale
             this.physics.add.collider(moonstone, gameState.platforms);
             this.handlePlayerMoonstoneOverlap(moonstone);
         });
@@ -365,7 +365,7 @@ class Scene2 extends Phaser.Scene {
             // Hide the alert after 4 seconds
             setTimeout(() => {
                 gameAlert.classList.remove('show');
-            }, 2500);
+            }, 2000);
         });
     }
 

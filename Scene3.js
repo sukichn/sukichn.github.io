@@ -27,8 +27,8 @@ class Scene3 extends Phaser.Scene {
 
         // Load the repellent asset
         this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
-        // Load the mushroom asset
-        this.load.image('mushroom', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
+        // Load the moonstone asset
+        this.load.image('moonstone', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
     }
 
     create() {
@@ -121,18 +121,18 @@ class Scene3 extends Phaser.Scene {
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
-        // Define mushroom positions
-        const mushroomPositions = [
-            { x: 500, y: 520 }, // Mushroom on Platform 1
+        // Define moonstone positions
+        const moonstonePositions = [
+            { x: 500, y: 320 }, // moonstone on Platform 1
         ];
 
-        // Create and animate mushrooms
-        createAndAnimateMushrooms(this, gameState, mushroomPositions);
-        console.log('Mushrooms created and animated.');
+        // Create and animate moonstones
+        createAndAnimatemoonstones(this, gameState, moonstonePositions);
+        console.log('moonstones created and animated.');
 
-        // Add overlap detection between player and each mushroom
-        this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
-            mushroom.destroy();
+        // Add overlap detection between player and each moonstone
+        this.physics.add.overlap(gameState.player, gameState.moonstones, (player, moonstone) => {
+            moonstone.destroy();
             gameState.attacks += 3; // Increase attacks by 3
             document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
 
@@ -146,7 +146,7 @@ class Scene3 extends Phaser.Scene {
                 gameAlert.classList.remove('show');
             }, 2000);
         }, null, this);
-        console.log('Overlap detection for mushrooms added.');
+        console.log('Overlap detection for moonstones added.');
 
         // Define coin positions
         const coinPositions = [
@@ -340,28 +340,5 @@ class Scene3 extends Phaser.Scene {
     }
 }
 
-// Function to create and animate mushrooms
-function createAndAnimateMushrooms(scene, gameState, mushroomPositions) {
-    gameState.mushrooms = scene.physics.add.staticGroup();
-
-    mushroomPositions.forEach(pos => {
-        const mushroom = scene.add.sprite(pos.x, pos.y, 'mushroom').setScale(1);
-
-        gameState.mushrooms.add(mushroom);
 
 
-        // Optionally, if you have mushroom animations, you can play them here
-        // mushroom.anims.play('mushroomAnimation', true);
-    });
-}
-
-// Function to create and animate coins
-function createAndAnimateCoins(scene, gameState, coinPositions) {
-    gameState.coins = scene.physics.add.staticGroup();
-
-    coinPositions.forEach(pos => {
-        const coin = scene.add.sprite(pos.x, pos.y, 'coinSprite').setScale(0.8);
-        gameState.coins.add(coin);
-        coin.anims.play('coinHere', true); // Play coin animation
-    });
-}
