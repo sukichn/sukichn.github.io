@@ -175,6 +175,15 @@ class Scene4 extends Phaser.Scene {
                      // 500 ms yellow tint
                      this.time.delayedCall(500, () => {
                          gameState.player.clearTint(); // No tint
+                         // Display the game alert message if needed
+                            const gameAlert = document.getElementById('game-alert');
+                            gameAlert.innerText = "You're running out of flight time!";
+                            gameAlert.classList.add('show');
+
+                            // Hide the alert after 2 seconds if needed
+                            setTimeout(() => {
+                                gameAlert.classList.remove('show');
+                            }, 1000);
  
                          // 500 ms no tint
                          this.time.delayedCall(500, () => {
