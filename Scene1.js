@@ -60,7 +60,12 @@ class Scene1 extends Phaser.Scene {
 
         // Display game alert message
         const gameAlert = document.getElementById('game-alert');
-        gameAlert.innerText = "Use arrow keys to move and jump!";
+
+        if (window.innerWidth < 769) {
+            gameAlert.innerText = "Use blue joystick to move and jump!";
+        } else {
+            gameAlert.innerText = "Use arrow keys to move and jump!";
+        }
         gameAlert.classList.add('show');
 
         // Hide the alert after 2 seconds

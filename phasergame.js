@@ -14,3 +14,17 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
+
+// Prevent double-tap zoom on the canvas
+const canvas = document.querySelector('canvas');
+canvas.addEventListener('touchstart', (event) => {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+canvas.addEventListener('touchmove', (event) => {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
