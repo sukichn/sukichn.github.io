@@ -171,13 +171,13 @@ class Scene1 extends Phaser.Scene {
             /*{ x: 600, y: 625 }, // Moonstone on Platform 1*/
         ];
 
-        // Create and animate moonstones
+       /* // Create and animate moonstones
         moonstonePositions.forEach(pos => {
             const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(1); // Set the scale
             this.physics.add.collider(moonstone, gameState.platforms);
             this.handlePlayerMoonstoneOverlap(moonstone);
         });
-        console.log('Moonstones created and animated.');
+        console.log('Moonstones created and animated.');*/
 
         // Setup camera and input
         setupCamera(this, gameState);

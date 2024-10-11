@@ -29,6 +29,9 @@ class Scene4 extends Phaser.Scene {
         this.load.image('repellent', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone.png');
         // Load the moonstone asset
         this.load.image('moonstone', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
+        
+        // Load the mushroom asset
+        this.load.image('mushroom', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png');
     }
 
     create() {
@@ -126,7 +129,7 @@ class Scene4 extends Phaser.Scene {
 
         // Define moonstone positions
         const moonstonePositions = [
-            { x: 900, y: 800 }, // moonstone on Platform below Platform 3
+            { x: 900, y: 800 }, // Moonstone on Platform below Platform 3
         ];
 
         // Create and animate moonstones
@@ -150,6 +153,38 @@ class Scene4 extends Phaser.Scene {
             }, 2000);
         }, null, this);
         console.log('Overlap detection for moonstones added.');
+
+        // Define mushroom positions
+        const mushroomPositions = [
+            { x: 900, y: 400 }, // Mushroom on Platform below Platform 3
+        ];
+
+        // Create and animate mushrooms
+        createAndAnimateMushrooms(this, gameState, mushroomPositions);
+        console.log('Mushrooms created and animated.');
+
+        // Add overlap detection between player and each mushroom
+        this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
+            mushroom.destroy();
+            
+
+            // Enable flying for 5000 ms
+            gameState.canFly = true;
+            this.time.delayedCall(5000, () => {
+                gameState.canFly = false;
+            });
+
+            // Display the game alert message if needed
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "Hooray! You can fly for 5 seconds!";
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 2 seconds if needed
+            setTimeout(() => {
+                gameAlert.classList.remove('show');
+            }, 2000);
+        }, null, this);
+        console.log('Overlap detection for mushrooms added.');
 
         // Define coin positions
         const coinPositions = [
@@ -348,6 +383,20 @@ class Scene4 extends Phaser.Scene {
             if (gameState.keys.previousScene.isDown) {
                 this.scene.start('Scene3'); // Make sure 'Scene2' is properly defined
                 this.scene.stop('Scene4');
+            }
+
+            // Handle flying behavior
+            if (gameState.canFly) {
+                gameState.player.body.allowGravity = false;
+                if (gameState.cursors.up.isDown) {
+                    gameState.player.setVelocityY(-360);
+                } else if (gameState.cursors.down.isDown) {
+                    gameState.player.setVelocityY(360);
+                } else {
+                    gameState.player.setVelocityY(0); // Stop vertical movement when no key is pressed
+                }
+            } else {
+                gameState.player.body.allowGravity = true;
             }
         }
     }

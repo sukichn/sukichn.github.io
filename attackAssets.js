@@ -27,5 +27,19 @@
         // moonstone.anims.play('moonstoneAnimation', true);
     });}
 
+       // Function to create and animate mushrooms
+global.createAndAnimateMushrooms = function(scene, gameState, mushroomPositions) {
+    gameState.mushrooms = scene.physics.add.staticGroup();
+
+    mushroomPositions.forEach(pos => {
+        const mushroom = scene.add.sprite(pos.x, pos.y, 'mushroom').setScale(1);
+
+        gameState.mushrooms.add(mushroom);
+
+        // Optionally, if you have mushroom animations, you can play them here
+        // mushroom.anims.play('mushroomAnimation', true);
+    });
+};
+
     
     })(window);
