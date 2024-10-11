@@ -66,7 +66,7 @@ class Scene3 extends Phaser.Scene {
             { x: 900, y: 575 },  // Platform 3 starting
             { x: 900, y: 875 },  // Platform below 3
             { x: 1150, y: 680 }, // Platform 4
-            { x: 1300, y: 375 },  // Exit platform
+            { x: 1300, y: 390 },  // Exit platform
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
