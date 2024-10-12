@@ -65,9 +65,9 @@ class StartScene extends Phaser.Scene {
     update() {
         // Update background assets using the global function
         gameState.background.tilePositionX += 0.1;
-        gameState.trees.tilePositionX += 0.14;
+        /*gameState.trees.tilePositionX += 0.14;
         gameState.foreground.tilePositionX += 0.2;
-        gameState.fog.tilePositionX += 0.7;
+        gameState.fog.tilePositionX += 0.7;*/
 
         // Check for the 'N' key press to start the game
         if (gameState.keys.startGame.isDown) {
