@@ -22,14 +22,19 @@ const gameAlert = document.getElementById('game-alert');
 
     // Scrolling background following player
     global.updateBackgroundAssets = function(gameState) {
-        if (gameState.player.body.velocity.x !== 0 || gameState.player.body.velocity.y !== 0) {
-            gameState.background.tilePositionX += 0.1; // Use fixed velocity
-            gameState.background.tilePositionY += 0.1; // Use fixed velocity
-            /*gameState.trees.tilePositionX += 0.14;
+        const playerVelocityX = gameState.player.body.velocity.x;
+
+        if (playerVelocityX !== 0 || gameState.player.body.velocity.y !== 0) {
+            // Adjust the scroll direction based on player's horizontal velocity
+            const direction = playerVelocityX > 0 ? 1 : -1;
+            
+            gameState.background.tilePositionX += direction * 0.1;
+            gameState.background.tilePositionY += 0.1; // Use fixed vertical velocity
+            /*gameState.trees.tilePositionX += direction * 0.14;
             gameState.trees.tilePositionY += 0.14;
-            gameState.foreground.tilePositionX += 0.2;
+            gameState.foreground.tilePositionX += direction * 0.2;
             gameState.foreground.tilePositionY += 0.2;
-            gameState.fog.tilePositionX += 0.7;
+            gameState.fog.tilePositionX += direction * 0.7;
             gameState.fog.tilePositionY += 0.7;*/
         }
     };
