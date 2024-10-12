@@ -62,11 +62,11 @@ class Scene4 extends Phaser.Scene {
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
             { x: 100, y: 575 },  // Platform 1 starting
-            { x: 500, y: 575 },  // Platform 2 starting
-            { x: 900, y: 575 },  // Platform 3 starting
-            { x: 900, y: 875 },  // Platform below 3
-            { x: 1150, y: 680 }, // Platform 4
-            { x: 1300, y: 375 },  // Exit platform
+            { x: 600, y: 675 },  // Platform 2 starting
+            /*{ x: 900, y: 575 },  // Platform 3 starting*/
+           /* { x: 900, y: 875 },  // Platform below 3*/
+            /*{ x: 1150, y: 680 }, // Platform 4*/
+            { x: 1600, y: 375 },  // Exit platform
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
@@ -86,7 +86,7 @@ class Scene4 extends Phaser.Scene {
 
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
-        gameState.enemy1 = this.addSnowman(580, 300, 400); // Snowman on Platform 1 with movement
+        gameState.enemy1 = this.addSnowman(565, 300, 685); // Snowman on Platform 1 with movement
         gameState.enemies.add(gameState.enemy1);
         gameState.enemy2 = this.addSnowman(850, 550, 950); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
@@ -115,13 +115,28 @@ class Scene4 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(1350, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(1650, 130, 'exit');
         setupExitLogic(this, gameState);
         console.log('Exit created.');
 
+        // Define potion positions
+        const potionPositions = [
+            /*{ x: 400, y: 625 }, // Potion on Platform 1*/
+            { x: 1600, y: 230 } // Potion on Platform 5
+        ];
+
+        // Create and animate potions
+        potionPositions.forEach(pos => {
+            const potion = this.physics.add.sprite(pos.x, pos.y, 'potion').setScale(0.1); // Set the scale
+            this.physics.add.collider(potion, gameState.platforms);
+            this.handlePlayerPotionOverlap(potion);
+        });
+        console.log('Potions created and animated.');
+
         // Define moonstone positions
         const moonstonePositions = [
-            { x: 900, y: 800 }, // Moonstone on Platform below Platform 3
+            { x: 550, y: 575 },
+            { x: 1000, y: 300 }, // Moonstone on Platform below Platform 3
         ];
 
         // Create and animate moonstones
@@ -147,86 +162,83 @@ class Scene4 extends Phaser.Scene {
         console.log('Overlap detection for moonstones added.');
 
         // Define mushroom positions
-        const mushroomPositions = [
-            { x: 900, y: 400 }, // Mushroom on Platform below Platform 3
-        ];
+const mushroomPositions = [
+    { x: 400, y: 500 },
+    { x: 900, y: 400 }, // Mushroom on Platform below Platform 3
+];
 
-        // Create and animate mushrooms
-        createAndAnimateMushrooms(this, gameState, mushroomPositions);
-        console.log('Mushrooms created and animated.');
+// Create and animate mushrooms
+createAndAnimateMushrooms(this, gameState, mushroomPositions);
+console.log('Mushrooms created and animated.');
 
-        // Add overlap detection between player and each mushroom
-        this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
-            mushroom.destroy();
-            
+// Variable to track the remaining flight time
+gameState.remainingFlightTime = 0;
 
-             // Enable flying for 10 seconds
-             gameState.canFly = true;
-             gameState.player.setTint(0xffff00);
- 
-             // 6000 ms tinted yellow
-             this.time.delayedCall(7000, () => {
-                 gameState.player.clearTint(); // No tint
- 
-                 // 500 ms no tint
-                 this.time.delayedCall(500, () => {
-                     gameState.player.setTint(0xffff00); // Yellow tint again
- 
-                     // 500 ms yellow tint
-                     this.time.delayedCall(500, () => {
-                         gameState.player.clearTint(); // No tint
-                         // Display the game alert message if needed
-                            const gameAlert = document.getElementById('game-alert');
-                            gameAlert.innerText = "You're running out of flight time!";
-                            gameAlert.classList.add('show');
+// Function to handle flight time and display alerts
+const manageFlightTime = () => {
+    if (gameState.remainingFlightTime > 0) {
+        const interval = Math.min(1000, gameState.remainingFlightTime);
+        gameState.remainingFlightTime -= interval;
 
-                            // Hide the alert after 2 seconds if needed
-                            setTimeout(() => {
-                                gameAlert.classList.remove('show');
-                            }, 1000);
- 
-                         // 500 ms no tint
-                         this.time.delayedCall(500, () => {
-                             gameState.player.setTint(0xffff00); // Yellow tint again
- 
-                             // 500 ms yellow tint
-                             this.time.delayedCall(500, () => {
-                                 gameState.canFly = false; // Disable flying
-                                 gameState.player.clearTint(); // Clear tint
+        this.time.delayedCall(interval, () => {
+            if (gameState.remainingFlightTime <= 3000 && gameState.remainingFlightTime > 0) {
+                // Display the game alert message if needed
+                const gameAlert = document.getElementById('game-alert');
+                gameAlert.innerText = `You have ${Math.ceil(gameState.remainingFlightTime / 1000)} seconds of flight left!`;
+                gameAlert.classList.add('show');
 
-                                 // 500 ms no tint
-                                this.time.delayedCall(500, () => {
-                                    gameState.player.setTint(0xffff00); // Yellow tint again
+                // Hide the alert after 1 second
+                setTimeout(() => {
+                    gameAlert.classList.remove('show');
+                }, 1000);
+            }
 
-                                    // 500 ms yellow tint
-                                    this.time.delayedCall(500, () => {
-                                        gameState.canFly = false; // Disable flying
-                                        gameState.player.clearTint(); // Clear tint
-                                    });
-                                });
-                             });
-                         });
-                     });
-                 });
-             });
+            if (gameState.remainingFlightTime <= 0) {
+                gameState.canFly = false; // Disable flying
+            } else {
+                // Continue managing the flight time
+                manageFlightTime();
+            }
+        });
+    } else {
+        gameState.canFly = false; // Disable flying
+    }
+};
 
-            // Display the game alert message if needed
-            const gameAlert = document.getElementById('game-alert');
-            gameAlert.innerText = "Hooray! You can fly for 10 seconds!";
-            gameAlert.classList.add('show');
+// Add overlap detection between player and each mushroom
+this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
+    mushroom.destroy();
 
-            // Hide the alert after 2 seconds if needed
-            setTimeout(() => {
-                gameAlert.classList.remove('show');
-            }, 2000);
-        }, null, this);
-        console.log('Overlap detection for mushrooms added.');
+    // Add 10000 ms to the remaining flight time
+    gameState.remainingFlightTime += 10000;
 
+    // Set flying state and tint
+    gameState.canFly = true;
+
+    // Start managing the flight time
+    if (gameState.remainingFlightTime === 10000) {
+        manageFlightTime();
+    }
+
+    // Display the game alert message if needed
+    const gameAlert = document.getElementById('game-alert');
+    gameAlert.innerText = "Hooray! You can fly for 10 seconds!";
+    gameAlert.classList.add('show');
+
+    // Hide the alert after 2 seconds if needed
+    setTimeout(() => {
+        gameAlert.classList.remove('show');
+    }, 2000);
+}, null, this);
+
+console.log('Overlap detection for mushrooms added.');
         // Define coin positions
         const coinPositions = [
+            { x: 200, y: 500 },
             { x: 300, y: 400 }, // Coin on between platform 1 and 2
-            { x: 700, y: 400 },
+            { x: 750, y: 500 },
             { x: 1100, y: 200 },
+            { x: 1200, y: 300 },
         ];
 
         // Create and animate coins
@@ -343,6 +355,7 @@ class Scene4 extends Phaser.Scene {
 
     update() {
         if (gameState.active) {
+            
             // Handle player movement
             const isMoving = handlePlayerMovement(this, gameState);
 
@@ -436,4 +449,24 @@ class Scene4 extends Phaser.Scene {
             }
         }
     }
+
+    handlePlayerPotionOverlap(potion) {
+        this.physics.add.overlap(gameState.player, potion, () => {
+            potion.destroy();
+            gameState.health += 1; // Increase health
+            document.getElementById('health').innerText = `Health: ${gameState.health}`;
+
+            // Display the game alert message if needed
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "Health increased!";
+            gameAlert.classList.add('show');
+
+            // Hide the alert after 2 seconds if needed
+            setTimeout(() => {
+            gameAlert.classList.remove('show');
+            }, 2000);
+        });
+    }
+
 }
+
