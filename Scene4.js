@@ -232,6 +232,7 @@ this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroo
 }, null, this);
 
 console.log('Overlap detection for mushrooms added.');
+
         // Define coin positions
         const coinPositions = [
             { x: 200, y: 500 },
