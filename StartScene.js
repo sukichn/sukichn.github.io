@@ -37,8 +37,8 @@ class StartScene extends Phaser.Scene {
         const fontSize = getResponsiveFontSize();
         this.add.text(800, 250, "The Alchemist's Adventure", { fontSize: fontSize, fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
 
-        // Add a start image
-        /*const startImage = this.add.image(800, 500, 'startImage').setInteractive().setDepth(1);*/
+        // Add a start button
+        const startImage = this.add.image(800, 500, 'startImage').setInteractive().setDepth(1);
 
         const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
         this.input.on('pointerdown', () => {
@@ -65,7 +65,7 @@ class StartScene extends Phaser.Scene {
     update() {
         // Update background assets using the global function
         gameState.background.tilePositionX += 0.1;
-        /*gameState.trees.tilePositionX += 0.14;
+       /* gameState.trees.tilePositionX += 0.14;
         gameState.foreground.tilePositionX += 0.2;
         gameState.fog.tilePositionX += 0.7;*/
 
