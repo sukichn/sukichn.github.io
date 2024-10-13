@@ -19,10 +19,14 @@ const gameAlert = document.getElementById('game-alert');
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
+
+        // Add sunflower last and set its depth to a high value
         gameState.sunflower = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'sunflower')
             .setOrigin(0, 0)
             .setScrollFactor(0)
-            .setScale(1);
+            .setScale(1)
+            .setDepth(10); // Set depth to a high value
+
             // No need to set tilePositionY to a fixed value now, as we want vertical scrolling
 
         /*gameState.trees = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'trees').setOrigin(0, 0).setScrollFactor(0).setScale(4.5);
