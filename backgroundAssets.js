@@ -30,8 +30,8 @@ const gameAlert = document.getElementById('game-alert');
         const playerVelocityX = gameState.player.body.velocity.x;
         const playerVelocityY = gameState.player.body.velocity.y;
 
+        // Adjust the scroll direction based on player's horizontal velocity
         if (playerVelocityX !== 0) {
-            // Adjust the scroll direction based on player's horizontal velocity
             const directionX = playerVelocityX > 0 ? 1 : -1;
             
             gameState.backgroundColor.tilePositionX += directionX * 0.05;
@@ -42,8 +42,8 @@ const gameAlert = document.getElementById('game-alert');
             gameState.fog.tilePositionX += directionX * 0.7;*/
         }
 
+        // Adjust the scroll direction based on player's vertical velocity
         if (playerVelocityY !== 0) {
-            // Adjust the scroll direction based on player's vertical velocity
             const directionY = playerVelocityY > 0 ? 1 : -1;
             
             gameState.backgroundColor.tilePositionY += directionY * 0.05;
@@ -52,6 +52,16 @@ const gameAlert = document.getElementById('game-alert');
             /*gameState.trees.tilePositionY += directionY * 0.14;
             gameState.foreground.tilePositionY += directionY * 0.2;
             gameState.fog.tilePositionY += directionY * 0.7;*/
+        }
+
+        // Ensure vertical position resets when player is not moving vertically
+        if (playerVelocityY === 0) {
+            gameState.backgroundColor.tilePositionY = 0;
+            gameState.background.tilePositionY = 0;
+
+            /*gameState.trees.tilePositionY = 0;
+            gameState.foreground.tilePositionY = 0;
+            gameState.fog.tilePositionY = 0;*/
         }
     };
 
