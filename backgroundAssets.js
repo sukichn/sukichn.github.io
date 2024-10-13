@@ -2,19 +2,19 @@ const gameAlert = document.getElementById('game-alert');
 
 (function(global) {
     global.loadBackgroundAssets = function(scene) {
-        scene.load.image('bgColor', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/distant-mountains.png');
-        scene.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/blue-mountains.png');
+        scene.load.image('bgColor', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
+        scene.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
         /*scene.load.image('fog', 'https://raw.githubusercontent.com/devshareacademy/phaser-3-typescript-games-and-examples/refs/heads/main/examples/parallax-scrolling-background/public/assets/images/fog.png');
         scene.load.image('trees', 'https://raw.githubusercontent.com/devshareacademy/phaser-3-typescript-games-and-examples/refs/heads/main/examples/parallax-scrolling-background/public/assets/images/trees.png');
         scene.load.image('foreground', 'https://raw.githubusercontent.com/devshareacademy/phaser-3-typescript-games-and-examples/refs/heads/main/examples/parallax-scrolling-background/public/assets/images/foreground.png');*/
     };
 
     global.createBackgroundAssets = function(scene, gameState) {
-        gameState.backgroundColor = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'bgColor')
+        gameState.backgroundColor = scene.add.tileSprite(0, -75, scene.cameras.main.width, scene.cameras.main.height, 'bgColor')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
-        gameState.background = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'bg')
+        gameState.background = scene.add.tileSprite(0, -75, scene.cameras.main.width, scene.cameras.main.height, 'bg')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
