@@ -28,23 +28,30 @@ const gameAlert = document.getElementById('game-alert');
     // Scrolling background following player
     global.updateBackgroundAssets = function(gameState) {
         const playerVelocityX = gameState.player.body.velocity.x;
+        const playerVelocityY = gameState.player.body.velocity.y;
 
-        if (playerVelocityX !== 0 || gameState.player.body.velocity.y !== 0) {
+        if (playerVelocityX !== 0) {
             // Adjust the scroll direction based on player's horizontal velocity
-            const direction = playerVelocityX > 0 ? 1 : -1;
+            const directionX = playerVelocityX > 0 ? 1 : -1;
             
-            gameState.backgroundColor.tilePositionX += direction * 0.08;
-            gameState.backgroundColor.tilePositionY += 0.08; // Use fixed vertical velocity
+            gameState.backgroundColor.tilePositionX += directionX * 0.08;
+            gameState.background.tilePositionX += directionX * 0.12;
 
-            gameState.background.tilePositionX += direction * 0.12;
-            gameState.background.tilePositionY += 0.12; // Use fixed vertical velocity
+            /*gameState.trees.tilePositionX += directionX * 0.14;
+            gameState.foreground.tilePositionX += directionX * 0.2;
+            gameState.fog.tilePositionX += directionX * 0.7;*/
+        }
 
-            /*gameState.trees.tilePositionX += direction * 0.14;
-            gameState.trees.tilePositionY += 0.14;
-            gameState.foreground.tilePositionX += direction * 0.2;
-            gameState.foreground.tilePositionY += 0.2;
-            gameState.fog.tilePositionX += direction * 0.7;
-            gameState.fog.tilePositionY += 0.7;*/
+        if (playerVelocityY !== 0) {
+            // Adjust the scroll direction based on player's vertical velocity
+            const directionY = playerVelocityY > 0 ? 1 : -1;
+            
+            gameState.backgroundColor.tilePositionY += directionY * 0.08;
+            gameState.background.tilePositionY += directionY * 0.12;
+
+            /*gameState.trees.tilePositionY += directionY * 0.14;
+            gameState.foreground.tilePositionY += directionY * 0.2;
+            gameState.fog.tilePositionY += directionY * 0.7;*/
         }
     };
 
