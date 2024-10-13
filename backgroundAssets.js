@@ -10,11 +10,11 @@ const gameAlert = document.getElementById('game-alert');
     };
 
     global.createBackgroundAssets = function(scene, gameState) {
-        gameState.backgroundColor = scene.add.tileSprite(0, -75, scene.cameras.main.width, scene.cameras.main.height, 'bgColor')
+        gameState.backgroundColor = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'bgColor')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
-        gameState.background = scene.add.tileSprite(0, -75, scene.cameras.main.width, scene.cameras.main.height, 'bg')
+        gameState.background = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'bg')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
