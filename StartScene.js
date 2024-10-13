@@ -66,7 +66,7 @@ class StartScene extends Phaser.Scene {
         // Update background assets using the global function
         gameState.backgroundColor.tilePositionX += 0.05;
         gameState.background.tilePositionX += 0.1;
-        gameState.sunflower.tilePositionX += 0.2;
+        gameState.sunflower.x += 0.2;
        /* gameState.trees.tilePositionX += 0.14;
         gameState.foreground.tilePositionX += 0.2;
         gameState.fog.tilePositionX += 0.7;*/
