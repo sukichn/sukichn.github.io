@@ -30,17 +30,17 @@ class StartScene extends Phaser.Scene {
             } else if (screenWidth <= 768) {
                 return '32px';  // For medium screens like tablets
             } else {
-                return '48px';  // For larger screens like desktops
+                return '45px';  // For larger screens like desktops
             }
         }
 
         const fontSize = getResponsiveFontSize();
-        this.add.text(800, 250, "The Alchemist's Adventure", { fontSize: fontSize, fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
+        this.add.text(800, 250, "The Alchemist's Adventure", { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
 
        /* // Add a start image
         const startImage = this.add.image(800, 500, 'startImage').setInteractive().setDepth(1);*/
 
-        const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#ffffff', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
+        const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
         this.input.on('pointerdown', () => {
             this.startGame();
         });
@@ -64,8 +64,8 @@ class StartScene extends Phaser.Scene {
 
     update() {
         // Update background assets using the global function
-        gameState.backgroundColor.tilePositionX += 0.08;
-        gameState.background.tilePositionX += 0.12;
+        gameState.backgroundColor.tilePositionX += 0.05;
+        gameState.background.tilePositionX += 0.1;
        /* gameState.trees.tilePositionX += 0.14;
         gameState.foreground.tilePositionX += 0.2;
         gameState.fog.tilePositionX += 0.7;*/
