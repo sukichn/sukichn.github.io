@@ -118,7 +118,7 @@ class StartScene extends Phaser.Scene {
         gameState.sunflower.x -= 0.3;
 
         // Loop the sunflower when it goes off-screen
-        if (gameState.sunflower.x < -gameState.sunflower.width + 1600) {
+        if (gameState.sunflower.x < -gameState.sunflower.width + 1200) {
             gameState.sunflower.x = this.cameras.main.width + 400;
         }
 
