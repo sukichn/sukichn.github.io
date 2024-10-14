@@ -16,7 +16,7 @@ class Scene1 extends Phaser.Scene {
     preload() {
         console.log('Preloading assets...');
         // Load common assets
-        loadBackgroundAssets(this);
+        
         loadCoinAssets(this);
         loadCodeyAssets(this);
         loadSnowmanAssets(this);
@@ -25,6 +25,7 @@ class Scene1 extends Phaser.Scene {
         loadPotionAssets(this);
         loadAttackAssets(this);
 
+        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
         this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-platform.png');
     }
 
@@ -79,6 +80,18 @@ class Scene1 extends Phaser.Scene {
         createBackgroundAssets(this, gameState);
         gameState.active = true;
 
+        // Create grass foreground
+        gameState.grassTile = this.physics.add.staticGroup();
+        const grassTilePositions = [
+            { x: -1370, y: 520 },
+            { x: -140, y: 520 },
+            { x: 1100, y: 520 },
+        ];
+        grassTilePositions.forEach(grass => {
+            gameState.grassTile.create(grass.x, grass.y, 'grassTile');
+        });
+        
+
         // Ensure sunflower is placed correctly
         gameState.sunflower.setPosition(-700, -100);
 
@@ -99,7 +112,7 @@ class Scene1 extends Phaser.Scene {
         // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 100, y: 950 },  // Platform 1 starting
+            { x: 100, y: 1050 },  // Platform 1 starting
             { x: 100, y: 1150 },  
         ];
         grassPositions.forEach(plat => {
