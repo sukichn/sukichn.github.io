@@ -259,7 +259,7 @@ console.log('Overlap detection for mushrooms added.');
         console.log('Overlap detection for coins added.');
 
         // Setup camera and input
-        setupCamera(this, gameState);
+        setupCameraForScene4(this, gameState);
         setupInput(this, gameState);
         console.log('Camera and input setup.');
 
@@ -474,3 +474,9 @@ console.log('Overlap detection for mushrooms added.');
 
 }
 
+// Define the setupCamera function for Scene3 outside the class
+function setupCameraForScene4(scene, gameState) {
+   
+        scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
+    
+}

@@ -151,7 +151,6 @@ class Scene2 extends Phaser.Scene {
 
         // Define potion positions
         const potionPositions = [
-            /*{ x: 400, y: 625 }, // Potion on Platform 1*/
             { x: 1100, y: 230 } // Potion on Platform 5
         ];
 
@@ -177,7 +176,7 @@ class Scene2 extends Phaser.Scene {
         console.log('Moonstones created and animated.');
 
         // Setup camera and input
-        setupCamera(this, gameState);
+        setupCameraForScene2(this, gameState);
         setupInput(this, gameState);
         console.log('Camera and input setup.');
 
@@ -404,4 +403,14 @@ class Scene2 extends Phaser.Scene {
             }, 2000);
         });
     }
+}
+
+// Define the setupCamera function for Scene2 outside the class
+function setupCameraForScene2(scene, gameState) {
+    // Set the camera to follow the player
+    scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
+
+    // Optionally, you can adjust the follow offset if needed
+    scene.cameras.main.setFollowOffset(0, 0);
+
 }

@@ -171,7 +171,7 @@ class Scene3 extends Phaser.Scene {
         console.log('Overlap detection for coins added.');
 
         // Setup camera and input
-        setupCamera(this, gameState);
+        setupCameraForScene3(this, gameState);
         setupInput(this, gameState);
         console.log('Camera and input setup.');
 
@@ -350,4 +350,9 @@ class Scene3 extends Phaser.Scene {
             }
         }
     }
+}
+
+// Define the setupCamera function for Scene3 outside the class
+function setupCameraForScene3(scene, gameState) {
+    scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
 }

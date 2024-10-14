@@ -22,18 +22,19 @@ class Scene1 extends Phaser.Scene {
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
         loadExitAssets(this);
-        loadPotionAssets(this);  
-        loadAttackAssets(this); 
-        
-        this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-platform.png'); // Replace with the actual path to your start button image
+        loadPotionAssets(this);
+        loadAttackAssets(this);
 
+        this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-platform.png');
     }
 
     create() {
-
         console.log('Creating scene...');
         // Set the current scene instance
         gameState.scene = this;
+
+        // Set world bounds
+        this.physics.world.setBounds(0, 0, this.game.config.width, this.sys.canvas.height + 600);
 
         // Display level
         document.getElementById('level').innerText = `Level 1`;
@@ -78,40 +79,43 @@ class Scene1 extends Phaser.Scene {
         createBackgroundAssets(this, gameState);
         gameState.active = true;
 
+        // Ensure sunflower is placed correctly
+        gameState.sunflower.setPosition(-700, -100);
+
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
-            {x: 200, y: 875 },  // Platform 1 starting
+           /* { x: 200, y: 875 },  // Platform 1 starting
             { x: 300, y: 875 },  // Platform 1 starting
             { x: 500, y: 875 },  // Platform 2 starting
             { x: 700, y: 830 },  // Platform 3 starting
-            { x: 900, y: 830 },  // Platform 4 starting
+            { x: 900, y: 830 },  // Platform 4 starting*/
         ];
         platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
         });
         console.log('Platforms created.');
 
-        // Create grass platform 
+        // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            {x: -500, y: 1000 },  // Platform 1 starting
-           
-            
+            { x: 100, y: 950 },  // Platform 1 starting
+            { x: 100, y: 1150 },  
         ];
         grassPositions.forEach(plat => {
-            gameState.platforms.create(plat.x, plat.y, 'grassPlatform');
+            gameState.grassPlatform.create(plat.x, plat.y, 'grassPlatform');
         });
         console.log('Grass Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(140, 700, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7);
+        /*gameState.player.setCollideWorldBounds(true);  // Enable collision with world bounds*/
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
         // Collider with player and grass platform
         this.physics.add.collider(gameState.player, gameState.grassPlatform);
-    
+
         // Create player animations
         createCodeyAnimations(this);
 
@@ -135,7 +139,7 @@ class Scene1 extends Phaser.Scene {
 
         // Create cursor keys for input
         gameState.cursors = this.input.keyboard.createCursorKeys();
-        
+
         // Create additional keys for shooting in different directions
         gameState.keys = {
             shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
@@ -145,14 +149,15 @@ class Scene1 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(800, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(500, 130, 'exit');
         setupExitLogic(this, gameState);
+        this.physics.add.collider(gameState.exit, gameState.grassPlatform);
         console.log('Exit created.');
 
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 860, y: 770 }, // Coin on Platform 3
+            { x: 300, y: 625 }, // Coin on Platform 2
+            { x: 460, y: 625 }, // Coin on Platform 3
         ];
 
         // Create and animate coins
@@ -187,7 +192,7 @@ class Scene1 extends Phaser.Scene {
             /*{ x: 600, y: 625 }, // Moonstone on Platform 1*/
         ];
 
-       /* // Create and animate moonstones
+        /* // Create and animate moonstones
         moonstonePositions.forEach(pos => {
             const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(1); // Set the scale
             this.physics.add.collider(moonstone, gameState.platforms);
@@ -196,7 +201,7 @@ class Scene1 extends Phaser.Scene {
         console.log('Moonstones created and animated.');*/
 
         // Setup camera and input
-        setupCamera(this, gameState);
+        setupCameraForScene1(this, gameState);
         setupInput(this, gameState);
         console.log('Camera and input setup.');
 
@@ -389,8 +394,6 @@ class Scene1 extends Phaser.Scene {
             moonstone.destroy();
             gameState.attacks += 3; // Add 3 attacks
             document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
-
-            
         });
     }
 
@@ -407,8 +410,18 @@ class Scene1 extends Phaser.Scene {
 
             // Hide the alert after 2 seconds if needed
             setTimeout(() => {
-            gameAlert.classList.remove('show');
+                gameAlert.classList.remove('show');
             }, 2000);
         });
     }
+}
+
+// Define the setupCamera function outside the class
+function setupCameraForScene1(scene, gameState) {
+    // Set the camera to follow the player
+    scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
+
+    // Optionally, you can adjust the follow offset if needed
+    scene.cameras.main.setFollowOffset(0, 0);
+
 }
