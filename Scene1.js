@@ -23,11 +23,13 @@ class Scene1 extends Phaser.Scene {
         loadPlatformAssets(this);
         loadExitAssets(this);
         loadPotionAssets(this);  
-        loadAttackAssets(this);  
+        loadAttackAssets(this); 
+        
+        this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-platform.png'); // Replace with the actual path to your start button image
+
     }
 
     create() {
-        console.log(this.sys.canvas.height);
 
         console.log('Creating scene...');
         // Set the current scene instance
@@ -90,11 +92,26 @@ class Scene1 extends Phaser.Scene {
         });
         console.log('Platforms created.');
 
+        // Create grass platform 
+        gameState.grassPlatform = this.physics.add.staticGroup();
+        const grassPositions = [
+            {x: -500, y: 1000 },  // Platform 1 starting
+           
+            
+        ];
+        grassPositions.forEach(plat => {
+            gameState.platforms.create(plat.x, plat.y, 'grassPlatform');
+        });
+        console.log('Grass Platforms created.');
+
         // Create player assets
         gameState.player = this.physics.add.sprite(140, 700, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
+        // Collider with player and grass platform
+        this.physics.add.collider(gameState.player, gameState.grassPlatform);
+    
         // Create player animations
         createCodeyAnimations(this);
 
