@@ -6,6 +6,9 @@ const gameAlert = document.getElementById('game-alert');
         scene.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
         scene.load.image('sunflower1', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower1.png');
         scene.load.image('sunflower2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower2.png');
+        scene.load.image('sunflower3', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower3.png');
+        scene.load.image('sunflower4', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower4.png');
+
     };
 
     global.createBackgroundAssets = function(scene, gameState) {
@@ -23,9 +26,11 @@ const gameAlert = document.getElementById('game-alert');
             key: 'sunflowerAnimation',
             frames: [
                 { key: 'sunflower1' },
-                { key: 'sunflower2' }
+                { key: 'sunflower2' },
+                { key: 'sunflower3' },
+                { key: 'sunflower4' },
             ],
-            frameRate: 2, // Set the frame rate (adjust as needed)
+            frameRate: 4, // Set the frame rate (adjust as needed)
             repeat: -1 // Repeat indefinitely
         });
 
