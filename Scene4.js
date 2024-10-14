@@ -58,6 +58,9 @@ class Scene4 extends Phaser.Scene {
         createBackgroundAssets(this, gameState);
         gameState.active = true;
 
+        // Ensure sunflower is placed correctly
+        gameState.sunflower.setPosition(-500, 0); // Adjust the x and y coordinates as needed
+
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [

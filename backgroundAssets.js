@@ -29,10 +29,9 @@ const gameAlert = document.getElementById('game-alert');
             repeat: -1 // Repeat indefinitely
         });
 
-        // Add sunflower sprite and play the animation
-        gameState.sunflower = scene.add.sprite(0, 0, 'sunflower1')
+        // Add sunflower sprite at the desired position and play the animation
+        gameState.sunflower = scene.add.sprite(-500, 300, 'sunflower1') // Adjust the x and y coordinates as needed
             .setOrigin(0, 0)
-            .setScrollFactor(0)
             .setScale(1)
             .setDepth(10); // Set depth to a high value to appear in front of other elements
 
@@ -42,7 +41,6 @@ const gameAlert = document.getElementById('game-alert');
     // Scrolling background following player
     global.updateBackgroundAssets = function(gameState) {
         const playerVelocityX = gameState.player.body.velocity.x;
-        const playerVelocityY = gameState.player.body.velocity.y;
 
         // Adjust the scroll direction based on player's horizontal velocity
         if (playerVelocityX !== 0) {
@@ -50,23 +48,6 @@ const gameAlert = document.getElementById('game-alert');
             
             gameState.backgroundColor.tilePositionX += directionX * 0.05;
             gameState.background.tilePositionX += directionX * 0.1;
-            gameState.sunflower.x += directionX * 0.2;
-        }
-
-        // Adjust the scroll direction based on player's vertical velocity
-        if (playerVelocityY !== 0) {
-            const directionY = playerVelocityY > 0 ? 1 : -1;
-            
-            gameState.backgroundColor.tilePositionY += directionY * 0.05;
-            gameState.background.tilePositionY += directionY * 0.1;
-            gameState.sunflower.y += directionY * 0.2;
-        }
-
-        // Ensure vertical position resets when player is not moving vertically
-        if (playerVelocityY === 0) {
-            gameState.backgroundColor.tilePositionY = 0;
-            gameState.background.tilePositionY = 0;
-            gameState.sunflower.y = 0;
         }
     };
 
@@ -75,5 +56,5 @@ const gameAlert = document.getElementById('game-alert');
         gameState.health = 3; // Initialize health
         document.getElementById('health').innerText = `Health: ${gameState.health}`; // Update the health display
     };
-    
+
 })(window);
