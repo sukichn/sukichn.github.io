@@ -35,7 +35,7 @@ const gameAlert = document.getElementById('game-alert');
         });
 
         // Add sunflower sprite at the desired position and play the animation
-        gameState.sunflower = scene.add.sprite(-500, 300, 'sunflower1') // Adjust the x and y coordinates as needed
+        gameState.sunflower = scene.add.sprite(-500, 350, 'sunflower1') // Adjust the x and y coordinates as needed
             .setOrigin(0, 0)
             .setScale(1)
             .setDepth(10); // Set depth to a high value to appear in front of other elements

@@ -58,7 +58,7 @@ class Scene3 extends Phaser.Scene {
         createBackgroundAssets(this, gameState);
         
         // Ensure sunflower is placed correctly
-        gameState.sunflower.setPosition(-500, 0); // Adjust the x and y coordinates as needed
+        gameState.sunflower.setPosition(-500, 50); // Adjust the x and y coordinates as needed
         
         gameState.active = true;
 

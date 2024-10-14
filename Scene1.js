@@ -1,25 +1,15 @@
 class Scene1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Scene1' });
-
-        // Ensure gameState is properly initialized
-        if (typeof gameState === 'undefined') {
-            window.gameState = {};
-        }
-
         gameState.joystick = { isMoving: false, direction: null };
         gameState.lastDamageTime = 0; // Initialize last damage time
-
         if (typeof gameState.health !== 'number') {
             gameState.health = 3; // Initialize health if it is not already set
         }
-
         gameState.elapsedTime = 0; // Initialize elapsed time
-
         if (typeof gameState.attacks !== 'number') {
             gameState.attacks = 0; // Initialize attacks if it is not already set
         }
-
         gameState.attackCooldown = false; // Initialize attack cooldown flag
     }
 
@@ -37,23 +27,25 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {
+        console.log(this.sys.canvas.height);
+
         console.log('Creating scene...');
         // Set the current scene instance
         gameState.scene = this;
-    
+
         // Display level
         document.getElementById('level').innerText = `Level 1`;
-    
+
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
-    
+
         // Initialize coin counter
         gameState.coinsCollected = 0;
         document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
-    
+
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
-    
+
         // Display total elapsed time from Scene1
         const totalTimeElement = document.getElementById('total-time');
         const initialElapsed = gameState.elapsedTime;
@@ -61,29 +53,29 @@ class Scene1 extends Phaser.Scene {
         const initialElapsedSeconds = Math.floor((initialElapsed % 60000) / 1000);
         const initialElapsedMilliseconds = Math.floor((initialElapsed % 1000) / 10);
         totalTimeElement.innerText = `Total Time: ${initialElapsedMinutes}:${initialElapsedSeconds < 10 ? '0' : ''}${initialElapsedSeconds}:${initialElapsedMilliseconds < 10 ? '0' : ''}${initialElapsedMilliseconds}`;
-    
+
         // Initialize total elapsed time for this scene
         gameState.totalElapsedTime = initialElapsed;
-    
+
         // Display game alert message
         const gameAlert = document.getElementById('game-alert');
-    
+
         if (window.innerWidth < 769) {
             gameAlert.innerText = "Use blue joystick to move and jump!";
         } else {
             gameAlert.innerText = "Use arrow keys to move and jump!";
         }
         gameAlert.classList.add('show');
-    
+
         // Hide the alert after 2 seconds
         setTimeout(() => {
             gameAlert.classList.remove('show');
         }, 2000);
-    
+
         // Create background assets using the global function
         createBackgroundAssets(this, gameState);
         gameState.active = true;
-    
+
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
         const platPositions = [
@@ -97,21 +89,18 @@ class Scene1 extends Phaser.Scene {
             gameState.platforms.create(plat.x, plat.y, 'platform');
         });
         console.log('Platforms created.');
-    
-        // Add sunflower as a platform asset
-        gameState.platforms.add(gameState.sunflower);
-    
+
         // Create player assets
         gameState.player = this.physics.add.sprite(140, 700, 'codey').setScale(.7);
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
-    
+
         // Create player animations
         createCodeyAnimations(this);
-    
+
         // Create a group for the enemies
         gameState.enemies = this.physics.add.group();
-    
+
         // Create snowmen on different platforms and add them to the enemies group
         createSnowmanAnimations(this);
         gameState.enemy1 = this.addSnowman(1700, 800, 400); // Snowman on Platform 1 with movement
@@ -119,14 +108,14 @@ class Scene1 extends Phaser.Scene {
         gameState.enemy2 = this.addSnowman(1700, 800, 1400); // Snowman on Platform 7 with movement
         gameState.enemies.add(gameState.enemy2);
         console.log('Snowmen created.');
-    
+
         // Create a group for the repellents
         gameState.repellent = this.physics.add.group({
             defaultKey: 'repellent',
             maxSize: 10,
             allowGravity: false // Ensure gravity is disabled for the repellent
         });
-    
+
         // Create cursor keys for input
         gameState.cursors = this.input.keyboard.createCursorKeys();
         
@@ -137,23 +126,23 @@ class Scene1 extends Phaser.Scene {
             nextScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N), // Add the 'N' key for next scene
             previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B) // Add the 'B' key for previous scene
         };
-    
+
         // Create exit assets
         gameState.exit = this.physics.add.sprite(800, 130, 'exit');
         setupExitLogic(this, gameState);
         console.log('Exit created.');
-    
+
         // Define coin positions
         const coinPositions = [
             { x: 300, y: 825 }, // Coin on Platform 2
             { x: 860, y: 770 }, // Coin on Platform 3
         ];
-    
+
         // Create and animate coins
         createCoinAnimations(this);
         createAndAnimateCoins(this, gameState, coinPositions);
         console.log('Coins created and animated.');
-    
+
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
@@ -161,13 +150,13 @@ class Scene1 extends Phaser.Scene {
             document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
         }, null, this);
         console.log('Overlap detection for coins added.');
-    
+
         // Define potion positions
         const potionPositions = [
             /*{ x: 400, y: 625 }, // Potion on Platform 1*/
             { x: 1100, y: 230 } // Potion on Platform 5
         ];
-    
+
         // Create and animate potions
         potionPositions.forEach(pos => {
             const potion = this.physics.add.sprite(pos.x, pos.y, 'potion').setScale(0.1); // Set the scale
@@ -175,12 +164,12 @@ class Scene1 extends Phaser.Scene {
             this.handlePlayerPotionOverlap(potion);
         });
         console.log('Potions created and animated.');
-    
+
         // Define moonstone positions
         const moonstonePositions = [
             /*{ x: 600, y: 625 }, // Moonstone on Platform 1*/
         ];
-    
+
        /* // Create and animate moonstones
         moonstonePositions.forEach(pos => {
             const moonstone = this.physics.add.sprite(pos.x, pos.y, 'moonstone').setScale(1); // Set the scale
@@ -188,22 +177,22 @@ class Scene1 extends Phaser.Scene {
             this.handlePlayerMoonstoneOverlap(moonstone);
         });
         console.log('Moonstones created and animated.');*/
-    
+
         // Setup camera and input
         setupCamera(this, gameState);
         setupInput(this, gameState);
         console.log('Camera and input setup.');
-    
+
         // Setup joystick input
         setupJoystick(this, gameState);
         console.log('Joystick setup.');
-    
+
         // Setup shooter button
         setupShooterButton(this, gameState);
-    
+
         // Initialize and start the countdown timer
         window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 30 secs in milliseconds
-    
+
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
             enemy.destroy(); // Destroy the enemy
@@ -383,6 +372,8 @@ class Scene1 extends Phaser.Scene {
             moonstone.destroy();
             gameState.attacks += 3; // Add 3 attacks
             document.getElementById('attacks').innerText = `Attacks: ${gameState.attacks}`;
+
+            
         });
     }
 
@@ -399,7 +390,7 @@ class Scene1 extends Phaser.Scene {
 
             // Hide the alert after 2 seconds if needed
             setTimeout(() => {
-                gameAlert.classList.remove('show');
+            gameAlert.classList.remove('show');
             }, 2000);
         });
     }
