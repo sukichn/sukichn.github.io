@@ -4,6 +4,7 @@ const gameAlert = document.getElementById('game-alert');
     global.loadBackgroundAssets = function(scene) {
         scene.load.image('largeCloud', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
         scene.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-bg.png');
+        scene.load.image('mist', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mist.png');
         scene.load.image('sunflower1', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower1.png');
         scene.load.image('sunflower2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower2.png');
         scene.load.image('sunflower3', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower3.png');
@@ -19,6 +20,11 @@ const gameAlert = document.getElementById('game-alert');
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
+        gameState.mist = scene.add.tileSprite(0, 20, scene.cameras.main.width, scene.cameras.main.height, 'mist')
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(1)
+            .setDepth(10)
             
         // Define the sunflower animation
         scene.anims.create({
@@ -46,8 +52,9 @@ const gameAlert = document.getElementById('game-alert');
     global.updateBackgroundAssets = function(gameState) {
         const playerVelocityX = gameState.player.body.velocity.x;
 
-        // Background cloud movement (always scroll)
+        // Background cloud and mist movement (always scroll)
         gameState.backgroundCloud.tilePositionX += 0.16;
+        gameState.mist.tilePositionX += 0.13;
 
         // Adjust the scroll direction based on player's horizontal velocity
         if (playerVelocityX !== 0) {

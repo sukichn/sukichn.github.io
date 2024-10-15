@@ -346,7 +346,7 @@ class Scene1 extends Phaser.Scene {
         this.input.off('pointermove');
 
         // Zoom the camera in
-        this.cameras.main.zoomTo(1.2, 1000); // Adjust the zoom level and duration as needed
+        this.cameras.main.zoomTo(1.1, 1000); // Adjust the zoom level and duration as needed
 
         const moveToNextScene = () => {
             document.getElementById('game-alert').classList.remove('show');

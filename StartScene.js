@@ -10,6 +10,7 @@ class StartScene extends Phaser.Scene {
         // Load assets specific to the start scene
         this.load.image('largeCloud', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
         this.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-bg.png');
+        this.load.image('mist', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mist.png');
         this.load.image('sunflower1', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower1.png');
         this.load.image('sunflower2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower2.png');
         this.load.image('startImage', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Enchanted_hat_I.png'); // Replace with the actual path to your start button image
@@ -69,6 +70,7 @@ class StartScene extends Phaser.Scene {
     update() {
         // Update background assets
         gameState.backgroundCloud.tilePositionX += 0.12;
+        gameState.mist.tilePositionX += 0.13;
         gameState.background.tilePositionX += 0.1;
         
         // Update the sunflower position
@@ -89,6 +91,11 @@ class StartScene extends Phaser.Scene {
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
+        gameState.mist = scene.add.tileSprite(0, 20, scene.cameras.main.width, scene.cameras.main.height, 'mist')
+            .setOrigin(0, 0)
+            .setScrollFactor(0)
+            .setScale(1)
+            .setDepth(10)
 
         // Define the sunflower animation
         this.anims.create({

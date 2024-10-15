@@ -11,6 +11,7 @@
         gameState.player.setPosition(140, 700); // Reset player position or adjust accordingly
         gameState.health -= 1; // Decrease health
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
+        scene.cameras.main.zoomTo(1.1, 1000);
 
         // Reset shooter-related flags
         gameState.spacePressed = false;
@@ -30,6 +31,11 @@
         setTimeout(() => {
             gameAlert.classList.remove('show');
         }, 2000);
+
+        // Reset the camera zoom after a delay
+        scene.time.delayedCall(2000, () => {
+            scene.cameras.main.zoomTo(1, 1000); // Zoom back to normal over 1 second
+        });
 
         // Re-enable the game state
         gameState.active = true;

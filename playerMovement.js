@@ -129,11 +129,11 @@
     // Handle player movement
     global.handlePlayerMovement = function(scene, gameState) {
         let isMoving = false;
-        let velocityX = 260; // Default velocity for keyboard
+        let velocityX = 300; // Default velocity for keyboard
 
-        // Increase velocity if the SHIFT key is down
+        // Decrease velocity if the SHIFT key is down
         if (gameState.shiftKey.isDown) {
-            velocityX *= 1.5; // Increase velocity by 50%
+            velocityX *= 1.5; // Decrease velocity by 50%
         }
 
         // Handle keyboard input
