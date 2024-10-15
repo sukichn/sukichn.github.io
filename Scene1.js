@@ -112,7 +112,7 @@ class Scene1 extends Phaser.Scene {
         // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 200, y: 1150 },  // Platform 1 starting
+            { x: 200, y: 850 },  // Platform 1 starting
             
         ];
         grassPositions.forEach(plat => {
