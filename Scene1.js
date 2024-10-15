@@ -131,64 +131,62 @@ class Scene1 extends Phaser.Scene {
         });
         console.log('Long Platforms created.');
 
-        // Create short platform
-        gameState.shortplatform = this.physics.add.staticGroup();
-        const shortplatPositions = [
-            { x: -255, y: 784 },
-{ x: -205, y: 784 },
-{ x: -155, y: 784 },
-{ x: -105, y: 784 },
-{ x: -55, y: 780 },
-{ x: -5, y: 776 },
-{ x: 45, y: 772 },
-{ x: 95, y: 768 },
-{ x: 145, y: 764 },
-{ x: 195, y: 760 },
-{ x: 245, y: 756 },
-{ x: 295, y: 752 },
-{ x: 345, y: 748 },
-{ x: 350, y: 744 },
-{ x: 360, y: 748 },
-{ x: 365, y: 752 },
-{ x: 370, y: 756 },
-{ x: 375, y: 760 },
-{ x: 520, y: 760 },
-{ x: 645, y: 764 },
-{ x: 695, y: 768 },
-{ x: 745, y: 772 },
-{ x: 795, y: 776 },
-{ x: 845, y: 780 },
-{ x: 855, y: 784 },
-{ x: 945, y: 780 },
-{ x: 995, y: 776 },
-{ x: 1045, y: 772 },
-{ x: 1100, y: 776 },
-{ x: 1200, y: 780 },
-{ x: 1345, y: 780 },
-{ x: 1400, y: 776 },
-{ x: 1410, y: 772 },
-{ x: 1420, y: 768 },
-{ x: 1430, y: 764 },
-{ x: 1440, y: 760 },
-{ x: 1450, y: 756 },
-{ x: 1455, y: 752 },
-{ x: 1500, y: 752 },
-{ x: 1600, y: 752 },
-{ x: 1610, y: 756 },
-{ x: 1620, y: 760 },
-{ x: 1630, y: 764 },
-{ x: 1700, y: 764 },
-{ x: 1800, y: 764 },
-{ x: 1900, y: 764 },
-
-           
-            
-            
-        ];
-        shortplatPositions.forEach(plat => {
-            gameState.shortplatform.create(plat.x, plat.y, 'shortplatform');
-        });
-        console.log('Short Platforms created.');
+         // Create short platforms using a loop
+         gameState.shortplatform = this.physics.add.staticGroup();
+         const shortPlatStartX = -255;
+         const shortPlatStartY = 784;
+         const shortPlatOffsets = [
+             { x: 0, y: 0 },
+             { x: 50, y: 0 },
+             { x: 100, y: 0 },
+             { x: 150, y: 0 },
+             { x: 200, y: -4 },
+             { x: 250, y: -8 },
+             { x: 300, y: -12 },
+             { x: 350, y: -16 },
+             { x: 400, y: -20 },
+             { x: 450, y: -24 },
+             { x: 500, y: -28 },
+             { x: 550, y: -32 },
+             { x: 600, y: -36 },
+             { x: 605, y: -40 },
+             { x: 615, y: -36 },
+             { x: 620, y: -32 },
+             { x: 625, y: -28 },
+             { x: 630, y: -24 },
+             { x: 775, y: -24 },
+             { x: 900, y: -20 },
+             { x: 950, y: -16 },
+             { x: 1000, y: -12 },
+             { x: 1050, y: -8 },
+             { x: 1100, y: -4 },
+             { x: 1105, y: 0 },
+             { x: 1195, y: -4 },
+             { x: 1245, y: -8 },
+             { x: 1295, y: -12 },
+             { x: 1350, y: -8 },
+             { x: 1450, y: -12 },
+             { x: 1595, y: -12 },
+             { x: 1650, y: -16 },
+             { x: 1660, y: -20 },
+             { x: 1670, y: -24 },
+             { x: 1680, y: -28 },
+             { x: 1690, y: -32 },
+             { x: 1700, y: -36 },
+             { x: 1705, y: -40 },
+             { x: 1750, y: -40 },
+             { x: 1850, y: -40 },
+             { x: 1860, y: -36 },
+             { x: 1870, y: -32 },
+             { x: 1880, y: -28 },
+             { x: 1950, y: -28 },
+             { x: 2050, y: -28 },
+             { x: 2150, y: -28 },
+         ];
+         shortPlatOffsets.forEach(offset => {
+             gameState.shortplatform.create(shortPlatStartX + offset.x, shortPlatStartY + offset.y, 'shortplatform');
+         });
+         console.log('Short Platforms created.');
 
         // Create player assets
         gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7).setDepth(14);
