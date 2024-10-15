@@ -26,8 +26,9 @@ class Scene1 extends Phaser.Scene {
         loadAttackAssets(this);
 
         this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile1.png');
-        this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform.png');
-        this.load.image('shortPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
+        this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform-green.png');
+        this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
+        this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
     }
 
     create() {
@@ -116,12 +117,13 @@ class Scene1 extends Phaser.Scene {
         // Create long platform
         gameState.longplatform = this.physics.add.staticGroup();
         const longplatPositions = [
-            { x: -600, y: 770 },
-            { x: 200, y: 770 },  // Platform 1 starting
+            { x: -600, y: 780 },
+           
+            /*{ x: 200, y: 770 },  // Platform 1 starting
             
             { x: 700, y: 780 },  // Platform 2
             { x: 1800, y: 770 },
-            { x: 2400, y: 770 },
+            { x: 2400, y: 770 },*/
             
         ];
         longplatPositions.forEach(plat => {
@@ -132,8 +134,52 @@ class Scene1 extends Phaser.Scene {
         // Create short platform
         gameState.shortplatform = this.physics.add.staticGroup();
         const shortplatPositions = [
-            
-            { x: 200, y: 670 },  // Platform 1 starting
+            { x: -255, y: 784 },
+{ x: -205, y: 784 },
+{ x: -155, y: 784 },
+{ x: -105, y: 784 },
+{ x: -55, y: 780 },
+{ x: -5, y: 776 },
+{ x: 45, y: 772 },
+{ x: 95, y: 768 },
+{ x: 145, y: 764 },
+{ x: 195, y: 760 },
+{ x: 245, y: 756 },
+{ x: 295, y: 752 },
+{ x: 345, y: 748 },
+{ x: 395, y: 744 },
+{ x: 445, y: 748 },
+{ x: 495, y: 752 },
+{ x: 545, y: 756 },
+{ x: 595, y: 760 },
+{ x: 645, y: 764 },
+{ x: 695, y: 768 },
+{ x: 745, y: 772 },
+{ x: 795, y: 776 },
+{ x: 845, y: 780 },
+{ x: 855, y: 784 },
+{ x: 945, y: 780 },
+{ x: 995, y: 776 },
+{ x: 1045, y: 772 },
+{ x: 1100, y: 776 },
+{ x: 1200, y: 780 },
+{ x: 1345, y: 780 },
+{ x: 1400, y: 776 },
+{ x: 1410, y: 772 },
+{ x: 1420, y: 768 },
+{ x: 1430, y: 764 },
+{ x: 1440, y: 760 },
+{ x: 1450, y: 756 },
+{ x: 1455, y: 752 },
+{ x: 1500, y: 752 },
+{ x: 1600, y: 752 },
+{ x: 1610, y: 756 },
+{ x: 1620, y: 760 },
+{ x: 1630, y: 764 },
+{ x: 1700, y: 764 },
+{ x: 1800, y: 764 },
+{ x: 1900, y: 764 },
+
            
             
             
@@ -188,9 +234,10 @@ class Scene1 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(1500, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(1780, 130, 'exit');
         setupExitLogic(this, gameState);
         this.physics.add.collider(gameState.exit, gameState.longplatform);
+        this.physics.add.collider(gameState.exit, gameState.shortplatform);
         console.log('Exit created.');
 
         // Define coin positions
