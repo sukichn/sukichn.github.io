@@ -83,9 +83,9 @@ class Scene1 extends Phaser.Scene {
         // Create grass foreground
         gameState.grassTile = this.physics.add.staticGroup();
         const grassTilePositions = [
-            { x: -1370, y: 520 },
-            { x: -140, y: 520 },
-            { x: 1100, y: 520 },
+            /*{ x: -1370, y: 920 },
+            { x: -140, y: 920 },
+            { x: 1100, y: 920 },*/
         ];
         grassTilePositions.forEach(grass => {
             gameState.grassTile.create(grass.x, grass.y, 'grassTile');
@@ -93,7 +93,7 @@ class Scene1 extends Phaser.Scene {
         
 
         // Ensure sunflower is placed correctly
-        gameState.sunflower.setPosition(-700, -100);
+        gameState.sunflower.setPosition(-700, 280);
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -112,8 +112,8 @@ class Scene1 extends Phaser.Scene {
         // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 100, y: 1050 },  // Platform 1 starting
-            { x: 100, y: 1150 },  
+            { x: 200, y: 1150 },  // Platform 1 starting
+            
         ];
         grassPositions.forEach(plat => {
             gameState.grassPlatform.create(plat.x, plat.y, 'grassPlatform');
