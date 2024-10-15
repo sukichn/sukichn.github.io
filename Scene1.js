@@ -25,7 +25,7 @@ class Scene1 extends Phaser.Scene {
         loadPotionAssets(this);
         loadAttackAssets(this);
 
-        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile.png');
+        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
         this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/transparent-platform.png');
     }
 
@@ -83,17 +83,17 @@ class Scene1 extends Phaser.Scene {
         // Create grass foreground
         gameState.grassTile = this.physics.add.staticGroup();
         const grassTilePositions = [
-            /*{ x: -1370, y: 920 },
-            { x: -140, y: 920 },
-            { x: 1100, y: 920 },*/
+            { x: 0, y: 750 },
+            { x: -140, y: 750 },
+            { x: 1100, y: 750 },
         ];
         grassTilePositions.forEach(grass => {
-            gameState.grassTile.create(grass.x, grass.y, 'grassTile');
+            gameState.grassTile.create(grass.x, grass.y, 'grassTile').setDepth(16);
         });
         
 
         // Ensure sunflower is placed correctly
-        gameState.sunflower.setPosition(-700, 0);
+        gameState.sunflower.setPosition(-550, -150);
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -112,7 +112,9 @@ class Scene1 extends Phaser.Scene {
         // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 200, y: 600 },  // Platform 1 starting
+            { x: 200, y: 790 },  // Platform 1 starting
+            { x: 800, y: 790 },
+            { x: 1400, y: 790 },  
             
         ];
         grassPositions.forEach(plat => {
@@ -121,7 +123,7 @@ class Scene1 extends Phaser.Scene {
         console.log('Grass Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7);
+        gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7).setDepth(14);
         gameState.player.setCollideWorldBounds(true);  // Enable collision with world bounds
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
@@ -432,9 +434,9 @@ class Scene1 extends Phaser.Scene {
 // Define the setupCamera function outside the class
 function setupCameraForScene1(scene, gameState) {
     // Set the camera to follow the player on the x-axis only
-    scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
+    scene.cameras.main.startFollow(gameState.player, true, 1, 0);
 
     // Optionally, you can adjust the follow offset if needed
-    scene.cameras.main.setFollowOffset(0, 50);
+    scene.cameras.main.setFollowOffset(0, 300);
 
 }

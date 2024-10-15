@@ -16,10 +16,11 @@ const gameAlert = document.getElementById('game-alert');
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
-        gameState.background = scene.add.tileSprite(0, -20, scene.cameras.main.width, scene.cameras.main.height, 'bg')
+        gameState.background = scene.add.tileSprite(0, 20, scene.cameras.main.width, scene.cameras.main.height, 'bg')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
+            
 
         // Define the sunflower animation
         scene.anims.create({
@@ -38,7 +39,7 @@ const gameAlert = document.getElementById('game-alert');
         gameState.sunflower = scene.add.sprite(-500, 350, 'sunflower1') // Adjust the x and y coordinates as needed
             .setOrigin(0, 0)
             .setScale(1)
-            .setDepth(10); // Set depth to a high value to appear in front of other elements
+            .setDepth(18); // Set depth to a high value to appear in front of other elements
 
         gameState.sunflower.play('sunflowerAnimation');
     };

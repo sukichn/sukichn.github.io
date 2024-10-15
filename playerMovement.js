@@ -130,12 +130,12 @@
         let isMoving = false;
 
         if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'downLeft') {
-            gameState.player.setVelocityX(-360);
+            gameState.player.setVelocityX(-260);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = true;
             isMoving = true;
         } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight' || gameState.joystick.direction === 'downRight') {
-            gameState.player.setVelocityX(360);
+            gameState.player.setVelocityX(260);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = false;
             isMoving = true;
