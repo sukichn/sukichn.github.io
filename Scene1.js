@@ -435,6 +435,6 @@ function setupCameraForScene1(scene, gameState) {
     scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
 
     // Optionally, you can adjust the follow offset if needed
-    scene.cameras.main.setFollowOffset(0, 0);
+    scene.cameras.main.setFollowOffset(0, 50);
 
 }
