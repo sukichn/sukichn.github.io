@@ -116,25 +116,21 @@ class Scene1 extends Phaser.Scene {
 
         // Create long platform
         gameState.longplatform = this.physics.add.staticGroup();
-        const longplatPositions = [
-            { x: -600, y: 780 },
-           
-            /*{ x: 200, y: 770 },  // Platform 1 starting
-            
-            { x: 700, y: 780 },  // Platform 2
-            { x: 1800, y: 770 },
-            { x: 2400, y: 770 },*/
-            
+        const longPlatStartX = -780;
+        const longPlatStartY = 795;
+        const longPlatOffsets = [
+            { x: 0, y: 0 },
+            { x: 200, y: 0 },           
         ];
-        longplatPositions.forEach(plat => {
-            gameState.longplatform.create(plat.x, plat.y, 'longplatform');
+        longPlatOffsets.forEach(offset => {
+            gameState.longplatform.create(longPlatStartX + offset.x, longPlatStartY + offset.y, 'longplatform');
         });
         console.log('Long Platforms created.');
 
          // Create short platforms using a loop
          gameState.shortplatform = this.physics.add.staticGroup();
          const shortPlatStartX = -255;
-         const shortPlatStartY = 784;
+         const shortPlatStartY = 795;
          const shortPlatOffsets = [
              { x: 0, y: 0 },
              { x: 50, y: 0 },
