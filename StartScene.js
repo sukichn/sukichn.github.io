@@ -8,7 +8,7 @@ class StartScene extends Phaser.Scene {
 
     preload() {
         // Load assets specific to the start scene
-        this.load.image('bgColor', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
+        this.load.image('largeCloud', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
         this.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-bg.png');
         this.load.image('sunflower1', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower1.png');
         this.load.image('sunflower2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower2.png');
@@ -68,7 +68,7 @@ class StartScene extends Phaser.Scene {
 
     update() {
         // Update background assets
-        gameState.backgroundColor.tilePositionX += 0.05;
+        gameState.backgroundCloud.tilePositionX += 0.12;
         gameState.background.tilePositionX += 0.1;
         
         // Update the sunflower position
@@ -81,7 +81,7 @@ class StartScene extends Phaser.Scene {
     }
 
     createBackgroundAssets() {
-        gameState.backgroundColor = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'bgColor')
+        gameState.backgroundCloud = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'largeCloud')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);

@@ -2,17 +2,16 @@ const gameAlert = document.getElementById('game-alert');
 
 (function(global) {
     global.loadBackgroundAssets = function(scene) {
-        scene.load.image('bgColor', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
+        scene.load.image('largeCloud', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/cloud-background.png');
         scene.load.image('bg', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-bg.png');
         scene.load.image('sunflower1', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower1.png');
         scene.load.image('sunflower2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower2.png');
         scene.load.image('sunflower3', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower3.png');
         scene.load.image('sunflower4', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower4.png');
-
     };
 
     global.createBackgroundAssets = function(scene, gameState) {
-        gameState.backgroundColor = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'bgColor')
+        gameState.backgroundCloud = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'largeCloud')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
@@ -21,7 +20,6 @@ const gameAlert = document.getElementById('game-alert');
             .setScrollFactor(0)
             .setScale(1);
             
-
         // Define the sunflower animation
         scene.anims.create({
             key: 'sunflowerAnimation',
@@ -48,11 +46,12 @@ const gameAlert = document.getElementById('game-alert');
     global.updateBackgroundAssets = function(gameState) {
         const playerVelocityX = gameState.player.body.velocity.x;
 
+        // Background cloud movement (always scroll)
+        gameState.backgroundCloud.tilePositionX += 0.16;
+
         // Adjust the scroll direction based on player's horizontal velocity
         if (playerVelocityX !== 0) {
             const directionX = playerVelocityX > 0 ? 1 : -1;
-            
-            gameState.backgroundColor.tilePositionX += directionX * 0.05;
             gameState.background.tilePositionX += directionX * 0.1;
         }
     };

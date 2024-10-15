@@ -274,10 +274,8 @@ class Scene3 extends Phaser.Scene {
             // Handle player movement
             const isMoving = handlePlayerMovement(this, gameState);
 
-            // Update background assets only if the player is moving
-            if (isMoving) {
-                updateBackgroundAssets(gameState);
-            }
+            // Update background assets continuously
+            updateBackgroundAssets(gameState);
 
             // Check if the player has fallen off the page
             handlePlayerFallsOffPlatform(this, gameState);
