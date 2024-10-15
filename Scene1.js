@@ -25,7 +25,7 @@ class Scene1 extends Phaser.Scene {
         loadPotionAssets(this);
         loadAttackAssets(this);
 
-        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
+        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile1.png');
         this.load.image('gamePlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/transparent-platform.png');
     }
 
@@ -169,7 +169,7 @@ class Scene1 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(500, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(1500, 130, 'exit');
         setupExitLogic(this, gameState);
         this.physics.add.collider(gameState.exit, gameState.gamePlatform);
         console.log('Exit created.');
