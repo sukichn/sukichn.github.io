@@ -26,7 +26,8 @@ class Scene1 extends Phaser.Scene {
         loadAttackAssets(this);
 
         this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile1.png');
-        this.load.image('gamePlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/transparent-platform.png');
+        this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform.png');
+        this.load.image('shortPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
     }
 
     create() {
@@ -83,12 +84,12 @@ class Scene1 extends Phaser.Scene {
         // Create grass foreground
         gameState.grassTile = this.physics.add.staticGroup();
         const grassTilePositions = [
-            { x: -2200, y: 500 },
-            { x: -1100, y: 500 },
-            { x: -140, y: 500 },
-            { x: 1080, y: 500 },
-            { x: 2300, y: 500 },
-            { x: 3500, y: 500 },
+            { x: -2200, y: 480 },
+            { x: -1100, y: 480 },
+            { x: -140, y: 480 },
+            { x: 1080, y: 480 },
+            { x: 2300, y: 480 },
+            { x: 3500, y: 480 },
         ];
         grassTilePositions.forEach(grass => {
             gameState.grassTile.create(grass.x, grass.y, 'grassTile').setDepth(16);
@@ -107,25 +108,40 @@ class Scene1 extends Phaser.Scene {
             { x: 700, y: 830 },  // Platform 3 starting
             { x: 900, y: 830 },  // Platform 4 starting*/
         ];
-        platPositions.forEach(plat => {
+        /*platPositions.forEach(plat => {
             gameState.platforms.create(plat.x, plat.y, 'platform');
         });
-        console.log('Platforms created.');
+        console.log('Platforms created.');*/
 
-        // Create grass platform
-        gameState.gamePlatform = this.physics.add.staticGroup();
-        const grassPositions = [
+        // Create long platform
+        gameState.longplatform = this.physics.add.staticGroup();
+        const longplatPositions = [
             { x: -600, y: 770 },
             { x: 200, y: 770 },  // Platform 1 starting
-            { x: 1000, y: 770 },  
+            
+            { x: 700, y: 780 },  // Platform 2
             { x: 1800, y: 770 },
             { x: 2400, y: 770 },
             
         ];
-        grassPositions.forEach(plat => {
-            gameState.gamePlatform.create(plat.x, plat.y, 'gamePlatform');
+        longplatPositions.forEach(plat => {
+            gameState.longplatform.create(plat.x, plat.y, 'longplatform');
         });
-        console.log('Grass Platforms created.');
+        console.log('Long Platforms created.');
+
+        // Create short platform
+        gameState.shortplatform = this.physics.add.staticGroup();
+        const shortplatPositions = [
+            
+            { x: 200, y: 670 },  // Platform 1 starting
+           
+            
+            
+        ];
+        shortplatPositions.forEach(plat => {
+            gameState.shortplatform.create(plat.x, plat.y, 'shortplatform');
+        });
+        console.log('Short Platforms created.');
 
         // Create player assets
         gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7).setDepth(14);
@@ -134,7 +150,10 @@ class Scene1 extends Phaser.Scene {
         console.log('Player created.');
 
         // Collider with player and grass platform
-        this.physics.add.collider(gameState.player, gameState.gamePlatform);
+        this.physics.add.collider(gameState.player, gameState.longplatform);
+
+        // Collider with player and grass platform
+        this.physics.add.collider(gameState.player, gameState.shortplatform);
 
         // Create player animations
         createCodeyAnimations(this);
@@ -171,13 +190,13 @@ class Scene1 extends Phaser.Scene {
         // Create exit assets
         gameState.exit = this.physics.add.sprite(1500, 130, 'exit');
         setupExitLogic(this, gameState);
-        this.physics.add.collider(gameState.exit, gameState.gamePlatform);
+        this.physics.add.collider(gameState.exit, gameState.longplatform);
         console.log('Exit created.');
 
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 425 }, // Coin on Platform 2
-            { x: 430, y: 325 }, // Coin on Platform 3
+            /*{ x: 300, y: 425 }, // Coin on Platform 2
+            { x: 430, y: 325 }, // Coin on Platform 3*/
         ];
 
         // Create and animate coins
