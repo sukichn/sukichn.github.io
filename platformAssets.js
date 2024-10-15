@@ -23,7 +23,7 @@
 
         // Display the game alert message
         const gameAlert = document.getElementById('game-alert');
-        gameAlert.innerText = "You fell! Be careful!";
+        gameAlert.innerText = "You've wandered too far! Be careful!";
         gameAlert.classList.add('show');
 
         // Hide the alert after 2 seconds

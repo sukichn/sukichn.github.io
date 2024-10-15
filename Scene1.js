@@ -26,7 +26,7 @@ class Scene1 extends Phaser.Scene {
         loadAttackAssets(this);
 
         this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
-        this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/transparent-platform.png');
+        this.load.image('gamePlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/transparent-platform.png');
     }
 
     create() {
@@ -83,9 +83,12 @@ class Scene1 extends Phaser.Scene {
         // Create grass foreground
         gameState.grassTile = this.physics.add.staticGroup();
         const grassTilePositions = [
-            { x: 0, y: 750 },
-            { x: -140, y: 750 },
-            { x: 1100, y: 750 },
+            { x: -2200, y: 500 },
+            { x: -1100, y: 500 },
+            { x: -140, y: 500 },
+            { x: 1080, y: 500 },
+            { x: 2300, y: 500 },
+            { x: 3500, y: 500 },
         ];
         grassTilePositions.forEach(grass => {
             gameState.grassTile.create(grass.x, grass.y, 'grassTile').setDepth(16);
@@ -110,26 +113,28 @@ class Scene1 extends Phaser.Scene {
         console.log('Platforms created.');
 
         // Create grass platform
-        gameState.grassPlatform = this.physics.add.staticGroup();
+        gameState.gamePlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 200, y: 790 },  // Platform 1 starting
-            { x: 800, y: 790 },
-            { x: 1400, y: 790 },  
+            { x: -600, y: 770 },
+            { x: 200, y: 770 },  // Platform 1 starting
+            { x: 1000, y: 770 },  
+            { x: 1800, y: 770 },
+            { x: 2400, y: 770 },
             
         ];
         grassPositions.forEach(plat => {
-            gameState.grassPlatform.create(plat.x, plat.y, 'grassPlatform');
+            gameState.gamePlatform.create(plat.x, plat.y, 'gamePlatform');
         });
         console.log('Grass Platforms created.');
 
         // Create player assets
         gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7).setDepth(14);
-        gameState.player.setCollideWorldBounds(true);  // Enable collision with world bounds
+        /*gameState.player.setCollideWorldBounds(true); */ // Enable collision with world bounds
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
         // Collider with player and grass platform
-        this.physics.add.collider(gameState.player, gameState.grassPlatform);
+        this.physics.add.collider(gameState.player, gameState.gamePlatform);
 
         // Create player animations
         createCodeyAnimations(this);
@@ -166,7 +171,7 @@ class Scene1 extends Phaser.Scene {
         // Create exit assets
         gameState.exit = this.physics.add.sprite(500, 130, 'exit');
         setupExitLogic(this, gameState);
-        this.physics.add.collider(gameState.exit, gameState.grassPlatform);
+        this.physics.add.collider(gameState.exit, gameState.gamePlatform);
         console.log('Exit created.');
 
         // Define coin positions
