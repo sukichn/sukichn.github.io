@@ -26,6 +26,7 @@ class Scene1 extends Phaser.Scene {
         loadAttackAssets(this);
 
         this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile1.png');
+        this.load.image('grassTile2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile2.png');
         this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform-green.png');
         this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
@@ -86,14 +87,27 @@ class Scene1 extends Phaser.Scene {
         gameState.grassTile = this.physics.add.staticGroup();
         const grassTilePositions = [
             { x: -2200, y: 480 },
-            { x: -1100, y: 480 },
+            
             { x: -140, y: 480 },
-            { x: 1080, y: 480 },
+            
             { x: 2300, y: 480 },
-            { x: 3500, y: 480 },
+            
         ];
         grassTilePositions.forEach(grass => {
             gameState.grassTile.create(grass.x, grass.y, 'grassTile').setDepth(16);
+        });
+
+        gameState.grassTile2 = this.physics.add.staticGroup();
+        const grassTile2Positions = [
+            
+            { x: -1100, y: 480 },
+            
+            { x: 1080, y: 480 },
+            
+            { x: 3500, y: 480 },
+        ];
+        grassTile2Positions.forEach(grass => {
+            gameState.grassTile2.create(grass.x, grass.y, 'grassTile2').setDepth(16);
         });
         
 
