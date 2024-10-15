@@ -70,8 +70,8 @@ class StartScene extends Phaser.Scene {
     update() {
         // Update background assets
         gameState.backgroundCloud.tilePositionX += 0.12;
-        gameState.mist.tilePositionX += 0.13;
         gameState.background.tilePositionX += 0.1;
+        gameState.mist.tilePositionX += 0.16;
         
         // Update the sunflower position
         this.updateSunflowerPosition();
@@ -91,7 +91,7 @@ class StartScene extends Phaser.Scene {
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
-        gameState.mist = scene.add.tileSprite(0, 20, scene.cameras.main.width, scene.cameras.main.height, 'mist')
+        gameState.mist = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'mist')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1)

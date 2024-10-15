@@ -16,11 +16,11 @@ const gameAlert = document.getElementById('game-alert');
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
-        gameState.background = scene.add.tileSprite(0, 20, scene.cameras.main.width, scene.cameras.main.height, 'bg')
+        gameState.background = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'bg')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1);
-        gameState.mist = scene.add.tileSprite(0, 20, scene.cameras.main.width, scene.cameras.main.height, 'mist')
+        gameState.mist = scene.add.tileSprite(0, 0, scene.cameras.main.width, scene.cameras.main.height, 'mist')
             .setOrigin(0, 0)
             .setScrollFactor(0)
             .setScale(1)
@@ -53,8 +53,8 @@ const gameAlert = document.getElementById('game-alert');
         const playerVelocityX = gameState.player.body.velocity.x;
 
         // Background cloud and mist movement (always scroll)
-        gameState.backgroundCloud.tilePositionX += 0.16;
-        gameState.mist.tilePositionX += 0.13;
+        gameState.backgroundCloud.tilePositionX += 0.12;
+        gameState.mist.tilePositionX += 0.16;
 
         // Adjust the scroll direction based on player's horizontal velocity
         if (playerVelocityX !== 0) {
