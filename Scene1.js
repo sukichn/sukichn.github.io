@@ -93,7 +93,7 @@ class Scene1 extends Phaser.Scene {
         
 
         // Ensure sunflower is placed correctly
-        gameState.sunflower.setPosition(-700, 180);
+        gameState.sunflower.setPosition(-700, 0);
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -112,7 +112,7 @@ class Scene1 extends Phaser.Scene {
         // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 200, y: 750 },  // Platform 1 starting
+            { x: 200, y: 600 },  // Platform 1 starting
             
         ];
         grassPositions.forEach(plat => {
@@ -122,7 +122,7 @@ class Scene1 extends Phaser.Scene {
 
         // Create player assets
         gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(.7);
-        /*gameState.player.setCollideWorldBounds(true);  // Enable collision with world bounds*/
+        gameState.player.setCollideWorldBounds(true);  // Enable collision with world bounds
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');
 
@@ -169,8 +169,8 @@ class Scene1 extends Phaser.Scene {
 
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 625 }, // Coin on Platform 2
-            { x: 460, y: 625 }, // Coin on Platform 3
+            { x: 300, y: 425 }, // Coin on Platform 2
+            { x: 430, y: 325 }, // Coin on Platform 3
         ];
 
         // Create and animate coins
@@ -431,10 +431,10 @@ class Scene1 extends Phaser.Scene {
 
 // Define the setupCamera function outside the class
 function setupCameraForScene1(scene, gameState) {
-    // Set the camera to follow the player
-    scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
+    // Set the camera to follow the player on the x-axis only
+    scene.cameras.main.startFollow(gameState.player, true, 1, 0);
 
     // Optionally, you can adjust the follow offset if needed
-    scene.cameras.main.setFollowOffset(0, 50);
+    scene.cameras.main.setFollowOffset(0, 0);
 
 }
