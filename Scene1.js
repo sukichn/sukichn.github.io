@@ -87,10 +87,7 @@ class Scene1 extends Phaser.Scene {
         gameState.grassTile = this.physics.add.staticGroup();
         const grassTilePositions = [
             { x: -2200, y: 480 },
-            
             { x: -140, y: 480 },
-            
-            { x: 2300, y: 480 },
             
         ];
         grassTilePositions.forEach(grass => {
@@ -99,15 +96,13 @@ class Scene1 extends Phaser.Scene {
 
         gameState.grassTile2 = this.physics.add.staticGroup();
         const grassTile2Positions = [
-            
-            { x: -1100, y: 480 },
-            
+            { x: -1280, y: 480 },
             { x: 1080, y: 480 },
-            
+            { x: 2300, y: 480 },
             { x: 3500, y: 480 },
         ];
         grassTile2Positions.forEach(grass => {
-            gameState.grassTile2.create(grass.x, grass.y, 'grassTile2').setDepth(16);
+            gameState.grassTile2.create(grass.x, grass.y, 'grassTile2').setDepth(15);
         });
         
 
@@ -308,7 +303,7 @@ class Scene1 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 60 * 1000, gameState); // 30 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 120 * 1000, gameState); // 120 secs in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
@@ -349,6 +344,9 @@ class Scene1 extends Phaser.Scene {
         this.input.off('pointerup');
         this.input.off('pointerdown');
         this.input.off('pointermove');
+
+        // Zoom the camera in
+        this.cameras.main.zoomTo(1.2, 1000); // Adjust the zoom level and duration as needed
 
         const moveToNextScene = () => {
             document.getElementById('game-alert').classList.remove('show');
