@@ -26,7 +26,7 @@ class Scene1 extends Phaser.Scene {
         loadAttackAssets(this);
 
         this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile.png');
-        this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-platform.png');
+        this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/transparent-platform.png');
     }
 
     create() {
@@ -432,9 +432,9 @@ class Scene1 extends Phaser.Scene {
 // Define the setupCamera function outside the class
 function setupCameraForScene1(scene, gameState) {
     // Set the camera to follow the player on the x-axis only
-    scene.cameras.main.startFollow(gameState.player, true, 1, 0);
+    scene.cameras.main.startFollow(gameState.player, true, 0.2, 0.2);
 
     // Optionally, you can adjust the follow offset if needed
-    scene.cameras.main.setFollowOffset(0, 0);
+    scene.cameras.main.setFollowOffset(0, 50);
 
 }
