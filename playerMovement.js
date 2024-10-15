@@ -3,6 +3,7 @@
     global.setupInput = function(scene, gameState) {
         // Setup cursor keys for player movement
         gameState.cursors = scene.input.keyboard.createCursorKeys();
+        gameState.shiftKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     };
 
     // Setup joystick input and dot
@@ -128,20 +129,42 @@
     // Handle player movement
     global.handlePlayerMovement = function(scene, gameState) {
         let isMoving = false;
+        let velocityX = 260; // Default velocity for keyboard
 
-        if (gameState.cursors.left.isDown || gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'downLeft') {
-            gameState.player.setVelocityX(-260);
+        // Increase velocity if the SHIFT key is down
+        if (gameState.shiftKey.isDown) {
+            velocityX *= 1.5; // Increase velocity by 50%
+        }
+
+        // Handle keyboard input
+        if (gameState.cursors.left.isDown) {
+            gameState.player.setVelocityX(-velocityX);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = true;
             isMoving = true;
-        } else if (gameState.cursors.right.isDown || gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight' || gameState.joystick.direction === 'downRight') {
-            gameState.player.setVelocityX(260);
+        } else if (gameState.cursors.right.isDown) {
+            gameState.player.setVelocityX(velocityX);
             gameState.player.anims.play('run', true);
             gameState.player.flipX = false;
             isMoving = true;
-        } else {
+        } else if (!gameState.joystick.isMoving) { // Ensure idle animation if joystick is not moving
             gameState.player.setVelocityX(0);
             gameState.player.anims.play('idle', true);
+        }
+
+        // Handle joystick input separately with fixed velocity
+        if (gameState.joystick.isMoving) {
+            if (gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'downLeft') {
+                gameState.player.setVelocityX(-360);
+                gameState.player.anims.play('run', true);
+                gameState.player.flipX = true;
+                isMoving = true;
+            } else if (gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight' || gameState.joystick.direction === 'downRight') {
+                gameState.player.setVelocityX(360);
+                gameState.player.anims.play('run', true);
+                gameState.player.flipX = false;
+                isMoving = true;
+            }
         }
 
         if ((gameState.cursors.up.isDown || (gameState.joystick.isMoving && (gameState.joystick.direction === 'up' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'upRight'))) && gameState.player.body.touching.down) {
