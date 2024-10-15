@@ -25,7 +25,7 @@ class Scene1 extends Phaser.Scene {
         loadPotionAssets(this);
         loadAttackAssets(this);
 
-        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass.png');
+        this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile.png');
         this.load.image('grassPlatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-platform.png');
     }
 
