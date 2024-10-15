@@ -93,7 +93,7 @@ class Scene1 extends Phaser.Scene {
         
 
         // Ensure sunflower is placed correctly
-        gameState.sunflower.setPosition(-700, 280);
+        gameState.sunflower.setPosition(-700, 180);
 
         // Create platform assets
         gameState.platforms = this.physics.add.staticGroup();
@@ -112,7 +112,7 @@ class Scene1 extends Phaser.Scene {
         // Create grass platform
         gameState.grassPlatform = this.physics.add.staticGroup();
         const grassPositions = [
-            { x: 200, y: 850 },  // Platform 1 starting
+            { x: 200, y: 750 },  // Platform 1 starting
             
         ];
         grassPositions.forEach(plat => {

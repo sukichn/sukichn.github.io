@@ -6,7 +6,7 @@
 
  // Handle player falling off the platform
  global.handlePlayerFallsOffPlatform = function(scene, gameState) {
-    if (gameState.player.y > scene.sys.canvas.height) {
+    if (gameState.player.y > scene.sys.canvas.height + 100) {
         gameState.active = false;
         gameState.player.setPosition(140, 700); // Reset player position or adjust accordingly
         gameState.health -= 1; // Decrease health
