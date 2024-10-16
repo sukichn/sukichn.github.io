@@ -3,7 +3,7 @@
     global.loadCodeyAssets = function(scene) {
         scene.load.spritesheet('codey', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/character-sprite.png', {
             frameWidth: 111,
-            frameHeight: 165,
+            frameHeight: 170,
         });
     };
 
