@@ -2,8 +2,8 @@
        // Load codey spritesheet
     global.loadCodeyAssets = function(scene) {
         scene.load.spritesheet('codey', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/character-sprite.png', {
-            frameWidth: 72,
-            frameHeight: 90
+            frameWidth: 103,
+            frameHeight: 138,
         });
     };
 
