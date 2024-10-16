@@ -139,12 +139,12 @@
         // Handle keyboard input
         if (gameState.cursors.left.isDown) {
             gameState.player.setVelocityX(-velocityX);
-           /* gameState.player.anims.play('run', true);*/
+            gameState.player.anims.play('run', true);
             gameState.player.flipX = true;
             isMoving = true;
         } else if (gameState.cursors.right.isDown) {
             gameState.player.setVelocityX(velocityX);
-           /* gameState.player.anims.play('run', true);*/
+            gameState.player.anims.play('run', true);
             gameState.player.flipX = false;
             isMoving = true;
         } else if (!gameState.joystick.isMoving) { // Ensure idle animation if joystick is not moving
@@ -156,12 +156,12 @@
         if (gameState.joystick.isMoving) {
             if (gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'downLeft') {
                 gameState.player.setVelocityX(-360);
-                /*gameState.player.anims.play('run', true);*/
+                gameState.player.anims.play('run', true);
                 gameState.player.flipX = true;
                 isMoving = true;
             } else if (gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight' || gameState.joystick.direction === 'downRight') {
                 gameState.player.setVelocityX(360);
-                /*gameState.player.anims.play('run', true);*/
+                gameState.player.anims.play('run', true);
                 gameState.player.flipX = false;
                 isMoving = true;
             }
