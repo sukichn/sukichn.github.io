@@ -131,6 +131,11 @@
         let isMoving = false;
         let velocityX = 300; // Default velocity for keyboard
 
+        // Initial player direction
+        if (!gameState.previousDirection) {
+            gameState.previousDirection = null;
+        }
+
         // Decrease velocity if the SHIFT key is down
         if (gameState.shiftKey.isDown) {
             velocityX *= 1.5; // Decrease velocity by 50%
@@ -139,29 +144,58 @@
         // Handle keyboard input
         if (gameState.cursors.left.isDown) {
             gameState.player.setVelocityX(-velocityX);
-            gameState.player.anims.play('run', true);
+
+            if (gameState.previousDirection !== 'left') {
+                gameState.player.anims.play('turn', true); // Play turning animation
+                gameState.previousDirection = 'left';
+            } else {
+                gameState.player.anims.play('run', true); // Play running animation
+            }
+
             gameState.player.flipX = true;
             isMoving = true;
         } else if (gameState.cursors.right.isDown) {
             gameState.player.setVelocityX(velocityX);
-            gameState.player.anims.play('run', true);
+
+            if (gameState.previousDirection !== 'right') {
+                gameState.player.anims.play('turn', true); // Play turning animation
+                gameState.previousDirection = 'right';
+            } else {
+                gameState.player.anims.play('run', true); // Play running animation
+            }
+
             gameState.player.flipX = false;
             isMoving = true;
         } else if (!gameState.joystick.isMoving) { // Ensure idle animation if joystick is not moving
             gameState.player.setVelocityX(0);
-           gameState.player.anims.play('idle', true);
+            gameState.player.anims.play('idle', true);
+            gameState.previousDirection = null; // Reset direction when idle
         }
 
         // Handle joystick input separately with fixed velocity
         if (gameState.joystick.isMoving) {
             if (gameState.joystick.direction === 'left' || gameState.joystick.direction === 'upLeft' || gameState.joystick.direction === 'downLeft') {
                 gameState.player.setVelocityX(-360);
-                gameState.player.anims.play('run', true);
+
+                if (gameState.previousDirection !== 'left') {
+                    gameState.player.anims.play('turn', true); // Play turning animation
+                    gameState.previousDirection = 'left';
+                } else {
+                    gameState.player.anims.play('run', true); // Play running animation
+                }
+
                 gameState.player.flipX = true;
                 isMoving = true;
             } else if (gameState.joystick.direction === 'right' || gameState.joystick.direction === 'upRight' || gameState.joystick.direction === 'downRight') {
                 gameState.player.setVelocityX(360);
-                gameState.player.anims.play('run', true);
+
+                if (gameState.previousDirection !== 'right') {
+                    gameState.player.anims.play('turn', true); // Play turning animation
+                    gameState.previousDirection = 'right';
+                } else {
+                    gameState.player.anims.play('run', true); // Play running animation
+                }
+
                 gameState.player.flipX = false;
                 isMoving = true;
             }

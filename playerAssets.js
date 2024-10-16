@@ -22,6 +22,12 @@
             frameRate: 4,
             repeat: -1
         });
+        scene.anims.create({
+            key: 'turn',
+            frames: scene.anims.generateFrameNumbers('codey', { start: 8, end: 9 }),
+            frameRate: 2,
+            repeat: -1
+        });
     };
 
     // Setup camera to follow the player
