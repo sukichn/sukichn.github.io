@@ -149,7 +149,7 @@
             isMoving = true;
         } else if (!gameState.joystick.isMoving) { // Ensure idle animation if joystick is not moving
             gameState.player.setVelocityX(0);
-           /* gameState.player.anims.play('idle', true);*/
+           gameState.player.anims.play('idle', true);
         }
 
         // Handle joystick input separately with fixed velocity
