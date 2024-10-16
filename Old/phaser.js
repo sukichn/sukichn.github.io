@@ -1,4 +1,4 @@
-let gameState = {};
+/*let gameState = {};
 var isClicking = false;
 
 class BaseScene extends Phaser.Scene {
@@ -413,4 +413,4 @@ const config = {
     },
 };
 
-const game = new Phaser.Game(config);
+const game = new Phaser.Game(config);*/

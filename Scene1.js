@@ -30,6 +30,9 @@ class Scene1 extends Phaser.Scene {
         this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform-green.png');
         this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
+
+        this.load.image('npcSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
+
     }
 
     create() {
@@ -218,6 +221,37 @@ class Scene1 extends Phaser.Scene {
         // Create player animations
         createCodeyAnimations(this);
 
+        // Create NPC
+        gameState.npc = this.physics.add.sprite(950, 500, 'npcSprite');
+
+        // Add a collider between the player and the NPC to trigger the dialogue
+        this.physics.add.overlap(gameState.player, gameState.npc, () => {
+            if (!this.isDialogueActive && !this.preventDialogue) {
+                this.showDialogue();
+                // Zoom the camera in
+                this.cameras.main.zoomTo(1.1, 1000); // Adjust the zoom level and duration as needed
+            }
+        });
+
+        // Add event listeners to the buttons
+        document.getElementById('reply1').addEventListener('pointerup', () => {
+            if (this.isDialogueActive) {
+                document.getElementById('dialogue').innerText = 'You replied Yes';
+                clearTimeout(this.inactivityTimer);
+                this.resetDialogue();
+            }
+        });
+
+        document.getElementById('reply2').addEventListener('pointerup', () => {
+            if (this.isDialogueActive) {
+                clearTimeout(this.inactivityTimer);
+                this.resetDialogue(true);
+            }
+        });
+
+
+        this.physics.add.collider(gameState.npc, gameState.shortplatform);
+
         // Create a group for the enemies
         gameState.enemies = this.physics.add.group();
 
@@ -321,6 +355,63 @@ class Scene1 extends Phaser.Scene {
             repellent.destroy(); // Destroy the repellent
         });
     }
+    
+    showDialogue() {
+        this.isDialogueActive = true; // Set the dialogue state to active
+    
+        // Show the dialogue elements
+        document.getElementById('dialogue-container').style.display = 'block';
+        document.getElementById('dialogue').innerText = 'Hello there, can you help me?';
+        document.getElementById('dialogue').style.display = 'block';
+        document.getElementById('reply1').style.display = 'inline-block';
+        document.getElementById('reply2').style.display = 'inline-block';
+
+        // Reset the inactivity timer
+        this.startInactivityTimer();
+    }
+    
+    resetDialogue(forceReset = false) {
+        // Hide the dialogue elements and reset their content
+        document.getElementById('dialogue-container').style.display = 'none';
+        document.getElementById('dialogue').style.display = 'none';
+        document.getElementById('reply1').style.display = 'none';
+        document.getElementById('reply2').style.display = 'none';
+    
+        // Optionally, reset the text content
+        document.getElementById('dialogue').innerText = '';
+        document.getElementById('reply1').innerText = 'Yes';
+        document.getElementById('reply2').innerText = 'No';
+    
+        this.isDialogueActive = false; // Reset the dialogue state
+    
+        // If the reset is forced (e.g., by selecting "No"), set the preventDialogue flag
+        if (forceReset) {
+            this.preventDialogue = true;
+            // Allow the dialogue to be shown again after a short delay
+            setTimeout(() => {
+                this.preventDialogue = false;
+            }, 2000); // Adjust the delay as needed
+        }
+    }
+
+    startInactivityTimer() {
+        // Clear any existing timer
+        clearTimeout(this.inactivityTimer);
+    
+        // Set a new timer to hide the dialogue after a period of inactivity
+        this.inactivityTimer = setTimeout(() => {
+            if (this.isDialogueActive) {
+                this.resetDialogue();
+            }
+        }, 5000); // Adjust the delay as needed (5000 ms = 5 seconds)
+    }
+    
+    handleOverlap(player, npc) {
+        // Check if the player is no longer overlapping with the NPC
+        if (!this.physics.overlap(player, npc)) {
+            this.resetDialogue();
+        }
+    }
 
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count
@@ -354,9 +445,6 @@ class Scene1 extends Phaser.Scene {
         this.input.off('pointerup');
         this.input.off('pointerdown');
         this.input.off('pointermove');
-
-        // Zoom the camera in
-        this.cameras.main.zoomTo(1.1, 1000); // Adjust the zoom level and duration as needed
 
         const moveToNextScene = () => {
             document.getElementById('game-alert').classList.remove('show');
@@ -526,3 +614,4 @@ function setupCameraForScene1(scene, gameState) {
     scene.cameras.main.setFollowOffset(0, 300);
 
 }
+

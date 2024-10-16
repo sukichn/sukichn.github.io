@@ -175,6 +175,26 @@
       transform: translate(-50%, -50%); /* Ensure it stays centered */
     }
 
+    #dialogue-container {
+      color: yellow;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* Center the alert */
+      font-size: 24px;
+      text-align: center;
+      padding: 1em;
+      background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
+      border-radius: 10px; /* Optional: rounded corners */
+      width: 250px;
+    }
+
+    
+
     #joystick {
       position: absolute;
       width: 100px;
@@ -248,6 +268,11 @@
       color: yellow;
       transition: color 0.4s ease; /* Smooth transition effect for color change */
     }
+    button{
+      background-color: white;
+      color: blue;
+      z-index: 1000;
+    }
   </style>
 </head>
 
@@ -275,7 +300,13 @@
     <div id="attacks"></div>
     <div id="coins-earned">Score: 0</div>
   </div>
+
   <div id="game-alert"></div>
+  <div id ="dialogue-container" style="display:none;">
+    <div id="dialogue" style="display:none;"></div>
+    <button id="reply1" style="display:none;">Yes</button>
+    <button id="reply2" style="display:none;">No</button>
+  </div>
 
   <div id="shooter">
     <div class="left-half"></div>
