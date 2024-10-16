@@ -126,10 +126,11 @@ class Scene1 extends Phaser.Scene {
         // Create long platform
         gameState.longplatform = this.physics.add.staticGroup();
         const longPlatStartX = -810;
-        const longPlatStartY = 795;
+        const longPlatStartY = 820;
         const longPlatOffsets = [
             { x: 0, y: 0 },
-            { x: 200, y: 0 },           
+            { x: 200, y: 0 }, 
+            { x: 2800, y: -28 },           
         ];
         longPlatOffsets.forEach(offset => {
             gameState.longplatform.create(longPlatStartX + offset.x, longPlatStartY + offset.y, 'longplatform');
@@ -139,7 +140,7 @@ class Scene1 extends Phaser.Scene {
          // Create short platforms using a loop
          gameState.shortplatform = this.physics.add.staticGroup();
          const shortPlatStartX = -255;
-         const shortPlatStartY = 795;
+         const shortPlatStartY = 820;
          const shortPlatOffsets = [
              { x: 0, y: 0 },
              { x: 50, y: 0 },
@@ -172,21 +173,30 @@ class Scene1 extends Phaser.Scene {
              { x: 1350, y: -8 },
              { x: 1450, y: -12 },
              { x: 1595, y: -12 },
-             { x: 1650, y: -16 },
-             { x: 1660, y: -20 },
-             { x: 1670, y: -24 },
-             { x: 1680, y: -28 },
-             { x: 1690, y: -32 },
-             { x: 1700, y: -36 },
-             { x: 1705, y: -40 },
-             { x: 1750, y: -40 },
-             { x: 1850, y: -40 },
-             { x: 1860, y: -36 },
-             { x: 1870, y: -32 },
-             { x: 1880, y: -28 },
-             { x: 1950, y: -28 },
-             { x: 2050, y: -28 },
-             { x: 2150, y: -28 },
+             { x: 1650, y: -12 },
+             { x: 1652, y: -12 },
+             { x: 1654, y: -12 },
+             { x: 1660, y: -12 },
+             { x: 1670, y: -14 },
+             { x: 1675, y: -14 },
+             { x: 1680, y: -14 },
+             { x: 1685, y: -16 },
+             { x: 1690, y: -18 },
+             { x: 1695, y: -20 },
+             { x: 1700, y: -22 },
+             { x: 1705, y: -26 },
+             { x: 1710, y: -30 },
+             { x: 1715, y: -34 },
+             { x: 1720, y: -38 },
+             { x: 1725, y: -40 },
+             { x: 1730, y: -40 },
+             { x: 1735, y: -40 },
+             { x: 1740, y: -36 },
+             { x: 1750, y: -32 },
+             { x: 1760, y: -28 },
+             { x: 1770, y: -28 },
+             { x: 1790, y: -28 },
+             { x: 1850, y: -28 },
          ];
          shortPlatOffsets.forEach(offset => {
              gameState.shortplatform.create(shortPlatStartX + offset.x, shortPlatStartY + offset.y, 'shortplatform');
