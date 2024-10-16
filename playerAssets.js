@@ -1,7 +1,7 @@
 (function(global) {
        // Load codey spritesheet
     global.loadCodeyAssets = function(scene) {
-        scene.load.spritesheet('codey', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/codey_sprite.png', {
+        scene.load.spritesheet('codey', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/character-sprite.png', {
             frameWidth: 72,
             frameHeight: 90
         });
