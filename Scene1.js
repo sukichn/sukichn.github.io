@@ -194,7 +194,7 @@ class Scene1 extends Phaser.Scene {
          console.log('Short Platforms created.');
 
         // Create player assets
-        gameState.player = this.physics.add.sprite(40, 500, 'codey').setScale(1).setDepth(14);
+        gameState.player = this.physics.add.sprite(150, 500, 'codey').setScale(1).setDepth(14);
         /*gameState.player.setCollideWorldBounds(true); */ // Enable collision with world bounds
         this.physics.add.collider(gameState.player, gameState.platforms);
         console.log('Player created.');

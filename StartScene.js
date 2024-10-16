@@ -40,7 +40,7 @@ class StartScene extends Phaser.Scene {
         }
 
         const fontSize = getResponsiveFontSize();
-        this.add.text(800, 250, "The Alchemist's Adventure", { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
+        this.add.text(800, 250, "Nola's Adventure", { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1);
 
         // Add a start image
         const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
