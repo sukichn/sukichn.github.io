@@ -32,7 +32,6 @@ class Scene1 extends Phaser.Scene {
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
 
         this.load.image('npcSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/moonstone-small.png');
-
     }
 
     create() {
@@ -91,7 +90,6 @@ class Scene1 extends Phaser.Scene {
         const grassTilePositions = [
             { x: -2200, y: 480 },
             { x: -140, y: 480 },
-            
         ];
         grassTilePositions.forEach(grass => {
             gameState.grassTile.create(grass.x, grass.y, 'grassTile').setDepth(16);
@@ -107,7 +105,6 @@ class Scene1 extends Phaser.Scene {
         grassTile2Positions.forEach(grass => {
             gameState.grassTile2.create(grass.x, grass.y, 'grassTile2').setDepth(15);
         });
-        
 
         // Ensure sunflower is placed correctly
         gameState.sunflower.setPosition(-550, -150);
@@ -140,71 +137,71 @@ class Scene1 extends Phaser.Scene {
         });
         console.log('Long Platforms created.');
 
-         // Create short platforms using a loop
-         gameState.shortplatform = this.physics.add.staticGroup();
-         const shortPlatStartX = -255;
-         const shortPlatStartY = 820;
-         const shortPlatOffsets = [
-             { x: 0, y: 0 },
-             { x: 50, y: 0 },
-             { x: 100, y: 0 },
-             { x: 150, y: 0 },
-             { x: 200, y: -4 },
-             { x: 250, y: -8 },
-             { x: 300, y: -12 },
-             { x: 350, y: -16 },
-             { x: 400, y: -20 },
-             { x: 450, y: -24 },
-             { x: 500, y: -28 },
-             { x: 550, y: -32 },
-             { x: 600, y: -36 },
-             { x: 605, y: -40 },
-             { x: 615, y: -36 },
-             { x: 620, y: -32 },
-             { x: 625, y: -28 },
-             { x: 630, y: -24 },
-             { x: 775, y: -24 },
-             { x: 900, y: -20 },
-             { x: 950, y: -16 },
-             { x: 1000, y: -12 },
-             { x: 1050, y: -8 },
-             { x: 1100, y: -4 },
-             { x: 1105, y: 0 },
-             { x: 1195, y: -4 },
-             { x: 1245, y: -8 },
-             { x: 1295, y: -12 },
-             { x: 1350, y: -8 },
-             { x: 1450, y: -12 },
-             { x: 1595, y: -12 },
-             { x: 1650, y: -12 },
-             { x: 1652, y: -12 },
-             { x: 1654, y: -12 },
-             { x: 1660, y: -12 },
-             { x: 1670, y: -14 },
-             { x: 1675, y: -14 },
-             { x: 1680, y: -14 },
-             { x: 1685, y: -16 },
-             { x: 1690, y: -18 },
-             { x: 1695, y: -20 },
-             { x: 1700, y: -22 },
-             { x: 1705, y: -26 },
-             { x: 1710, y: -30 },
-             { x: 1715, y: -34 },
-             { x: 1720, y: -38 },
-             { x: 1725, y: -40 },
-             { x: 1730, y: -40 },
-             { x: 1735, y: -40 },
-             { x: 1740, y: -36 },
-             { x: 1750, y: -32 },
-             { x: 1760, y: -28 },
-             { x: 1770, y: -28 },
-             { x: 1790, y: -28 },
-             { x: 1850, y: -28 },
-         ];
-         shortPlatOffsets.forEach(offset => {
-             gameState.shortplatform.create(shortPlatStartX + offset.x, shortPlatStartY + offset.y, 'shortplatform');
-         });
-         console.log('Short Platforms created.');
+        // Create short platforms using a loop
+        gameState.shortplatform = this.physics.add.staticGroup();
+        const shortPlatStartX = -255;
+        const shortPlatStartY = 820;
+        const shortPlatOffsets = [
+            { x: 0, y: 0 },
+            { x: 50, y: 0 },
+            { x: 100, y: 0 },
+            { x: 150, y: 0 },
+            { x: 200, y: -4 },
+            { x: 250, y: -8 },
+            { x: 300, y: -12 },
+            { x: 350, y: -16 },
+            { x: 400, y: -20 },
+            { x: 450, y: -24 },
+            { x: 500, y: -28 },
+            { x: 550, y: -32 },
+            { x: 600, y: -36 },
+            { x: 605, y: -40 },
+            { x: 615, y: -36 },
+            { x: 620, y: -32 },
+            { x: 625, y: -28 },
+            { x: 630, y: -24 },
+            { x: 775, y: -24 },
+            { x: 900, y: -20 },
+            { x: 950, y: -16 },
+            { x: 1000, y: -12 },
+            { x: 1050, y: -8 },
+            { x: 1100, y: -4 },
+            { x: 1105, y: 0 },
+            { x: 1195, y: -4 },
+            { x: 1245, y: -8 },
+            { x: 1295, y: -12 },
+            { x: 1350, y: -8 },
+            { x: 1450, y: -12 },
+            { x: 1595, y: -12 },
+            { x: 1650, y: -12 },
+            { x: 1652, y: -12 },
+            { x: 1654, y: -12 },
+            { x: 1660, y: -12 },
+            { x: 1670, y: -14 },
+            { x: 1675, y: -14 },
+            { x: 1680, y: -14 },
+            { x: 1685, y: -16 },
+            { x: 1690, y: -18 },
+            { x: 1695, y: -20 },
+            { x: 1700, y: -22 },
+            { x: 1705, y: -26 },
+            { x: 1710, y: -30 },
+            { x: 1715, y: -34 },
+            { x: 1720, y: -38 },
+            { x: 1725, y: -40 },
+            { x: 1730, y: -40 },
+            { x: 1735, y: -40 },
+            { x: 1740, y: -36 },
+            { x: 1750, y: -32 },
+            { x: 1760, y: -28 },
+            { x: 1770, y: -28 },
+            { x: 1790, y: -28 },
+            { x: 1850, y: -28 },
+        ];
+        shortPlatOffsets.forEach(offset => {
+            gameState.shortplatform.create(shortPlatStartX + offset.x, shortPlatStartY + offset.y, 'shortplatform');
+        });
+        console.log('Short Platforms created.');
 
         // Create player assets
         gameState.player = this.physics.add.sprite(150, 500, 'codey').setScale(1).setDepth(14);
@@ -227,7 +224,8 @@ class Scene1 extends Phaser.Scene {
         // Add a collider between the player and the NPC to trigger the dialogue
         this.physics.add.overlap(gameState.player, gameState.npc, () => {
             if (!this.isDialogueActive && !this.preventDialogue) {
-                this.showDialogue();
+                document.getElementById('dialogue').innerText = 'Hello there, can you help me?';
+                showDialogue(this);
                 // Zoom the camera in
                 this.cameras.main.zoomTo(1.1, 1000); // Adjust the zoom level and duration as needed
             }
@@ -236,19 +234,18 @@ class Scene1 extends Phaser.Scene {
         // Add event listeners to the buttons
         document.getElementById('reply1').addEventListener('pointerup', () => {
             if (this.isDialogueActive) {
-                document.getElementById('dialogue').innerText = 'You replied Yes';
+                document.getElementById('dialogue').innerText = 'I need berries';
                 clearTimeout(this.inactivityTimer);
-                this.resetDialogue();
+                startInactivityTimer(this);
             }
         });
 
         document.getElementById('reply2').addEventListener('pointerup', () => {
             if (this.isDialogueActive) {
                 clearTimeout(this.inactivityTimer);
-                this.resetDialogue(true);
+                resetDialogue(this, true);
             }
         });
-
 
         this.physics.add.collider(gameState.npc, gameState.shortplatform);
 
@@ -356,63 +353,6 @@ class Scene1 extends Phaser.Scene {
         });
     }
     
-    showDialogue() {
-        this.isDialogueActive = true; // Set the dialogue state to active
-    
-        // Show the dialogue elements
-        document.getElementById('dialogue-container').style.display = 'block';
-        document.getElementById('dialogue').innerText = 'Hello there, can you help me?';
-        document.getElementById('dialogue').style.display = 'block';
-        document.getElementById('reply1').style.display = 'inline-block';
-        document.getElementById('reply2').style.display = 'inline-block';
-
-        // Reset the inactivity timer
-        this.startInactivityTimer();
-    }
-    
-    resetDialogue(forceReset = false) {
-        // Hide the dialogue elements and reset their content
-        document.getElementById('dialogue-container').style.display = 'none';
-        document.getElementById('dialogue').style.display = 'none';
-        document.getElementById('reply1').style.display = 'none';
-        document.getElementById('reply2').style.display = 'none';
-    
-        // Optionally, reset the text content
-        document.getElementById('dialogue').innerText = '';
-        document.getElementById('reply1').innerText = 'Yes';
-        document.getElementById('reply2').innerText = 'No';
-    
-        this.isDialogueActive = false; // Reset the dialogue state
-    
-        // If the reset is forced (e.g., by selecting "No"), set the preventDialogue flag
-        if (forceReset) {
-            this.preventDialogue = true;
-            // Allow the dialogue to be shown again after a short delay
-            setTimeout(() => {
-                this.preventDialogue = false;
-            }, 2000); // Adjust the delay as needed
-        }
-    }
-
-    startInactivityTimer() {
-        // Clear any existing timer
-        clearTimeout(this.inactivityTimer);
-    
-        // Set a new timer to hide the dialogue after a period of inactivity
-        this.inactivityTimer = setTimeout(() => {
-            if (this.isDialogueActive) {
-                this.resetDialogue();
-            }
-        }, 5000); // Adjust the delay as needed (5000 ms = 5 seconds)
-    }
-    
-    handleOverlap(player, npc) {
-        // Check if the player is no longer overlapping with the NPC
-        if (!this.physics.overlap(player, npc)) {
-            this.resetDialogue();
-        }
-    }
-
     handlePlayerReachesExit() {
         const coinsCollected = gameState.coinsCollected; // Store the current coin count
 
@@ -612,6 +552,4 @@ function setupCameraForScene1(scene, gameState) {
 
     // Optionally, you can adjust the follow offset if needed
     scene.cameras.main.setFollowOffset(0, 300);
-
 }
-
