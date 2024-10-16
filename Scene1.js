@@ -224,28 +224,13 @@ class Scene1 extends Phaser.Scene {
         // Add a collider between the player and the NPC to trigger the dialogue
         this.physics.add.overlap(gameState.player, gameState.npc, () => {
             if (!this.isDialogueActive && !this.preventDialogue) {
-                document.getElementById('dialogue').innerText = 'Hello there, can you help me?';
+                fetchPage(this, 1); // Start the dialogue with the first page
                 showDialogue(this);
                 // Zoom the camera in
                 this.cameras.main.zoomTo(1.1, 1000); // Adjust the zoom level and duration as needed
             }
         });
 
-        // Add event listeners to the buttons
-        document.getElementById('reply1').addEventListener('pointerup', () => {
-            if (this.isDialogueActive) {
-                document.getElementById('dialogue').innerText = 'I need berries';
-                clearTimeout(this.inactivityTimer);
-                startInactivityTimer(this);
-            }
-        });
-
-        document.getElementById('reply2').addEventListener('pointerup', () => {
-            if (this.isDialogueActive) {
-                clearTimeout(this.inactivityTimer);
-                resetDialogue(this, true);
-            }
-        });
 
         this.physics.add.collider(gameState.npc, gameState.shortplatform);
 
