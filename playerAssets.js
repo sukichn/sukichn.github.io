@@ -11,21 +11,15 @@
     global.createCodeyAnimations = function(scene) {
         scene.anims.create({
             key: 'run',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 4, end: 7 }),
+            frames: scene.anims.generateFrameNumbers('codey', { start: 12, end: 15 }),
             frameRate: 4,
             repeat: -1
         });
 
         scene.anims.create({
             key: 'idle',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 0, end: 3 }),
-            frameRate: 4,
-            repeat: -1
-        });
-        scene.anims.create({
-            key: 'turn',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 8, end: 9 }),
-            frameRate: 2,
+            frames: scene.anims.generateFrameNumbers('codey', { start: 0, end: 11 }),
+            frameRate: 6,
             repeat: -1
         });
     };
