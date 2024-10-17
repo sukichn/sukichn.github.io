@@ -41,7 +41,7 @@
 
     header {
       background-color: rgba(255, 255, 255, 0.1);
-      height: 1.8rem;
+      height: 1.5rem;
       padding-left: 5px;
       padding-top: 10px;
       padding-bottom: 10px;
@@ -92,8 +92,9 @@
       #nav-links a {
         margin-right: 0.5rem;
       }
-      header {
-        display: none;
+      header{
+        font-size: 0.8rem;
+        height: 1rem;
       }
     }
 
@@ -283,8 +284,13 @@
     right: 15px;
     color: white;
     cursor: pointer;
-    z-index: 1001; /* Ensure it stays above other elements */
+    z-index: 2000; /* Ensure it stays above other elements */
 }
+@media (max-width: 1279px) {
+      #music-icon {
+        top: 8px;
+      }
+    }
   </style>
 </head>
 
