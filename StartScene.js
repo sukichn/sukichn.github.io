@@ -59,10 +59,12 @@ class StartScene extends Phaser.Scene {
 
         // Add and prepare the music
         this.backgroundMusic = this.sound.add('backgroundMusic');
-        
+
         // Event listener for the icon click
         document.getElementById('music-icon').addEventListener('click', () => {
-            if (!this.backgroundMusic.isPlaying) {
+            if (this.isMusicPlaying) {
+                this.backgroundMusic.stop();
+            } else {
                 this.backgroundMusic.play({
                     loop: true // Set to true if you want the music to loop
                 });
@@ -70,6 +72,7 @@ class StartScene extends Phaser.Scene {
                 // Set volume (optional)
                 this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
             }
+            this.isMusicPlaying = !this.isMusicPlaying; // Toggle music state
         });
 
     
