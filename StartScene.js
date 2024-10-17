@@ -61,7 +61,7 @@ class StartScene extends Phaser.Scene {
         this.backgroundMusic = this.sound.add('backgroundMusic');
 
         // Event listener for the icon click
-        document.getElementById('music-icon').addEventListener('click', () => {
+        document.getElementById('music-icon').addEventListener('pointerup', () => {
             if (this.isMusicPlaying) {
                 this.backgroundMusic.stop();
             } else {
