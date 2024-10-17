@@ -48,7 +48,7 @@ class StartScene extends Phaser.Scene {
         const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
 
         // Listen for pointerdown events on the entire scene
-        startText.on('pointerdown', () => {
+        this.input.on('pointerdown', () => {
             this.startGame();
         });
 
@@ -60,8 +60,6 @@ class StartScene extends Phaser.Scene {
         // Add and prepare the music
         this.backgroundMusic = this.sound.add('backgroundMusic');
 
-        // Add and prepare the music
-        this.backgroundMusic = this.sound.add('backgroundMusic');
 
         // Toggle music function
         const toggleMusic = () => {
@@ -80,9 +78,6 @@ class StartScene extends Phaser.Scene {
 
         // Event listener for the icon click
         document.getElementById('music-icon').addEventListener('pointerdown', toggleMusic);
-
-        // Event listener for the button click
-        document.getElementById('music-button').addEventListener('pointerdown', toggleMusic);
 
         /*// Ensure the music plays on user interaction (e.g., touch on iPhone)
         document.body.addEventListener('pointerdown', () => {
