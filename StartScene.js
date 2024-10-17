@@ -47,8 +47,11 @@ class StartScene extends Phaser.Scene {
         // Add a start image
         const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
 
-        // Listen for pointerdown events on the entire scene
-        this.input.on('pointerdown', () => {
+        // Create a transparent rectangle to cover the clickable area (excluding the top 20 pixels)
+        const clickableArea = this.add.rectangle(0, 140, this.cameras.main.width, this.cameras.main.height - 140, 0x000000, 0).setOrigin(0, 0).setInteractive();
+
+        // Listen for pointerdown events on the clickable area
+        clickableArea.on('pointerdown', () => {
             this.startGame();
         });
 
