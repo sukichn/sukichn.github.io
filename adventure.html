@@ -285,14 +285,10 @@
     cursor: pointer;
     z-index: 2000; /* Ensure it stays above other elements */
 }
-@media (max-width: 1279px) {
+@media (max-width: 481px) {
       #music-icon {
-        top: 8px;
+        display: none;
       }
-    }
-    #music-button{
-     
-      z-index: 2000;
     }
   </style>
 </head>
@@ -322,7 +318,7 @@
     <div id="health"></div>
     <div id="attacks"></div>
     <div id="coins-earned">Score: 0</div>
-    <button id="music-button">Play music</button>
+   
   </div>
 
   <div id="game-alert"></div>

@@ -51,6 +51,8 @@
                 { key: 'codey', frame: 19 },
                 { key: 'codey', frame: 19 },
                 { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 20 },
                 { key: 'codey', frame: 20 },
                 { key: 'codey', frame: 15 },
                 { key: 'codey', frame: 15 },
