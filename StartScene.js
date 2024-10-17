@@ -57,14 +57,21 @@ class StartScene extends Phaser.Scene {
             startGame: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N)
         };
 
-        // Add and play the music
+        // Add and prepare the music
         this.backgroundMusic = this.sound.add('backgroundMusic');
-        this.backgroundMusic.play({
-            loop: true // Set to true if you want the music to loop
+        
+        // Event listener for the icon click
+        document.getElementById('music-icon').addEventListener('click', () => {
+            if (!this.backgroundMusic.isPlaying) {
+                this.backgroundMusic.play({
+                    loop: true // Set to true if you want the music to loop
+                });
+
+                // Set volume (optional)
+                this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
+            }
         });
 
-        // Set volume (optional)
-        this.backgroundMusic.setVolume(0.5); // Volume range is 0.0 to 1.0
     
     }
 

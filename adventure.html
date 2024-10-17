@@ -41,7 +41,7 @@
 
     header {
       background-color: rgba(255, 255, 255, 0.1);
-      height: 2rem;
+      height: 1.8rem;
       padding-left: 5px;
       padding-top: 10px;
       padding-bottom: 10px;
@@ -49,7 +49,7 @@
       flex-direction: row;
       align-items: baseline;
       justify-content: space-between;
-      position: sticky;
+      position: absolute;
       top: 0;
       width: 100%;
       z-index: 1000;
@@ -277,6 +277,14 @@
       font-size: 18px;
       z-index: 1000;
     }
+    #music-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: white;
+    cursor: pointer;
+    z-index: 1001; /* Ensure it stays above other elements */
+}
   </style>
 </head>
 
@@ -291,9 +299,11 @@
     </div>
     <div id="nav-logo"></div>
     <div id="nav-shopcart">
-      <i class="fa fa-shopping-cart fa-lg"></i>
+      
     </div>
   </header>
+
+  <i id="music-icon" class="fa fa-music fa-lg"></i>
 
   <div id="game-text">
     <div id="level"></div>
@@ -332,7 +342,7 @@
   <script src="shooterUtils.js"></script>
   <script src="attackAssets.js"></script>
   <script src="StartScene.js"></script>
-  <script src="dialogue.js"></script>
+  <script src="dddialogue.js"></script>
   <script src="Scene1Dialogue.js"></script>
   <script src="Scene1.js"></script>
   <script src="Scene2.js"></script>
