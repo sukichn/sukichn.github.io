@@ -308,7 +308,7 @@
     </div>
   </header>
 
-  <i id="music-icon" class="fa fa-music fa-lg"></i>
+  <i id="music-icon" class="fa fa-volume-off fa-lg"></i>
 
   <div id="game-text">
     <div id="level"></div>
@@ -318,7 +318,7 @@
     <div id="health"></div>
     <div id="attacks"></div>
     <div id="coins-earned">Score: 0</div>
-   
+   <button id="music-button">Play music</button>
   </div>
 
   <div id="game-alert"></div>
@@ -356,6 +356,13 @@
   <script src="Scene4.js"></script>
   <script src="phasergame.js"></script>
 
+  <audio id="background-audio" src="Resources/css/Audio/colorful-flowers.mp3" preload="auto" type="audio/mpeg"></audio>
+  <script>
+    document.getElementById('music-button').addEventListener('click', function() {
+      var audio = document.getElementById('background-audio');
+      audio.play();
+    });
+  </script>
 </body>
 
 </html>
