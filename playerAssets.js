@@ -36,10 +36,33 @@
             ],
             frameRate: 4,
             repeat: -1,
-            yoyo:true
-            
-            
+            yoyo:true            
         });
+
+        scene.anims.create({
+            key: 'movingJump',
+            frames: [
+                { key: 'codey', frame: 1},
+                { key: 'codey', frame: 2 },
+                { key: 'codey', frame: 13},
+                { key: 'codey', frame: 14},
+                
+
+            ],
+            frameRate: 4,
+            repeat: -1, 
+     
+        });
+
+        scene.anims.create({
+            key: 'idleJump',
+            frames: scene.anims.generateFrameNumbers('codey', { start: 1, end: 4 }),
+            frameRate: 4,
+            repeat: -1, 
+     
+        });
+
+            
     };
 
     // Setup camera to follow the player
