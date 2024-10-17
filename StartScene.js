@@ -48,7 +48,7 @@ class StartScene extends Phaser.Scene {
         const startText = this.add.text(800, 750, 'Click to begin...', { fontSize: fontSize, fill: '#000050', fontFamily: 'Work Sans' }).setOrigin(0.5).setDepth(1).setInteractive();
 
         // Listen for pointerdown events on the entire scene
-        this.input.on('pointerdown', () => {
+        startText.on('pointerdown', () => {
             this.startGame();
         });
 
@@ -61,8 +61,8 @@ class StartScene extends Phaser.Scene {
         this.backgroundMusic = this.sound.add('backgroundMusic');
 
 
-        // Toggle music function
-        const toggleMusic = () => {
+         // Toggle music function
+         const toggleMusic = () => {
             if (this.isMusicPlaying) {
                 this.backgroundMusic.stop();
             } else {
@@ -71,7 +71,7 @@ class StartScene extends Phaser.Scene {
                 });
 
                 // Set volume (optional)
-                this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
+                this.backgroundMusic.setVolume(1); // Volume range is 0.0 to 1.0
             }
             this.isMusicPlaying = !this.isMusicPlaying; // Toggle music state
         };
@@ -79,18 +79,30 @@ class StartScene extends Phaser.Scene {
         // Event listener for the icon click
         document.getElementById('music-icon').addEventListener('pointerdown', toggleMusic);
 
-        /*// Ensure the music plays on user interaction (e.g., touch on iPhone)
-        document.body.addEventListener('pointerdown', () => {
-            if (!this.isMusicPlaying) {
-                this.backgroundMusic.play({
-                    loop: true // Set to true if you want the music to loop
-                });
+        // Event listener for the button click
+        document.getElementById('music-button').addEventListener('pointerdown', toggleMusic);
 
-                // Set volume (optional)
-                this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
-                this.isMusicPlaying = true; // Update music state
+        // Ensure the music plays on user interaction (e.g., touch on iPhone)
+        const resumeAudioContext = () => {
+            if (this.sound.context.state === 'suspended') {
+                this.sound.context.resume().then(() => {
+                    console.log('Audio context resumed');
+                    if (!this.isMusicPlaying) {
+                        this.backgroundMusic.play({
+                            loop: true // Set to true if you want the music to loop
+                        });
+
+                        // Set volume (optional)
+                        this.backgroundMusic.setVolume(1); // Volume range is 0.0 to 1.0
+                        this.isMusicPlaying = true; // Update music state
+                    }
+                });
             }
-        }, { once: true }); // Ensure this event listener is called only once*/
+        };
+
+        document.body.addEventListener('pointerdown', resumeAudioContext, { once: true });
+        document.body.addEventListener('touchstart', resumeAudioContext, { once: true });
+        document.body.addEventListener('click', resumeAudioContext, { once: true });
 
     }
 
