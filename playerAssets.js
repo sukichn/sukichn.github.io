@@ -41,15 +41,8 @@
 
         scene.anims.create({
             key: 'movingJump',
-            frames: [
-                { key: 'codey', frame: 1},
-                { key: 'codey', frame: 2 },
-                { key: 'codey', frame: 13},
-                { key: 'codey', frame: 14},
-                
-
-            ],
-            frameRate: 4,
+            frames: scene.anims.generateFrameNumbers('codey', { start: 16, end: 21 }),
+            frameRate: 6,
             repeat: -1, 
      
         });

@@ -2,35 +2,35 @@
 // Scene 1 dialogue 
 const pages = [
     {
-        character: 'Friend',
+        character: 'Balu',
         page: 1,
-        narrative: 'Friend: Hello?',
+        narrative: 'Balu: Hello?',
         options: [
             { option: 'Say Hi', nextPage: 2 },
             { option: 'Ignore', closeDialogue: true },
         ]
     },
     {
-        character: 'Friend',
+        character: 'Balu',
         page: 2,
-        narrative: 'Friend: Where are you headed?',
+        narrative: 'Balu: Where are you headed?',
         options: [
             { option: "I'm on an adventure", nextPage: 3 },
             { option: 'Not sure...', nextPage: 4 },
         ]
     },
     {
-        character: 'Friend',
+        character: 'Balu',
         page: 3,
-        narrative: 'Friend: Visit the wizard in the forest for help!',
+        narrative: 'Balu: Visit the wizard in the forest for help!',
         options: [
             { option: 'Ok, thank you!', closeDialogue: true },
         ]
     },
     {
-        character: 'Friend',
+        character: 'Balu',
         page: 4,
-        narrative: 'Friend: You have to be careful wandering about...',
+        narrative: 'Balu: You have to be careful wandering about...',
         options: [
             { option: "I'll be careful.", closeDialogue: true },
         ]
