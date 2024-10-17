@@ -364,22 +364,41 @@
   <script src="Scene4.js"></script>
   <script src="phasergame.js"></script>
 
-  <audio id="background-audio" src="Resources/css/Audio/colorful-flowers.mp3" preload="auto" type="audio/mpeg"></audio>
+  <audio id="background-audio" preload="auto" type="audio/mpeg"></audio>
   <script>
+    var audioFiles = [
+      "Resources/css/Audio/colorful-flowers.mp3",
+      "Resources/css/Audio/day-dreams.mp3",
+      "Resources/css/Audio/storm-clouds.mp3"
+    ];
+
+    var currentAudioIndex = 0;
+    var audioElement = document.getElementById('background-audio');
+
+    function playAudio(index) {
+      audioElement.src = audioFiles[index];
+      audioElement.play();
+    }
+
     function toggleMusic() {
-      var audio = document.getElementById('background-audio');
       var musicOn = document.getElementById('music-on');
       var musicOff = document.getElementById('music-off');
-      if (audio.paused) {
-        audio.play();
+      
+      if (audioElement.paused) {
+        playAudio(currentAudioIndex);
         musicOn.style.display = 'inline';
         musicOff.style.display = 'none';
       } else {
-        audio.pause();
+        audioElement.pause();
         musicOn.style.display = 'none';
         musicOff.style.display = 'inline';
       }
     }
+
+    audioElement.addEventListener('ended', function() {
+      currentAudioIndex = (currentAudioIndex + 1) % audioFiles.length;
+      playAudio(currentAudioIndex);
+    });
 
     document.getElementById('music-on').addEventListener('pointerdown', toggleMusic);
     document.getElementById('music-off').addEventListener('pointerdown', toggleMusic);
