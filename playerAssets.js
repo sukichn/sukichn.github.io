@@ -41,16 +41,38 @@
 
         scene.anims.create({
             key: 'movingJump',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 16, end: 21 }),
-            frameRate: 6,
+            frames: [
+                { key: 'codey', frame: 16 },
+                { key: 'codey', frame: 17 },
+                { key: 'codey', frame: 18 },
+                { key: 'codey', frame: 17 },
+                { key: 'codey', frame: 18 },
+                { key: 'codey', frame: 17 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 20 },
+                { key: 'codey', frame: 15 },
+                { key: 'codey', frame: 15 },
+            ],
+            frameRate: 12,
             repeat: -1, 
      
         });
 
         scene.anims.create({
             key: 'idleJump',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 1, end: 4 }),
-            frameRate: 4,
+            frames: [
+                { key: 'codey', frame: 15 },
+                { key: 'codey', frame: 16 },
+                { key: 'codey', frame: 17 },
+                { key: 'codey', frame: 18 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 19 },
+                { key: 'codey', frame: 18 },
+            ],
+            frameRate: 8,
             repeat: -1, 
      
         });
