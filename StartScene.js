@@ -15,6 +15,8 @@ class StartScene extends Phaser.Scene {
         this.load.image('sunflower2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/sunflower2.png');
         this.load.image('startImage', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/Enchanted_hat_I.png'); // Replace with the actual path to your start button image
 
+        this.load.audio('backgroundMusic', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Audio/colorful-flowers.mp3');
+
         document.getElementById('timer').style.display = 'none';
         document.getElementById('health').style.display = 'none';
         document.getElementById('coins-earned').style.display = 'none';
@@ -54,6 +56,16 @@ class StartScene extends Phaser.Scene {
         gameState.keys = {
             startGame: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N)
         };
+
+        // Add and play the music
+        this.backgroundMusic = this.sound.add('backgroundMusic');
+        this.backgroundMusic.play({
+            loop: true // Set to true if you want the music to loop
+        });
+
+        // Set volume (optional)
+        this.backgroundMusic.setVolume(0.5); // Volume range is 0.0 to 1.0
+    
     }
 
     startGame() {
