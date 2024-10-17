@@ -57,41 +57,6 @@ class StartScene extends Phaser.Scene {
             startGame: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N)
         };
 
-        // Add and prepare the music
-        this.backgroundMusic = this.sound.add('backgroundMusic');
-
-
-        // Toggle music function
-        const toggleMusic = () => {
-            if (this.isMusicPlaying) {
-                this.backgroundMusic.stop();
-            } else {
-                this.backgroundMusic.play({
-                    loop: true // Set to true if you want the music to loop
-                });
-
-                // Set volume (optional)
-                this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
-            }
-            this.isMusicPlaying = !this.isMusicPlaying; // Toggle music state
-        };
-
-        // Event listener for the icon click
-        document.getElementById('music-icon').addEventListener('pointerdown', toggleMusic);
-
-        /*// Ensure the music plays on user interaction (e.g., touch on iPhone)
-        document.body.addEventListener('pointerdown', () => {
-            if (!this.isMusicPlaying) {
-                this.backgroundMusic.play({
-                    loop: true // Set to true if you want the music to loop
-                });
-
-                // Set volume (optional)
-                this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
-                this.isMusicPlaying = true; // Update music state
-            }
-        }, { once: true }); // Ensure this event listener is called only once*/
-
     }
 
     startGame() {

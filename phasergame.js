@@ -65,4 +65,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // Prevent default touch actions on the shooter
     const shooter = document.getElementById('shooter');
     preventDefaultTouchActions(shooter);
+
+    // Prevent default touch actions on the shooter
+    const musicOn = document.getElementById('music-on');
+    preventDefaultTouchActions(musicOn);
+
+    // Prevent default touch actions on the shooter
+    const musicOff = document.getElementById('music-off');
+    preventDefaultTouchActions(musicOff);
 });

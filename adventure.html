@@ -277,19 +277,16 @@
       font-size: 18px;
       z-index: 1000;
     }
-    #music-icon {
-    position: absolute;
+
+#music-on, #music-off{
+  background-color: none;
+  position: absolute;
     top: 15px;
     right: 15px;
     color: white;
     cursor: pointer;
     z-index: 2000; /* Ensure it stays above other elements */
 }
-@media (max-width: 481px) {
-      #music-icon {
-        display: none;
-      }
-    }
   </style>
 </head>
 
@@ -308,7 +305,9 @@
     </div>
   </header>
 
-  <i id="music-icon" class="fa fa-volume-off fa-lg"></i>
+  
+  <i id="music-on" class="fa fa-volume-up fa-lg" style="display:none;"></i>
+  <i id="music-off" class="fa fa-volume-off fa-lg"></i>
 
   <div id="game-text">
     <div id="level"></div>
@@ -318,7 +317,6 @@
     <div id="health"></div>
     <div id="attacks"></div>
     <div id="coins-earned">Score: 0</div>
-   <button id="music-button">Play music</button>
   </div>
 
   <div id="game-alert"></div>
@@ -358,10 +356,23 @@
 
   <audio id="background-audio" src="Resources/css/Audio/colorful-flowers.mp3" preload="auto" type="audio/mpeg"></audio>
   <script>
-    document.getElementById('music-button').addEventListener('click', function() {
+    function toggleMusic() {
       var audio = document.getElementById('background-audio');
-      audio.play();
-    });
+      var musicOn = document.getElementById('music-on');
+      var musicOff = document.getElementById('music-off');
+      if (audio.paused) {
+        audio.play();
+        musicOn.style.display = 'inline';
+        musicOff.style.display = 'none';
+      } else {
+        audio.pause();
+        musicOn.style.display = 'none';
+        musicOff.style.display = 'inline';
+      }
+    }
+
+    document.getElementById('music-on').addEventListener('pointerdown', toggleMusic);
+    document.getElementById('music-off').addEventListener('pointerdown', toggleMusic);
   </script>
 </body>
 
