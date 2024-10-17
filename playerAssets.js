@@ -18,9 +18,27 @@
 
         scene.anims.create({
             key: 'idle',
-            frames: scene.anims.generateFrameNumbers('codey', { start: 0, end: 11 }),
-            frameRate: 6,
-            repeat: -1
+            frames: [
+                { key: 'codey', frame: 1 },
+                { key: 'codey', frame: 2 },
+                { key: 'codey', frame: 1 },
+                { key: 'codey', frame: 2 },
+                { key: 'codey', frame: 3 },
+                { key: 'codey', frame: 4 },
+                { key: 'codey', frame: 5 },
+                { key: 'codey', frame: 6 },
+                { key: 'codey', frame: 7 },
+                { key: 'codey', frame: 8 },
+                { key: 'codey', frame: 9 },
+                { key: 'codey', frame: 10 },
+                { key: 'codey', frame: 9 },
+                { key: 'codey', frame: 10 }, 
+            ],
+            frameRate: 4,
+            repeat: -1,
+            yoyo:true
+            
+            
         });
     };
 
