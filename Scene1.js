@@ -219,7 +219,7 @@ class Scene1 extends Phaser.Scene {
         createCodeyAnimations(this);
 
         // Create NPC
-        gameState.npc = this.physics.add.sprite(950, 500, 'npcSprite');
+        gameState.npc = this.physics.add.sprite(1490, 500, 'npcSprite');
 
         // Add a collider between the player and the NPC to trigger the dialogue
         this.physics.add.overlap(gameState.player, gameState.npc, () => {
