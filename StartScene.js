@@ -61,7 +61,7 @@ class StartScene extends Phaser.Scene {
         this.backgroundMusic = this.sound.add('backgroundMusic');
 
         // Event listener for the icon click
-        document.getElementById('music-icon').addEventListener('pointerup', () => {
+        document.getElementById('music-icon').addEventListener('pointerdown', () => {
             if (this.isMusicPlaying) {
                 this.backgroundMusic.stop();
             } else {
@@ -75,6 +75,18 @@ class StartScene extends Phaser.Scene {
             this.isMusicPlaying = !this.isMusicPlaying; // Toggle music state
         });
 
+    // Ensure the music plays on user interaction (e.g., touch on iPhone)
+    document.body.addEventListener('pointerdown', () => {
+        if (!this.isMusicPlaying) {
+            this.backgroundMusic.play({
+                loop: true // Set to true if you want the music to loop
+            });
+
+            // Set volume (optional)
+            this.backgroundMusic.setVolume(0.2); // Volume range is 0.0 to 1.0
+            this.isMusicPlaying = true; // Update music state
+        }
+    }, { once: true }); // Ensure this event listener is called only once
     
     }
 
