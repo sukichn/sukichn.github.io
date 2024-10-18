@@ -229,7 +229,7 @@ class Scene1 extends Phaser.Scene {
                 fetchPage(this, 1); // Start the dialogue with the first page
                 showDialogue(this);
                 // Zoom the camera in
-                this.cameras.main.zoomTo(1.1, 1000); // Adjust the zoom level and duration as needed
+                /*this.cameras.main.zoomTo(1.1, 1000);*/ // Adjust the zoom level and duration as needed
             }
         });
 
@@ -331,7 +331,7 @@ class Scene1 extends Phaser.Scene {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 120 * 1000, gameState); // 120 secs in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 300 * 1000, gameState); // 5 minutes in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {

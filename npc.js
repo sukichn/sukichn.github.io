@@ -52,6 +52,11 @@
         // Play initial hidden animation
         gameState.npc.anims.play('hidden', true);
 
+        // Adjust NPC physics body size
+        gameState.npc.body.setSize(400); // Increase width and height
+        // Optionally adjust the offset if needed
+        // gameState.npc.body.setOffset(-50, -50); // Adjust the offset if the NPC is not centered correctly
+
         // State flags
         gameState.npc.isAppearing = false;
         gameState.npc.isBurrowing = false;
@@ -64,6 +69,7 @@
         // Function to handle overlap
         function handleOverlap() {
             if (gameState.npc.isHidden && !gameState.npc.isAppearing) {
+                this.cameras.main.zoomTo(1.1);
                 gameState.npc.isAppearing = true;
                 gameState.npc.isHidden = false;
                 gameState.npc.anims.play('appear', true);
@@ -73,6 +79,7 @@
                     gameState.npc.anims.play('talk', true);
                 });
             } else if (gameState.npc.isTalking) {
+                this.cameras.main.zoomTo(1.1);
                 gameState.npc.anims.play('talk', true);
             }
         }
@@ -88,7 +95,14 @@
                         gameState.npc.isBurrowing = false;
                         gameState.npc.isHidden = true;
                         gameState.npc.anims.play('hidden', true);
+                        // Reset camera zoom
+                        scene.cameras.main.zoomTo(1);
                     });
+                }
+            } else {
+                // Ensure camera zoom is set when overlapping
+                if (gameState.npc.isTalking || gameState.npc.isAppearing) {
+                    scene.cameras.main.zoomTo(1.1);
                 }
             }
         });

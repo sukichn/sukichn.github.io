@@ -2,9 +2,9 @@
 // Scene 1 dialogue 
 const pages = [
     {
-        character: 'Balu',
+        character: 'Player',
         page: 1,
-        narrative: 'Balu: Hello?',
+        narrative: "You: Oh! What's this?",
         options: [
             { option: 'Say Hi', nextPage: 2 },
             { option: 'Ignore', closeDialogue: true },
@@ -13,7 +13,7 @@ const pages = [
     {
         character: 'Balu',
         page: 2,
-        narrative: 'Balu: Where are you headed?',
+        narrative: 'Balu: Hello there, Where are you headed?',
         options: [
             { option: "I'm on an adventure", nextPage: 3 },
             { option: 'Not sure...', nextPage: 4 },
