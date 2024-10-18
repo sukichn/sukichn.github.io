@@ -53,7 +53,7 @@
         gameState.npc.anims.play('hidden', true);
 
         // Adjust NPC physics body size
-        gameState.npc.body.setSize(400); // Increase width and height
+        gameState.npc.body.setSize(450); // Increase width and height
         // Optionally adjust the offset if needed
         // gameState.npc.body.setOffset(-50, -50); // Adjust the offset if the NPC is not centered correctly
 
@@ -69,10 +69,10 @@
         // Function to handle overlap
         function handleOverlap() {
             if (gameState.npc.isHidden && !gameState.npc.isAppearing) {
-                this.cameras.main.zoomTo(1.1);
                 gameState.npc.isAppearing = true;
                 gameState.npc.isHidden = false;
                 gameState.npc.anims.play('appear', true);
+                this.cameras.main.zoomTo(1.1);
                 gameState.npc.once('animationcomplete-appear', () => {
                     gameState.npc.isAppearing = false;
                     gameState.npc.isTalking = true;
@@ -84,8 +84,15 @@
             }
         }
 
-        // Function to check overlap state
+        // Function to check overlap state and animation state
         scene.events.on('update', () => {
+            const currentAnimKey = gameState.npc.anims.getCurrentKey();
+            if (currentAnimKey !== 'talk') {
+                if (scene.isDialogueActive) {
+                    global.resetDialogue(scene);
+                }
+            }
+
             if (!scene.physics.overlap(gameState.player, gameState.npc)) {
                 if (!gameState.npc.isBurrowing && !gameState.npc.isAppearing && !gameState.npc.isHidden) {
                     gameState.npc.isBurrowing = true;
@@ -106,5 +113,10 @@
                 }
             }
         });
+    };
+
+    // Expose a method to get the NPC's current animation key
+    global.getNpcCurrentAnimKey = function() {
+        return gameState.npc.anims.getCurrentKey();
     };
 })(window);

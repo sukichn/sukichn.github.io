@@ -1,4 +1,3 @@
-
 // Scene 1 dialogue 
 const pages = [
     {
@@ -22,9 +21,9 @@ const pages = [
     {
         character: 'Balu',
         page: 3,
-        narrative: 'Balu: Visit the wizard in the forest for help!',
+        narrative: 'Balu: Oh, how exciting! Make sure you get a map in the next village!',
         options: [
-            { option: 'Ok, thank you!', closeDialogue: true },
+            { option: "Oh, thank you!", nextPage: 5 },
         ]
     },
     {
@@ -32,9 +31,64 @@ const pages = [
         page: 4,
         narrative: 'Balu: You have to be careful wandering about...',
         options: [
-            { option: "I'll be careful.", closeDialogue: true },
+            { option: "I'll be careful.", nextPage: 5 },
         ]
     },
-   
+    // Task assignment stage
+    {
+        character: 'Balu',
+        page: 5,
+        narrative: 'Balu: I have a task for you. Can you collect 5 herbs for me?',
+        options: [
+            { option: 'Sure!', nextPage: 6 },
+            { option: 'Not now', closeDialogue: true },
+        ]
+    },
+    {
+        character: 'Balu',
+        page: 6,
+        narrative: 'Balu: Great! Come back to me once you have collected 5 herbs.',
+        options: [
+            { option: 'Will do!', closeDialogue: true },
+        ]
+    },
+    // Task completion stage
+    {
+        character: 'Balu',
+        page: 7,
+        narrative: 'Balu: Have you collected the herbs?',
+        options: [
+            { option: 'Yes, here they are.', nextPage: 8 },
+            { option: 'Not yet', closeDialogue: true },
+        ]
+    },
+    {
+        character: 'Balu',
+        page: 8,
+        narrative: 'Balu: Thank you! Here is your reward. Do you need anything else?',
+        options: [
+            { option: 'Any more tasks?', nextPage: 9 },
+            { option: 'No, that’s all for now.', closeDialogue: true },
+        ]
+    },
+    // Additional tasks or dialogue
+    {
+        character: 'Balu',
+        page: 9,
+        narrative: 'Balu: Actually, yes! Could you deliver this message to the wizard?',
+        options: [
+            { option: 'Of course!', nextPage: 10 },
+            { option: 'Maybe later', closeDialogue: true },
+        ]
+    },
+    {
+        character: 'Balu',
+        page: 10,
+        narrative: 'Balu: Excellent! Please hurry, it’s urgent.',
+        options: [
+            { option: 'I will!', closeDialogue: true },
+        ]
+    },
     // Add more pages as needed
 ];
+

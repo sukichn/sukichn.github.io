@@ -176,22 +176,29 @@
     }
 
     #dialogue-container {
-      color: yellow;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); /* Center the alert */
-      font-size: 24px;
-      text-align: center;
-      padding: 1em;
-      background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
-      border-radius: 10px; /* Optional: rounded corners */
-      width: 250px;
-    }
+    color: yellow;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8); /* Start slightly scaled down */
+    font-size: 24px;
+    text-align: center;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
+    border-radius: 10px; /* Optional: rounded corners */
+    width: 250px;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+#dialogue-container.show {
+    opacity: 1; /* Show */
+    transform: translate(-50%, -50%); /* Ensure it stays centered and scaled */
+}
 
     
 
@@ -332,8 +339,8 @@
   <div id="game-alert"></div>
   <div id ="dialogue-container" style="display:none;">
     <div id="dialogue" style="display:none;"></div>
-    <button id="reply1" style="display:none;">Yes</button>
-    <button id="reply2" style="display:none;">No</button>
+    <button id="reply1" style="display:none;"></button>
+    <button id="reply2" style="display:none;"></button>
   </div>
 
   <div id="shooter">
