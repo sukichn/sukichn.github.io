@@ -19,6 +19,7 @@ class Scene1 extends Phaser.Scene {
         loadBackgroundAssets(this);
         loadCoinAssets(this);
         loadCodeyAssets(this);
+        loadBugAssets(this);
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
         loadExitAssets(this);
@@ -30,8 +31,6 @@ class Scene1 extends Phaser.Scene {
         this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform-green.png');
         this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
-
-        this.load.image('npcSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/bug-sprite.png');
     }
 
     create() {
@@ -218,8 +217,13 @@ class Scene1 extends Phaser.Scene {
         // Create player animations
         createCodeyAnimations(this);
 
-        // Create NPC
-        gameState.npc = this.physics.add.sprite(1490, 500, 'npcSprite');
+        // Create NPC bug
+        gameState.npc = this.physics.add.sprite(1490, 500, 'bug');
+
+        // Create bug animations
+        createBugAnimations(this);
+        gameState.npc.anims.play('burrow', true);
+
 
         // Add a collider between the player and the NPC to trigger the dialogue
         this.physics.add.overlap(gameState.player, gameState.npc, () => {
