@@ -218,7 +218,7 @@ class Scene1 extends Phaser.Scene {
         createCodeyAnimations(this);
 
         // Create NPC bug
-        gameState.npc = this.physics.add.sprite(1490, 500, 'bug');
+        gameState.npc = this.physics.add.sprite(1490, 500, 'bug').setDepth(13);
 
         // Create bug animations
         createBugAnimations(this);
