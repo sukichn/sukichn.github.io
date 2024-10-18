@@ -191,8 +191,16 @@
     background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
     border-radius: 10px; /* Optional: rounded corners */
     width: 250px;
+    opacity: 0; /* Start hidden */
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth transition */
-}    
+}
+
+#dialogue-container.show {
+    opacity: 1; /* Show */
+    transform: translate(-50%, -50%); /* Ensure it stays centered and scaled */
+}
+
+    
 
     #joystick {
       position: absolute;

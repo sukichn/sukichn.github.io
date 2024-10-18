@@ -53,7 +53,7 @@
         gameState.npc.anims.play('hidden', true);
 
         // Adjust physics body size to increase padding
-        const padding = 120; // Change this value to increase/decrease padding
+        const padding = 350; // Change this value to increase/decrease padding
         gameState.npc.body.setSize(gameState.npc.width + padding, gameState.npc.height);
 
         // State flags
@@ -71,20 +71,27 @@
                 gameState.npc.isAppearing = true;
                 gameState.npc.isHidden = false;
                 gameState.npc.anims.play('appear', true);
+                this.cameras.main.zoomTo(1.1);
                 gameState.npc.once('animationcomplete-appear', () => {
                     gameState.npc.isAppearing = false;
                     gameState.npc.isTalking = true;
                     gameState.npc.anims.play('talk', true);
-                    scene.cameras.main.zoomTo(1.1); // Zoom in when talking
                 });
             } else if (gameState.npc.isTalking) {
+                this.cameras.main.zoomTo(1.1);
                 gameState.npc.anims.play('talk', true);
-                scene.cameras.main.zoomTo(1.1); // Ensure zoom is set if talking
             }
         }
 
-        // Function to check overlap state
+        // Function to check overlap state and animation state
         scene.events.on('update', () => {
+            const currentAnimKey = gameState.npc.anims.getCurrentKey();
+            if (currentAnimKey !== 'talk') {
+                if (scene.isDialogueActive) {
+                    global.resetDialogue(scene);
+                }
+            }
+
             if (!scene.physics.overlap(gameState.player, gameState.npc)) {
                 if (!gameState.npc.isBurrowing && !gameState.npc.isAppearing && !gameState.npc.isHidden) {
                     gameState.npc.isBurrowing = true;
@@ -94,10 +101,21 @@
                         gameState.npc.isBurrowing = false;
                         gameState.npc.isHidden = true;
                         gameState.npc.anims.play('hidden', true);
-                        scene.cameras.main.zoomTo(1); // Reset zoom when not talking
+                        // Reset camera zoom
+                        scene.cameras.main.zoomTo(1);
                     });
+                }
+            } else {
+                // Ensure camera zoom is set when overlapping
+                if (gameState.npc.isTalking || gameState.npc.isAppearing) {
+                    scene.cameras.main.zoomTo(1.1);
                 }
             }
         });
+    };
+
+    // Expose a method to get the NPC's current animation key
+    global.getNpcCurrentAnimKey = function() {
+        return gameState.npc.anims.getCurrentKey();
     };
 })(window);
