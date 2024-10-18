@@ -222,8 +222,6 @@ class Scene1 extends Phaser.Scene {
 
         // Create bug animations
         createBugAnimations(this);
-        gameState.npc.anims.play('burrow', true);
-
 
         // Add a collider between the player and the NPC to trigger the dialogue
         this.physics.add.overlap(gameState.player, gameState.npc, () => {
