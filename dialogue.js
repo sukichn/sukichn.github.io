@@ -1,16 +1,7 @@
 (function(global) {
     // Function to show dialogue
     global.showDialogue = function(scene) {
-        if (scene.preventDialogue) {
-            return;
-        }
-
         scene.isDialogueActive = true; // Set the dialogue state to active
-        scene.conversationStarted = false; // Reset conversation started flag
-
-        // Show the dialogue container with transition
-        const dialogueContainer = document.getElementById('dialogue-container');
-        dialogueContainer.classList.add('show');
 
         // Show the dialogue elements
         document.getElementById('dialogue-container').style.display = 'block';
@@ -23,13 +14,15 @@
     // Function to reset dialogue
     global.resetDialogue = function(scene, forceReset = false) {
         // Hide the dialogue elements and reset their content
-        const dialogueContainer = document.getElementById('dialogue-container');
-        dialogueContainer.classList.remove('show');
+        document.getElementById('dialogue-container').style.display = 'none';
+        document.getElementById('dialogue').style.display = 'none';
+        document.getElementById('reply1').style.display = 'none';
+        document.getElementById('reply2').style.display = 'none';
 
         // Optionally, reset the text content
-       /* document.getElementById('dialogue').innerText = '';
-        document.getElementById('reply1').innerText = '';
-        document.getElementById('reply2').innerText = '';*/
+        document.getElementById('dialogue').innerText = '';
+        document.getElementById('reply1').innerText = 'Yes';
+        document.getElementById('reply2').innerText = 'No';
 
         scene.isDialogueActive = false; // Reset the dialogue state
 
@@ -43,7 +36,7 @@
         }
 
         // Optionally, zoom the camera back out
-        /*scene.cameras.main.zoomTo(1, 1000);*/ // Adjust the zoom level and duration as needed
+        scene.cameras.main.zoomTo(1, 1000); // Adjust the zoom level and duration as needed
     };
 
     // Function to start the inactivity timer
@@ -53,10 +46,10 @@
 
         // Set a new timer to hide the dialogue after a period of inactivity
         scene.inactivityTimer = setTimeout(() => {
-            if (scene.isDialogueActive && !scene.conversationStarted) {
+            if (scene.isDialogueActive) {
                 global.resetDialogue(scene);
             }
-        }, 5000); // 5 seconds
+        }, 60000); // Adjust the delay as needed (5000 ms = 5 seconds)
     };
 
     // Function to fetch and display a dialogue page
@@ -77,11 +70,10 @@
                 reply1.innerText = pageData.options[0].option;
                 reply1.style.display = 'inline-block'; // Show the button
                 reply1.onclick = () => {
-                    scene.conversationStarted = true; // Set conversation started flag
                     if (pageData.options[0].closeDialogue) {
                         global.resetDialogue(scene, true); // Force reset the dialogue
                     } else {
-                        global.fetchPage(scene, pageData.options[0].nextPage);
+                        fetchPage(scene, pageData.options[0].nextPage);
                         clearTimeout(scene.inactivityTimer);
                         global.startInactivityTimer(scene);
                     }
@@ -94,11 +86,10 @@
                 reply2.innerText = pageData.options[1].option;
                 reply2.style.display = 'inline-block'; // Show the button
                 reply2.onclick = () => {
-                    scene.conversationStarted = true; // Set conversation started flag
                     if (pageData.options[1].closeDialogue) {
                         global.resetDialogue(scene, true); // Force reset the dialogue
                     } else {
-                        global.fetchPage(scene, pageData.options[1].nextPage);
+                        fetchPage(scene, pageData.options[1].nextPage);
                         clearTimeout(scene.inactivityTimer);
                         global.startInactivityTimer(scene);
                     }
@@ -108,23 +99,4 @@
             }
         }
     };
-
-    // Main initialization function
-    global.initializeDialogue = function(scene) {
-        // State flags
-        scene.isDialogueActive = false;
-        scene.conversationStarted = false;
-        scene.preventDialogue = false;
-
-        // Function to check NPC's animation state and reset dialogue if necessary
-        scene.events.on('update', () => {
-            const npcCurrentAnimKey = global.getNpcCurrentAnimKey();
-            if (npcCurrentAnimKey !== 'talk') {
-                if (scene.isDialogueActive) {
-                    global.resetDialogue(scene);
-                }
-            }
-        });
-    };
-
 })(window);
