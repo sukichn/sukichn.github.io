@@ -13,16 +13,16 @@ const pages = [
     {
         character: 'Balu',
         page: 2,
-        narrative: "I've been searching for some mushrooms!",
+        narrative: "I've been searching for butterflies!",
         options: [
-            { option: "I can give you some.", nextPage: 4, checkTask: true },
+            { option: "I found some here.", nextPage: 4, checkTask: true },
             { option: "Are they difficult to find?", nextPage: 3 },
         ]
     },
     {
         character: 'Balu',
         page: 3,
-        narrative: "Balu: It isn't usually difficult...",
+        narrative: "Balu: They can be a bit elusive.",
         options: [
             { option: "I'll help you find some.", nextPage: 5, startTask: true },
             { option: 'Tell me more.', nextPage: 4 },
@@ -31,7 +31,7 @@ const pages = [
     {
         character: 'Balu',
         page: 4,
-        narrative: "Balu: It seems something has eaten them all!",
+        narrative: "Balu: They're usually drawn to dandelions.",
         options: [
             { option: "I'll help you find some.", nextPage: 5, startTask: true },
             { option: 'Not now', closeDialogue: true, forceReset: true }, // Force reset on this option
@@ -41,7 +41,7 @@ const pages = [
     {
         character: 'Balu',
         page: 5,
-        narrative: "Balu: It's usually found around rocks. Two should do it!",
+        narrative: "Balu: Two should do it!",
         options: [
             { option: 'Got it!', closeDialogue: true, forceReset: true },
         ]
@@ -77,9 +77,9 @@ const pages = [
     {
         character: 'Balu',
         page: 9,
-        narrative: 'Balu: Hm, looks like you need a bit more time.',
+        narrative: "Balu: Hm, I need a few more.",
         options: [
-            { option: "Tell me more.", nextPage: 4},
+            { option: "Where can I find them?", nextPage: 4},
         ]
     },
     {
@@ -94,7 +94,7 @@ const pages = [
     {
         character: 'Balu',
         page: 11,
-        narrative: "Have you found some mushrooms for me?",
+        narrative: "Have you found the butterflies?",
         options: [
             { option: "Here you go.", nextPage: 6, checkTask: true },
             { option: 'Not yet.', closeDialogue: true, forceReset: true },

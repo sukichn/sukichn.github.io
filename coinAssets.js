@@ -1,7 +1,7 @@
 (function(global) {
 // Load coin spritesheet
 global.loadCoinAssets = function(scene) {
-    scene.load.spritesheet('coinSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/coin-sprite.png', {
+    scene.load.spritesheet('coinSprite', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-sprite.png', {
         frameWidth: 55,
         frameHeight: 51
     });
@@ -11,9 +11,10 @@ global.loadCoinAssets = function(scene) {
 global.createCoinAnimations = function(scene) {
     scene.anims.create({
         key: 'coinHere',
-        frames: scene.anims.generateFrameNumbers('coinSprite', { start: 0, end: 12 }),
-        frameRate: 11,
-        repeat: -1
+        frames: scene.anims.generateFrameNumbers('coinSprite', { start: 0, end: 7 }),
+        frameRate: 7,
+        repeat: -1,
+        yoyo: true,
     });
 };
 
