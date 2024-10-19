@@ -285,13 +285,15 @@ class Scene1 extends Phaser.Scene {
         console.log('Exit created.');
 
          // Create dandelion
-         gameState.dandelion = this.add.sprite(550, 610, 'dandelion');
+         gameState.dandelion = this.add.sprite(550, 650, 'dandelion');
          console.log('Dandelion created.');
+
+         createDandelionAnimations(this);
 
         // Define coin positions
         const coinPositions = [
             { x: 550, y: 410 },
-            { x: 2100, y: 310 }, 
+            { x: 2100, y: 390 }, 
         ];
 
         // Create and animate coins
