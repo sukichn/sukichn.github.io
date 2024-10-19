@@ -22,6 +22,7 @@ class StartScene extends Phaser.Scene {
         document.getElementById('coins-earned').style.display = 'none';
         document.getElementById('joystick').style.display = 'none';
         document.getElementById('shooter').style.display = 'none';
+        document.getElementById('rewards-earned').style.display = 'none';
     }
 
     create() {
@@ -71,6 +72,7 @@ class StartScene extends Phaser.Scene {
         document.getElementById('coins-earned').style.display = 'block';
         document.getElementById('joystick').style.display = 'block';
         document.getElementById('shooter').style.display = 'block';
+        document.getElementById('rewards-earned').style.display = 'block';
     }
 
     update() {

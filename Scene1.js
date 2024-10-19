@@ -28,7 +28,7 @@ class Scene1 extends Phaser.Scene {
 
         this.load.image('grassTile', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile1.png');
         this.load.image('grassTile2', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/grass-tile2.png');
-        this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform-green.png');
+        this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform.png');
         this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
     }
@@ -136,7 +136,9 @@ class Scene1 extends Phaser.Scene {
         const longPlatOffsets = [
             { x: 0, y: 0 },
             { x: 200, y: 0 }, 
-            { x: 2800, y: -28 },           
+            { x: 2800, y: -28 }, 
+            { x: 3600, y: -28 },
+            { x: 4400, y: -28 },            
         ];
         longPlatOffsets.forEach(offset => {
             gameState.longplatform.create(longPlatStartX + offset.x, longPlatStartY + offset.y, 'longplatform');
@@ -273,7 +275,7 @@ class Scene1 extends Phaser.Scene {
         };
 
         // Create exit assets
-        gameState.exit = this.physics.add.sprite(1780, 130, 'exit');
+        gameState.exit = this.physics.add.sprite(3800, 130, 'exit');
         setupExitLogic(this, gameState);
         this.physics.add.collider(gameState.exit, gameState.longplatform);
         this.physics.add.collider(gameState.exit, gameState.shortplatform);
@@ -281,8 +283,8 @@ class Scene1 extends Phaser.Scene {
 
         // Define coin positions
         const coinPositions = [
-            { x: 300, y: 425 },
-            { x: 430, y: 425 }, 
+            { x: 550, y: 710 },
+            { x: 2100, y: 710 }, 
         ];
 
         // Create and animate coins
@@ -355,6 +357,8 @@ class Scene1 extends Phaser.Scene {
         this.physics.pause();
         gameState.active = false;
         this.anims.pauseAll();
+
+        
 
         // Stop movements of all enemies
         if (Array.isArray(gameState.enemies)) {

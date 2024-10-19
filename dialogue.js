@@ -2,11 +2,9 @@
     // Function to show dialogue
     global.showDialogue = function(scene) {
         if (scene.preventDialogue) {
-            console.log("Dialogue is prevented."); // Debugging log
             return;
         }
 
-        console.log("Showing dialogue."); // Debugging log
         scene.isDialogueActive = true; // Set the dialogue state to active
         scene.conversationStarted = false; // Reset conversation started flag
 
@@ -24,31 +22,35 @@
 
     // Function to reset dialogue
     global.resetDialogue = function(scene, forceReset = false) {
-        console.log("Resetting dialogue."); // Debugging log
         // Hide the dialogue elements and reset their content
         const dialogueContainer = document.getElementById('dialogue-container');
         dialogueContainer.classList.remove('show');
 
+        // Optionally, reset the text content
+        /* document.getElementById('dialogue').innerText = '';
+        document.getElementById('reply1').innerText = '';
+        document.getElementById('reply2').innerText = ''; */
+
         scene.isDialogueActive = false; // Reset the dialogue state
 
+        // If the reset is forced (e.g., by selecting "No"), set the preventDialogue flag
         if (forceReset) {
-            console.log("Dialogue reset is forced."); // Debugging log
             scene.preventDialogue = true;
+            // Allow the dialogue to be shown again after a delay
             setTimeout(() => {
                 scene.preventDialogue = false;
-                console.log("Dialogue can now be shown again."); // Debugging log
             }, 10000); // Delay for 10 secs
         }
     };
 
     // Function to start the inactivity timer
     global.startInactivityTimer = function(scene) {
-        console.log("Starting inactivity timer."); // Debugging log
+        // Clear any existing timer
         clearTimeout(scene.inactivityTimer);
 
+        // Set a new timer to hide the dialogue after a period of inactivity
         scene.inactivityTimer = setTimeout(() => {
             if (scene.isDialogueActive && !scene.conversationStarted) {
-                console.log("Inactivity detected. Resetting dialogue."); // Debugging log
                 global.resetDialogue(scene);
             }
         }, 5000); // 5 seconds
@@ -56,16 +58,16 @@
 
     // Main initialization function
     global.initializeDialogue = function(scene) {
-        console.log("Initializing dialogue."); // Debugging log
+        // State flags
         scene.isDialogueActive = false;
         scene.conversationStarted = false;
         scene.preventDialogue = false;
 
+        // Function to check NPC's animation state and reset dialogue if necessary
         scene.events.on('update', () => {
             const npcCurrentAnimKey = global.getNpcCurrentAnimKey();
             if (npcCurrentAnimKey !== 'talk') {
                 if (scene.isDialogueActive) {
-                    console.log("NPC is not talking. Resetting dialogue."); // Debugging log
                     global.resetDialogue(scene);
                 }
             }
@@ -74,6 +76,8 @@
 
     // Dummy function to get NPC's current animation key (to be implemented in the animation file)
     global.getNpcCurrentAnimKey = function() {
+        // This should return the current animation key of the NPC
+        // For example: return gameState.npc.anims.currentAnim.key;
         return 'talk'; // Placeholder return value
     };
 
