@@ -3,36 +3,37 @@ const pages = [
         character: 'Balu',
         page: 1,
         narrative: "Balu: Hello there!",
+        redirectOnTaskComplete: 10, // Redirect to page 10 if task is completed
+        redirectOnTaskInProgress: 11, // Redirect to page 11 if task is in progress
         options: [
-            { option: 'Say Hi', nextPage: 2 },
+            { option: 'Hi, what are you up to?', nextPage: 2 },
             { option: 'Ignore', closeDialogue: true, forceReset: true }, // Force reset on this option
         ]
     },
     {
         character: 'Balu',
         page: 2,
-        narrative: "I've been searching for a rare crystal for ages!",
+        narrative: "I've been searching for some mushrooms!",
         options: [
-            { option: "I think I've got one. Do you want to take a look?", nextPage: 4, checkTask: true },
-            { option: 'Why are you looking for it?', nextPage: 4 },
+            { option: "I can give you some.", nextPage: 4, checkTask: true },
+            { option: "Are they difficult to find?", nextPage: 3 },
         ]
     },
     {
         character: 'Balu',
         page: 3,
-        narrative: "Balu: Thank you! It's very important to me.",
+        narrative: "Balu: It isn't usually difficult...",
         options: [
-            { option: 'No problem!', nextPage: 5 },
+            { option: "I'll help you find some.", nextPage: 5, startTask: true },
             { option: 'Tell me more.', nextPage: 4 },
         ]
     },
     {
         character: 'Balu',
         page: 4,
-        narrative: 'Balu: This crystal has magical properties that can help my village thrive.',
-        taskCheck: true, // Task check for page 4
+        narrative: "Balu: It seems something has eaten them all!",
         options: [
-            { option: "I'll help you find it.", nextPage: 5 },
+            { option: "I'll help you find some.", nextPage: 5, startTask: true },
             { option: 'Not now', closeDialogue: true, forceReset: true }, // Force reset on this option
         ]
     },
@@ -40,7 +41,7 @@ const pages = [
     {
         character: 'Balu',
         page: 5,
-        narrative: "Balu: It's usually found around rocks. Thanks for helping!",
+        narrative: "Balu: It's usually found around rocks. Two should do it!",
         options: [
             { option: 'Got it!', closeDialogue: true, forceReset: true },
         ]
@@ -49,7 +50,7 @@ const pages = [
     {
         character: 'Balu',
         page: 6,
-        narrative: "Balu: You found it! Here's something for your help. Do you need anything else?",
+        narrative: "Balu: You found them! Here's something for your help.",
         options: [
             { option: 'Any more tasks?', nextPage: 7 },
             { option: 'No, that’s all for now.', closeDialogue: true, forceReset: true }, // Force reset on this option
@@ -61,7 +62,7 @@ const pages = [
         page: 7,
         narrative: 'Balu: Actually, yes! Can you find the ancient scroll hidden in the forest?',
         options: [
-            { option: 'Of course!', nextPage: 8 },
+            { option: 'Of course!', nextPage: 8, startTask: true },
             { option: 'Maybe later', closeDialogue: true, forceReset: true }, // Force reset on this option
         ]
     },
@@ -78,16 +79,25 @@ const pages = [
         page: 9,
         narrative: 'Balu: Hm, looks like you need a bit more time.',
         options: [
-            { option: "Oh! You're right", closeDialogue: true, forceReset: true },
-            { option: "Where can I find them?", nextPage: 5},
+            { option: "Tell me more.", nextPage: 4},
         ]
     },
     {
         character: 'Balu',
         page: 10,
-        narrative: "Looks like you've already helped me!",
+        narrative: "Thanks again for helping! Do you need anything else?",
         options: [
-            { option: 'Ok!', closeDialogue: true, forceReset: true },
+            { option: 'Any more tasks?', nextPage: 7 },
+            { option: 'No, that’s all for now.', closeDialogue: true, forceReset: true },
+        ]
+    },
+    {
+        character: 'Balu',
+        page: 11,
+        narrative: "Have you found some mushrooms for me?",
+        options: [
+            { option: "Here you go.", nextPage: 6, checkTask: true },
+            { option: 'Not yet.', closeDialogue: true, forceReset: true },
         ]
     },
 ];
@@ -103,8 +113,22 @@ const pages = [
             return;
         }
 
+        // Redirect to the specified page if the task is completed and the current page has redirectOnTaskComplete property
+        if (gameState.taskCompleted && pageData.redirectOnTaskComplete) {
+            console.log(`Task already completed. Redirecting to page ${pageData.redirectOnTaskComplete}.`);
+            page = pageData.redirectOnTaskComplete;
+            pageData = pages.find(p => p.page === page);
+        }
+
+        // Redirect to the specified page if the task is in progress and the current page has redirectOnTaskInProgress property
+        if (gameState.taskInProgress && pageData.redirectOnTaskInProgress) {
+            console.log(`Task in progress. Redirecting to page ${pageData.redirectOnTaskInProgress}.`);
+            page = pageData.redirectOnTaskInProgress;
+            pageData = pages.find(p => p.page === page);
+        }
+
         // Handle task-specific logic before rendering the page
-        if (checkTask && pageData.taskCheck) {
+        if (checkTask || pageData.taskCheck) {
             console.log(`Task check triggered for page: ${page}`);
             console.log(`Current game state:`, gameState);
 
@@ -115,13 +139,14 @@ const pages = [
                 pageData = pages.find(p => p.page === page);
             } 
             // If the player has enough coins, complete the task and update the state
-            else if (gameState.coinsCollected >= 1) {
+            else if (gameState.coinsCollected >= 2) {
                 console.log(`Player has enough coins. Completing task.`);
-                gameState.coinsCollected -= 1;
+                gameState.coinsCollected -= 2;
                 document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
-                gameState.rewardsCollected += 50; // Increment rewards by 50
+                gameState.rewardsCollected += 10; // Increment rewards by 50
                 document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed
+                gameState.taskInProgress = false; // Set task in progress to false
                 page = 6; // Redirect to page 6 after updating the game state
                 pageData = pages.find(p => p.page === page);
             } 
@@ -154,6 +179,9 @@ const pages = [
                     if (pageData.options[0].closeDialogue) {
                         global.resetDialogue(scene, pageData.options[0].forceReset); // Force reset if specified
                     } else {
+                        if (pageData.options[0].startTask) {
+                            gameState.taskInProgress = true; // Set task in progress if the option has startTask
+                        }
                         global.fetchPage(scene, pageData.options[0].nextPage, pageData.options[0].checkTask);
                         clearTimeout(scene.inactivityTimer);
                         global.startInactivityTimer(scene);
@@ -172,6 +200,9 @@ const pages = [
                     if (pageData.options[1].closeDialogue) {
                         global.resetDialogue(scene, pageData.options[1].forceReset); // Force reset if specified
                     } else {
+                        if (pageData.options[1].startTask) {
+                            gameState.taskInProgress = true; // Set task in progress if the option has startTask
+                        }
                         global.fetchPage(scene, pageData.options[1].nextPage, pageData.options[1].checkTask);
                         clearTimeout(scene.inactivityTimer);
                         global.startInactivityTimer(scene);
