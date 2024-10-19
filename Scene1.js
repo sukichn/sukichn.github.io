@@ -47,6 +47,13 @@ class Scene1 extends Phaser.Scene {
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
 
+        // Initialize rewards counter;
+        gameState.rewardsCollected = 0;
+        document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`;
+
+        // Initialize task completed;
+        gameState.taskCompleted = false;
+
         // Initialize coin counter
         gameState.coinsCollected = 0;
         document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
@@ -286,7 +293,7 @@ class Scene1 extends Phaser.Scene {
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
-            gameState.coinsCollected += 5;
+            gameState.coinsCollected += 1;
             document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
         }, null, this);
         console.log('Overlap detection for coins added.');
