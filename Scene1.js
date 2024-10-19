@@ -17,6 +17,7 @@ class Scene1 extends Phaser.Scene {
         console.log('Preloading assets...');
         // Load common assets
         loadBackgroundAssets(this);
+        loadDandelionAssets(this);
         loadCoinAssets(this);
         loadCodeyAssets(this);
         loadBugAssets(this);
@@ -31,6 +32,7 @@ class Scene1 extends Phaser.Scene {
         this.load.image('longplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/long-platform.png');
         this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
+
     }
 
     create() {
@@ -56,7 +58,7 @@ class Scene1 extends Phaser.Scene {
 
         // Initialize coin counter
         gameState.coinsCollected = 0;
-        document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
+        document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -107,6 +109,7 @@ class Scene1 extends Phaser.Scene {
             { x: 1080, y: 480 },
             { x: 2300, y: 480 },
             { x: 3500, y: 480 },
+            { x: 4700, y: 480 },
         ];
         grassTile2Positions.forEach(grass => {
             gameState.grassTile2.create(grass.x, grass.y, 'grassTile2').setDepth(15);
@@ -281,10 +284,14 @@ class Scene1 extends Phaser.Scene {
         this.physics.add.collider(gameState.exit, gameState.shortplatform);
         console.log('Exit created.');
 
+         // Create dandelion
+         gameState.dandelion = this.add.sprite(550, 610, 'dandelion');
+         console.log('Dandelion created.');
+
         // Define coin positions
         const coinPositions = [
-            { x: 550, y: 710 },
-            { x: 2100, y: 710 }, 
+            { x: 550, y: 410 },
+            { x: 2100, y: 310 }, 
         ];
 
         // Create and animate coins
@@ -295,8 +302,8 @@ class Scene1 extends Phaser.Scene {
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
-            gameState.coinsCollected += 1;
-            document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
+            gameState.coinsCollected += 2;
+            document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
         }, null, this);
         console.log('Overlap detection for coins added.');
 

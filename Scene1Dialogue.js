@@ -41,7 +41,7 @@ const pages = [
     {
         character: 'Balu',
         page: 5,
-        narrative: "Balu: Two should do it!",
+        narrative: "Balu: Four should do it!",
         options: [
             { option: 'Got it!', closeDialogue: true, forceReset: true },
         ]
@@ -139,9 +139,9 @@ const pages = [
                 pageData = pages.find(p => p.page === page);
             } 
             // If the player has enough coins, complete the task and update the state
-            else if (gameState.coinsCollected >= 2) {
+            else if (gameState.coinsCollected >= 4) {
                 console.log(`Player has enough coins. Completing task.`);
-                gameState.coinsCollected -= 2;
+                gameState.coinsCollected -= 4;
                 document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
                 gameState.rewardsCollected += 10; // Increment rewards by 50
                 document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`; // Update the DOM element
