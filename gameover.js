@@ -43,7 +43,7 @@
             document.getElementById('health').innerText = `Health: ${gameState.health}`;
             gameState.coinsCollected = 0; // Reset coins to zero
             const coinsElement = document.getElementById('coins-earned');
-            coinsElement.innerText = `Score: ${gameState.coinsCollected}`;
+            coinsElement.innerText = `Butterflies: ${gameState.coinsCollected}`;
             coinsElement.style.color = "red"; // Change color to red
     
             // Set timeout to change the color back to its original color after 1 second

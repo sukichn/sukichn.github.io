@@ -6,14 +6,14 @@ const pages = [
         redirectOnTaskComplete: 10, // Redirect to page 10 if task is completed
         redirectOnTaskInProgress: 11, // Redirect to page 11 if task is in progress
         options: [
-            { option: 'Hi, what are you up to?', nextPage: 2 },
+            { option: 'Say hi', nextPage: 2 },
             { option: 'Ignore', closeDialogue: true, forceReset: true }, // Force reset on this option
         ]
     },
     {
         character: 'Balu',
         page: 2,
-        narrative: "I've been searching for butterflies!",
+        narrative: "Balu: Have you seen any butterflies around?",
         options: [
             { option: "I found some here.", nextPage: 4, checkTask: true },
             { option: "Are they difficult to find?", nextPage: 3 },
@@ -142,7 +142,7 @@ const pages = [
             else if (gameState.coinsCollected >= 4) {
                 console.log(`Player has enough coins. Completing task.`);
                 gameState.coinsCollected -= 4;
-                document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
+                document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
                 gameState.rewardsCollected += 10; // Increment rewards by 50
                 document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed

@@ -131,7 +131,7 @@ global.setupJoystick = function(scene, gameState) {
 // Handle player movement
 global.handlePlayerMovement = function(scene, gameState) {
     let isMoving = false;
-    let velocityX = 300; // Default velocity for keyboard
+    let velocityX = 360; // Default velocity for keyboard
 
     // Initial player direction
     if (!gameState.previousDirection) {
@@ -145,7 +145,7 @@ global.handlePlayerMovement = function(scene, gameState) {
 
     // Decrease velocity if the SHIFT key is down
     if (gameState.shiftKey.isDown) {
-        velocityX *= 1.5; // Decrease velocity by 50%
+        velocityX *= 1; // Decrease velocity by 50%
     }
 
     // Handle horizontal movement

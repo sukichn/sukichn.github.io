@@ -38,7 +38,7 @@ class Scene4 extends Phaser.Scene {
         document.getElementById('game-alert').innerText = "";
 
         // Initialize coin counter
-        document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
+        document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -253,8 +253,8 @@ console.log('Overlap detection for mushrooms added.');
         // Add overlap detection between player and each coin
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
-            gameState.coinsCollected += 5;
-            document.getElementById('coins-earned').innerText = `Score: ${gameState.coinsCollected}`;
+            gameState.coinsCollected += 2;
+            document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
         }, null, this);
         console.log('Overlap detection for coins added.');
 
