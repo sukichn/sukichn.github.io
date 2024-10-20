@@ -307,11 +307,7 @@ class Scene1 extends Phaser.Scene {
         // Define coin positions
         const coinPositions = [
             { x: 550, y: 410 },
-            { x: 550, y: 410 },
-            { x: 550, y: 410 },
-            { x: 550, y: 410 },
-            { x: 550, y: 410 },
-            { x: 550, y: 410 },
+            
             { x: 3200, y: 510 },
             { x: 3100, y: 390 }, 
         ];
@@ -331,24 +327,24 @@ class Scene1 extends Phaser.Scene {
 
     // Add collected coin to the inventory
     const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
-    const coinContainer = document.createElement('div'); // Container for the image and caption
-    coinContainer.classList.add('coin-container');
+    const itemContainer = document.createElement('div'); // Container for the image and caption
+    itemContainer.classList.add('item-container');
 
-    const coinIcon = document.createElement('img');
-    coinIcon.src = 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png'; // Path to your coin image
-    coinIcon.classList.add('coin-icon');
+    const itemIcon = document.createElement('img');
+    itemIcon.src = 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png'; // Path to your coin image
+    itemIcon.classList.add('item-icon');
 
-    const coinCaption = document.createElement('span');
-    coinCaption.classList.add('coin-caption');
-    coinCaption.innerText = 'Butterflies: 2';
+    const itemCaption = document.createElement('span');
+    itemCaption.classList.add('item-caption');
+    itemCaption.innerText = 'Butterflies: 2';
 
     // Append the image and caption to the container
-    coinContainer.appendChild(coinIcon);
-    coinContainer.appendChild(coinCaption);
+    itemContainer.appendChild(itemIcon);
+    itemContainer.appendChild(itemCaption);
 
     // Add the container to the inventory items container and to the inventory elements array
-    inventoryItemsContainer.appendChild(coinContainer);
-    gameState.inventoryElements.push(coinContainer);
+    inventoryItemsContainer.appendChild(itemContainer);
+    gameState.inventoryElements.push(itemContainer);
 
 }, null, this);
 
