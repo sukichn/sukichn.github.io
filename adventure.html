@@ -13,7 +13,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
   <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
   <style>
-    
     html, body {
       margin: 0;
       padding: 0;
@@ -36,7 +35,6 @@
       touch-action: manipulation;
       -ms-touch-action: manipulation;
       background-color: white;
-      
     }
 
     header {
@@ -92,7 +90,7 @@
       #nav-links a {
         margin-right: 0.5rem;
       }
-      header{
+      header {
         display: none;
       }
     }
@@ -129,7 +127,7 @@
       height: 0;
     }
 
-    #game-text{
+    #game-text {
       position: absolute;
       top: 30px;
       left: 30px;
@@ -175,33 +173,33 @@
     }
 
     #dialogue-container {
-    color: yellow;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8); /* Start slightly scaled down */
-    font-size: 20px;
-    text-align: center;
-    padding: 1em;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
-    border-radius: 10px; /* Optional: rounded corners */
-    width: 250px;
-    opacity: 0; /* Start hidden */
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth transition */
-}
+      color: yellow;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8); /* Start slightly scaled down */
+      font-size: 20px;
+      text-align: center;
+      padding: 1em;
+      background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
+      border-radius: 10px; /* Optional: rounded corners */
+      width: 250px;
+      opacity: 0; /* Start hidden */
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Smooth transition */
+    }
 
-#dialogue-container.show {
-    opacity: 1; /* Show */
-    transform: translate(-50%, -50%); /* Ensure it stays centered and scaled */
-}
+    #dialogue-container.show {
+      opacity: 1; /* Show */
+      transform: translate(-50%, -50%); /* Ensure it stays centered and scaled */
+    }
 
-#dialogue{
-  margin-bottom: 5px;
-}    
+    #dialogue {
+      margin-bottom: 5px;
+    }
 
     #joystick {
       position: absolute;
@@ -276,7 +274,8 @@
       color: yellow;
       transition: color 0.4s ease; /* Smooth transition effect for color change */
     }
-    button{
+
+    button {
       background-color: rgba(255, 255, 255, 0.667);
       color: blue;
       border-radius: 10px;
@@ -287,63 +286,105 @@
       margin: 5px;
     }
 
-    button:hover{
+    button:hover {
       background-color: rgba(255, 194, 217, 0.667);
       cursor: pointer;
     }
 
-#music-on, #music-off{
-  background-color: none;
-  position: absolute;
-    top: 15px;
-    right: 15px;
-    color: white;
-    cursor: pointer;
-    z-index: 2000; /* Ensure it stays above other elements */
-}
-#music-on{
-  padding-bottom: 10px;
-  padding-left: 13px;
-  padding-right: 13px;
-}
-#music-off{
-  padding-bottom: 10px;
-  padding-left: 19px;
-  padding-right: 16px;
+    #music-on, #music-off {
+      background-color: none;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: white;
+      cursor: pointer;
+      z-index: 2000; /* Ensure it stays above other elements */
+    }
+
+    #music-on {
+      padding-bottom: 10px;
+      padding-left: 13px;
+      padding-right: 13px;
+    }
+
+    #music-off {
+      padding-bottom: 10px;
+      padding-left: 19px;
+      padding-right: 16px;
+    }
+
+    /* Inventory container */
+#inventory {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  width: 600px;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column; /* Stack title and items vertically */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
 }
 
-#inventory {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100px;
-            background-color: #f1f1f1;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .coin-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 10px;
-            border: 1px solid blue;
-        }
-        .coin-icon {
-            width: 90px;
-            height: 90px;
-            margin-top: 5px;
-            margin-right: 5px;
-            border: 1px solid red;
-        }
-        .coin-caption {
-            font-size: 12px;
-            text-align: center;
-            color: black;
-            border: 1px solid red;
-        }
+    #inventory-title {
+      font-size: 20px;
+      padding-left: 10px;
+      padding-top: 10px;
+    }
+
+/* Inventory items container */
+.inventory-items {
+  display: flex;
+  flex-wrap: wrap; /* Wrap items in rows */
+  gap: 10px; /* Space between items */
+  padding: 10px;
+  box-sizing: border-box; /* Include padding in width */
+  width: 100%; /* Full width of the container */
+  margin: 0; /* Remove margin */
+}
+
+    /* Media query for smaller screens */
+    @media (max-width: 768px) {
+      #inventory {
+        width: 400px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #inventory {
+        width: 300px;
+      }
+    }
+
+/* Inventory item container */
+.coin-container {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 0; /* Remove margin */
+}
+
+/* Icon inside the item */
+.coin-icon {
+  background-color: rgb(128, 202, 255);
+  width: 100px;
+  margin: 5px;
+}
+
+/* Caption inside the item */
+.coin-caption {
+  font-size: 12px;
+  text-align: center;
+  color: black;
+  margin-top: 5px;
+}
   </style>
 </head>
 
@@ -358,11 +399,9 @@
     </div>
     <div id="nav-logo"></div>
     <div id="nav-shopcart">
-      
     </div>
   </header>
 
-  
   <i id="music-on" class="fa fa-volume-up fa-lg" style="display:none;"></i>
   <i id="music-off" class="fa fa-volume-off fa-lg"></i>
 
@@ -375,14 +414,19 @@
     <div id="attacks"></div>
     <div id="rewards-earned">Rewards: 0</div>
     <span id="coins-earned">Butterflies: 0</span>
-    <div id="inventory">
+    <button id="inventory-control">Inventory</button>
+  </div>
+
+  <div id="inventory" style="display:none;">
+    <span id="inventory-title">Inventory</span>
+    <div class="inventory-items" id="inventory-items">
+      <!-- Items appended in scene files -->
       
     </div>
   </div>
 
-
   <div id="game-alert"></div>
-  <div id ="dialogue-container" style="display:none;">
+  <div id="dialogue-container" style="display:none;">
     <div id="dialogue" style="display:none;"></div>
     <button id="reply1" style="display:none;"></button>
     <button id="reply2" style="display:none;"></button>
@@ -412,7 +456,6 @@
   <script src="StartScene.js"></script>
   <script src="Scene1Dialogue.js"></script>
   <script src="dialogue.js"></script>
-  
   <script src="Scene1.js"></script>
   <script src="Scene2.js"></script>
   <script src="Scene3.js"></script>
@@ -438,7 +481,7 @@
     function toggleMusic() {
       var musicOn = document.getElementById('music-on');
       var musicOff = document.getElementById('music-off');
-      
+
       if (audioElement.paused) {
         playAudio(currentAudioIndex);
         musicOn.style.display = 'inline';
@@ -457,6 +500,17 @@
 
     document.getElementById('music-on').addEventListener('pointerdown', toggleMusic);
     document.getElementById('music-off').addEventListener('pointerdown', toggleMusic);
+  </script>
+
+  <script>
+    document.getElementById('inventory-control').addEventListener('pointerdown', function() {
+      var inventory = document.getElementById('inventory');
+      if (inventory.style.display === 'none') {
+        inventory.style.display = 'flex';
+      } else {
+        inventory.style.display = 'none';
+      }
+    });
   </script>
 </body>
 

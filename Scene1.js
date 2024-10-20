@@ -307,6 +307,11 @@ class Scene1 extends Phaser.Scene {
         // Define coin positions
         const coinPositions = [
             { x: 550, y: 410 },
+            { x: 550, y: 410 },
+            { x: 550, y: 410 },
+            { x: 550, y: 410 },
+            { x: 550, y: 410 },
+            { x: 550, y: 410 },
             { x: 3200, y: 510 },
             { x: 3100, y: 390 }, 
         ];
@@ -325,7 +330,7 @@ class Scene1 extends Phaser.Scene {
        
 
     // Add collected coin to the inventory
-    const inventory = document.getElementById('inventory');
+    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
     const coinContainer = document.createElement('div'); // Container for the image and caption
     coinContainer.classList.add('coin-container');
 
@@ -341,8 +346,8 @@ class Scene1 extends Phaser.Scene {
     coinContainer.appendChild(coinIcon);
     coinContainer.appendChild(coinCaption);
 
-    // Add the container to the inventory and to the inventory elements array
-    inventory.appendChild(coinContainer);
+    // Add the container to the inventory items container and to the inventory elements array
+    inventoryItemsContainer.appendChild(coinContainer);
     gameState.inventoryElements.push(coinContainer);
 
 }, null, this);
