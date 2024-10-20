@@ -317,6 +317,14 @@ class Scene1 extends Phaser.Scene {
             coin.destroy();
             gameState.coinsCollected += 2;
             document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
+
+        // Add collected coin to the inventory
+        const inventory = document.getElementById('inventory');
+        const coinIcon = document.createElement('img');
+        coinIcon.src = 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png'; // Path to your coin image
+        coinIcon.classList.add('coin-icon');
+        inventory.appendChild(coinIcon);
+
         }, null, this);
         console.log('Overlap detection for coins added.');
 
