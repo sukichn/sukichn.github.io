@@ -102,7 +102,6 @@ const pages = [
     },
 ];
 
-// Function to fetch and display a dialogue page based on Scene specific tasks
 (function(global) {
     global.fetchPage = function(scene, page, checkTask = false) {
         // Find the page data based on the page number
@@ -142,8 +141,17 @@ const pages = [
             else if (gameState.coinsCollected >= 4) {
                 console.log(`Player has enough coins. Completing task.`);
                 gameState.coinsCollected -= 4;
+
+                // Remove butterfly images from inventory
+                for (let i = 0; i < 2; i++) {
+                    const removedElement = gameState.inventoryElements.pop();
+                    if (removedElement) {
+                        removedElement.parentNode.removeChild(removedElement);
+                    }
+                }
+
                 document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
-                gameState.rewardsCollected += 10; // Increment rewards by 50
+                gameState.rewardsCollected += 10; // Increment rewards by 10
                 document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false

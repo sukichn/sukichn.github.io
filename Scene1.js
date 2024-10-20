@@ -300,6 +300,9 @@ class Scene1 extends Phaser.Scene {
             console.log(`Dandelion created at (${position.x}, ${position.y}).`);
         });
 
+        // Initialize an empty array to keep track of inventory elements
+        gameState.inventoryElements = [];
+
 
         // Define coin positions
         const coinPositions = [
@@ -323,7 +326,10 @@ class Scene1 extends Phaser.Scene {
         const coinIcon = document.createElement('img');
         coinIcon.src = 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png'; // Path to your coin image
         coinIcon.classList.add('coin-icon');
+
+        // Add the coin icon to the inventory and to the inventory elements array
         inventory.appendChild(coinIcon);
+        gameState.inventoryElements.push(coinIcon);
 
         }, null, this);
         console.log('Overlap detection for coins added.');
