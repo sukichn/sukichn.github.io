@@ -284,16 +284,27 @@ class Scene1 extends Phaser.Scene {
         this.physics.add.collider(gameState.exit, gameState.shortplatform);
         console.log('Exit created.');
 
-         // Create dandelion
-         gameState.dandelion = this.add.sprite(550, 650, 'dandelion');
-         console.log('Dandelion created.');
+        // Ensure the dandelion animations are created
+        createDandelionAnimations(this);
 
-         createDandelionAnimations(this);
+        // Define dandelion positions
+        const dandelionPositions = [
+            { x: 550, y: 680 },
+            { x: 3200, y: 650 },
+        ];
+
+        // Create dandelions at specified positions
+        dandelionPositions.forEach(position => {
+            const dandelion = this.add.sprite(position.x, position.y, 'dandelion');
+            dandelion.play('move'); // Start the dandelion animation
+            console.log(`Dandelion created at (${position.x}, ${position.y}).`);
+        });
+
 
         // Define coin positions
         const coinPositions = [
             { x: 550, y: 410 },
-            { x: 2100, y: 390 }, 
+            { x: 3100, y: 390 }, 
         ];
 
         // Create and animate coins

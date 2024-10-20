@@ -12,10 +12,10 @@
         scene.anims.create({
             key: 'move',
             frames: scene.anims.generateFrameNumbers('dandelion', { start: 0, end: 6 }),
-            frameRate: 4,
-            repeat: -1
+            frameRate: 5,
+            repeat: -1,
+            yoyo: true,
         });
-        gameState.dandelion.play('move');
     };
 
 })(window);
