@@ -17,13 +17,9 @@ class StartScene extends Phaser.Scene {
 
         this.load.audio('backgroundMusic', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Audio/colorful-flowers.mp3');
 
-        document.getElementById('timer').style.display = 'none';
-        document.getElementById('health').style.display = 'none';
-        document.getElementById('coins-earned').style.display = 'none';
-        document.getElementById('joystick').style.display = 'none';
-        document.getElementById('shooter').style.display = 'none';
-        document.getElementById('rewards-earned').style.display = 'none';
+        document.getElementById('game-text').style.display = 'none';
         
+        document.getElementById('inventory-control').style.display = 'none';
         document.getElementById('inventory').style.display = 'none';
     }
 
@@ -69,12 +65,9 @@ class StartScene extends Phaser.Scene {
         this.scene.stop('StartScene');
         this.scene.start('Scene1');
         document.getElementById('main-header').style.display = 'none';
-        document.getElementById('timer').style.display = 'block';
-        document.getElementById('health').style.display = 'block';
-        document.getElementById('coins-earned').style.display = 'block';
-        document.getElementById('joystick').style.display = 'block';
-        document.getElementById('shooter').style.display = 'block';
-        document.getElementById('rewards-earned').style.display = 'block';
+
+        document.getElementById('game-text').style.display = 'block';
+        document.getElementById('inventory-control').style.display = 'block';
         
     }
 

@@ -33,6 +33,8 @@ class Scene1 extends Phaser.Scene {
         this.load.image('shortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform-green.png');
         this.load.image('testshortplatform', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/short-platform.png');
 
+        this.load.image('fungi', 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png');
+
     }
 
     create() {
@@ -59,6 +61,10 @@ class Scene1 extends Phaser.Scene {
         // Initialize coin counter
         gameState.coinsCollected = 0;
         document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
+
+        // Initialize mushroom counter
+        gameState.mushroomsCollected = 0;
+        document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -307,8 +313,6 @@ class Scene1 extends Phaser.Scene {
         // Define butterfly positions
         const coinPositions = [
             { x: 550, y: 410 },
-            { x: 650, y: 410 },
-            
             { x: 3200, y: 510 },
             { x: 3100, y: 390 }, 
         ];
@@ -380,8 +384,83 @@ class Scene1 extends Phaser.Scene {
             addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png', 'Butterflies: 2');
 }, null, this);
 
-
         console.log('Overlap detection for coins added.');
+
+// Define mushroom positions
+const mushroomPositions = [
+    { x: 850, y: 750 },
+];
+
+// Create static group for mushrooms
+gameState.mushrooms = this.physics.add.staticGroup();
+
+// Create and animate mushrooms, adding them to the static group
+mushroomPositions.forEach(pos => {
+    const mushroom = gameState.mushrooms.create(pos.x, pos.y, 'fungi');
+});
+
+// Add overlap detection between player and mushrooms
+this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
+    mushroom.destroy();
+    gameState.mushroomsCollected += 1;
+    document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.mushroomsCollected}`;
+
+        // Add mushroom to inventory
+        addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png', `Mushrooms: ${gameState.mushroomsCollected}`);
+    }, null, this);
+
+
+function addToInventory(imageSrc, captionText) {
+    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
+    const itemContainer = document.createElement('div'); // Container for the image and caption
+    itemContainer.classList.add('item-container');
+
+    const itemIcon = document.createElement('img');
+    itemIcon.src = imageSrc; // Path to your item image
+    itemIcon.classList.add('item-icon');
+
+    const itemCaption = document.createElement('span');
+    itemCaption.classList.add('item-caption');
+    itemCaption.innerText = captionText;
+
+    // Create the remove button
+    const itemRemove = document.createElement('button');
+    itemRemove.classList.add('item-remove');
+    itemRemove.innerText = 'Discard';
+
+    // Append the image, caption, and remove button to the container
+    itemContainer.appendChild(itemIcon);
+    itemContainer.appendChild(itemCaption);
+    itemContainer.appendChild(itemRemove);
+
+    // Add the container to the inventory items container and to the inventory elements array
+    inventoryItemsContainer.appendChild(itemContainer);
+    gameState.inventoryElements.push(itemContainer);
+
+    // Add click event listener to the remove button
+    itemRemove.addEventListener('click', () => {
+        if (confirm('Are you sure you want to discard this item from the inventory?')) {
+            removeFromInventory(itemContainer);
+        }
+    });
+}
+
+function removeFromInventory(itemContainer) {
+    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
+
+    // Remove the container from the inventory items container
+    inventoryItemsContainer.removeChild(itemContainer);
+    gameState.mushroomsCollected -= 1;
+    document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.mushroomsCollected}`;
+
+    // Find the index of the container in the inventory elements array and remove it
+    const index = gameState.inventoryElements.indexOf(itemContainer);
+    if (index > -1) {
+        gameState.inventoryElements.splice(index, 1);
+    }
+}
+
+
 
         // Define potion positions
         const potionPositions = [
