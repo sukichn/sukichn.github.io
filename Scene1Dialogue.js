@@ -85,7 +85,7 @@ const pages = [
     {
         character: 'Balu',
         page: 10,
-        narrative: "Thanks again for helping! Do you need anything else?",
+        narrative: "Balu: Thanks again for helping! Do you need anything else?",
         options: [
             { option: 'Any more tasks?', nextPage: 7 },
             { option: 'No, that’s all for now.', closeDialogue: true, forceReset: true },
@@ -94,7 +94,7 @@ const pages = [
     {
         character: 'Balu',
         page: 11,
-        narrative: "Have you found the butterflies?",
+        narrative: "Balu: Have you found the butterflies?",
         options: [
             { option: "Here you go.", nextPage: 6, checkTask: true },
             { option: 'Not yet.', closeDialogue: true, forceReset: true },
@@ -103,6 +103,10 @@ const pages = [
 ];
 
 (function(global) {
+    // Define page references as variables
+    const PAGE_TASK_COMPLETED = 10;
+    const PAGE_NOT_ENOUGH_RESOURCES = 9;
+
     global.fetchPage = function(scene, page, checkTask = false) {
         // Find the page data based on the page number
         let pageData = pages.find(p => p.page === page);
@@ -133,39 +137,103 @@ const pages = [
 
             // If the task is already completed, redirect to a specific page
             if (gameState.taskCompleted) {
-                console.log(`Task already completed. Redirecting to page 10.`);
-                page = 10; // Redirect to page 10 if the task is already completed
+                console.log(`Task already completed. Redirecting to page ${PAGE_TASK_COMPLETED}.`);
+                page = PAGE_TASK_COMPLETED; // Redirect to page defined by variable if the task is already completed
                 pageData = pages.find(p => p.page === page);
             } 
-            // If the player has enough coins, complete the task and update the state
-            else if (gameState.coinsCollected >= 4) {
-                console.log(`Player has enough coins. Completing task.`);
+            // If the player has enough butterflies, complete the task and update the state
+            else if (gameState.coinsCollected >= 4 /* && gameState.mushroomsCollected >= 1 */) {
+                console.log(`Player has enough resources. Completing task.`);
                 gameState.coinsCollected -= 4;
+                // gameState.mushroomsCollected -= 1;
 
-                // Remove only coin items from inventory
-                let butterfliesRemoved = 0;
-                gameState.inventoryElements = gameState.inventoryElements.filter(element => {
-                    if (butterfliesRemoved < 2 && element.querySelector('.item-caption').innerText.includes('Butterflies')) {
-                        butterfliesRemoved += 1;
-                        element.parentNode.removeChild(element);
-                        return false; // Remove from inventory
-                    }
-                    return true; // Keep in inventory
-                });
+                // Function to remove butterflies from inventory
+                function removeButterfliesFromInventory(countToRemove) {
+                    let butterfliesRemoved = 0;
 
+                    // Iterate through the inventory elements
+                    gameState.inventoryElements = gameState.inventoryElements.filter(element => {
+                        const itemCaption = element.itemContainer.querySelector('.item-caption');
+                        if (itemCaption && itemCaption.innerText.includes('Butterflies')) {
+                            // Extract the current count from the caption
+                            const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
 
-                document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
+                            // Calculate the new count after removal
+                            const newCount = currentCount - countToRemove;
+
+                            if (newCount > 0) {
+                                // Update the caption with the new count
+                                itemCaption.innerText = `Butterfly: ${newCount}`;
+                            } else {
+                                // If the count is 0 or less, remove the item from the inventory
+                                butterfliesRemoved += currentCount;
+                                element.itemContainer.parentNode.removeChild(element.itemContainer);
+                                gameState.butterflyImageAdded = false; // Reset flag
+                                return false; // Remove from inventory elements array
+                            }
+
+                            // Update the total butterflies collected
+                            gameState.coinsCollected -= countToRemove;
+                            document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+                            return true; // Keep in inventory elements array
+                        }
+                        return true; // Keep in inventory elements array
+                    });
+                }
+
+                // Function to remove mushrooms from inventory (commented out)
+                // function removeMushroomsFromInventory(countToRemove) {
+                //     let mushroomsRemoved = 0;
+
+                //     // Iterate through the inventory elements
+                //     gameState.inventoryElements = gameState.inventoryElements.filter(element => {
+                //         const itemCaption = element.itemContainer.querySelector('.item-caption');
+                //         if (itemCaption && itemCaption.innerText.includes('Mushrooms')) {
+                //             // Extract the current count from the caption
+                //             const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+
+                //             // Calculate the new count after removal
+                //             const newCount = currentCount - countToRemove;
+
+                //             if (newCount > 0) {
+                //                 // Update the caption with the new count
+                //                 itemCaption.innerText = `Mushroom: ${newCount}`;
+                //             } else {
+                //                 // If the count is 0 or less, remove the item from the inventory
+                //                 mushroomsRemoved += currentCount;
+                //                 element.itemContainer.parentNode.removeChild(element.itemContainer);
+                //                 gameState.mushroomImageAdded = false; // Reset flag
+                //                 return false; // Remove from inventory elements array
+                //             }
+
+                //             // Update the total mushrooms collected
+                //             gameState.mushroomsCollected -= countToRemove;
+                //             document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
+                //             return true; // Keep in inventory elements array
+                //         }
+                //         return true; // Keep in inventory elements array
+                //     });
+                // }
+
+                // Remove 4 butterflies from the inventory
+                removeButterfliesFromInventory(4);
+                // Remove 1 mushroom from the inventory (commented out)
+                // removeMushroomsFromInventory(1);
+
+                // Update the rewards and task status
+                document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+                // document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
                 gameState.rewardsCollected += 10; // Increment rewards by 10
                 document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false
-                page = 6; // Redirect to page 6 after updating the game state
+                page = PAGE_TASK_COMPLETED; // Redirect to page defined by variable after updating the game state
                 pageData = pages.find(p => p.page === page);
             } 
             // If the player doesn't have enough items, redirect to a specific page
             else {
-                console.log(`Player does not have enough coins. Redirecting to page 9.`);
-                page = 9; // Redirect to page 9 if the player hasn't collected enough
+                console.log(`Player does not have enough resources. Redirecting to page ${PAGE_NOT_ENOUGH_RESOURCES}.`);
+                page = PAGE_NOT_ENOUGH_RESOURCES; // Redirect to page defined by variable if the player hasn't collected enough
                 pageData = pages.find(p => p.page === page);
             }
 
