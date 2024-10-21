@@ -152,13 +152,13 @@ const pages = [
 
                 document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
                 gameState.rewardsCollected += 10; // Increment rewards by 10
-                document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`; // Update the DOM element
+                document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false
                 page = 6; // Redirect to page 6 after updating the game state
                 pageData = pages.find(p => p.page === page);
             } 
-            // If the player doesn't have enough coins, redirect to a specific page
+            // If the player doesn't have enough items, redirect to a specific page
             else {
                 console.log(`Player does not have enough coins. Redirecting to page 9.`);
                 page = 9; // Redirect to page 9 if the player hasn't collected enough

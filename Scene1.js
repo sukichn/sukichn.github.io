@@ -51,7 +51,7 @@ class Scene1 extends Phaser.Scene {
 
         // Initialize rewards counter;
         gameState.rewardsCollected = 0;
-        document.getElementById('rewards-earned').innerText = `Rewards: ${gameState.rewardsCollected}`;
+        document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`;
 
         // Initialize task completed;
         gameState.taskCompleted = false;
@@ -323,8 +323,7 @@ class Scene1 extends Phaser.Scene {
             coin.destroy();
             gameState.coinsCollected += 2;
             document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
-
-       
+   
 
             function addToInventory(imageSrc, captionText) {
                 const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
@@ -339,15 +338,44 @@ class Scene1 extends Phaser.Scene {
                 itemCaption.classList.add('item-caption');
                 itemCaption.innerText = captionText;
             
-                // Append the image and caption to the container
+                // Create the remove button
+                const itemRemove = document.createElement('button');
+                itemRemove.classList.add('item-remove');
+                itemRemove.innerText = 'Discard';
+            
+                // Append the image, caption, and remove button to the container
                 itemContainer.appendChild(itemIcon);
                 itemContainer.appendChild(itemCaption);
+                itemContainer.appendChild(itemRemove);
             
                 // Add the container to the inventory items container and to the inventory elements array
                 inventoryItemsContainer.appendChild(itemContainer);
                 gameState.inventoryElements.push(itemContainer);
+
+                // Add click event listener to the remove button
+                itemRemove.addEventListener('click', () => {
+                    if (confirm('Are you sure you want to discard this item from the inventory?')) {
+                        removeFromInventory(itemContainer);
+                    }
+                });
+            
             }
             
+            function removeFromInventory(itemContainer) {
+                const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
+            
+                // Remove the container from the inventory items container
+                inventoryItemsContainer.removeChild(itemContainer);
+                gameState.coinsCollected -= 2;
+                document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
+
+            
+                // Find the index of the container in the inventory elements array and remove it
+                const index = gameState.inventoryElements.indexOf(itemContainer);
+                if (index > -1) {
+                    gameState.inventoryElements.splice(index, 1);
+                }
+            }
             // Image source
             addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png', 'Butterflies: 2');
 }, null, this);

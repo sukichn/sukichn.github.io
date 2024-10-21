@@ -37,6 +37,9 @@ class Scene2 extends Phaser.Scene {
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
 
+        // Initialize rewards counter;
+        document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`;
+
         // Initialize coin counter
         document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
 
