@@ -145,17 +145,13 @@ const pages = [
             // If the player has enough butterflies, complete the task and update the state
             else if (gameState.coinsCollected >= 4 /* && gameState.mushroomsCollected >= 1 */) {
                 console.log(`Player has enough resources. Completing task.`);
-                gameState.coinsCollected -= 4;
-                // gameState.mushroomsCollected -= 1;
-
+                
                 // Remove 4 butterflies from the inventory
                 removeButterfliesFromInventory(4);
                 // Remove 1 mushroom from the inventory (commented out)
                 // removeMushroomsFromInventory(1);
 
                 // Update the rewards and task status
-                document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-                // document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
                 gameState.rewardsCollected += REWARDS_EARNED; // Increment rewards by amount in REWARDS_EARNED const
                 document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed
@@ -229,7 +225,8 @@ const pages = [
     
     // Function to remove butterflies from inventory
     function removeButterfliesFromInventory(countToRemove) {
-        let butterfliesRemoved = 0;
+        let butterfliesRemainingToRemove = countToRemove;
+        let initialCoinsCollected = gameState.coinsCollected;
 
         // Iterate through the inventory elements
         gameState.inventoryElements = gameState.inventoryElements.filter(element => {
@@ -238,34 +235,80 @@ const pages = [
                 // Extract the current count from the caption
                 const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
 
-                // Calculate the new count after removal
-                const newCount = currentCount - countToRemove;
+                if (butterfliesRemainingToRemove <= 0) {
+                    return true; // Keep in inventory elements array if no more butterflies need to be removed
+                }
 
-                if (newCount > 0) {
+                if (currentCount > butterfliesRemainingToRemove) {
                     // Update the caption with the new count
-                    itemCaption.innerText = `Butterfly: ${newCount}`;
+                    itemCaption.innerText = `Butterfly: ${currentCount - butterfliesRemainingToRemove}`;
+                    butterfliesRemainingToRemove = 0;
                 } else {
-                    // If the count is 0 or less, remove the item from the inventory
-                    butterfliesRemoved += currentCount;
+                    butterfliesRemainingToRemove -= currentCount;
                     element.itemContainer.parentNode.removeChild(element.itemContainer);
                     gameState.butterflyImageAdded = false; // Reset flag
                     return false; // Remove from inventory elements array
                 }
 
-                // Update the total butterflies collected
-                gameState.coinsCollected -= countToRemove;
-                document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-
                 // Apply the red background color momentarily
-                element.itemContainer.style.backgroundColor = 'red';
+                itemCaption.style.backgroundColor = 'red';
                 setTimeout(() => {
-                    element.itemContainer.style.backgroundColor = ''; // Reset the background color
+                    itemCaption.style.backgroundColor = ''; // Reset the background color
                 }, 600);
 
                 return true; // Keep in inventory elements array
             }
             return true; // Keep in inventory elements array
         });
+
+        // Update the total butterflies collected
+        gameState.coinsCollected = initialCoinsCollected - countToRemove; // Ensure no negative values
+        document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+        console.log(`Updated gameState.coinsCollected: ${gameState.coinsCollected}`);
+    }
+
+    // Function to remove mushrooms from inventory
+    function removeMushroomsFromInventory(countToRemove) {
+        let mushroomsRemainingToRemove = countToRemove;
+        let initialMushroomsCollected = gameState.mushroomsCollected;
+
+        // Iterate through the inventory elements
+        gameState.inventoryElements = gameState.inventoryElements.filter(element => {
+            const itemCaption = element.itemContainer.querySelector('.item-caption');
+            if (itemCaption && itemCaption.innerText.includes('Mushroom')) {
+                // Extract the current count from the caption
+                const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+
+                if (mushroomsRemainingToRemove <= 0) {
+                    return true; // Keep in inventory elements array if no more mushrooms need to be removed
+                }
+
+                if (currentCount > mushroomsRemainingToRemove) {
+                    // Update the caption with the new count
+                    itemCaption.innerText = `Mushroom: ${currentCount - mushroomsRemainingToRemove}`;
+                    mushroomsRemainingToRemove = 0;
+                } else {
+                    mushroomsRemainingToRemove -= currentCount;
+                    element.itemContainer.parentNode.removeChild(element.itemContainer);
+                    gameState.mushroomImageAdded = false; // Reset flag
+                    return false; // Remove from inventory elements array
+                }
+
+                // Apply the red background color momentarily
+                itemCaption.style.backgroundColor = 'red';
+                setTimeout(() => {
+                    itemCaption.style.backgroundColor = ''; // Reset the background color
+                }, 600);
+
+                return true; // Keep in inventory elements array
+            }
+            return true; // Keep in inventory elements array
+        });
+
+        // Update the total mushrooms collected
+        gameState.mushroomsCollected = initialMushroomsCollected - countToRemove; // Ensure no negative values
+        document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
+        console.log(`Updated gameState.mushroomsCollected: ${gameState.mushroomsCollected}`);
     }
 
 })(window);

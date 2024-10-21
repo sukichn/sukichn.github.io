@@ -67,13 +67,7 @@ class Scene1 extends Phaser.Scene {
         // Initialize task completed;
         gameState.taskCompleted = false;
 
-        // Initialize coin counter
-        gameState.coinsCollected = 0;
-        document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
-
-        // Initialize mushroom counter
-        gameState.mushroomsCollected = 0;
-        document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.coinsCollected}`;
+        
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -323,6 +317,13 @@ gameState.inventoryElements = [];
 gameState.butterflyImageAdded = false;
 gameState.mushroomImageAdded = false;
 
+// Initialize counters
+gameState.coinsCollected = 0;
+document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+
+gameState.mushroomsCollected = 0;
+document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
+
 // Define butterfly positions
 const coinPositions = [
     { x: 550, y: 410 },
@@ -330,225 +331,177 @@ const coinPositions = [
     { x: 3100, y: 390 },
 ];
 
-// Create and animate coins
-createCoinAnimations(this);
-createAndAnimateCoins(this, gameState, coinPositions);
-console.log('Coins created and animated.');
-
-// Add overlap detection between player and each butterfly
-this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
-    coin.destroy();
-    gameState.coinsCollected += 2;
-    document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-
-    if (!gameState.butterflyImageAdded) {
-        // Add butterfly to inventory
-        addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png', `Butterfly: ${gameState.coinsCollected}`, 'butterfly');
-        gameState.butterflyImageAdded = true;
-    } else {
-        updateInventoryCaption('butterfly', `Butterfly: ${gameState.coinsCollected}`);
-    }
-}, null, this);
-
-console.log('Overlap detection for butterflies added.');
-
 // Define mushroom positions
 const mushroomPositions = [
     { x: 850, y: 750 },
     { x: 950, y: 750 },
 ];
 
+// Create and animate butterflies
+createCoinAnimations(this);
+createAndAnimateCoins(this, gameState, coinPositions);
+console.log('Butterflies created and animated.');
+
 // Create static group for mushrooms
 gameState.mushrooms = this.physics.add.staticGroup();
-
-// Create and animate mushrooms, adding them to the static group
 mushroomPositions.forEach(pos => {
-    const mushroom = gameState.mushrooms.create(pos.x, pos.y, 'fungi');
+    gameState.mushrooms.create(pos.x, pos.y, 'fungi');
 });
+console.log('Mushrooms created and animated.');
 
-// Add overlap detection between player and mushrooms
-this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
-    mushroom.destroy();
-    gameState.mushroomsCollected += 1;
-    document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
+// General function to handle item collection
+function handleItemCollection(player, item, itemType, amount, imageSrc) {
+    try {
+        item.destroy();
+        const collectedKey = `${itemType}sCollected`;
+        if (typeof gameState[collectedKey] !== 'number') {
+            gameState[collectedKey] = 0; // Ensure the counter is initialized
+        }
+        gameState[collectedKey] += amount;
 
-    if (!gameState.mushroomImageAdded) {
-        // Add mushroom to inventory
-        addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png', `Mushroom: ${gameState.mushroomsCollected}`, 'mushroom');
-        gameState.mushroomImageAdded = true;
-          } else {
-        updateInventoryCaption('mushroom', `Mushroom: ${gameState.mushroomsCollected}`);
+        // Map internal item type to display name
+        const displayNames = {
+            coin: 'Butterfly',
+            mushroom: 'Mushroom'
+        };
+        const displayName = displayNames[itemType] || capitalizeFirstLetter(itemType);
+
+        document.getElementById(`${itemType}s-earned`).innerText = `${displayName}: ${gameState[collectedKey]}`;
+
+        const itemAddedFlag = `${itemType}ImageAdded`;
+        if (!gameState[itemAddedFlag]) {
+            addToInventory(imageSrc, `${displayName}: ${gameState[collectedKey]}`, itemType);
+            gameState[itemAddedFlag] = true;
+        } else {
+            updateInventoryCaption(itemType, `${displayName}: ${gameState[collectedKey]}`);
+        }
+    } catch (error) {
+        console.error(`Error handling item collection: ${error.message}`);
     }
+}
+
+// Add overlap detection for butterflies
+this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
+    handleItemCollection(player, coin, 'coin', 2, 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png');
 }, null, this);
 
-console.log('Overlap detection for mushrooms added.');
+// Add overlap detection for mushrooms
+this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
+    handleItemCollection(player, mushroom, 'mushroom', 1, 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png');
+}, null, this);
+
+console.log('Overlap detection for mushrooms and butterflies added.');
 
 function addToInventory(imageSrc, captionText, itemType) {
-    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
-    const itemContainer = document.createElement('div'); // Container for the image and caption
-    itemContainer.classList.add('item-container');
+    try {
+        const inventoryItemsContainer = document.getElementById('inventory-items');
+        const itemContainer = document.createElement('div');
+        itemContainer.classList.add('item-container');
 
-    const itemIcon = document.createElement('img');
-    itemIcon.src = imageSrc; // Path to your item image
-    itemIcon.classList.add('item-icon');
+        // Create item icon
+        const itemIcon = document.createElement('img');
+        itemIcon.src = imageSrc;
+        itemIcon.classList.add('item-icon');
+        itemContainer.appendChild(itemIcon);
 
-    const itemCaption = document.createElement('span');
-    itemCaption.classList.add('item-caption');
-    itemCaption.innerText = captionText;
+        // Create item caption
+        const itemCaption = document.createElement('span');
+        itemCaption.classList.add('item-caption');
+        itemCaption.innerText = captionText;
+        itemContainer.appendChild(itemCaption);
 
-    // Create the remove button
-    const itemRemove = document.createElement('button');
-    itemRemove.classList.add('item-remove');
-    itemRemove.innerText = 'Discard';
+        // Create remove button
+        const itemRemove = document.createElement('button');
+        itemRemove.classList.add('item-remove');
+        itemRemove.innerText = 'Discard';
+        itemContainer.appendChild(itemRemove);
+        
+        // Append item container to inventory
+        inventoryItemsContainer.appendChild(itemContainer);
 
-    // Append the image, caption, and remove button to the container
-    itemContainer.appendChild(itemIcon);
-    itemContainer.appendChild(itemCaption);
-    itemContainer.appendChild(itemRemove);
+        // Track inventory elements
+        gameState.inventoryElements.push({ itemContainer, itemType });
 
-    // Add the container to the inventory items container and to the inventory elements array
-    inventoryItemsContainer.appendChild(itemContainer);
-    gameState.inventoryElements.push({ itemContainer, itemType });
+        // Add click event for remove button
+        itemRemove.addEventListener('click', () => {
+            if (confirm('Are you sure you want to discard this item from the inventory?')) {
+                removeFromInventory(itemContainer, itemType);
+            }
+        });
 
-    // Add click event listener to the remove button
-    itemRemove.addEventListener('click', () => {
-        if (confirm('Are you sure you want to discard this item from the inventory?')) {
-            removeFromInventory(itemContainer, itemType);
-        }
-    });
+        // Highlight the new item
+        highlightItem(itemContainer, 'green');
+    } catch (error) {
+        console.error(`Error adding to inventory: ${error.message}`);
+    }
+}
+
+function highlightItem(itemContainer, color) {
+    try {
+        itemContainer.style.backgroundColor = color;
+        setTimeout(() => {
+            itemContainer.style.backgroundColor = '';
+        }, 600);
+    } catch (error) {
+        console.error(`Error highlighting item: ${error.message}`);
+    }
 }
 
 function updateInventoryCaption(itemType, captionText) {
-    const item = gameState.inventoryElements.find(element => element.itemType === itemType);
-    if (item) {
-        const itemCaption = item.itemContainer.querySelector('.item-caption');
-        if (itemCaption) {
-            itemCaption.innerText = captionText;
-            item.itemContainer.style.backgroundColor = 'green';
-            // Set a timeout to remove the border after period
-            setTimeout(() => {
-                item.itemContainer.style.backgroundColor = ''; // Reset the border style
-            }, 600);
+    try {
+        const item = gameState.inventoryElements.find(element => element.itemType === itemType);
+        if (item) {
+            const itemCaption = item.itemContainer.querySelector('.item-caption');
+            if (itemCaption) {
+                itemCaption.innerText = captionText;
+                highlightItem(item.itemContainer, 'green');
+            }
         }
+    } catch (error) {
+        console.error(`Error updating inventory caption: ${error.message}`);
     }
 }
 
 function removeFromInventory(itemContainer, itemType) {
-    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
+    try {
+        const inventoryItemsContainer = document.getElementById('inventory-items');
+        const itemCaption = itemContainer.querySelector('.item-caption');
+        if (itemCaption) {
+            const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+            const newCount = currentCount - 1;
+            const displayNames = {
+                coin: 'Butterfly',
+                mushroom: 'Mushroom'
+            };
+            const displayName = displayNames[itemType] || capitalizeFirstLetter(itemType);
 
-    const itemCaption = itemContainer.querySelector('.item-caption');
-    if (itemCaption) {
-        // Extract the current count from the caption
-        const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+            if (newCount > 0) {
+                itemCaption.innerText = `${displayName}: ${newCount}`;
+            } else {
+                inventoryItemsContainer.removeChild(itemContainer);
+                gameState[`${itemType}ImageAdded`] = false;
+            }
 
-        // Calculate the new count after removal
-        const newCount = currentCount - 1; // Decrement by 1 for discard
+            highlightItem(itemContainer, 'red');
 
-        // Use the singular form for item type
-        const formattedItemType = capitalizeFirstLetter(itemType);
+            gameState[`${itemType}sCollected`] -= 1;
+            document.getElementById(`${itemType}s-earned`).innerText = `${displayName}: ${gameState[`${itemType}sCollected`]}`;
 
-        if (newCount > 0) {
-            // Update the caption with the new count
-            itemCaption.innerText = `${formattedItemType}: ${newCount}`;
-        } else {
-            // If the count is 0 or less, remove the item from the inventory
-            inventoryItemsContainer.removeChild(itemContainer);
-            if (itemType === 'mushroom') {
-                gameState.mushroomImageAdded = false; // Reset flag
-            } else if (itemType === 'butterfly') {
-                gameState.butterflyImageAdded = false; // Reset flag
+            if (newCount <= 0) {
+                const index = gameState.inventoryElements.findIndex(element => element.itemContainer === itemContainer && element.itemType === itemType);
+                if (index > -1) {
+                    gameState.inventoryElements.splice(index, 1);
+                }
             }
         }
-
-        // Update the total items collected
-        if (itemType === 'mushroom') {
-            gameState.mushroomsCollected -= 1; // Decrement by 1 for discard
-            document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
-        } else if (itemType === 'butterfly') {
-            gameState.coinsCollected -= 1; // Decrement by 1 for discard
-            document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-        }
-
-        // Find the index of the container in the inventory elements array and remove it if necessary
-        if (newCount <= 0) {
-            const index = gameState.inventoryElements.findIndex(element => element.itemContainer === itemContainer && element.itemType === itemType);
-            if (index > -1) {
-                gameState.inventoryElements.splice(index, 1);
-            }
-        }
+    } catch (error) {
+        console.error(`Error removing from inventory: ${error.message}`);
     }
 }
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-function updateInventoryCaption(itemType, captionText) {
-    const item = gameState.inventoryElements.find(element => element.itemType === itemType);
-    if (item) {
-        const itemCaption = item.itemContainer.querySelector('.item-caption');
-        if (itemCaption) {
-            itemCaption.innerText = captionText;
-            item.itemContainer.style.backgroundColor = 'green';
-            // Set a timeout to remove the border after 600 ms
-            setTimeout(() => {
-                item.itemContainer.style.backgroundColor = ''; // Reset the border style
-            }, 600);
-        }
-    }
-}
-
-function removeFromInventory(itemContainer, itemType) {
-    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
-
-    const itemCaption = itemContainer.querySelector('.item-caption');
-    if (itemCaption) {
-        // Extract the current count from the caption
-        const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
-
-        // Calculate the new count after removal
-        const newCount = currentCount - 1; // Decrement by 1 for discard
-
-        // Format the item type without pluralization
-        const formattedItemType = capitalizeFirstLetter(itemType);
-
-        if (newCount > 0) {
-            // Update the caption with the new count
-            itemCaption.innerText = `${formattedItemType}: ${newCount}`;
-        } else {
-            // If the count is 0 or less, remove the item from the inventory
-            inventoryItemsContainer.removeChild(itemContainer);
-            if (itemType === 'mushroom') {
-                gameState.mushroomImageAdded = false; // Reset flag
-            } else if (itemType === 'butterfly') {
-                gameState.butterflyImageAdded = false; // Reset flag
-            }
-        }
-
-        // Update the total items collected
-        if (itemType === 'mushroom') {
-            gameState.mushroomsCollected -= 1; // Decrement by 1 for discard
-            document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
-        } else if (itemType === 'butterfly') {
-            gameState.coinsCollected -= 1; // Decrement by 1 for discard
-            document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-        }
-
-        // Find the index of the container in the inventory elements array and remove it if necessary
-        if (newCount <= 0) {
-            const index = gameState.inventoryElements.findIndex(element => element.itemContainer === itemContainer && element.itemType === itemType);
-            if (index > -1) {
-                gameState.inventoryElements.splice(index, 1);
-            }
-        }
-    }
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-
         // Define potion positions
         const potionPositions = [
             /*{ x: 400, y: 625 }, // Potion on Platform 1*/
