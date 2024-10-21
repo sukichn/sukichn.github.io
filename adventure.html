@@ -37,8 +37,16 @@
       background-color: white;
     }
 
-    #page-container{
-      max-width: 1000px;
+    #page-container {
+      max-width: 1528px;
+      max-height: 850px;
+      width: 100%;
+      height: 100%;
+      border: 1px solid red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
     }
 
     header {
@@ -51,8 +59,6 @@
       flex-direction: row;
       align-items: baseline;
       justify-content: space-between;
-      position: absolute;
-      top: 0;
       width: 100%;
       z-index: 1000;
       box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
@@ -318,19 +324,19 @@
     }
 
     /* Inventory container */
-#inventory {
-  position: fixed;
-  top: 5px;
-  right: 5px;
-  width: 600px;
-  background-color: #f1f1f1;
-  display: flex;
-  flex-direction: column; /* Stack title and items vertically */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
-}
+    #inventory {
+      position: fixed;
+      top: 5px;
+      right: 5px;
+      width: 600px;
+      background-color: #f1f1f1;
+      display: flex;
+      flex-direction: column; /* Stack title and items vertically */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 0; /* Remove padding */
+      margin: 0; /* Remove margin */
+    }
 
     #inventory-title {
       font-size: 20px;
@@ -338,16 +344,16 @@
       padding-top: 10px;
     }
 
-/* Inventory items container */
-.inventory-items {
-  display: flex;
-  flex-wrap: wrap; /* Wrap items in rows */
-  gap: 10px; /* Space between items */
-  padding: 10px;
-  box-sizing: border-box; /* Include padding in width */
-  width: 100%; /* Full width of the container */
-  margin: 0; /* Remove margin */
-}
+    /* Inventory items container */
+    .inventory-items {
+      display: flex;
+      flex-wrap: wrap; /* Wrap items in rows */
+      gap: 10px; /* Space between items */
+      padding: 10px;
+      box-sizing: border-box; /* Include padding in width */
+      width: 100%; /* Full width of the container */
+      margin: 0; /* Remove margin */
+    }
 
     /* Media query for smaller screens */
     @media (max-width: 768px) {
@@ -362,90 +368,85 @@
       }
     }
 
-/* Inventory item container */
-.item-container {
-  height: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  margin: 0; /* Remove margin */
-}
+    /* Inventory item container */
+    .item-container {
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 5px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin: 0; /* Remove margin */
+    }
 
-/* Icon inside the item */
-.item-icon {
-  background-color: rgb(128, 202, 255);
-  width: 100px;
-  margin: 5px;
-}
+    /* Icon inside the item */
+    .item-icon {
+      background-color: rgb(128, 202, 255);
+      width: 100px;
+      margin: 5px;
+    }
 
-/* Caption inside the item */
-.item-caption {
-  font-size: 12px;
-  text-align: center;
-  color: black;
-  margin-top: 5px;
-}
+    /* Caption inside the item */
+    .item-caption {
+      font-size: 12px;
+      text-align: center;
+      color: black;
+      margin-top: 5px;
+    }
   </style>
 </head>
 
 <body>
 
+  <div id="page-container">
+    <header id="main-header">
+      <div id="nav-links">
+        <div id="home"><a href="index.html">Home</a></div>
+        <div id="home"><a href="index.html#potions-header">Products</a></div>
+        <div class="game"><a href="alchemy.html">Alchemy</a></div>
+        <div class="contact"><a href="#">Adventure</a></div>
+      </div>
+      <div id="nav-logo"></div>
+      <div id="nav-shopcart">
+      </div>
+    </header>
 
+    <i id="music-on" class="fa fa-volume-up fa-lg" style="display:none;"></i>
+    <i id="music-off" class="fa fa-volume-off fa-lg"></i>
 
-  <header id="main-header">
-    <div id="nav-links">
-      <div id="home"><a href="index.html">Home</a></div>
-      <div id="home"><a href="index.html#potions-header">Products</a></div>
-      <div class="game"><a href="alchemy.html">Alchemy</a></div>
-      <div class="contact"><a href="#">Adventure</a></div>
+    <div id="game-text">
+      <div id="level"></div>
+      <div id="timer"></div>
+      <div id="countdown"></div>
+      <div id="total-time"></div>
+      <div id="health"></div>
+      <div id="attacks"></div>
+      <div id="rewards-earned">Rewards: 0</div>
+      <span id="coins-earned">Butterflies: 0</span>
+      <button id="inventory-control">Inventory</button>
     </div>
-    <div id="nav-logo"></div>
-    <div id="nav-shopcart">
+
+    <div id="inventory" style="display:none;">
+      <span id="inventory-title">Inventory</span>
+      <div class="inventory-items" id="inventory-items">
+        <!-- Items appended in scene files -->
+      </div>
     </div>
-  </header>
 
-  <div id="page-container"></div>
-
-  <i id="music-on" class="fa fa-volume-up fa-lg" style="display:none;"></i>
-  <i id="music-off" class="fa fa-volume-off fa-lg"></i>
-
-  <div id="game-text">
-    <div id="level"></div>
-    <div id="timer"></div>
-    <div id="countdown"></div>
-    <div id="total-time"></div>
-    <div id="health"></div>
-    <div id="attacks"></div>
-    <div id="rewards-earned">Rewards: 0</div>
-    <span id="coins-earned">Butterflies: 0</span>
-    <button id="inventory-control">Inventory</button>
-  </div>
-
-  <div id="inventory" style="display:none;">
-    <span id="inventory-title">Inventory</span>
-    <div class="inventory-items" id="inventory-items">
-      <!-- Items appended in scene files -->
-      
+    <div id="game-alert"></div>
+    <div id="dialogue-container" style="display:none;">
+      <div id="dialogue" style="display:none;"></div>
+      <button id="reply1" style="display:none;"></button>
+      <button id="reply2" style="display:none;"></button>
     </div>
-  </div>
 
-  <div id="game-alert"></div>
-  <div id="dialogue-container" style="display:none;">
-    <div id="dialogue" style="display:none;"></div>
-    <button id="reply1" style="display:none;"></button>
-    <button id="reply2" style="display:none;"></button>
-  </div>
-
-  <div id="shooter">
-    <div class="left-half"></div>
-    <div class="right-half"></div>
-  </div>
-  <div id="joystick"></div>
-
+    <div id="shooter">
+      <div class="left-half"></div>
+      <div class="right-half"></div>
+    </div>
+    <div id="joystick"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
@@ -463,8 +464,6 @@
   <script src="gameover.js"></script>
   <script src="shooterUtils.js"></script>
   <script src="attackAssets.js"></script>
-
-
   <script src="StartScene.js"></script>
   <script src="Scene1Dialogue.js"></script>
   <script src="dialogue.js"></script>
