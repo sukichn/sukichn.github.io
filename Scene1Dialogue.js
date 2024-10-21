@@ -154,7 +154,7 @@ const pages = [
                     // Iterate through the inventory elements
                     gameState.inventoryElements = gameState.inventoryElements.filter(element => {
                         const itemCaption = element.itemContainer.querySelector('.item-caption');
-                        if (itemCaption && itemCaption.innerText.includes('Butterflies')) {
+                        if (itemCaption && itemCaption.innerText.includes('Butterfly')) {
                             // Extract the current count from the caption
                             const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
 
@@ -188,7 +188,7 @@ const pages = [
                 //     // Iterate through the inventory elements
                 //     gameState.inventoryElements = gameState.inventoryElements.filter(element => {
                 //         const itemCaption = element.itemContainer.querySelector('.item-caption');
-                //         if (itemCaption && itemCaption.innerText.includes('Mushrooms')) {
+                //         if (itemCaption && itemCaption.innerText.includes('Mushroom')) {
                 //             // Extract the current count from the caption
                 //             const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
 
@@ -293,4 +293,39 @@ const pages = [
             }
         }
     };
+    
+    // Function to remove butterflies from inventory
+    function removeButterfliesFromInventory(countToRemove) {
+        let butterfliesRemoved = 0;
+
+        // Iterate through the inventory elements
+        gameState.inventoryElements = gameState.inventoryElements.filter(element => {
+            const itemCaption = element.itemContainer.querySelector('.item-caption');
+            if (itemCaption && itemCaption.innerText.includes('Butterfly')) {
+                // Extract the current count from the caption
+                const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+
+                // Calculate the new count after removal
+                const newCount = currentCount - countToRemove;
+
+                if (newCount > 0) {
+                    // Update the caption with the new count
+                    itemCaption.innerText = `Butterfly: ${newCount}`;
+                } else {
+                    // If the count is 0 or less, remove the item from the inventory
+                    butterfliesRemoved += currentCount;
+                    element.itemContainer.parentNode.removeChild(element.itemContainer);
+                    gameState.butterflyImageAdded = false; // Reset flag
+                    return false; // Remove from inventory elements array
+                }
+
+                // Update the total butterflies collected
+                gameState.coinsCollected -= countToRemove;
+                document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+                return true; // Keep in inventory elements array
+            }
+            return true; // Keep in inventory elements array
+        });
+    }
+
 })(window);

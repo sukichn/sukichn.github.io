@@ -69,11 +69,11 @@ class Scene1 extends Phaser.Scene {
 
         // Initialize coin counter
         gameState.coinsCollected = 0;
-        document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+        document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
 
         // Initialize mushroom counter
         gameState.mushroomsCollected = 0;
-        document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.coinsCollected}`;
+        document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -350,7 +350,7 @@ this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
     }
 }, null, this);
 
-console.log('Overlap detection for butterfly added.');
+console.log('Overlap detection for butterflies added.');
 
 // Define mushroom positions
 const mushroomPositions = [
@@ -439,9 +439,72 @@ function removeFromInventory(itemContainer, itemType) {
         // Calculate the new count after removal
         const newCount = currentCount - 1; // Decrement by 1 for discard
 
+        // Use the singular form for item type
+        const formattedItemType = capitalizeFirstLetter(itemType);
+
         if (newCount > 0) {
             // Update the caption with the new count
-            itemCaption.innerText = `${capitalizeFirstLetter(itemType)}: ${newCount}`;
+            itemCaption.innerText = `${formattedItemType}: ${newCount}`;
+        } else {
+            // If the count is 0 or less, remove the item from the inventory
+            inventoryItemsContainer.removeChild(itemContainer);
+            if (itemType === 'mushroom') {
+                gameState.mushroomImageAdded = false; // Reset flag
+            } else if (itemType === 'butterfly') {
+                gameState.butterflyImageAdded = false; // Reset flag
+            }
+        }
+
+        // Update the total items collected
+        if (itemType === 'mushroom') {
+            gameState.mushroomsCollected -= 1; // Decrement by 1 for discard
+            document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
+        } else if (itemType === 'butterfly') {
+            gameState.coinsCollected -= 1; // Decrement by 1 for discard
+            document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+        }
+
+        // Find the index of the container in the inventory elements array and remove it if necessary
+        if (newCount <= 0) {
+            const index = gameState.inventoryElements.findIndex(element => element.itemContainer === itemContainer && element.itemType === itemType);
+            if (index > -1) {
+                gameState.inventoryElements.splice(index, 1);
+            }
+        }
+    }
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function updateInventoryCaption(itemType, captionText) {
+    const item = gameState.inventoryElements.find(element => element.itemType === itemType);
+    if (item) {
+        const itemCaption = item.itemContainer.querySelector('.item-caption');
+        if (itemCaption) {
+            itemCaption.innerText = captionText;
+        }
+    }
+}
+
+function removeFromInventory(itemContainer, itemType) {
+    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
+
+    const itemCaption = itemContainer.querySelector('.item-caption');
+    if (itemCaption) {
+        // Extract the current count from the caption
+        const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+
+        // Calculate the new count after removal
+        const newCount = currentCount - 1; // Decrement by 1 for discard
+
+        // Format the item type without pluralization
+        const formattedItemType = capitalizeFirstLetter(itemType);
+
+        if (newCount > 0) {
+            // Update the caption with the new count
+            itemCaption.innerText = `${formattedItemType}: ${newCount}`;
         } else {
             // If the count is 0 or less, remove the item from the inventory
             inventoryItemsContainer.removeChild(itemContainer);
