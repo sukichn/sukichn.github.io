@@ -142,13 +142,17 @@ const pages = [
                 console.log(`Player has enough coins. Completing task.`);
                 gameState.coinsCollected -= 4;
 
-                // Remove butterfly images from inventory
-                for (let i = 0; i < 2; i++) {
-                    const removedElement = gameState.inventoryElements.pop();
-                    if (removedElement) {
-                        removedElement.parentNode.removeChild(removedElement);
+                // Remove only coin items from inventory
+                let butterfliesRemoved = 0;
+                gameState.inventoryElements = gameState.inventoryElements.filter(element => {
+                    if (butterfliesRemoved < 2 && element.querySelector('.item-caption').innerText.includes('Butterflies')) {
+                        butterfliesRemoved += 1;
+                        element.parentNode.removeChild(element);
+                        return false; // Remove from inventory
                     }
-                }
+                    return true; // Keep in inventory
+                });
+
 
                 document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
                 gameState.rewardsCollected += 10; // Increment rewards by 10

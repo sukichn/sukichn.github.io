@@ -21,6 +21,9 @@ class StartScene extends Phaser.Scene {
         
         document.getElementById('inventory-control').style.display = 'none';
         document.getElementById('inventory').style.display = 'none';
+
+        document.getElementById('shooter').style.display = 'none';
+        document.getElementById('joystick').style.display = 'none';
     }
 
     create() {
@@ -68,6 +71,9 @@ class StartScene extends Phaser.Scene {
 
         document.getElementById('game-text').style.display = 'block';
         document.getElementById('inventory-control').style.display = 'block';
+
+        document.getElementById('shooter').style.display = 'block';
+        document.getElementById('joystick').style.display = 'block';
         
     }
 
