@@ -106,6 +106,7 @@ const pages = [
     // Define page references as variables
     const PAGE_TASK_COMPLETED = 10;
     const PAGE_NOT_ENOUGH_RESOURCES = 9;
+    const REWARDS_EARNED = 10;
 
     global.fetchPage = function(scene, page, checkTask = false) {
         // Find the page data based on the page number
@@ -147,74 +148,6 @@ const pages = [
                 gameState.coinsCollected -= 4;
                 // gameState.mushroomsCollected -= 1;
 
-                // Function to remove butterflies from inventory
-                function removeButterfliesFromInventory(countToRemove) {
-                    let butterfliesRemoved = 0;
-
-                    // Iterate through the inventory elements
-                    gameState.inventoryElements = gameState.inventoryElements.filter(element => {
-                        const itemCaption = element.itemContainer.querySelector('.item-caption');
-                        if (itemCaption && itemCaption.innerText.includes('Butterfly')) {
-                            // Extract the current count from the caption
-                            const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
-
-                            // Calculate the new count after removal
-                            const newCount = currentCount - countToRemove;
-
-                            if (newCount > 0) {
-                                // Update the caption with the new count
-                                itemCaption.innerText = `Butterfly: ${newCount}`;
-                            } else {
-                                // If the count is 0 or less, remove the item from the inventory
-                                butterfliesRemoved += currentCount;
-                                element.itemContainer.parentNode.removeChild(element.itemContainer);
-                                gameState.butterflyImageAdded = false; // Reset flag
-                                return false; // Remove from inventory elements array
-                            }
-
-                            // Update the total butterflies collected
-                            gameState.coinsCollected -= countToRemove;
-                            document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-                            return true; // Keep in inventory elements array
-                        }
-                        return true; // Keep in inventory elements array
-                    });
-                }
-
-                // Function to remove mushrooms from inventory (commented out)
-                // function removeMushroomsFromInventory(countToRemove) {
-                //     let mushroomsRemoved = 0;
-
-                //     // Iterate through the inventory elements
-                //     gameState.inventoryElements = gameState.inventoryElements.filter(element => {
-                //         const itemCaption = element.itemContainer.querySelector('.item-caption');
-                //         if (itemCaption && itemCaption.innerText.includes('Mushroom')) {
-                //             // Extract the current count from the caption
-                //             const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
-
-                //             // Calculate the new count after removal
-                //             const newCount = currentCount - countToRemove;
-
-                //             if (newCount > 0) {
-                //                 // Update the caption with the new count
-                //                 itemCaption.innerText = `Mushroom: ${newCount}`;
-                //             } else {
-                //                 // If the count is 0 or less, remove the item from the inventory
-                //                 mushroomsRemoved += currentCount;
-                //                 element.itemContainer.parentNode.removeChild(element.itemContainer);
-                //                 gameState.mushroomImageAdded = false; // Reset flag
-                //                 return false; // Remove from inventory elements array
-                //             }
-
-                //             // Update the total mushrooms collected
-                //             gameState.mushroomsCollected -= countToRemove;
-                //             document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
-                //             return true; // Keep in inventory elements array
-                //         }
-                //         return true; // Keep in inventory elements array
-                //     });
-                // }
-
                 // Remove 4 butterflies from the inventory
                 removeButterfliesFromInventory(4);
                 // Remove 1 mushroom from the inventory (commented out)
@@ -223,7 +156,7 @@ const pages = [
                 // Update the rewards and task status
                 document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
                 // document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
-                gameState.rewardsCollected += 10; // Increment rewards by 10
+                gameState.rewardsCollected += REWARDS_EARNED; // Increment rewards by amount in REWARDS_EARNED const
                 document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false
@@ -322,6 +255,13 @@ const pages = [
                 // Update the total butterflies collected
                 gameState.coinsCollected -= countToRemove;
                 document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+
+                // Apply the red background color momentarily
+                element.itemContainer.style.backgroundColor = 'red';
+                setTimeout(() => {
+                    element.itemContainer.style.backgroundColor = ''; // Reset the background color
+                }, 600);
+
                 return true; // Keep in inventory elements array
             }
             return true; // Keep in inventory elements array

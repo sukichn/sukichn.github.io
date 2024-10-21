@@ -44,8 +44,8 @@ class Scene1 extends Phaser.Scene {
         document.getElementById('total-time').style.display = 'none';
         document.getElementById('health').style.display = 'none';
         document.getElementById('attacks').style.display = 'none';
-        document.getElementById('coins-earned').style.display = 'none';
-        document.getElementById('mushrooms-earned').style.display = 'none';
+        document.getElementById('coins-earned').style.display = 'block';
+        document.getElementById('mushrooms-earned').style.display = 'block';
 
         console.log('Creating scene...');
         // Set the current scene instance
@@ -376,7 +376,7 @@ this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroo
         // Add mushroom to inventory
         addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/mushroom-small.png', `Mushroom: ${gameState.mushroomsCollected}`, 'mushroom');
         gameState.mushroomImageAdded = true;
-    } else {
+          } else {
         updateInventoryCaption('mushroom', `Mushroom: ${gameState.mushroomsCollected}`);
     }
 }, null, this);
@@ -424,6 +424,11 @@ function updateInventoryCaption(itemType, captionText) {
         const itemCaption = item.itemContainer.querySelector('.item-caption');
         if (itemCaption) {
             itemCaption.innerText = captionText;
+            item.itemContainer.style.backgroundColor = 'green';
+            // Set a timeout to remove the border after period
+            setTimeout(() => {
+                item.itemContainer.style.backgroundColor = ''; // Reset the border style
+            }, 600);
         }
     }
 }
@@ -484,6 +489,11 @@ function updateInventoryCaption(itemType, captionText) {
         const itemCaption = item.itemContainer.querySelector('.item-caption');
         if (itemCaption) {
             itemCaption.innerText = captionText;
+            item.itemContainer.style.backgroundColor = 'green';
+            // Set a timeout to remove the border after 600 ms
+            setTimeout(() => {
+                item.itemContainer.style.backgroundColor = ''; // Reset the border style
+            }, 600);
         }
     }
 }
