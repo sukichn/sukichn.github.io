@@ -27,6 +27,15 @@ class Scene2 extends Phaser.Scene {
     }
 
     create() {
+        document.getElementById('level').style.display = 'block';
+        document.getElementById('timer').style.display = 'block';
+        document.getElementById('countdown').style.display = 'block';
+        document.getElementById('total-time').style.display = 'block';
+        document.getElementById('health').style.display = 'block';
+        document.getElementById('attacks').style.display = 'block';
+        document.getElementById('coins-earned').style.display = 'block';
+        document.getElementById('mushrooms-earned').style.display = 'block';
+
         console.log('Creating scene...');
         // Set the current scene instance
         gameState.scene = this;

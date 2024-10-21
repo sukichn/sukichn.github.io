@@ -38,6 +38,15 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {
+        document.getElementById('level').style.display = 'none';
+        document.getElementById('timer').style.display = 'none';
+        document.getElementById('countdown').style.display = 'none';
+        document.getElementById('total-time').style.display = 'none';
+        document.getElementById('health').style.display = 'none';
+        document.getElementById('attacks').style.display = 'none';
+        document.getElementById('coins-earned').style.display = 'none';
+        document.getElementById('mushrooms-earned').style.display = 'none';
+
         console.log('Creating scene...');
         // Set the current scene instance
         gameState.scene = this;
@@ -502,7 +511,7 @@ function removeFromInventory(itemContainer) {
         setupShooterButton(this, gameState);
 
         // Initialize and start the countdown timer
-        window.timeUtils.startCountdown(this, 1 * 300 * 1000, gameState); // 5 minutes in milliseconds
+        window.timeUtils.startCountdown(this, 1 * 600 * 1000, gameState); // 10 minutes in milliseconds
 
         // Add collision detection between repellents and enemies
         this.physics.add.collider(gameState.repellent, gameState.enemies, (enemy, repellent) => {
