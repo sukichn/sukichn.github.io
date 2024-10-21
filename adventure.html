@@ -37,6 +37,10 @@
       background-color: white;
     }
 
+    #page-container{
+      max-width: 1000px;
+    }
+
     header {
       background-color: rgba(255, 255, 255, 0.1);
       height: 1.5rem;
@@ -390,6 +394,8 @@
 
 <body>
 
+
+
   <header id="main-header">
     <div id="nav-links">
       <div id="home"><a href="index.html">Home</a></div>
@@ -401,6 +407,8 @@
     <div id="nav-shopcart">
     </div>
   </header>
+
+  <div id="page-container"></div>
 
   <i id="music-on" class="fa fa-volume-up fa-lg" style="display:none;"></i>
   <i id="music-off" class="fa fa-volume-off fa-lg"></i>
@@ -438,11 +446,13 @@
   </div>
   <div id="joystick"></div>
 
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.min.js"></script>
   <script src="backgroundAssets.js"></script>
   <script src="exitAssets.js"></script>
   <script src="platformAssets.js"></script>
-  <script src="coinAssets.js"></script>
+  <script src="butterflyAssets.js"></script>
   <script src="dandelion.js"></script>
   <script src="healingAssets.js"></script>
   <script src="enemyAssets.js"></script>
@@ -453,6 +463,8 @@
   <script src="gameover.js"></script>
   <script src="shooterUtils.js"></script>
   <script src="attackAssets.js"></script>
+
+
   <script src="StartScene.js"></script>
   <script src="Scene1Dialogue.js"></script>
   <script src="dialogue.js"></script>

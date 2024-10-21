@@ -300,13 +300,14 @@ class Scene1 extends Phaser.Scene {
             console.log(`Dandelion created at (${position.x}, ${position.y}).`);
         });
 
-        // Initialize an empty array to keep track of inventory elements
+
+// Initialize an empty array to keep track of inventory elements
         gameState.inventoryElements = [];
 
-
-        // Define coin positions
+        // Define butterfly positions
         const coinPositions = [
             { x: 550, y: 410 },
+            { x: 650, y: 410 },
             
             { x: 3200, y: 510 },
             { x: 3100, y: 390 }, 
@@ -317,7 +318,7 @@ class Scene1 extends Phaser.Scene {
         createAndAnimateCoins(this, gameState, coinPositions);
         console.log('Coins created and animated.');
 
-        // Add overlap detection between player and each coin
+        // Add overlap detection between player and each butterfly
         this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
             coin.destroy();
             gameState.coinsCollected += 2;
@@ -325,27 +326,30 @@ class Scene1 extends Phaser.Scene {
 
        
 
-    // Add collected coin to the inventory
-    const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
-    const itemContainer = document.createElement('div'); // Container for the image and caption
-    itemContainer.classList.add('item-container');
-
-    const itemIcon = document.createElement('img');
-    itemIcon.src = 'https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png'; // Path to your coin image
-    itemIcon.classList.add('item-icon');
-
-    const itemCaption = document.createElement('span');
-    itemCaption.classList.add('item-caption');
-    itemCaption.innerText = 'Butterflies: 2';
-
-    // Append the image and caption to the container
-    itemContainer.appendChild(itemIcon);
-    itemContainer.appendChild(itemCaption);
-
-    // Add the container to the inventory items container and to the inventory elements array
-    inventoryItemsContainer.appendChild(itemContainer);
-    gameState.inventoryElements.push(itemContainer);
-
+            function addToInventory(imageSrc, captionText) {
+                const inventoryItemsContainer = document.getElementById('inventory-items'); // Use the correct container for items
+                const itemContainer = document.createElement('div'); // Container for the image and caption
+                itemContainer.classList.add('item-container');
+            
+                const itemIcon = document.createElement('img');
+                itemIcon.src = imageSrc; // Path to your item image
+                itemIcon.classList.add('item-icon');
+            
+                const itemCaption = document.createElement('span');
+                itemCaption.classList.add('item-caption');
+                itemCaption.innerText = captionText;
+            
+                // Append the image and caption to the container
+                itemContainer.appendChild(itemIcon);
+                itemContainer.appendChild(itemCaption);
+            
+                // Add the container to the inventory items container and to the inventory elements array
+                inventoryItemsContainer.appendChild(itemContainer);
+                gameState.inventoryElements.push(itemContainer);
+            }
+            
+            // Image source
+            addToInventory('https://raw.githubusercontent.com/sukichn/sukichn.github.io/refs/heads/main/Resources/css/Images/butterfly-inventory.png', 'Butterflies: 2');
 }, null, this);
 
 
