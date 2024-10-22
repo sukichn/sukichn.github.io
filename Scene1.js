@@ -298,7 +298,7 @@ class Scene1 extends Phaser.Scene {
         };
 
      // Create exit assets
-gameState.exit = this.physics.add.sprite(650, 130, 'exit');
+gameState.exit = this.physics.add.sprite(3500, 130, 'exit');
 this.physics.add.collider(gameState.exit, gameState.longplatform);
 this.physics.add.collider(gameState.exit, gameState.shortplatform);
 
@@ -333,7 +333,7 @@ this.physics.add.overlap(gameState.player, gameState.exit, () => {
     const overlay = this.add.graphics();
     overlay.fillStyle(0x000000, 0); // Transparent fill
     overlay.fillRect(0, 0, this.sys.canvas.width, this.sys.canvas.height);
-    overlay.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.sys.canvas.width, this.sys.canvas.height), Phaser.Geom.Rectangle.Contains);
+    overlay.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.sys.canvas.width*5, this.sys.canvas.height), Phaser.Geom.Rectangle.Contains);
 
     // Bring the overlay to the top
     overlay.setDepth(100);

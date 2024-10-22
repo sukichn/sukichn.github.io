@@ -70,10 +70,10 @@ class Scene5 extends Phaser.Scene {
         gameState.taskCompleted = false;
 
         // Initialize coin counter
-        document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
+        document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
 
         // Initialize mushroom counter
-        document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.coinsCollected}`;
+        document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -323,7 +323,7 @@ class Scene5 extends Phaser.Scene {
             const overlay = this.add.graphics();
             overlay.fillStyle(0x000000, 0); // Transparent fill
             overlay.fillRect(0, 0, this.sys.canvas.width, this.sys.canvas.height);
-            overlay.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.sys.canvas.width, this.sys.canvas.height), Phaser.Geom.Rectangle.Contains);
+            overlay.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.sys.canvas.width*5, this.sys.canvas.height), Phaser.Geom.Rectangle.Contains);
         
             // Bring the overlay to the top
             overlay.setDepth(100);
