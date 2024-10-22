@@ -181,6 +181,15 @@ const pages = [
                 // Play the success audio file
                 const successAudio = new Audio('Resources/css/Audio/success.mp3');
                 successAudio.play();
+
+                // Display game alert
+                const gameAlert = document.getElementById('game-alert');
+                gameAlert.innerText = "You earned some gold! Check your inventory!";
+                gameAlert.style.display = 'block'; // Show the alert
+                // Hide the alert message after a few seconds
+                setTimeout(() => {
+                    gameAlert.style.display = 'none';
+                }, 3000); // 5 seconds
             } 
             // If the player doesn't have enough items, redirect to a specific page
             else {

@@ -158,29 +158,29 @@
     }
 
     #game-alert {
-      color: yellow;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: none;
-      opacity: 0; /* Start hidden */
-      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -50%); /* Center the alert */
-      font-size: 20px;
-      text-align: center;
-      padding: 1em;
-      background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
-      border-radius: 10px; /* Optional: rounded corners */
-      width: 250px;
-    }
+    color: yellow;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9); /* Center and slightly scale down the alert */
+    font-size: 20px;
+    text-align: center;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: background for better visibility */
+    border-radius: 10px; /* Optional: rounded corners */
+    width: 250px;
+}
 
-    #game-alert.show {
-      opacity: 1; /* Show */
-      transform: translate(-50%, -50%); /* Ensure it stays centered */
-    }
+#game-alert.show {
+    opacity: 1; /* Fully visible */
+    transform: translate(-50%, -50%) scale(1); /* Center and scale to original size */
+}
 
     #dialogue-container {
       color: yellow;

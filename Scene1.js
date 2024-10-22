@@ -44,8 +44,8 @@ class Scene1 extends Phaser.Scene {
         document.getElementById('total-time').style.display = 'none';
         document.getElementById('health').style.display = 'none';
         document.getElementById('attacks').style.display = 'none';
-        document.getElementById('coins-earned').style.display = 'block';
-        document.getElementById('mushrooms-earned').style.display = 'block';
+        document.getElementById('coins-earned').style.display = 'none';
+        document.getElementById('mushrooms-earned').style.display = 'none';
 
         console.log('Creating scene...');
         // Set the current scene instance
