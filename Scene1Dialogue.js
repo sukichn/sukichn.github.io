@@ -109,6 +109,57 @@ const pages = [
     const PAGE_NOT_ENOUGH_RESOURCES = 9;
     const REWARDS_EARNED = 10;
 
+    // Helper function to update inventory display and handle red background effect
+    function updateInventoryDisplay(itemType, itemCount) {
+        const itemContainerId = itemType === 'butterfly' ? 'butterfly-container' : 'mushroom-container';
+        const captionId = itemType === 'butterfly' ? 'butterfly-caption' : 'mushroom-caption';
+        const earnedId = itemType === 'butterfly' ? 'coins-earned' : 'mushrooms-earned';
+
+        document.getElementById(earnedId).innerText = `${capitalizeFirstLetter(itemType)}: ${itemCount}`;
+        document.getElementById(captionId).innerText = `${capitalizeFirstLetter(itemType)}: ${itemCount}`;
+
+        const itemContainer = document.getElementById(itemContainerId);
+
+        // Apply the red background color momentarily
+        itemContainer.style.backgroundColor = 'red';
+        setTimeout(() => {
+            itemContainer.style.backgroundColor = ''; // Reset the background color
+        }, 600);
+
+        // Hide the item container if the item count is zero
+        if (itemCount === 0) {
+            itemContainer.style.display = 'none';
+        }
+    }
+
+    // Helper function to capitalize the first letter of a string
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    // Function to increment rewards and dispatch event
+    function incrementRewardsEarned(amount) {
+        gameState.rewardsCollected = (gameState.rewardsCollected || 0) + amount;
+        const event = new CustomEvent('rewards-earned', { detail: gameState.rewardsCollected });
+        document.dispatchEvent(event);
+    }
+
+    // Function to set up the gold alert listener
+    function setupGoldAlertListener() {
+        document.addEventListener('rewards-earned', (event) => {
+            const gameAlert = document.getElementById('game-alert');
+            gameAlert.innerText = "You earned some gold! Check your inventory!";
+            gameAlert.classList.add('show'); // Use class-based visibility management
+
+            // Hide the alert message after a few seconds
+            setTimeout(() => {
+                if (!gameState.reachedExit) { // Ensure it doesn't hide the exit alert
+                    gameAlert.classList.remove('show');
+                }
+            }, 3000); // 3 seconds
+        });
+    }
+
     global.fetchPage = function(scene, page, checkTask = false) {
         // Find the page data based on the page number
         let pageData = pages.find(p => p.page === page);
@@ -156,15 +207,7 @@ const pages = [
                 // updateInventoryDisplay('mushroom', gameState.mushroomsCollected);
 
                 // Update the rewards and task status
-                gameState.rewardsCollected += REWARDS_EARNED; // Increment rewards by amount in REWARDS_EARNED const
-                const rewardsEarnedElement = document.getElementById('rewards-earned');
-                rewardsEarnedElement.innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
-
-                // Apply the yellow background color momentarily to the rewards-earned text
-                rewardsEarnedElement.style.backgroundColor = 'yellow';
-                setTimeout(() => {
-                    rewardsEarnedElement.style.backgroundColor = ''; // Reset the background color
-                }, 600);
+                incrementRewardsEarned(REWARDS_EARNED); // Increment rewards by amount in REWARDS_EARNED const
 
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false
@@ -181,20 +224,6 @@ const pages = [
                 // Play the success audio file
                 const successAudio = new Audio('Resources/css/Audio/success.mp3');
                 successAudio.play();
-
-                // Display game alert for earning gold
-                const displayGoldAlert = () => {
-                    const gameAlert = document.getElementById('game-alert');
-                    gameAlert.innerText = "You earned some gold! Check your inventory!";
-                    gameAlert.classList.add('show'); // Use class-based visibility management
-
-                    // Hide the alert message after a few seconds
-                    setTimeout(() => {
-                        if (!gameState.reachedExit) { // Ensure it doesn't hide the exit alert
-                            gameAlert.classList.remove('show');
-                        }
-                    }, 3000); // 3 seconds
-                };
             } 
             // If the player doesn't have enough items, redirect to a specific page
             else {
@@ -260,32 +289,7 @@ const pages = [
         }
     };
 
-    // Helper function to update inventory display and handle red background effect
-    function updateInventoryDisplay(itemType, itemCount) {
-        const itemContainerId = itemType === 'butterfly' ? 'butterfly-container' : 'mushroom-container';
-        const captionId = itemType === 'butterfly' ? 'butterfly-caption' : 'mushroom-caption';
-        const earnedId = itemType === 'butterfly' ? 'coins-earned' : 'mushrooms-earned';
-
-        document.getElementById(earnedId).innerText = `${capitalizeFirstLetter(itemType)}: ${itemCount}`;
-        document.getElementById(captionId).innerText = `${capitalizeFirstLetter(itemType)}: ${itemCount}`;
-
-        const itemContainer = document.getElementById(itemContainerId);
-
-        // Apply the red background color momentarily
-        itemContainer.style.backgroundColor = 'red';
-        setTimeout(() => {
-            itemContainer.style.backgroundColor = ''; // Reset the background color
-        }, 600);
-
-        // Hide the item container if the item count is zero
-        if (itemCount === 0) {
-            itemContainer.style.display = 'none';
-        }
-    }
-
-    // Helper function to capitalize the first letter of a string
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    // Call setupGoldAlertListener to set up the event listener
+    setupGoldAlertListener();
 
 })(window);

@@ -525,6 +525,27 @@ initializeInventory();
             enemy.destroy(); // Destroy the enemy
             repellent.destroy(); // Destroy the repellent
         });
+        
+        function incrementRewardsEarned(amount) {
+            gameState.rewardsCollected = (gameState.rewardsCollected || 0) + amount;
+            const event = new CustomEvent('rewards-earned', { detail: gameState.rewardsCollected });
+            document.dispatchEvent(event);
+        }
+
+        function setupGoldAlertListener() {
+            document.addEventListener('rewards-earned', (event) => {
+                const gameAlert = document.getElementById('game-alert');
+                gameAlert.innerText = "You earned some gold! Check your inventory!";
+                gameAlert.classList.add('show'); // Use class-based visibility management
+        
+                // Hide the alert message after a few seconds
+                setTimeout(() => {
+                    if (!gameState.reachedExit) { // Ensure it doesn't hide the exit alert
+                        gameAlert.classList.remove('show');
+                    }
+                }, 3000); // 3 seconds
+            });
+        }
     }
 
 
