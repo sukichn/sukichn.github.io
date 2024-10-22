@@ -157,11 +157,30 @@ const pages = [
 
                 // Update the rewards and task status
                 gameState.rewardsCollected += REWARDS_EARNED; // Increment rewards by amount in REWARDS_EARNED const
-                document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
+                const rewardsEarnedElement = document.getElementById('rewards-earned');
+                rewardsEarnedElement.innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
+
+                // Apply the yellow background color momentarily to the rewards-earned text
+                rewardsEarnedElement.style.backgroundColor = 'yellow';
+                setTimeout(() => {
+                    rewardsEarnedElement.style.backgroundColor = ''; // Reset the background color
+                }, 600);
+
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false
                 page = PAGE_TASK_COMPLETED; // Redirect to page defined by variable after updating the game state
                 pageData = pages.find(p => p.page === page);
+
+                // Apply the yellow background color momentarily to the inventory-control button
+                const inventoryControlButton = document.getElementById('inventory-control');
+                inventoryControlButton.style.backgroundColor = 'yellow';
+                setTimeout(() => {
+                    inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+                }, 600);
+
+                // Play the success audio file
+                const successAudio = new Audio('Resources/css/Audio/success.mp3');
+                successAudio.play();
             } 
             // If the player doesn't have enough items, redirect to a specific page
             else {

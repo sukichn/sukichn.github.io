@@ -331,6 +331,24 @@ console.log('Coins created and animated.');
 
 // Add overlap detection between player and each butterfly (coin)
 this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
+    // Check if the coin position matches the first position in the array
+    if (coin.x === coinPositions[0].x && coin.y === coinPositions[0].y) {
+        // Display the alert message
+        document.getElementById('game-alert').innerText = "You caught some butterflies! Press 'i' to check your inventory!";
+        gameAlert.classList.add('show');
+        const inventoryControlButton = document.getElementById('inventory-control');
+        inventoryControlButton.style.backgroundColor = 'green';
+                setTimeout(() => {
+                    inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+                }, 600);
+
+        // Hide the alert message after a few seconds
+        setTimeout(() => {
+            gameAlert.style.display = 'none';
+        }, 5000); // 3 seconds
+    }
+
+    // Destroy the coin and update the inventory
     coin.destroy();
     pickupItem('butterfly');
     document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
@@ -352,6 +370,22 @@ mushroomPositions.forEach(pos => {
 
 // Add overlap detection between player and mushrooms
 this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroom) => {
+if (mushroom.x === mushroomPositions[0].x && mushroom.y === mushroomPositions[0].y) {
+    // Display the alert message
+    document.getElementById('game-alert').innerText = "You found a mushroom! Press 'i' to check your inventory!";
+    gameAlert.classList.add('show');
+    const inventoryControlButton = document.getElementById('inventory-control');
+    inventoryControlButton.style.backgroundColor = 'green';
+            setTimeout(() => {
+                inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+            }, 600);
+
+    // Hide the alert message after a few seconds
+    setTimeout(() => {
+        gameAlert.style.display = 'none';
+    }, 5000); // 3 seconds
+}
+
     mushroom.destroy();
     pickupItem('mushroom');
     document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;

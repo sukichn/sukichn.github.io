@@ -80,6 +80,8 @@
         if (itemContainerId) {
             // Show the item container if it has items
             const itemContainer = document.getElementById(itemContainerId);
+            const inventoryControlButton = document.getElementById('inventory-control');
+
             itemContainer.style.display = 'flex';
 
             // Apply the green background color momentarily
@@ -117,6 +119,7 @@
 
                 // Hide the item container if it has no items
                 const itemContainer = document.getElementById(itemContainerId);
+                const inventoryControlButton = document.getElementById('inventory-control');
                 if (itemCount === 0) {
                     itemContainer.style.display = 'none';
                 } else {
