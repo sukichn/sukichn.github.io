@@ -417,6 +417,8 @@ initializeInventory();
         this.physics.pause();
         gameState.active = false;
         this.anims.pauseAll();
+        document.getElementById('dialogue-container').style.display = 'none';
+        document.getElementById('dialogue').style.display = 'none';
 
         
 
@@ -565,18 +567,24 @@ initializeInventory();
             // Check for the 'N' key press to move to the next scene
             if (gameState.keys.nextScene.isDown) {
                 this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined
+                document.getElementById('dialogue-container').style.display = 'none';
+                document.getElementById('dialogue').style.display = 'none';
                 this.scene.stop('Scene1');
             }
 
             // Check for the 'B' key press to go back to the previous scene
             if (gameState.keys.previousScene.isDown) {
                 this.scene.start('StartScene'); // Make sure 'StartScene' is properly defined
+                document.getElementById('dialogue-container').style.display = 'none';
+                document.getElementById('dialogue').style.display = 'none';
                 this.scene.stop('Scene1');
             }
 
             // Check for the '5' key press to go to scene 5
             if (gameState.keys.scene5.isDown) {
                 this.scene.start('Scene5'); // Make sure 'Scene5' is properly defined
+                document.getElementById('dialogue-container').style.display = 'none';
+                document.getElementById('dialogue').style.display = 'none';
                 this.scene.stop(this.scene.key);
             }
         }

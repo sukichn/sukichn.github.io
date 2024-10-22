@@ -61,18 +61,15 @@ class Scene5 extends Phaser.Scene {
         document.getElementById('game-alert').innerText = "";
 
         // Initialize rewards counter;
-        gameState.rewardsCollected = 0;
         document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`;
 
         // Initialize task completed;
         gameState.taskCompleted = false;
 
         // Initialize coin counter
-        
         document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
 
         // Initialize mushroom counter
-        
         document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
@@ -456,6 +453,8 @@ initializeInventory();
 
             // Start Scene 3 and stop Scene 2
             this.scene.start('Scene1'); // Make sure 'Scene2' is properly defined in your game
+            document.getElementById('dialogue-container').style.display = 'none';
+            document.getElementById('dialogue').style.display = 'none';
             this.scene.stop('Scene5');
         };
 
@@ -564,12 +563,16 @@ initializeInventory();
             // Check for the 'N' key press to move to the next scene
             if (gameState.keys.nextScene.isDown) {
                 this.scene.start('Scene1'); // Make sure 'Scene2' is properly defined
+                document.getElementById('dialogue-container').style.display = 'none';
+                document.getElementById('dialogue').style.display = 'none';
                 this.scene.stop('Scene5');
             }
 
             // Check for the 'B' key press to go back to the previous scene
             if (gameState.keys.previousScene.isDown) {
                 this.scene.start('Scene1'); // Make sure 'StartScene' is properly defined
+                document.getElementById('dialogue-container').style.display = 'none';
+                document.getElementById('dialogue').style.display = 'none';
                 this.scene.stop('Scene5');
             }
         }
