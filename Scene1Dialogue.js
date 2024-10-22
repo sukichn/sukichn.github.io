@@ -182,14 +182,19 @@ const pages = [
                 const successAudio = new Audio('Resources/css/Audio/success.mp3');
                 successAudio.play();
 
-                // Display game alert
-                const gameAlert = document.getElementById('game-alert');
-                gameAlert.innerText = "You earned some gold! Check your inventory!";
-                gameAlert.style.display = 'block'; // Show the alert
-                // Hide the alert message after a few seconds
-                setTimeout(() => {
-                    gameAlert.style.display = 'none';
-                }, 3000); // 5 seconds
+                // Display game alert for earning gold
+                const displayGoldAlert = () => {
+                    const gameAlert = document.getElementById('game-alert');
+                    gameAlert.innerText = "You earned some gold! Check your inventory!";
+                    gameAlert.classList.add('show'); // Use class-based visibility management
+
+                    // Hide the alert message after a few seconds
+                    setTimeout(() => {
+                        if (!gameState.reachedExit) { // Ensure it doesn't hide the exit alert
+                            gameAlert.classList.remove('show');
+                        }
+                    }, 3000); // 3 seconds
+                };
             } 
             // If the player doesn't have enough items, redirect to a specific page
             else {

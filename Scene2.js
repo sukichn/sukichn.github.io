@@ -21,9 +21,14 @@ class Scene2 extends Phaser.Scene {
         loadCodeyAssets(this);
         loadSnowmanAssets(this);
         loadPlatformAssets(this);
-        loadExitAssets(this);
+       
         loadPotionAssets(this);  
         loadAttackAssets(this);  
+
+        this.load.spritesheet('exit', 'https://content.codecademy.com/courses/learn-phaser/Cave%20Crisis/cave_exit.png', {
+            frameWidth: 60,
+            frameHeight: 70
+        });
     }
 
     create() {
@@ -50,7 +55,9 @@ class Scene2 extends Phaser.Scene {
         document.getElementById('rewards-earned').innerText = `Gold: ${gameState.rewardsCollected}`;
 
         // Initialize coin counter
-        document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
+        document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+
+        document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
@@ -137,29 +144,99 @@ class Scene2 extends Phaser.Scene {
 
         // Create exit assets
         gameState.exit = this.physics.add.sprite(700, 130, 'exit');
-        setupExitLogic(this, gameState);
+        this.physics.add.collider(gameState.exit, gameState.platforms);
+
+        this.physics.add.overlap(gameState.player, gameState.exit, () => {
+            document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to move on';
+            gameAlert.classList.add('show');
+            this.physics.pause();
+            this.anims.pauseAll();
+            this.tweens.pauseAll();
+            gameState.active = false;
+        
+            // Stop the timer event
+            if (gameState.timerEvent) {
+                gameState.timerEvent.remove();
+            }
+        
+            // Update total elapsed time
+            gameState.elapsedTime = gameState.totalElapsedTime;
+        
+            // Set a flag to indicate the player has reached the exit
+            gameState.reachedExit = true;
+        
+            // Disable all pointer inputs
+            this.input.enabled = false;
+        
+            // Create a transparent overlay that covers the entire screen
+            const overlay = this.add.graphics();
+            overlay.fillStyle(0x000000, 0); // Transparent fill
+            overlay.fillRect(0, 0, this.sys.canvas.width, this.sys.canvas.height);
+            overlay.setInteractive(new Phaser.Geom.Rectangle(0, 0, this.sys.canvas.width, this.sys.canvas.height), Phaser.Geom.Rectangle.Contains);
+        
+            // Bring the overlay to the top
+            overlay.setDepth(100);
+        
+            // Re-enable inputs and handle transition after a delay or on next click
+            setTimeout(() => {
+                this.input.enabled = true;
+        
+                overlay.on('pointerup', moveToNextScene);
+                this.input.keyboard.on('keydown', moveToNextScene);
+            }, 500); //  delay to ensure the alert is visible before re-enabling inputs
+        });
+        
+        const moveToNextScene = () => {
+            if (gameState.reachedExit) {
+                document.getElementById('game-alert').classList.remove('show');
+        
+                // Resume animations, tweens, and physics before starting the next scene
+                this.physics.resume();
+                this.anims.resumeAll();
+                this.tweens.resumeAll();
+                gameState.active = true;
+        
+                // Clear user inputs
+                gameState.leftPressed = false;
+                gameState.rightPressed = false;
+                gameState.upPressed = false;
+        
+                // Start next scene
+                this.scene.start('Scene3');
+                this.scene.stop('Scene2');
+        
+                // Reset the flag
+                gameState.reachedExit = false;
+            }
+        };
+        
         console.log('Exit created.');
 
         // Define coin positions
-        const coinPositions = [
-            { x: 300, y: 825 }, // Coin on Platform 2
-            { x: 1150, y: 630 }, // Coin on Platform 5
-            { x: 1300, y: 925 }, // Coin on Platform 7
-            { x: 1500, y: 825 }  // Coin on Platform 8
-        ];
+const coinPositions = [
+    { x: 300, y: 825 }, // Coin on Platform 2
+    { x: 1150, y: 630 }, // Coin on Platform 5
+    { x: 1300, y: 925 }, // Coin on Platform 7
+    { x: 1500, y: 825 }  // Coin on Platform 8
+];
 
-        // Create and animate coins
-        createCoinAnimations(this);
-        createAndAnimateCoins(this, gameState, coinPositions);
-        console.log('Coins created and animated.');
+// Create and animate coins
+createCoinAnimations(this);
+createAndAnimateCoins(this, gameState, coinPositions);
+console.log('Coins created and animated.');
 
-        // Add overlap detection between player and each coin
-        this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
-            coin.destroy();
-            gameState.coinsCollected += 2;
-            document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
-        }, null, this);
-        console.log('Overlap detection for coins added.');
+// Add overlap detection between player and each coin
+this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
+    const gameAlert = document.getElementById('game-alert');
+
+    // Destroy the coin and update the inventory
+    coin.destroy();
+    pickupItem('butterfly');
+    document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
+}, null, this);
+console.log('Overlap detection for coins added.');
+
+initializeInventory();
 
         // Define potion positions
         const potionPositions = [
@@ -209,59 +286,7 @@ class Scene2 extends Phaser.Scene {
         });
     }
 
-    handlePlayerReachesExit() {
-        const coinsCollected = gameState.coinsCollected; // Store the current coin count
-
-        document.getElementById('game-alert').innerText = 'You reached the exit!\n Click to move on';
-        gameAlert.classList.add('show');
-        this.physics.pause();
-        gameState.active = false;
-        this.anims.pauseAll();
-
-        // Stop movements of all enemies
-        if (Array.isArray(gameState.enemies)) {
-            gameState.enemies.children.iterate(enemy => {
-                if (enemy.move) enemy.move.stop();
-            });
-        }
-
-        // Pause all tweens
-        this.tweens.pauseAll();
-
-        // Stop the timer event
-        if (gameState.timerEvent) {
-            gameState.timerEvent.remove();
-        }
-
-        // Update total elapsed time
-        gameState.elapsedTime = gameState.totalElapsedTime;
-
-        // Remove previous event listeners to avoid multiple triggers
-        this.input.keyboard.off('keydown');
-        this.input.off('pointerup');
-        this.input.off('pointerdown');
-        this.input.off('pointermove');
-
-        const moveToNextScene = () => {
-            document.getElementById('game-alert').classList.remove('show');
-
-            // Resume animations and clear user inputs
-            this.anims.resumeAll();
-            this.tweens.resumeAll();
-            gameState.leftPressed = false;
-            gameState.rightPressed = false;
-            gameState.upPressed = false;
-            gameState.coinsCollected = coinsCollected; // Restore the coin count
-
-            // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene3'); // Make sure 'Scene3' is properly defined in your game
-            this.scene.stop('Scene2');
-        };
-
-        // Add new event listeners for moving to the next scene
-        this.input.on('pointerup', moveToNextScene);
-        this.input.keyboard.on('keydown', moveToNextScene);
-    }
+ 
 
     addSnowman(x, y, moveX) {
         const snowman = this.physics.add.sprite(x, y, 'snowman');

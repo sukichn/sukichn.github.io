@@ -32,6 +32,15 @@
         scene.input.off('pointerdown');
         scene.input.off('pointermove');
     
+        // Create a transparent overlay that covers the entire screen
+        const overlay = scene.add.graphics();
+        overlay.fillStyle(0x000000, 0); // Transparent fill
+        overlay.fillRect(0, 0, scene.sys.canvas.width, scene.sys.canvas.height);
+        overlay.setInteractive(new Phaser.Geom.Rectangle(0, 0, scene.sys.canvas.width, scene.sys.canvas.height), Phaser.Geom.Rectangle.Contains);
+
+        // Bring the overlay to the top
+        overlay.setDepth(100);
+        
         const restartGame = () => {
             gameAlert.classList.remove('show');
             scene.anims.resumeAll();
@@ -49,25 +58,26 @@
             // Set timeout to change the color back to its original color after 1 second
             /*setTimeout(() => {
                 coinsElement.style.color = ""; // Change color back to original
-            }, 400);*/ // 400 milliseconds = 0.4 second
+            }, 400);*/ // 400 milliseconds
     
             // Reset flying ability
             gameState.canFly = false;
     
             scene.scene.restart();
+
+            // Reset the flag
+            gameState.reachedExit = false;
         };
-    
-        // Add new event listeners for restarting the scene
-        scene.input.keyboard.on('keydown', restartGame);
-        scene.input.on('pointerup', restartGame);
-    
+
+        // Re-enable inputs and handle restart after a delay or on next click
+        setTimeout(() => {
+            scene.input.enabled = true;
+
+            overlay.on('pointerup', restartGame);
+            scene.input.keyboard.on('keydown', restartGame);
+        }, 500); // 500 milliseconds delay to ensure the alert is visible before re-enabling inputs
     
         // Update total elapsed time
         gameState.elapsedTime = gameState.totalElapsedTime;
     };
-
-    
-
-    
 })(window);
-
