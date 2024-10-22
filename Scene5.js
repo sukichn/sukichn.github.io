@@ -1,6 +1,6 @@
-class Scene1 extends Phaser.Scene {
+class Scene5 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Scene1' });
+        super({ key: 'Scene5' });
         gameState.joystick = { isMoving: false, direction: null };
         gameState.lastDamageTime = 0; // Initialize last damage time
         if (typeof gameState.health !== 'number') {
@@ -38,7 +38,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {
-        document.getElementById('level').style.display = 'none';
+        document.getElementById('level').style.display = 'block';
         document.getElementById('timer').style.display = 'none';
         document.getElementById('countdown').style.display = 'none';
         document.getElementById('total-time').style.display = 'none';
@@ -55,7 +55,7 @@ class Scene1 extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, this.game.config.width, this.sys.canvas.height + 600);
 
         // Display level
-        document.getElementById('level').innerText = `Level 1`;
+        document.getElementById('level').innerText = `Level 5`;
 
         // Clear game alerts
         document.getElementById('game-alert').innerText = "";
@@ -68,17 +68,17 @@ class Scene1 extends Phaser.Scene {
         gameState.taskCompleted = false;
 
         // Initialize coin counter
-        gameState.coinsCollected = 0;
+        
         document.getElementById('coins-earned').innerText = `Butterflies: ${gameState.coinsCollected}`;
 
         // Initialize mushroom counter
-        gameState.mushroomsCollected = 0;
+        
         document.getElementById('mushrooms-earned').innerText = `Mushrooms: ${gameState.coinsCollected}`;
 
         // Display initial health (ensure it is initialized)
         document.getElementById('health').innerText = `Health: ${gameState.health}`;
 
-        // Display total elapsed time from Scene1
+        // Display total elapsed time from Scene5
         const totalTimeElement = document.getElementById('total-time');
         const initialElapsed = gameState.elapsedTime;
         const initialElapsedMinutes = Math.floor(initialElapsed / 60000);
@@ -289,8 +289,7 @@ class Scene1 extends Phaser.Scene {
             shootUp: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
             shootDown: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
             nextScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N), // Add the 'N' key for next scene
-            previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B), // Add the 'B' key for previous scene
-            scene5: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE),
+            previousScene: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B) // Add the 'B' key for previous scene
         };
 
         // Create exit assets
@@ -388,7 +387,7 @@ initializeInventory();
         console.log('Moonstones created and animated.');*/
 
         // Setup camera and input
-        setupCameraForScene1(this, gameState);
+        setupCameraForScene5(this, gameState);
         setupInput(this, gameState);
         console.log('Camera and input setup.');
 
@@ -456,8 +455,8 @@ initializeInventory();
             gameState.coinsCollected = coinsCollected; // Restore the coin count
 
             // Start Scene 3 and stop Scene 2
-            this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined in your game
-            this.scene.stop('Scene1');
+            this.scene.start('Scene1'); // Make sure 'Scene2' is properly defined in your game
+            this.scene.stop('Scene5');
         };
 
         // Add new event listeners for moving to the next scene
@@ -564,20 +563,14 @@ initializeInventory();
 
             // Check for the 'N' key press to move to the next scene
             if (gameState.keys.nextScene.isDown) {
-                this.scene.start('Scene2'); // Make sure 'Scene2' is properly defined
-                this.scene.stop('Scene1');
+                this.scene.start('Scene1'); // Make sure 'Scene2' is properly defined
+                this.scene.stop('Scene5');
             }
 
             // Check for the 'B' key press to go back to the previous scene
             if (gameState.keys.previousScene.isDown) {
-                this.scene.start('StartScene'); // Make sure 'StartScene' is properly defined
-                this.scene.stop('Scene1');
-            }
-
-            // Check for the '5' key press to go to scene 5
-            if (gameState.keys.scene5.isDown) {
-                this.scene.start('Scene5'); // Make sure 'Scene5' is properly defined
-                this.scene.stop(this.scene.key);
+                this.scene.start('Scene1'); // Make sure 'StartScene' is properly defined
+                this.scene.stop('Scene5');
             }
         }
     }
@@ -610,7 +603,7 @@ initializeInventory();
 }
 
 // Define the setupCamera function outside the class
-function setupCameraForScene1(scene, gameState) {
+function setupCameraForScene5(scene, gameState) {
     // Set the camera to follow the player on the x-axis only
     scene.cameras.main.startFollow(gameState.player, true, 1, 0);
 

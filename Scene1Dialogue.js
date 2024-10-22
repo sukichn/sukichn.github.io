@@ -104,7 +104,8 @@ const pages = [
 
 (function(global) {
     // Define page references as variables
-    const PAGE_TASK_COMPLETED = 10;
+    const PAGE_TASK_COMPLETED = 6;
+    const PAGE_NEW_TASK = 10;
     const PAGE_NOT_ENOUGH_RESOURCES = 9;
     const REWARDS_EARNED = 10;
 
@@ -138,18 +139,21 @@ const pages = [
 
             // If the task is already completed, redirect to a specific page
             if (gameState.taskCompleted) {
-                console.log(`Task already completed. Redirecting to page ${PAGE_TASK_COMPLETED}.`);
-                page = PAGE_TASK_COMPLETED; // Redirect to page defined by variable if the task is already completed
+                console.log(`Task already completed. Redirecting to page ${PAGE_NEW_TASK}.`);
+                page = PAGE_NEW_TASK; // Redirect to page defined by variable if the task is already completed
                 pageData = pages.find(p => p.page === page);
             } 
-            // If the player has enough butterflies, complete the task and update the state
+            // If the player has enough butterflies and mushrooms, complete the task and update the state
             else if (gameState.coinsCollected >= 4 /* && gameState.mushroomsCollected >= 1 */) {
                 console.log(`Player has enough resources. Completing task.`);
                 
-                // Remove 4 butterflies from the inventory
-                removeButterfliesFromInventory(4);
-                // Remove 1 mushroom from the inventory (commented out)
-                // removeMushroomsFromInventory(1);
+                // Remove 4 butterflies from the gameState
+                gameState.coinsCollected -= 4;
+                updateInventoryDisplay('butterfly', gameState.coinsCollected);
+
+                // Remove 1 mushroom from the gameState (commented out)
+                // gameState.mushroomsCollected -= 1;
+                // updateInventoryDisplay('mushroom', gameState.mushroomsCollected);
 
                 // Update the rewards and task status
                 gameState.rewardsCollected += REWARDS_EARNED; // Increment rewards by amount in REWARDS_EARNED const
@@ -222,93 +226,33 @@ const pages = [
             }
         }
     };
-    
-    // Function to remove butterflies from inventory
-    function removeButterfliesFromInventory(countToRemove) {
-        let butterfliesRemainingToRemove = countToRemove;
-        let initialCoinsCollected = gameState.coinsCollected;
 
-        // Iterate through the inventory elements
-        gameState.inventoryElements = gameState.inventoryElements.filter(element => {
-            const itemCaption = element.itemContainer.querySelector('.item-caption');
-            if (itemCaption && itemCaption.innerText.includes('Butterfly')) {
-                // Extract the current count from the caption
-                const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
+    // Helper function to update inventory display and handle red background effect
+    function updateInventoryDisplay(itemType, itemCount) {
+        const itemContainerId = itemType === 'butterfly' ? 'butterfly-container' : 'mushroom-container';
+        const captionId = itemType === 'butterfly' ? 'butterfly-caption' : 'mushroom-caption';
+        const earnedId = itemType === 'butterfly' ? 'coins-earned' : 'mushrooms-earned';
 
-                if (butterfliesRemainingToRemove <= 0) {
-                    return true; // Keep in inventory elements array if no more butterflies need to be removed
-                }
+        document.getElementById(earnedId).innerText = `${capitalizeFirstLetter(itemType)}: ${itemCount}`;
+        document.getElementById(captionId).innerText = `${capitalizeFirstLetter(itemType)}: ${itemCount}`;
 
-                if (currentCount > butterfliesRemainingToRemove) {
-                    // Update the caption with the new count
-                    itemCaption.innerText = `Butterfly: ${currentCount - butterfliesRemainingToRemove}`;
-                    butterfliesRemainingToRemove = 0;
-                } else {
-                    butterfliesRemainingToRemove -= currentCount;
-                    element.itemContainer.parentNode.removeChild(element.itemContainer);
-                    gameState.butterflyImageAdded = false; // Reset flag
-                    return false; // Remove from inventory elements array
-                }
+        const itemContainer = document.getElementById(itemContainerId);
 
-                // Apply the red background color momentarily
-                itemCaption.style.backgroundColor = 'red';
-                setTimeout(() => {
-                    itemCaption.style.backgroundColor = ''; // Reset the background color
-                }, 600);
+        // Apply the red background color momentarily
+        itemContainer.style.backgroundColor = 'red';
+        setTimeout(() => {
+            itemContainer.style.backgroundColor = ''; // Reset the background color
+        }, 600);
 
-                return true; // Keep in inventory elements array
-            }
-            return true; // Keep in inventory elements array
-        });
-
-        // Update the total butterflies collected
-        gameState.coinsCollected = initialCoinsCollected - countToRemove; // Ensure no negative values
-        document.getElementById('coins-earned').innerText = `Butterfly: ${gameState.coinsCollected}`;
-        console.log(`Updated gameState.coinsCollected: ${gameState.coinsCollected}`);
+        // Hide the item container if the item count is zero
+        if (itemCount === 0) {
+            itemContainer.style.display = 'none';
+        }
     }
 
-    // Function to remove mushrooms from inventory
-    function removeMushroomsFromInventory(countToRemove) {
-        let mushroomsRemainingToRemove = countToRemove;
-        let initialMushroomsCollected = gameState.mushroomsCollected;
-
-        // Iterate through the inventory elements
-        gameState.inventoryElements = gameState.inventoryElements.filter(element => {
-            const itemCaption = element.itemContainer.querySelector('.item-caption');
-            if (itemCaption && itemCaption.innerText.includes('Mushroom')) {
-                // Extract the current count from the caption
-                const currentCount = parseInt(itemCaption.innerText.split(': ')[1]);
-
-                if (mushroomsRemainingToRemove <= 0) {
-                    return true; // Keep in inventory elements array if no more mushrooms need to be removed
-                }
-
-                if (currentCount > mushroomsRemainingToRemove) {
-                    // Update the caption with the new count
-                    itemCaption.innerText = `Mushroom: ${currentCount - mushroomsRemainingToRemove}`;
-                    mushroomsRemainingToRemove = 0;
-                } else {
-                    mushroomsRemainingToRemove -= currentCount;
-                    element.itemContainer.parentNode.removeChild(element.itemContainer);
-                    gameState.mushroomImageAdded = false; // Reset flag
-                    return false; // Remove from inventory elements array
-                }
-
-                // Apply the red background color momentarily
-                itemCaption.style.backgroundColor = 'red';
-                setTimeout(() => {
-                    itemCaption.style.backgroundColor = ''; // Reset the background color
-                }, 600);
-
-                return true; // Keep in inventory elements array
-            }
-            return true; // Keep in inventory elements array
-        });
-
-        // Update the total mushrooms collected
-        gameState.mushroomsCollected = initialMushroomsCollected - countToRemove; // Ensure no negative values
-        document.getElementById('mushrooms-earned').innerText = `Mushroom: ${gameState.mushroomsCollected}`;
-        console.log(`Updated gameState.mushroomsCollected: ${gameState.mushroomsCollected}`);
+    // Helper function to capitalize the first letter of a string
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
 })(window);
