@@ -208,6 +208,9 @@ const pages = [
 
                 // Update the rewards and task status
                 incrementRewardsEarned(REWARDS_EARNED); // Increment rewards by amount in REWARDS_EARNED const
+                // Update the rewards display
+                const rewardsEarnedElement = document.getElementById('rewards-earned');
+                rewardsEarnedElement.innerText = `Gold: ${gameState.rewardsCollected}`; // Update the DOM element
 
                 gameState.taskCompleted = true; // Set the task as completed
                 gameState.taskInProgress = false; // Set task in progress to false
