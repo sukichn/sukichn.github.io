@@ -85,7 +85,7 @@
             itemContainer.style.display = 'flex';
 
             // Apply the green background color momentarily
-            itemContainer.style.backgroundColor = 'green';
+            itemContainer.style.backgroundColor = 'rgba(0, 128, 0, 0.614)';
             setTimeout(() => {
                 itemContainer.style.backgroundColor = ''; // Reset the background color
             }, 600);
@@ -124,7 +124,7 @@
                     itemContainer.style.display = 'none';
                 } else {
                     // Apply the red background color momentarily
-                    itemContainer.style.backgroundColor = 'red';
+                    itemContainer.style.backgroundColor = 'rgba(255, 0, 0, 0.406)';
                     setTimeout(() => {
                         itemContainer.style.backgroundColor = ''; // Reset the background color
                     }, 600);

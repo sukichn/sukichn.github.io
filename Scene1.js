@@ -410,11 +410,18 @@ this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
     // Check if the coin position matches the first position in the array
     if (coin.x === coinPositions[0].x && coin.y === coinPositions[0].y) {
         // Display the alert message
+        const gameAlert = document.getElementById('game-alert');
+    
+    // Check if the screen width is less than or equal to 480 pixels (small mobile screen)
+    if (window.innerWidth <= 480) {
+        gameAlert.innerText = "Butterflies caught! Check your inventory!";
+    } else {
         gameAlert.innerText = "You caught some butterflies! Press 'i' to check your inventory!";
+    }
         gameAlert.classList.add('show');
 
         const inventoryControlButton = document.getElementById('inventory-control');
-        inventoryControlButton.style.backgroundColor = 'green';
+        inventoryControlButton.style.backgroundColor = 'rgba(0, 128, 0, 0.614)';
         setTimeout(() => {
             inventoryControlButton.style.backgroundColor = ''; // Reset the background color
         }, 600);
@@ -453,11 +460,18 @@ this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroo
     
     if (mushroom.x === mushroomPositions[0].x && mushroom.y === mushroomPositions[0].y) {
         // Display the alert message
-        gameAlert.innerText = "You found a mushroom! Press 'i' to check your inventory!";
+        const gameAlert = document.getElementById('game-alert');
+    
+    // Check if the screen width is less than or equal to 480 pixels (small mobile screen)
+    if (window.innerWidth <= 480) {
+        gameAlert.innerText = "You found mushrooms! Check your inventory!";
+    } else {
+        gameAlert.innerText = "You found mushrooms! Press 'i' to check your inventory!";
+    }
         gameAlert.classList.add('show');
         
         const inventoryControlButton = document.getElementById('inventory-control');
-        inventoryControlButton.style.backgroundColor = 'green';
+        inventoryControlButton.style.backgroundColor = 'rgba(0, 128, 0, 0.614)';
         setTimeout(() => {
             inventoryControlButton.style.backgroundColor = ''; // Reset the background color
         }, 600);

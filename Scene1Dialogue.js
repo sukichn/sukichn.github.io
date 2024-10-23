@@ -121,7 +121,7 @@ const pages = [
         const itemContainer = document.getElementById(itemContainerId);
 
         // Apply the red background color momentarily
-        itemContainer.style.backgroundColor = 'red';
+        itemContainer.style.backgroundColor = 'rgba(255, 0, 0, 0.406)';
         setTimeout(() => {
             itemContainer.style.backgroundColor = ''; // Reset the background color
         }, 600);
@@ -220,8 +220,12 @@ const pages = [
                 // Apply the yellow background color momentarily to the inventory-control button
                 const inventoryControlButton = document.getElementById('inventory-control');
                 inventoryControlButton.style.backgroundColor = 'yellow';
+                rewardsEarnedElement.style.color = 'gold';
+                rewardsEarnedElement.style.textShadow = '0 0 10px gold, 0 0 20px gold, 0 0 30px gold';
                 setTimeout(() => {
                     inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+                    rewardsEarnedElement.style.color = '';
+                    rewardsEarnedElement.style.textShadow = '';
                 }, 600);
 
                 // Play the success audio file
