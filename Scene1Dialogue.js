@@ -219,11 +219,11 @@ const pages = [
 
                 // Apply the yellow background color momentarily to the inventory-control button
                 const inventoryControlButton = document.getElementById('inventory-control');
-                inventoryControlButton.style.backgroundColor = 'yellow';
+                inventoryControlButton.style.border = '8px solid gold';
                 rewardsEarnedElement.style.color = 'gold';
                 rewardsEarnedElement.style.textShadow = '0 0 10px gold, 0 0 20px gold, 0 0 30px gold';
                 setTimeout(() => {
-                    inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+                    inventoryControlButton.style.border = ''; // Reset the background color
                     rewardsEarnedElement.style.color = '';
                     rewardsEarnedElement.style.textShadow = '';
                 }, 600);

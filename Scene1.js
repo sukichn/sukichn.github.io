@@ -421,9 +421,9 @@ this.physics.add.overlap(gameState.player, gameState.coins, (player, coin) => {
         gameAlert.classList.add('show');
 
         const inventoryControlButton = document.getElementById('inventory-control');
-        inventoryControlButton.style.backgroundColor = 'rgba(0, 128, 0, 0.614)';
+        inventoryControlButton.style.border = '8px solid rgba(0, 128, 0, 0.614)';
         setTimeout(() => {
-            inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+            inventoryControlButton.style.border = ''; // Reset the background color
         }, 600);
 
         // Hide the alert message after a few seconds
@@ -471,9 +471,9 @@ this.physics.add.overlap(gameState.player, gameState.mushrooms, (player, mushroo
         gameAlert.classList.add('show');
         
         const inventoryControlButton = document.getElementById('inventory-control');
-        inventoryControlButton.style.backgroundColor = 'rgba(0, 128, 0, 0.614)';
+        inventoryControlButton.style.border = '8px solid rgba(0, 128, 0, 0.614)';
         setTimeout(() => {
-            inventoryControlButton.style.backgroundColor = ''; // Reset the background color
+            inventoryControlButton.style.border = ''; // Reset the background color
         }, 600);
 
         // Hide the alert message after a few seconds
